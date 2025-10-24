@@ -1,6 +1,8 @@
 <?php
-include "../lib/users_lib.php";
+
 include('../lib/checkroles.php');
+include "../lib/users_lib.php";
+
 protectPathAccess();
 $user = new User();
 
@@ -14,6 +16,7 @@ if (isset($_GET['toggle_status_id'])) {
     exit;
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 

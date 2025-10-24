@@ -1,7 +1,8 @@
 <?php
 ob_start();
-include('../lib/users_lib.php');
 include('../lib/checkroles.php');
+include('../lib/users_lib.php');
+
 protectPathAccess();
 $userAuth = new Auth();
 $role = new User();

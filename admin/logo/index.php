@@ -1,8 +1,8 @@
 <?php
-                    ini_set('display_errors', 1);
-                    error_reporting(E_ALL);
-include "../lib/users_lib.php";
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
 include "../lib/checkroles.php";
+include "../lib/users_lib.php";
 protectPathAccess();
 include "../lib/brand_lib.php";
 

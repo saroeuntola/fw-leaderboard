@@ -1,9 +1,11 @@
 <?php
-                    ini_set('display_errors', 1);
-                    error_reporting(E_ALL);
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+
+include "../lib/checkroles.php";                   
 include "../lib/users_lib.php";
 include "../lib/lion_banner_lib.php";
-include "../lib/checkroles.php";
+
 protectPathAccess();
 $bannerObj = new lion_banners();
 // Handle CRUD actions

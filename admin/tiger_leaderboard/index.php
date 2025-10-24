@@ -1,7 +1,8 @@
 <?php
+include "../lib/checkroles.php";
 include "../lib/users_lib.php";
 include "../lib/tiger_leaderboard_lib.php";
-include "../lib/checkroles.php";
+
 protectPathAccess();
 
 $leaderboardObj = new TigerLeaderboard();

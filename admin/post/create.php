@@ -1,7 +1,8 @@
 <?php
+include '../lib/checkroles.php';
 include '../lib/post_lib.php';
 include '../lib/users_lib.php';
-include '../lib/checkroles.php';
+
 // include $_SERVER['DOCUMENT_ROOT'] . '/config/baseURL.php';
 protectPathAccess();
 

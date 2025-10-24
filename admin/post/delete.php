@@ -1,6 +1,7 @@
 <?php
-include('../library/post_lib.php');
 include('../library/checkroles.php');
+include('../library/post_lib.php');
+
 protectPathAccess();
 
 $product = new Post();
