@@ -23,14 +23,14 @@
               <a href="/v2/admin/user/" class="btn btn-ghost btn-block justify-start hover:text-gray-900">Users</a>
               <a href="/v2/admin/lion_leaderboard/" class="btn btn-ghost btn-block justify-start hover:text-gray-900">Lion Leaderboard</a>
               <a href="/v2/admin/tiger_leaderboard/" class="btn btn-ghost btn-block justify-start hover:text-gray-900">Tiger Leaderboard</a>
-              <a href="/v2/admin/lion_banners" class="btn btn-ghost btn-block justify-start hover:text-gray-900">Lion Banner</a>
-              <a href="/v2/admin/tiger_banners" class="btn btn-ghost btn-block justify-start hover:text-gray-900">Tiger Banner</a>
+              <a href="/v2/admin/lion_banners/" class="btn btn-ghost btn-block justify-start hover:text-gray-900">Lion Banner</a>
+              <a href="/v2/admin/tiger_banners/" class="btn btn-ghost btn-block justify-start hover:text-gray-900">Tiger Banner</a>
               <a href="/v2/admin/logo/" class="btn btn-ghost btn-block justify-start hover:text-gray-900">logo</a>
               <a href="/v2/admin/banner/" class="btn btn-ghost btn-block justify-start hover:text-gray-900">Slide Banner</a>
               <a href="/v2/admin/upcoming_events/" class="btn btn-ghost btn-block justify-start hover:text-gray-900">Upcoming event</a>
-              <a href="/v2/admin/post" class="btn btn-ghost btn-block justify-start hover:text-gray-900">Posts Content</a>
-              <a href="/v2/admin/post_prev_tourament_lion" class="btn btn-ghost btn-block justify-start hover:text-gray-900">Post Prev Tournament Lion</a>
-              <a href="/v2/admin/post_prev_tourament_tiger" class="btn btn-ghost btn-block justify-start hover:text-gray-900">Post Prev Tournament Tiger</a>
+              <a href="/v2/admin/post/" class="btn btn-ghost btn-block justify-start hover:text-gray-900">Posts Content</a>
+              <a href="/v2/admin/post_prev_tourament_lion/" class="btn btn-ghost btn-block justify-start hover:text-gray-900">Post Prev Tournament Lion</a>
+              <a href="/v2/admin/post_prev_tourament_tiger/" class="btn btn-ghost btn-block justify-start hover:text-gray-900">Post Prev Tournament Tiger</a>
           </nav>
       </div>
 

@@ -1,7 +1,7 @@
 <?php
-include('../lib/post_lib.php');
-include('../lib/users_lib.php');
-include('../lib/checkroles.php');
+include '../lib/post_lib.php';
+include '../lib/users_lib.php';
+include '../lib/checkroles.php';
 protectPathAccess();
 $product = new Post();
 $products = $product->getPost();
@@ -16,7 +16,6 @@ $products = $product->getPost();
     <title>Post Content Management</title>
     <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <link rel="stylesheet" href="../assets/css/styles.css">
 </head>
 
 <body class="bg-gray-900 text-white">

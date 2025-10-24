@@ -1,7 +1,7 @@
 <?php
-include('../lib/post_lib.php');
-include('../lib/category_lib.php');
-include('../lib/checkroles.php');
+include '../lib/post_lib.php';
+include '../lib/users_lib.php';
+include '../lib/checkroles.php';
 protectPathAccess();
 $product = new Post();
 $category = new Category();
