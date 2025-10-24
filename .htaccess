@@ -1,26 +1,21 @@
-# ----------------------------------------------------------------------
-# Enable URL rewriting inside /v2
-# ----------------------------------------------------------------------
 RewriteEngine On
 RewriteBase /v2/
 
-# Hide .php extension for clean URLs
-# Only rewrite if the corresponding .php file exists
+# Hide .php extension, only if the PHP file exists
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME}.php -f
 RewriteRule ^(.*)$ $1.php [L,QSA]
 
-# Redirect direct .php requests to clean URL (optional)
+# Redirect .php requests to clean URLs (optional)
 RewriteCond %{THE_REQUEST} \s([^.]+)\.php[?\s] [NC]
 RewriteRule ^ %1 [R=301,L]
 
 # Serve index.php automatically in folders
 DirectoryIndex index.php
 
-# ----------------------------------------------------------------------
-# Security
-# ----------------------------------------------------------------------
+# Deny access to sensitive files
 <FilesMatch "\.(env|ini|log|bak|sql|git|htaccess)$">
     Require all denied
 </FilesMatch>
 Options -Indexes
+
