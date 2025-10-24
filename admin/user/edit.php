@@ -1,4 +1,5 @@
 <?php
+ob_start();
 include('../lib/checkroles.php');
 protectPathAccess();
 include('../lib/users_lib.php');

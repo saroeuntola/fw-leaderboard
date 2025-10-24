@@ -1,4 +1,5 @@
 <?php
+ob_start();
 include "../lib/checkroles.php";
 include '../lib/lion_tournament_lib.php';
 

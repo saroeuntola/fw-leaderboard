@@ -1,13 +1,10 @@
 <?php
-
+ob_start();
 include('../lib/checkroles.php');
 include "../lib/users_lib.php";
-
 protectPathAccess();
 $user = new User();
-
 $users = $user->getUsers();
-
 // Handle status toggle
 if (isset($_GET['toggle_status_id'])) {
     $id = intval($_GET['toggle_status_id']);

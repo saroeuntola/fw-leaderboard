@@ -1,10 +1,9 @@
 <?php
+ob_flush();
 include "../lib/checkroles.php";
 include '../lib/tiger_tourament_lib.php';
 protectPathAccess();
 $tournament = new TigerTouramentPost();
-
-
 // Handle form submit
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $title = $_POST['title'] ?? '';
@@ -37,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Store only the relative path (safe for display)
     $tournament->createTournament($title, $imagePath, $desc);
 
-    echo "<script>alert('Tournament created successfully!');window.location='tournament_list.php';</script>";
+    echo "<script>alert('Tournament created successfully!');window.location='./';</script>";
     exit;
 }
 ?>

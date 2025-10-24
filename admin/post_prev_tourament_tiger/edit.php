@@ -1,4 +1,5 @@
 <?php
+ob_start();
 include "../lib/checkroles.php";
 include '../lib/tiger_tourament_lib.php';
 protectPathAccess();
@@ -7,7 +8,7 @@ $tournament = new TigerTouramentPost();
 // Get ID from query param
 $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 if ($id <= 0) {
-    header('Location: index.php');
+    header('Location: ./');
     exit;
 }
 

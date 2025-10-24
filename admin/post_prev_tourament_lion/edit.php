@@ -1,4 +1,5 @@
 <?php
+ob_start();
 include "../lib/checkroles.php";
 include '../lib/lion_tournament_lib.php';
 protectPathAccess();
@@ -13,7 +14,7 @@ if ($id <= 0) {
 
 $record = $tournament->getTournamentById($id);
 if (!$record) {
-    header('Location: index.php');
+    header('Location: ./');
     exit;
 }
 
@@ -59,7 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $updated = $tournament->updateTournament($id, $title, $imagePath, $desc);
 
     if ($updated) {
-        echo "<script>alert('Tournament updated successfully!');window.location='index.php';</script>";
+        echo "<script>alert('Tournament updated successfully!');window.location='./';</script>";
         exit;
     } else {
         $error = 'Failed to update tournament.';
