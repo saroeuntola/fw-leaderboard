@@ -11,56 +11,59 @@ if ($id <= 0) {
     header('Location: ./');
     exit;
 }
+            $record = $tournament->getTournamentById($id);
+            if (!$record) {
+                header('Location: ./');
+                exit;
+            }
+            // Pre-fill form values
+            $title = $record['title'] ?? '';
+            $desc = $record['description'] ?? '';
+            $imagePath = $record['image'] ?? '';
+            $error = '';
 
-$record = $tournament->getTournamentById($id);
-if (!$record) {
-    header('Location: index.php');
-    exit;
-}
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                $title = $_POST['title'] ?? '';
+                $desc = $_POST['description'] ?? '';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $title = $_POST['title'] ?? '';
-    $desc = $_POST['description'] ?? ($record['description'] ?? '');
-    $imagePath = $record['image'] ?? '';
+                // Handle image upload
+                if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
+                    $uploadDir = realpath(__DIR__ . '/../uploads/img');
+                    if (!$uploadDir) {
+                        mkdir(__DIR__ . '/../uploads/img', 0755, true);
+                        $uploadDir = realpath(__DIR__ . '/../uploads/img');
+                    }
 
-    if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
-        // Absolute upload folder (server)
-        $uploadDir = '../uploads/img';
-        if (!$uploadDir) {
-            $uploadDir = '../uploads/img';
-            mkdir($uploadDir, 0755, true);
-        }
-        $publicDir = '/uploads/img/'; // public path for DB
-        // Create safe file name
-        $imageFileName = preg_replace("/[^a-zA-Z0-9._-]/", "", basename($_FILES["image"]["name"]));
-        $uniqueName = time() . "_" . $imageFileName;
-        // Full server path to save
-        $newImageFullPath = $uploadDir . '/' . $uniqueName;
-        // Move upload
-        if (move_uploaded_file($_FILES["image"]["tmp_name"], $newImageFullPath)) {
-            // Delete old image safely (only if it's inside uploads/img/)
-            if (!empty($imagePath)) {
-                $oldPath = '../uploads/' . $imagePath;
-                if ($oldPath && strpos($oldPath, $uploadDir) === 0) {
-                    @unlink($oldPath);
+                    $publicDir = 'img/'; // path stored in DB
+
+                    $imageFileName = preg_replace("/[^a-zA-Z0-9._-]/", "", basename($_FILES["image"]["name"]));
+                    $uniqueName = time() . "_" . $imageFileName;
+                    $newImageFullPath = $uploadDir . '/' . $uniqueName;
+
+                    if (move_uploaded_file($_FILES["image"]["tmp_name"], $newImageFullPath)) {
+                        // Delete old image safely
+                        if (!empty($imagePath)) {
+                            $oldPath = realpath(__DIR__ . '/../uploads/' . $imagePath);
+                            if ($oldPath && strpos($oldPath, $uploadDir) === 0 && file_exists($oldPath)) {
+                                @unlink($oldPath);
+                            }
+                        }
+
+                        // Update image path
+                        $imagePath = $publicDir . $uniqueName;
+                    }
+                }
+
+                // Update tournament
+                $updated = $tournament->updateTournament($id, $title, $imagePath, $desc);
+
+                if ($updated) {
+                    echo "<script>alert('Tournament updated successfully!');window.location='./';</script>";
+                    exit;
+                } else {
+                    $error = 'Failed to update tournament.';
                 }
             }
-
-            // Save only public path in DB
-            $imagePath = $publicDir . $uniqueName;
-        }
-    }
-
-    // Update tournament data
-    $updated = $tournament->updateTournament($id, $title, $imagePath, $desc);
-
-    if ($updated) {
-        echo "<script>alert('Tournament updated successfully!');window.location='index.php';</script>";
-        exit;
-    } else {
-        $error = 'Failed to update tournament.';
-    }
-}
 ?>
 
 
