@@ -23,6 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $meta_keyword = $_POST['meta_keyword'] ?? '';
     $meta_desc_bn = $_POST['meta_desc_bn'] ?? '';
     $meta_keyword_bn = $_POST['meta_keyword_bn'] ?? '';
+    $game_link = $_POST['game_link'] ?? '';
 
     // Handle Image Upload
     $imagePath = "";
@@ -42,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         echo "<p class='text-red-500 text-center'>Error: Title, Description, and Category are required.</p>";
     } else {
         if ($product->createpost($gameName, $imagePath, $description, $game_link, $categoryId, $meta_text, $name_bn, $description_bn, $meta_text_bn, $meta_desc, $meta_keyword, $meta_desc_bn, $meta_keyword_bn)) {
-            header("Location: index.php");
+            header("Location: ./");
             exit;
         } else {
             echo "<p class='text-red-500 text-center'>Error: Content could not be created.</p>";
@@ -86,6 +87,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <label class="block text-sm font-semibold text-gray-700 mb-1">Meta Description* (English)</label>
                     <input type="text" name="meta_desc" required class="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-indigo-400 focus:outline-none">
                 </div>
+                
                 <div class="mt-4">
                     <label class="block text-sm font-semibold text-gray-700 mb-1">Meta Keyword* (English)</label>
                     <input type="text" name="meta_keyword" required class="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-indigo-400 focus:outline-none">
