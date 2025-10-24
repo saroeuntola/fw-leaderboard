@@ -1,6 +1,7 @@
 <?php
-                    ini_set('display_errors', 1);
-                    error_reporting(E_ALL);
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+ob_start();
 include '../lib/checkroles.php';
 include '../lib/post_lib.php';
 include '../lib/users_lib.php';
@@ -194,7 +195,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             toolbar: 'undo redo | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist | table | image | code',
             automatic_uploads: true,
             images_upload_handler: example_image_upload_handler,
-            images_upload_base_path: 'http://blog:8080/admin/page/api/content_image/',
             images_upload_credentials: true,
             images_reuse_filename: true,
             image_title: true,
