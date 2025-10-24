@@ -13,7 +13,7 @@ $logo = $logos[0] ?? null;
             <!-- Logo -->
             <div class="flex-shrink-0">
                 <a href="<?= htmlspecialchars($logo['link'] ?? '/') ?>" class="text-2xl font-bold text-red-600">
-                    <img src="/admin/<?= htmlspecialchars($logo['brand_image'] ?? 'default-logo.png') ?>" alt="Logo" class="h-10 object-contain">
+                    <img src="/v2/admin/<?= htmlspecialchars($logo['brand_image'] ?? 'default-logo.png') ?>" alt="Logo" class="h-10 object-contain">
                 </a>
             </div>
 
