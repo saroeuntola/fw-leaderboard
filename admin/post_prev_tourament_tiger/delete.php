@@ -14,7 +14,7 @@ if ($id <= 0) {
     header('Location: index.php');
     exit;
 }
-$tournament = new TournamentPost();
+$tournament = new TigerTouramentPost();
 $record = $tournament->getTournamentById($id);
 $deleted = $tournament->deleteTournament($id);
 
