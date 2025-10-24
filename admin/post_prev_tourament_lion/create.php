@@ -1,9 +1,10 @@
 <?php
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
 include "../lib/checkroles.php";
 include '../lib/lion_tournament_lib.php';
 protectPathAccess();
 $tournament = new TournamentPost();
-
 
 // Handle form submit
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

@@ -2,7 +2,6 @@
 include '../lib/checkroles.php';
 include '../lib/post_lib.php';
 include '../lib/users_lib.php';
-
 protectPathAccess();
 $product = new Post();
 $category = new Category();

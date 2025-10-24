@@ -1,11 +1,8 @@
 <?php
 include('../library/checkroles.php');
 include('../library/post_lib.php');
-
 protectPathAccess();
-
 $product = new Post();
-
 if (isset($_GET['id'])) {
     $productId = intval($_GET['id']);
     $gameData = $product->getPostById($productId);
