@@ -101,7 +101,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <?php if (!empty($record['image'])): ?>
                 <div>
                     <label class="block text-sm font-semibold text-gray-700 mb-1">Current Image</label>
-                    <img src="<?= htmlspecialchars($record['image']) ?>" alt="current image" class="w-48 h-auto mb-2">
+                    <img src="/v2/admin/uploads/<?= htmlspecialchars($record['image']) ?>" alt="current image" class="w-48 h-auto mb-2">
                 </div>
             <?php endif; ?>
 
