@@ -1,8 +1,8 @@
 <?php
+ob_start();
 include "../lib/checkroles.php";
 include "../lib/users_lib.php";
 include "../lib/tiger_banner_lib.php";
-
 protectPathAccess();
 $bannerObj = new Tiger_banners();
 // Handle CRUD actions

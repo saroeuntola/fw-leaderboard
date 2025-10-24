@@ -1,4 +1,5 @@
 <?php
+ob_start();
 include "../lib/checkroles.php";
 include '../lib/upcoming_event_lib.php';
 include '../lib/users_lib.php';
