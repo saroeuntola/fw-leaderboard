@@ -35,7 +35,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $imagePath = $publicDir . $uniqueName;
         }
     }
-
     // Store only the relative path (safe for display)
     $tournament->createTournament($title, $imagePath, $desc);
 
@@ -43,7 +42,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     exit;
 }
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">

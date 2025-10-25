@@ -16,7 +16,7 @@
                   ☰
               </button>
           </div>
-          <nav class="mt-6 space-y-2 px-4">
+          <nav class="mt-6 space-y-2 px-4 overflow-y-auto max-h-[calc(100vh-160px)]">
               <a href="/v2/admin" class="btn btn-ghost btn-block justify-start hover:text-gray-900">
                   Dashboard
               </a>
@@ -31,6 +31,8 @@
               <a href="/v2/admin/post/" class="btn btn-ghost btn-block justify-start hover:text-gray-900">Posts Content</a>
               <a href="/v2/admin/post_prev_tourament_lion/" class="btn btn-ghost btn-block justify-start hover:text-gray-900">Post Prev Tournament Lion</a>
               <a href="/v2/admin/post_prev_tourament_tiger/" class="btn btn-ghost btn-block justify-start hover:text-gray-900">Post Prev Tournament Tiger</a>
+
+              <a href="/v2/admin/fwguide_announcement/" class="btn btn-ghost btn-block justify-start hover:text-gray-900">Fwguide Announcement</a>
           </nav>
       </div>
 

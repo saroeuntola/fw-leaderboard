@@ -1,5 +1,5 @@
 <?php
-ob_flush();
+ob_start();
 include "../lib/checkroles.php";
 include '../lib/tiger_tourament_lib.php';
 protectPathAccess();
