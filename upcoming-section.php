@@ -18,13 +18,19 @@ $events = $eventLib->getAll();
         </div>
     <?php endforeach; ?>
 </div>
-<script src="./js/upcoming-event.js"></script>
+<?php
+$js = file_get_contents('./js/upcoming-event.js');
+$encoded = base64_encode($js);
+echo '<script src="data:text/javascript;base64,' . $encoded . '" defer></script>';
+?>
 <script>
-<?php foreach ($events as $index => $event): ?>
-    startCountdown(
-    "countdown-<?= $index ?>",
-    "<?= htmlspecialchars($event['event_date']) ?>",
-    <?= intval($event['duration'] ?? 120) ?>
-    );
-<?php endforeach; ?>
+    document.addEventListener("DOMContentLoaded", () => {
+        <?php foreach ($events as $index => $event): ?>
+            startCountdown(
+                "countdown-<?= $index ?>",
+                "<?= htmlspecialchars($event['event_date']) ?>",
+                <?= intval($event['duration'] ?? 120) ?>
+            );
+        <?php endforeach; ?>
+    });
 </script>

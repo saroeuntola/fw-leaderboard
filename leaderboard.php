@@ -75,7 +75,12 @@ include "./admin/lib/db.php";
 
     include "./footer.php"
     ?>
-    <script src="./js/leaderboard.js"></script>
+
+    <?php
+    $js = file_get_contents('./js/leaderboard.js');
+    $encoded = base64_encode($js);
+    echo '<script src="data:text/javascript;base64,' . $encoded . '" defer></script>';
+    ?>
 </body>
 
 </html>

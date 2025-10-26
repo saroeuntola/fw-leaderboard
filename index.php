@@ -18,7 +18,7 @@ include "./admin/lib/db.php";
     <link rel="apple-touch-icon" sizes="180x180" href="/v2/images/icons/apple-touch-icon.png" />
     <meta name="apple-mobile-web-app-title" content="FancyWin" />
     <link rel="manifest" href="/v2/images/icons/site.webmanifest" />
-   
+
 </head>
 
 <body class="bg-gray-200 text-gray-900 dark:bg-gray-900 dark:text-gray-100 min-h-screen">
@@ -44,11 +44,16 @@ include "./admin/lib/db.php";
             ?>
         </section>
     </main>
-    <footer>
-        <?php
-        include "footer.php"
-        ?>
-    </footer>
-<script src="./js/slideshow.js"></script>
+    
+    <?php
+     include "footer.php"
+    ?>
+
+    <?php
+    $js = file_get_contents('./js/slideshow.js');
+    $encoded = base64_encode($js);
+    echo '<script src="data:text/javascript;base64,' . $encoded . '" defer></script>';
+    ?>    
+    
 </body>
 </html>
