@@ -44,16 +44,17 @@ include "./admin/lib/db.php";
             ?>
         </section>
     </main>
-    
+
     <?php
-     include "footer.php"
+    include "footer.php"
     ?>
 
     <?php
     $js = file_get_contents('./js/slideshow.js');
     $encoded = base64_encode($js);
     echo '<script src="data:text/javascript;base64,' . $encoded . '" defer></script>';
-    ?>    
-    
+    ?>
+
 </body>
+
 </html>

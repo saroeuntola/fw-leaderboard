@@ -92,8 +92,7 @@ $logo = $logos[0] ?? null;
 
 </nav>
 
-<?php
-$js = file_get_contents('./js/navbar.js');
-$encoded = base64_encode($js);
-echo '<script src="data:text/javascript;base64,' . $encoded . '" defer></script>';
-?>
+
+<script src="./js/navbar.js">
+
+</script>
