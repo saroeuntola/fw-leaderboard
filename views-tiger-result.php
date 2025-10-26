@@ -14,9 +14,9 @@ $data = $tournament->getTournamentById($id);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= htmlspecialchars($data['title'] ?? 'Tournament Result') ?></title>
     <link rel="stylesheet" href="./src/output.css">
+    <link rel="shortcut icon" href="/v2/admin/uploads/<?= htmlspecialchars($data['image']) ?>" type="image/png">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </head>
-
 
 <body class="dark:bg-gray-900 dark:text-white bg-gray-200 text-gray-900">
     <?php include 'navbar.php'; ?>
