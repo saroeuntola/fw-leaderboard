@@ -1,34 +1,93 @@
 <style>
-    /* HTML: <div class="loader"></div> */
     .loader {
-        width: 40px;
-        height: 40px;
-        color: #f03355;
-        background:
-            conic-gradient(from -45deg at top 20px left 50%, #0000, currentColor 1deg 90deg, #0000 91deg),
-            conic-gradient(from 45deg at right 20px top 50%, #0000, currentColor 1deg 90deg, #0000 91deg),
-            conic-gradient(from 135deg at bottom 20px left 50%, #0000, currentColor 1deg 90deg, #0000 91deg),
-            conic-gradient(from -135deg at left 20px top 50%, #0000, currentColor 1deg 90deg, #0000 91deg);
-        animation: l4 1.5s infinite cubic-bezier(0.3, 1, 0, 1);
+        transform: rotateZ(45deg);
+        perspective: 1000px;
+        border-radius: 50%;
+        width: 48px;
+        height: 48px;
+        color: #2196F3;
     }
 
-    @keyframes l4 {
-        50% {
-            width: 60px;
-            height: 60px;
-            transform: rotate(180deg)
+    .loader:before,
+    .loader:after {
+        content: '';
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: inherit;
+        height: inherit;
+        border-radius: 50%;
+        transform: rotateX(70deg);
+        animation: 1s spin linear infinite;
+    }
+
+    .loader:after {
+        color: #FF3D00;
+        transform: rotateY(70deg);
+        animation-delay: .4s;
+    }
+
+    @keyframes rotate {
+        0% {
+            transform: translate(-50%, -50%) rotateZ(0deg);
         }
 
         100% {
-            transform: rotate(360deg)
+            transform: translate(-50%, -50%) rotateZ(360deg);
+        }
+    }
+
+    @keyframes rotateccw {
+        0% {
+            transform: translate(-50%, -50%) rotate(0deg);
+        }
+
+        100% {
+            transform: translate(-50%, -50%) rotate(-360deg);
+        }
+    }
+
+    @keyframes spin {
+
+        0%,
+        100% {
+            box-shadow: .2em 0px 0 0px currentcolor;
+        }
+
+        12% {
+            box-shadow: .2em .2em 0 0 currentcolor;
+        }
+
+        25% {
+            box-shadow: 0 .2em 0 0px currentcolor;
+        }
+
+        37% {
+            box-shadow: -.2em .2em 0 0 currentcolor;
+        }
+
+        50% {
+            box-shadow: -.2em 0 0 0 currentcolor;
+        }
+
+        62% {
+            box-shadow: -.2em -.2em 0 0 currentcolor;
+        }
+
+        75% {
+            box-shadow: 0px -.2em 0 0 currentcolor;
+        }
+
+        87% {
+            box-shadow: .2em -.2em 0 0 currentcolor;
         }
     }
 </style>
-
-<body class="bg-gray-900 text-white">
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<body class="bg-white dark:bg-gray-900 text-white">
     <!-- Loader -->
-    <div id="pageLoader" class="fixed inset-0 z-[9999] bg-gray-900 flex items-center justify-center transition-opacity  duration-1000" aria-live="polite">
-
+    <div id="pageLoader" class="fixed inset-0 z-[9999] bg-white dark:bg-gray-900 flex items-center justify-center transition-opacity  duration-1000" aria-live="polite">
         <div class="loader"></div>
     </div>
 

@@ -15,7 +15,9 @@ include "./admin/lib/db.php";
 </head>
 
 <body class=" dark:bg-gray-900 bg-gray-200 dark:dark:text-white text-gray-900 min-h-screen">
-
+<?php
+  include "./loading.php";
+?>
     <?php
     include "./navbar.php"
     ?>

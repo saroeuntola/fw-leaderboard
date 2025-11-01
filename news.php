@@ -27,6 +27,9 @@ $posts = $listPost->getPostByCategory(3, 'en', $limit, $page);
 </head>
 
 <body class="dark:bg-gray-900 text-white bg-gray-200">
+    <?php 
+       include "./loading.php";
+    ?>
     <?php include "./navbar.php" ?>
     <main class="max-w-7xl m-auto px-4 pt-32 pb-32">
         <h1 class="text-3xl font-bold mb-8 dark:text-white text-gray-900">All News</h1>
@@ -58,7 +61,6 @@ $posts = $listPost->getPostByCategory(3, 'en', $limit, $page);
                             <span class="px-3 py-1.5 rounded-l-md bg-gray-700 text-gray-400">Prev</span>
                         <?php endif; ?>
                     </li>
-
                     <!-- Page numbers (show a limited window) -->
                     <?php
                     $window = 5; // how many page links to show
@@ -90,7 +92,6 @@ $posts = $listPost->getPostByCategory(3, 'en', $limit, $page);
             </nav>
         <?php endif; ?>
     </main>
-
     <?php include "./footer.php" ?>
 </body>
 

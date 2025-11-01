@@ -2,7 +2,7 @@
 include "./admin/lib/db.php";
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="">
 
 <head>
     <meta charset="UTF-8">
@@ -22,6 +22,9 @@ include "./admin/lib/db.php";
 </head>
 
 <body class="bg-gray-200 text-gray-900 dark:bg-gray-900 dark:text-gray-100 min-h-screen">
+    <?php 
+      include "loading.php"
+    ?>
     <header>
         <?php
         include "navbar.php"

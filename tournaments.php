@@ -27,6 +27,9 @@ $posts = $listPost->getPostByCategory(2, 'en', $limit, $page);
 </head>
 
 <body class="dark:bg-gray-900 bg-gray-200">
+    <?php
+         include "./loading.php";
+    ?>
     <?php include "./navbar.php" ?>
     <main class="max-w-7xl m-auto px-4 pt-32 pb-32">
         <h1 class="text-3xl font-bold mb-8 dark:text-white text-gray-900">All Tournaments</h1>
