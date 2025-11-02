@@ -162,8 +162,6 @@ $latestTournament = array_slice($allTournaments, 0, 1);
                 </div>
             <?php endif; ?>
 
-
-
             <!-- LATEST TOURNAMENT RESULTS -->
             <?php if (!empty($latestTournament)): ?>
                 <div class="dark:bg-gray-800 bg-gray-100 rounded-xl p-4">
@@ -196,13 +194,10 @@ $latestTournament = array_slice($allTournaments, 0, 1);
                     </div>
                 </div>
             <?php endif; ?>
-
         </aside>
-
     </div>
     <?php
     include "./footer.php"
     ?>
 </body>
-
 </html>

@@ -21,14 +21,12 @@ if (!empty($tigerLatest)) {
         $item['type'] = 'tiger';
     }
 }
-// Merge and sort both tournaments by created_at
 $allTournaments = array_merge($lionLatest, $tigerLatest);
 
-// Sort by date descending (newest first)
 usort($allTournaments, function ($a, $b) {
     return strtotime($b['created_at']) - strtotime($a['created_at']);
 });
-// Get only the latest one
+
 $latestTournament = array_slice($allTournaments, 0, 2);
 
 ?>
