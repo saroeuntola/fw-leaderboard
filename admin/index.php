@@ -3,17 +3,16 @@ ob_start();
 include "../admin/lib/checkroles.php";
 include "../admin/lib/total_count_lib.php";
 include "../admin/lib/users_lib.php";
-
 protectPathAccess();
-
 $count = new Count();
 $userCount = $count->getUserCount();
 $postCount = $count->getPostCount();
 $eventCount = $count->getUpcomingEventCount();
 ?>
+
+
 <!DOCTYPE html>
 <html lang="en" class="dark">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -25,8 +24,6 @@ $eventCount = $count->getUpcomingEventCount();
 
 <body class=" bg-gray-900 text-gray-100 min-h-screen flex transition-colors duration-300">
     <?php include "../admin/include/sidebar.php" ?>
-
-
     <!-- Main Content -->
     <main class="flex-1 ml-64 p-6 transition-all duration-300" id="main-content">
         <h2 class="text-2xl font-semibold mb-6">Dashboard Overview</h2>
@@ -58,11 +55,8 @@ $eventCount = $count->getUpcomingEventCount();
                 </div>
                 <div class="text-purple-500 text-4xl">📅</div>
             </div>
-
-           
         </div>
     </main>
-
 </body>
 
 </html>

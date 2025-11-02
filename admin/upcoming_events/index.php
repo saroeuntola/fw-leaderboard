@@ -7,8 +7,8 @@ protectPathAccess();
 $eventObj = new UpcomingEvent();
 $events = $eventObj->getAll();
 
-// Handle CRUD actions in the same file
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $id         = $_POST['id'] ?? null; // <-- fix here
     $title      = $_POST['title'];
     $matches    = $_POST['matches'];
     $event_date = $_POST['event_date'];
@@ -20,10 +20,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $eventObj->create($title, $matches, $event_date, $duration);
     }
 
-
     header('Location: ' . $_SERVER['PHP_SELF']);
     exit;
 }
+
 
 if (isset($_GET['delete'])) {
     $id = intval($_GET['delete']);
@@ -46,7 +46,7 @@ if (isset($_GET['delete'])) {
 <body class="bg-gray-900 text-white min-h-screen">
     <?php include "../include/sidebar.php" ?>
     <main class="flex-1 ml-64 p-6 transition-all duration-300" id="main-content">
-   <h1 class="text-3xl font-bold mb-6">Upcoming Events</h1>
+        <h1 class="text-3xl font-bold mb-6">Upcoming Events</h1>
         <!-- Add Button -->
         <button onclick="openModal('create')" class="bg-green-500 px-4 py-2 rounded hover:bg-green-600 mb-4">+ Add Event</button>
         <!-- Events Table -->
@@ -80,7 +80,7 @@ if (isset($_GET['delete'])) {
             </table>
         </div>
     </main>
-  
+
 
     <!-- Modal -->
     <div id="eventModal" class="fixed inset-0 bg-black/50 flex items-center justify-center hidden">
