@@ -124,6 +124,6 @@ $currentPath = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
     </div>
 </nav>
 
-<script src="/v2/navbar.js"></script>
+<script src="./js/navbar.js"></script>
 
 
