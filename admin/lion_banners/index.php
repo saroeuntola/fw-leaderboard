@@ -82,7 +82,7 @@ $banners = $bannerObj->getlion_banners();
     <!-- Main content -->
     <main class="flex-1 ml-64 p-6 transition-all duration-300" id="main-content">
         <div class="flex justify-between mb-4">
-            <h1 class="text-2xl font-bold">Lion Banner Management</h1>
+            <h1 class="text-2xl font-bold text-white">Lion Banner Management</h1>
             <button class="btn bg-green-600 border-none text-white" onclick="document.getElementById('createModal').showModal()">+ Add Banner</button>
         </div>
 
