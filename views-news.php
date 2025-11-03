@@ -76,9 +76,10 @@ $latestTournament = $tournament->getLatest(1);
 
         <!-- MAIN CONTENT -->
         <div class="flex-1 flex flex-col gap-6">
-            <h2 class="border border-red-500 text-red-500 px-4 py-2 rounded-lg transition-colors text-center w-[200px]">
-                NEWS
-            </h2>
+                <p class="w-20 border border-red-500 font-bold text-red-500 px-2 py-1 rounded-lg text-sm transition-colors text-center">
+                    NEWS
+                </p>
+         
             <div class="rounded-lg">
                 <?php if (!empty($post['image'])): ?>
                     <img src="/v2/admin/post/<?= htmlspecialchars($post['image']) ?>" class="w-full md:h-[380px] h-[220px] lg:h-[400px] mb-4 rounded">
@@ -106,8 +107,8 @@ $latestTournament = $tournament->getLatest(1);
 
         <!-- SIDEBAR -->
         <aside class="lg:w-80 w-full flex flex-col gap-4 lg:sticky lg:top-24 h-fit">
+
             <!-- RELATED POSTS -->
-   
             <?php if (!empty($relatedPosts)): ?>
                 <div class="bg-gray-100 dark:bg-gray-800 rounded-xl p-4 shadow-md">
                     <h2 class="text-xl font-bold mb-2 border-b border-gray-700 pb-2 dark:text-white text-gray-900">More News</h2>
