@@ -24,21 +24,34 @@ $posts = $listPost->getLastPosts(4, 'en');
 
 <div class="grid gap-3 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 text-gray-900 dark:text-gray-100 cursor-pointer">
     <?php foreach ($posts as $post): ?>
-        <a href="views?slug=<?= urlencode($post['slug']); ?>" class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow">
+        <?php
+        // Normalize the category name
+        $categoryName = strtolower(trim($post['category_name'] ?? ''));
+
+        // Choose the correct link based on category
+        if ($categoryName === 'news') {
+            $link = "views-news?slug=" . urlencode($post['slug']);
+        } elseif ($categoryName === 'tournament') {
+            $link = "views?slug=" . urlencode($post['slug']);
+        } else {
+            // Default link if category doesn't match
+            $link = "views?slug=" . urlencode($post['slug']);
+        }
+        ?>
+        <a href="<?= htmlspecialchars($link); ?>" class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow">
             <!-- Image with hover zoom -->
             <div class="overflow-hidden rounded-t-xl">
-                <img src="./admin/post/<?= htmlspecialchars($post['image']) ?>"
-                    alt="<?= htmlspecialchars($post['name']) ?>"
+                <img src="./admin/post/<?= htmlspecialchars($post['image']); ?>"
+                    alt="<?= htmlspecialchars($post['name']); ?>"
                     class="w-full h-60 object-cover transition-transform duration-500 hover:scale-105">
             </div>
             <div class="p-4">
-                <h2 class="text-lg font-semibold mb-2 mr-6 truncate"><?= htmlspecialchars($post['name']) ?></h2>
-                <p class="text-gray-400 text-xs mt-2"><?= date('F-j-Y', strtotime($post['created_at'])) ?></p>
+                <h2 class="text-lg font-semibold mb-2 mr-6 truncate"><?= htmlspecialchars($post['name']); ?></h2>
+                <p class="text-gray-400 text-xs mt-2"><?= date('F j, Y', strtotime($post['created_at'])); ?></p>
             </div>
         </a>
     <?php endforeach; ?>
 </div>
-
 <section class="mt-10">
     <h1 class="dark:text-white text-gray-900 lg:text-3xl text-xl font-bold mb-4">Previous Tournaments</h1>
     <?php if (!empty($latestTournament)): ?>

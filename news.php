@@ -35,7 +35,7 @@ $posts = $listPost->getPostByCategory(3, 'en', $limit, $page);
         <h1 class="text-3xl font-bold mb-8 dark:text-white text-gray-900">All News</h1>
         <div class="grid gap-5 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 text-white cursor-pointer">
             <?php foreach ($posts as $post): ?>
-                <a href="views?slug=<?= urlencode($post['slug']); ?>" class="dark:bg-gray-800 bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow">
+                <a href="views-news?slug=<?= urlencode($post['slug']); ?>" class="dark:bg-gray-800 bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow">
                     <!-- Image with hover zoom -->
                     <div class="overflow-hidden rounded-t-xl">
                         <img src="./admin/post/<?= htmlspecialchars($post['image']) ?>"

@@ -113,7 +113,21 @@ $latestTournament = $tournament->getLatest(1);
 
                     <div class="flex flex-col gap-2">
                         <?php foreach ($relatedPosts as $rPost): ?>
-                            <a href="./views.php?slug=<?= urlencode($rPost['slug']) ?>"
+                            <?php
+                            // Normalize the category name
+                            $categoryName = strtolower(trim($rPost['category_name'] ?? ''));
+
+                            // Select link based on category
+                            if ($categoryName === 'news') {
+                                $link = "./views-news?slug=" . urlencode($rPost['slug']);
+                            } elseif ($categoryName === 'tournaments') {
+                                $link = "./views?slug=" . urlencode($rPost['slug']);
+                            } else {
+                                // Default fallback
+                                $link = "./views?slug=" . urlencode($rPost['slug']);
+                            }
+                            ?>
+                            <a href="<?= htmlspecialchars($link) ?>"
                                 class="flex items-center gap-4 bg-white dark:bg-gray-900 rounded-lg hover:bg-gray-700 transition-all duration-300 p-2 group">
 
                                 <!-- Thumbnail -->
@@ -164,11 +178,7 @@ $latestTournament = $tournament->getLatest(1);
             <?php else: ?>
                 <p>No tournaments available.</p>
             <?php endif; ?>
-
-
-
         </aside>
-
     </div>
     <?php
     include "./footer.php"
