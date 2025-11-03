@@ -1,7 +1,7 @@
 <?php
 ob_start();
 include "../lib/checkroles.php";
-include '../lib/lion_tournament_lib.php';
+include '../lib/prev_tournament_lib.php';
 protectPathAccess();
 $tournament = new TournamentPost();
 
@@ -21,12 +21,14 @@ if (!$record) {
 // Pre-fill form values
 $title = $record['title'] ?? '';
 $desc = $record['description'] ?? '';
+$type = $record['type'] ?? 'lion'; // default to lion
 $imagePath = $record['image'] ?? '';
 $error = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $title = $_POST['title'] ?? '';
     $desc = $_POST['description'] ?? '';
+    $type = $_POST['type'] ?? 'lion';
 
     // Handle image upload
     if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
@@ -51,13 +53,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 }
             }
 
-            // Update image path
             $imagePath = $publicDir . $uniqueName;
         }
     }
 
-    // Update tournament
-    $updated = $tournament->updateTournament($id, $title, $imagePath, $desc);
+    // Update tournament with type
+    $updated = $tournament->updateTournament($id, $title, $imagePath, $desc, $type);
 
     if ($updated) {
         echo "<script>alert('Tournament updated successfully!');window.location='./';</script>";
@@ -67,8 +68,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 ?>
-
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -93,21 +92,36 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <!-- Title -->
             <div>
                 <label class="block text-sm font-semibold text-gray-700 mb-1">Tournament Title</label>
-                <input type="text" name="title" required value="<?= htmlspecialchars($record['title'] ?? '') ?>"
+                <input type="text" name="title" required value="<?= htmlspecialchars($title) ?>"
                     class="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-indigo-400 focus:outline-none">
             </div>
 
-            <!-- Description (TinyMCE) -->
+            <!-- Type Radio -->
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-1">Type</label>
+                <div class="flex gap-6">
+                    <label class="flex items-center gap-2">
+                        <input type="radio" name="type" value="lion" <?= $type === 'lion' ? 'checked' : '' ?>>
+                        Lion
+                    </label>
+                    <label class="flex items-center gap-2">
+                        <input type="radio" name="type" value="tiger" <?= $type === 'tiger' ? 'checked' : '' ?>>
+                        Tiger
+                    </label>
+                </div>
+            </div>
+
+            <!-- Description -->
             <div>
                 <label class="block text-sm font-semibold text-gray-700 mb-1">Description</label>
-                <textarea id="editor" name="description"><?= htmlspecialchars($record['description'] ?? '') ?></textarea>
+                <textarea id="editor" name="description"><?= htmlspecialchars($desc) ?></textarea>
             </div>
 
             <!-- Current Image -->
-            <?php if (!empty($record['image'])): ?>
+            <?php if (!empty($imagePath)): ?>
                 <div>
                     <label class="block text-sm font-semibold text-gray-700 mb-1">Current Image</label>
-                    <img src="/v2/admin/uploads/<?= htmlspecialchars($record['image']) ?>" alt="current image" class="w-48 h-auto mb-2">
+                    <img src="/v2/admin/uploads/<?= htmlspecialchars($imagePath) ?>" alt="current image" class="w-48 h-auto mb-2">
                 </div>
             <?php endif; ?>
 
@@ -118,7 +132,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     class="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-indigo-400 focus:outline-none">
             </div>
 
-            <!-- Submit -->
             <button type="submit"
                 class="w-full bg-indigo-600 text-white py-2 px-4 rounded-md text-lg font-semibold hover:bg-indigo-700 transition-all">
                 Update Tournament
@@ -127,40 +140,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
 
     <script>
-        // TinyMCE setup with image upload handler
-        const image_upload_handler = (blobInfo, progress) => new Promise((resolve, reject) => {
-            const xhr = new XMLHttpRequest();
-            xhr.open('POST', '/v2/admin/api/upload_image');
-            xhr.upload.onprogress = (e) => progress(e.loaded / e.total * 100);
-
-            xhr.onload = () => {
-                if (xhr.status !== 200) {
-                    reject('HTTP Error: ' + xhr.status);
-                    return;
-                }
-                const json = JSON.parse(xhr.responseText);
-                if (!json || typeof json.url !== 'string') {
-                    reject('Invalid JSON: ' + xhr.responseText);
-                    return;
-                }
-                resolve(json.url);
-            };
-
-            xhr.onerror = () => reject('Image upload failed.');
-            const formData = new FormData();
-            formData.append('image', blobInfo.blob(), blobInfo.filename());
-            xhr.send(formData);
-        });
-
         tinymce.init({
             selector: '#editor',
             height: 800,
             plugins: 'image link lists table code',
             toolbar: 'undo redo | styles | bold italic underline | alignleft aligncenter alignright | bullist numlist | image link table code',
             automatic_uploads: true,
-            images_upload_handler: image_upload_handler,
+            images_upload_handler: function(blobInfo, success, failure) {
+                const xhr = new XMLHttpRequest();
+                xhr.open('POST', '/v2/admin/api/upload_image');
+                xhr.onload = function() {
+                    const json = JSON.parse(xhr.responseText);
+                    if (json && json.url) success(json.url);
+                    else failure('Upload failed');
+                };
+                const formData = new FormData();
+                formData.append('image', blobInfo.blob(), blobInfo.filename());
+                xhr.send(formData);
+            },
             content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:16px }',
-            image_title: true,
             license_key: 'gpl',
         });
     </script>

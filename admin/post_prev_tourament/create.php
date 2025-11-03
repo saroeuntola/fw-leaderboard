@@ -3,7 +3,7 @@ ini_set('display_errors', 1);
 error_reporting(E_ALL);
 ob_start();
 include "../lib/checkroles.php";
-include '../lib/lion_tournament_lib.php';
+include '../lib/prev_tournament_lib.php';
 protectPathAccess();
 $tournament = new TournamentPost();
 
@@ -11,32 +11,28 @@ $tournament = new TournamentPost();
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $title = $_POST['title'] ?? '';
     $desc = $_POST['description'] ?? '';
+    $type = $_POST['type'] ?? 'lion'; // Default to 'lion'
     $image = $_FILES['image'] ?? null;
 
     $imagePath = "";
     if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
-        // Server upload directory
         $uploadDir = "../uploads/img/";
         $publicDir = "img/";
 
-        // Ensure folder exists
         if (!is_dir($uploadDir)) mkdir($uploadDir, 0755, true);
 
-        // Clean up filename
         $imageFileName = preg_replace("/[^a-zA-Z0-9._-]/", "", basename($_FILES["image"]["name"]));
         $uniqueName = time() . "_" . $imageFileName;
 
-        // Full path to save file
         $fullPath = $uploadDir . $uniqueName;
 
-        // Move file
         if (move_uploaded_file($_FILES["image"]["tmp_name"], $fullPath)) {
-            // Save only public path to DB (e.g., /uploads/img/filename.png)
             $imagePath = $publicDir . $uniqueName;
         }
     }
-    // Store only the relative path (safe for display)
-    $tournament->createTournament($title, $imagePath, $desc);
+
+    // Store tournament with type
+    $tournament->createTournament($title, $imagePath, $desc, $type);
 
     echo "<script>alert('Tournament created successfully!');window.location='./';</script>";
     exit;
@@ -49,14 +45,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Prev Tournament Lion</title>
+    <title>Create Tournament</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <script src="/v2/js/tinymce/tinymce.min.js"></script>
 </head>
 
 <body class="bg-gray-900 flex items-center justify-center min-h-screen">
     <div class="w-full max-w-5xl bg-white p-8 rounded-xl shadow-lg">
-        <h2 class="text-3xl font-bold text-center mb-6 text-indigo-700">+ Add Prev Tournament Lion</h2>
+        <h2 class="text-3xl font-bold text-center mb-6 text-indigo-700">+ Add Tournament</h2>
 
         <form method="POST" enctype="multipart/form-data" class="space-y-6">
             <!-- Title -->
@@ -64,6 +60,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <label class="block text-sm font-semibold text-gray-700 mb-1">Tournament Title</label>
                 <input type="text" name="title" required
                     class="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-indigo-400 focus:outline-none">
+            </div>
+
+            <!-- Type Radio -->
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-1">Type</label>
+                <div class="flex gap-6">
+                    <label class="flex items-center gap-2">
+                        <input type="radio" name="type" value="lion" checked class="form-radio">
+                        Lion
+                    </label>
+                    <label class="flex items-center gap-2">
+                        <input type="radio" name="type" value="tiger" class="form-radio">
+                        Tiger
+                    </label>
+                </div>
             </div>
 
             <!-- Description (TinyMCE) -->

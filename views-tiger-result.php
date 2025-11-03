@@ -1,8 +1,8 @@
 <?php
 include './admin/lib/db.php';
-include './admin/lib/tiger_tourament_lib.php';
+include './admin/lib/prev_tournament_lib.php';
 
-$tournament = new TigerTouramentPost();
+$tournament = new  TournamentPost();
 $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
 $data = $tournament->getTournamentById($id);
 ?>

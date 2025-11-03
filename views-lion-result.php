@@ -1,6 +1,6 @@
 <?php
 include './admin/lib/db.php';
-include './admin/lib/lion_tournament_lib.php';
+include './admin/lib/prev_tournament_lib.php';
 
 $tournament = new TournamentPost();
 $id = isset($_GET['id']) ? intval($_GET['id']) : 0;

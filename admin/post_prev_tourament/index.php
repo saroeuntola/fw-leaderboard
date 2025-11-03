@@ -5,7 +5,7 @@ error_reporting(E_ALL);
 ob_start();
 include "../lib/checkroles.php";
 include '../lib/users_lib.php';
-include '../lib/lion_tournament_lib.php';
+include '../lib/prev_tournament_lib.php';
 protectPathAccess();
 $tournament = new TournamentPost;
 // Fetch all tournaments
@@ -28,7 +28,7 @@ $allTournaments = $tournament->getAllTournaments();
 
     <main class="flex-1 ml-64 p-6 transition-all duration-300" id="main-content">
         <div class="flex justify-between items-center mb-6">
-            <h1 class="text-3xl font-bold text-indigo-400">Lion Prev Tournament List</h1>
+            <h1 class="text-3xl font-bold text-indigo-400">Prev Tournament List</h1>
             <a href="create"
                 class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md font-medium transition">
                 + Add Prev Tournament
@@ -43,6 +43,7 @@ $allTournaments = $tournament->getAllTournaments();
                             <th class="px-4 py-2 text-sm font-semibold text-gray-300">ID</th>
                             <th class="px-4 py-2 text-sm font-semibold text-gray-300">Image</th>
                             <th class="px-4 py-2 text-sm font-semibold text-gray-300">Title</th>
+                            <th class="px-4 py-2 text-sm font-semibold text-gray-300">Type</th>
                             <th class="px-4 py-2 text-sm font-semibold text-gray-300">Date</th>
                             <th class="px-4 py-2 text-sm font-semibold text-gray-300 text-center">Actions</th>
                         </tr>
@@ -65,6 +66,8 @@ $allTournaments = $tournament->getAllTournaments();
                                 </td>
 
                                 <td class="px-4 py-3 text-sm text-gray-300 font-medium"><?= htmlspecialchars($item['title']) ?></td>
+
+                                <td class="px-4 py-3 text-sm text-gray-300 font-medium"><?= htmlspecialchars($item['type']) ?></td>
 
                                 <td class="px-4 py-3 text-sm text-gray-400">
                                     <?= htmlspecialchars(date('Y-m-d', strtotime($item['created_at']))) ?>

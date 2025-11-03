@@ -1,37 +1,8 @@
 <?php
-include_once './admin/lib/lion_tournament_lib.php';
-include_once './admin/lib/tiger_tourament_lib.php';
-
-// Fetch latest Lion & Tiger tournament (1 each)
+include_once './admin/lib/prev_tournament_lib.php';
 $lionTournament = new TournamentPost();
-$lionLatest = $lionTournament->getLatest(10);
-// ensure we have an array
-if (!is_array($lionLatest)) {
-    $lionLatest = [];
-}
-// add type without using foreach by reference
-foreach ($lionLatest as $k => $v) {
-    $lionLatest[$k]['type'] = 'lion';
-}
+$latestTournament = $lionTournament->getLatest(10);
 
-$tigerTournament = new TigerTouramentPost();
-$tigerLatest = $tigerTournament->getLatest(10);
-if (!is_array($tigerLatest)) {
-    $tigerLatest = [];
-}
-foreach ($tigerLatest as $k => $v) {
-    $tigerLatest[$k]['type'] = 'tiger';
-}
-// Merge and sort both tournaments by created_at
-// array_merge expects arrays; both are ensured to be arrays above
-$allTournaments = array_merge($lionLatest, $tigerLatest);
-
-// Sort by date descending (newest first)
-usort($allTournaments, function ($a, $b) {
-    return strtotime($b['created_at']) - strtotime($a['created_at']);
-});
-// Get only the latest one
-$latestTournament = array_slice($allTournaments, 0, 10);
 ?>
 <section class="mt-10">
     <h1 class="dark:text-white text-gray-900 lg:text-3xl text-xl font-bold mb-4">Previous Tournaments</h1>

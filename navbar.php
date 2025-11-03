@@ -47,7 +47,6 @@ $currentPath = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
                     <img src="/v2/admin/<?= htmlspecialchars($logo['brand_image'] ?? 'default-logo.png') ?>" alt="Logo" class="h-10 object-contain">
                 </a>
             </div>
-
             <!-- Desktop Menu -->
             <div class="hidden md:flex items-center space-x-6 font-medium">
                 <?php
@@ -68,7 +67,6 @@ $currentPath = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
                     </a>
                 <?php endforeach; ?>
             </div>
-
             <!-- Right section: Mobile theme toggle + hamburger -->
             <div class="flex items-center gap-5">
                 <button
@@ -84,7 +82,6 @@ $currentPath = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
                         viewBox="0 0 24 24">
                     </svg>
                 </button>
-
                 <!-- Mobile Hamburger -->
                 <button id="mobile-menu-button" class="md:hidden">
                     <svg id="mobile-menu-icon" class="w-8 h-8 text-gray-800 dark:text-gray-100" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -94,7 +91,6 @@ $currentPath = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
             </div>
         </div>
     </div>
-
     <!-- Mobile Menu -->
     <div
         id="mobile-menu"
@@ -123,7 +119,4 @@ $currentPath = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
         </ul>
     </div>
 </nav>
-
 <script src="./js/navbar.js"></script>
-
-

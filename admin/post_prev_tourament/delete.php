@@ -3,7 +3,7 @@ ini_set('display_errors', 1);
 error_reporting(E_ALL);
 ob_start();
 include "../lib/checkroles.php";
-include '../lib/lion_tournament_lib.php';
+include '../lib/prev_tournament_lib.php';
 
 protectPathAccess();
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {

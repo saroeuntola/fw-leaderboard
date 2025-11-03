@@ -1,39 +1,17 @@
 <?php
 include './admin/lib/post_lib.php';
 include './admin/lib/db.php';
-include './admin/lib/lion_tournament_lib.php';
-include './admin/lib/tiger_tourament_lib.php';
+include './admin/lib/prev_tournament_lib.php';
 $slug = $_GET['slug'] ?? '';
 $postLib = new Post();
 $post = $postLib->getPostBySlug($slug);
 $currentSlug = $_GET['slug'] ?? '';
 $relatedPosts = $postLib->getRelatedpost($post['id'] ?? 0, $post['category_id'] ?? 0, 5);
 
-$lionTournament = new TournamentPost();
-$lionLatest = $lionTournament->getLatest(1);
-if (!empty($lionLatest)) {
-    foreach ($lionLatest as &$item) {
-        $item['type'] = 'lion';
-    }
-}
+$tournament = new TournamentPost();
+$latestTournament = $tournament->getLatest(1);
 
-$tigerTournament = new TigerTouramentPost();
-$tigerLatest = $tigerTournament->getLatest(1);
-if (!empty($tigerLatest)) {
-    foreach ($tigerLatest as &$item) {
-        $item['type'] = 'tiger';
-    }
-}
-// Merge and sort both tournaments by created_at
-$allTournaments = array_merge($lionLatest, $tigerLatest);
 
-// Sort by date descending (newest first)
-usort($allTournaments, function ($a, $b) {
-    return strtotime($b['created_at']) - strtotime($a['created_at']);
-});
-
-// Get only the latest one
-$latestTournament = array_slice($allTournaments, 0, 1);
 ?>
 <!DOCTYPE html>
 <html lang="en" class="bg-gray-800">
@@ -164,40 +142,37 @@ $latestTournament = array_slice($allTournaments, 0, 1);
 
             <!-- LATEST TOURNAMENT RESULTS -->
             <?php if (!empty($latestTournament)): ?>
-                <div class="dark:bg-gray-800 bg-gray-100 rounded-xl p-4">
-                    <h2 class="text-xl font-bold mb-3 border-b border-gray-700 pb-2 dark:text-white text-gray-900">
-                        Latest Tournament Results
-                    </h2>
-                    <div class="space-y-3">
-                        <?php foreach ($latestTournament as $t): ?>
-                            <?php
-                            // Dynamic link based on tournament type
-                            $link = ($t['type'] === 'lion')
-                                ? "views-lion-result?id=" . urlencode($t['id'])
-                                : "views-tiger-result?id=" . urlencode($t['id']);
-                            ?>
-                            <a href="<?= htmlspecialchars($link) ?>" class="block rounded-lg hover:scale-105 transition-transform">
-                                <!-- Tournament Image -->
-                                <?php if (!empty($t['image'])): ?>
-                                    <img src="./admin/uploads/<?= htmlspecialchars($t['image']); ?>"
-                                        alt="<?= htmlspecialchars($t['title']); ?>"
-                                        class="w-full h-40 object-cover rounded-md shadow-md">
-                                <?php endif; ?>
-
-                                <!-- Tournament Info -->
-                                <div class="py-2">
-                                    <h3 class="text-md sm:text-base font-semibold leading-tight line-clamp dark:text-white text-gray-900 mb-2"><?= htmlspecialchars($t['title']); ?></h3>
-                                    <p class="text-sm sm:text-base text-gray-400 leading-tight line-clamp mt-1"><?= htmlspecialchars(date('F d, Y', strtotime($t['created_at']))); ?></p>
-                                </div>
-                            </a>
-                        <?php endforeach; ?>
+                <?php foreach ($latestTournament as $t): ?>
+                    <?php
+                    $link = $t['type'] === 'lion'
+                        ? "views-lion-result?id=" . urlencode($t['id'])
+                        : "views-tiger-result?id=" . urlencode($t['id']);
+                    ?>
+                    <div class="dark:bg-gray-800 p-4 rounded-2xl bg-white">
+                        <a href="<?= htmlspecialchars($link) ?>" class="block rounded-lg hover:scale-105 transition-transform">
+                            <img src="<?= htmlspecialchars($t['image'] ? '/v2/admin/uploads/' . $t['image'] : './images/img-card.png') ?>"
+                                alt="<?= htmlspecialchars($t['title']); ?>"
+                                class="w-full h-40 object-cover rounded-md shadow-md">
+                            <div class="py-2">
+                                <h3 class="text-md sm:text-base font-semibold"><?= htmlspecialchars($t['title']); ?></h3>
+                                <p class="text-sm text-gray-400"><?= date('F d, Y', strtotime($t['created_at'])); ?></p>
+                            </div>
+                        </a>
                     </div>
-                </div>
+
+                <?php endforeach; ?>
+            <?php else: ?>
+                <p>No tournaments available.</p>
             <?php endif; ?>
+
+
+
         </aside>
+
     </div>
     <?php
     include "./footer.php"
     ?>
 </body>
+
 </html>

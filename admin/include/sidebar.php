@@ -29,9 +29,7 @@
               <a href="/v2/admin/banner/" class="btn btn-ghost btn-block justify-start hover:text-gray-900">Slide Banner</a>
               <a href="/v2/admin/upcoming_events/" class="btn btn-ghost btn-block justify-start hover:text-gray-900">Upcoming event</a>
               <a href="/v2/admin/post/" class="btn btn-ghost btn-block justify-start hover:text-gray-900">Posts Content</a>
-              <a href="/v2/admin/post_prev_tourament_lion/" class="btn btn-ghost btn-block justify-start hover:text-gray-900">Post Prev Tournament Lion</a>
-              <a href="/v2/admin/post_prev_tourament_tiger/" class="btn btn-ghost btn-block justify-start hover:text-gray-900">Post Prev Tournament Tiger</a>
-
+              <a href="/v2/admin/post_prev_tourament/" class="btn btn-ghost btn-block justify-start hover:text-gray-900">Prev Tournament</a>
               <a href="/v2/admin/fwguide_announcement/" class="btn btn-ghost btn-block justify-start hover:text-gray-900">Fwguide Announcement</a>
           </nav>
       </div>

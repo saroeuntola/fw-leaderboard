@@ -28,23 +28,27 @@ class TigerTouramentPost
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-    public function getLatest($limit = 1)
+    public function getLatest($limit = 5)
     {
         $query = "SELECT id, title, image, description, created_at 
-                  FROM tiger_tournament 
-                  ORDER BY created_at DESC 
-                  LIMIT :limit";
-
+              FROM tiger_tournament 
+              WHERE title IS NOT NULL 
+              ORDER BY created_at DESC, id DESC 
+              LIMIT :limit";
         try {
+            $this->db->query("SET SESSION query_cache_type = 0"); // Disable caching
             $stmt = $this->db->prepare($query);
             $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
             $stmt->execute();
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $data ?: [];
         } catch (PDOException $e) {
             error_log("Error fetching tournaments: " . $e->getMessage());
             return [];
         }
     }
+
+
 
     /**
      * Get a single tournament by ID
