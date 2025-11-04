@@ -31,7 +31,7 @@ include "./admin/lib/db.php";
                 data-file="/v2/lion-leaderboard-section"
                 data-target="#container-lion"
                 data-hide="#container-tiger">
-                <img src="./images/lion-logo.png" class="w-6" alt="">
+                <img src="./images/lion-logo.png" class="w-6" alt="lion logo" loading="lazy">
                 Lion
                 <svg class="w-4 h-4 transition-transform duration-300 transform" fill="none" stroke="currentColor"
                     viewBox="0 0 24 24">
@@ -45,7 +45,7 @@ include "./admin/lib/db.php";
                 data-file="/v2/tiger-leaderboard-section"
                 data-target="#container-tiger"
                 data-hide="#container-lion">
-                <img src="./images/tiger-logo.png" class="w-8" alt="">
+                <img src="./images/tiger-logo.png" class="w-8" alt="tiger logo" loading="lazy">
                 Tiger
                 <svg class="w-4 h-4 transition-transform duration-300 transform" fill="none" stroke="currentColor"
                     viewBox="0 0 24 24">

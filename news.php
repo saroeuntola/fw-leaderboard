@@ -39,7 +39,7 @@ $posts = $listPost->getPostByCategory(3, 'en', $limit, $page);
                     <!-- Image with hover zoom -->
                     <div class="overflow-hidden rounded-t-xl">
                         <img src="./admin/post/<?= htmlspecialchars($post['image']) ?>"
-                            alt="<?= htmlspecialchars($post['name']) ?>"
+                            alt="<?= htmlspecialchars($post['name']) ?>" loading="lazy"
                             class="w-full h-60 object-cover transition-transform duration-500 hover:scale-105">
                     </div>
                     <div class="p-4">

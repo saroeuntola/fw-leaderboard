@@ -33,7 +33,7 @@ $posts = $listPost->getLastPosts(4, 'en');
             <!-- Image with hover zoom -->
             <div class="overflow-hidden rounded-t-xl">
                 <img src="./admin/post/<?= htmlspecialchars($post['image']); ?>"
-                    alt="<?= htmlspecialchars($post['name']); ?>"
+                    alt="<?= htmlspecialchars($post['name']); ?>" loading="lazy"
                     class="w-full h-60 object-cover transition-transform duration-500 hover:scale-105">
             </div>
             <div class="p-4">
@@ -63,7 +63,7 @@ $posts = $listPost->getLastPosts(4, 'en');
 
                 <!-- Left: Image -->
                 <img src="./admin/uploads/<?= htmlspecialchars($item['image']) ?>"
-                    alt="<?= htmlspecialchars($item['title']) ?>"
+                    alt="<?= htmlspecialchars($item['title']) ?>" loading="lazy"
                     class="w-full md:w-32 h-48 md:h-24 object-cover rounded-lg flex-shrink-0">
 
                 <!-- Center: Title & Date -->

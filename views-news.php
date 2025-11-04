@@ -82,7 +82,7 @@ $latestTournament = $tournament->getLatest(1);
          
             <div class="rounded-lg">
                 <?php if (!empty($post['image'])): ?>
-                    <img src="/v2/admin/post/<?= htmlspecialchars($post['image']) ?>" class="w-full md:h-[380px] h-[220px] lg:h-[400px] mb-4 rounded">
+                    <img src="/v2/admin/post/<?= htmlspecialchars($post['image']) ?>" class="w-full md:h-[380px] h-[220px] lg:h-[400px] mb-4 rounded" loading="lazy">
                 <?php endif; ?>
 
                 <h1 class="lg:text-3xl text-xl font-bold mb-2 text-red-600"><?= htmlspecialchars($post['name'] ?? '') ?></h1>
