@@ -47,6 +47,8 @@ $currentPath = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
                     <img src="/v2/admin/<?= htmlspecialchars($logo['brand_image'] ?? 'default-logo.png') ?>" alt="Logo" class="h-10 object-contain">
                 </a>
             </div>
+
+
             <!-- Desktop Menu -->
             <div class="hidden md:flex items-center space-x-6 font-medium">
                 <?php
@@ -55,14 +57,14 @@ $currentPath = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
                     ['label' => 'Tournaments', 'url' => '/v2/tournaments'],
                     ['label' => 'News', 'url' => '/v2/news'],
                     ['label' => 'Leaderboard', 'url' => '/v2/leaderboard'],
-                    ['label' => 'Fancybet Guide', 'url' => '/v2/guide'],
+                    ['label' => 'Fancybet Guide', 'url' => 'https://fancybet.info', 'target' => '_blank'],
                 ];
 
                 foreach ($navItems as $item):
                     // Exact match for active link
                     $isActive = rtrim($currentPath, '/') === rtrim($item['url'], '/') ? 'active' : '';
                 ?>
-                    <a href="<?= $item['url'] ?>" class="nav-link hover:text-red-500 transition-colors duration-300 <?= $isActive ?>">
+                    <a href="<?= $item['url'] ?>" target="<?= $item['target'] ?? '_self' ?>" class="nav-link hover:text-red-500 transition-colors duration-300 <?= $isActive ?>">
                         <?= $item['label'] ?>
                     </a>
                 <?php endforeach; ?>
@@ -101,7 +103,7 @@ $currentPath = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
             <?php foreach ($navItems as $item):
                 $isActiveMobile = rtrim($currentPath, '/') === rtrim($item['url'], '/') ? 'active' : '';
             ?>
-                <a href="<?= $item['url'] ?>" class="flex items-center hover:text-red-500 transition-all duration-500 delay-200 nav-link <?= $isActiveMobile ?>">
+                <a href="<?= $item['url'] ?>" target="href=" <?= $item['url'] ?>" target="<?= $item['target'] ?? '_self' ?>" class="flex items-center hover:text-red-500 transition-all duration-500 delay-200 <?= $isActiveMobile ?>">
                     <?php
                     // Add simple icons for mobile menu
                     $icons = [

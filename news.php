@@ -44,7 +44,11 @@ $posts = $listPost->getPostByCategory(3, 'en', $limit, $page);
                     </div>
                     <div class="p-4">
                         <h2 class="text-lg font-semibold mb-2 truncate text-gray-900 dark:text-white"><?= htmlspecialchars($post['name']) ?></h2>
-                        <p class="text-gray-400 text-xs mt-2"><?= date('F-j-Y', strtotime($post['created_at'])) ?></p>
+                        <div class="flex items-center gap-2 mt-2">
+                            <i class="fa-solid fa-earth-americas text-gray-400"></i>                      
+                            <p class="text-gray-400 text-xs"><?= date('F-j-Y', strtotime($post['created_at'])) ?></p>
+                        </div>
+  
                     </div>
                 </a>
             <?php endforeach; ?>

@@ -21,9 +21,13 @@ $posts = $listPost->getPostByCategory(2, 'en', 4, 1);
 
                 <div class="p-4">
                     <h2 class="text-lg font-semibold mb-2 dark:text-white text-gray-900 truncate"><?= htmlspecialchars($post['name']) ?></h2>
-                    <p class="text-gray-400 text-xs mt-2">
-                        <?= htmlspecialchars(date('F j, Y', strtotime($post['created_at']))) ?>
-                    </p>
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-earth-americas text-gray-400"></i>
+                        <p class="text-gray-400 text-xs">
+                            <?= htmlspecialchars(date('F j, Y', strtotime($post['created_at']))) ?>
+                        </p>
+                    </div>
+                    
                 </div>
             </a>
         <?php endforeach; ?>

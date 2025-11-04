@@ -1,22 +1,13 @@
 <?php
 include_once './admin/lib/post_lib.php';
 include_once './admin/lib/prev_tournament_lib.php';
-
 $tournament = new TournamentPost();
-
-// Get latest 2 lions
 $lionLatest = $tournament->getLatestByType('lion', 1);
-
-// Get latest 2 tigers
 $tigerLatest = $tournament->getLatestByType('tiger', 1);
-
-// Merge both types and sort overall by date descending
 $latestTournament = array_merge($lionLatest, $tigerLatest);
 usort($latestTournament, function ($a, $b) {
     return strtotime($b['created_at']) - strtotime($a['created_at']);
 });
-
-
 $listPost = new Post();
 $posts = $listPost->getLastPosts(4, 'en');
 ?>
@@ -31,7 +22,7 @@ $posts = $listPost->getLastPosts(4, 'en');
         // Choose the correct link based on category
         if ($categoryName === 'news') {
             $link = "views-news?slug=" . urlencode($post['slug']);
-        } elseif ($categoryName === 'tournament') {
+        } elseif ($categoryName === 'tournaments') {
             $link = "views?slug=" . urlencode($post['slug']);
         } else {
             // Default link if category doesn't match
@@ -47,11 +38,17 @@ $posts = $listPost->getLastPosts(4, 'en');
             </div>
             <div class="p-4">
                 <h2 class="text-lg font-semibold mb-2 mr-6 truncate"><?= htmlspecialchars($post['name']); ?></h2>
-                <p class="text-gray-400 text-xs mt-2"><?= date('F j, Y', strtotime($post['created_at'])); ?></p>
+                <div class="items-center flex mt-2 gap-2">
+                    <i class="fa-solid fa-earth-americas text-gray-400"></i>
+                    <p class="text-gray-400 text-xs"><?= date('F j, Y', strtotime($post['created_at'])); ?></p>
+                </div>
+
             </div>
         </a>
     <?php endforeach; ?>
 </div>
+
+
 <section class="mt-10">
     <h1 class="dark:text-white text-gray-900 lg:text-3xl text-xl font-bold mb-4">Previous Tournaments</h1>
     <?php if (!empty($latestTournament)): ?>
@@ -72,9 +69,12 @@ $posts = $listPost->getLastPosts(4, 'en');
                 <!-- Center: Title & Date -->
                 <div class="flex-1 text-center md:text-left px-4">
                     <h2 class="dark:text-white text-gray-900 text-lg font-semibold "><?= htmlspecialchars($item['title']) ?></h2>
-                    <p class="text-gray-400 text-sm mt-1">
-                        <?= htmlspecialchars(date('F-j-Y', strtotime($item['created_at']))) ?>
-                    </p>
+                    <div class="flex items-center mt-1 gap-2">
+                        <i class="fa-solid fa-earth-americas text-gray-400"></i>
+                        <p class="text-gray-400 text-sm">
+                            <?= htmlspecialchars(date('F-j-Y', strtotime($item['created_at']))) ?>
+                        </p>
+                    </div>
                 </div>
 
                 <!-- Right: Button -->
