@@ -16,7 +16,7 @@ $posts = $listPost->getPostByCategory(2, 'en', 4, 1);
                 <div class="overflow-hidden rounded-t-xl">
                     <img src="./admin/post/<?= htmlspecialchars($post['image']) ?>"
                         alt="<?= htmlspecialchars($post['name']) ?>" loading="lazy"
-                        class="w-full h-60 object-cover transition-transform duration-500 hover:scale-105">
+                        class="w-full h-52 transition-transform duration-500 hover:scale-105">
                 </div>
 
                 <div class="p-4">
