@@ -40,7 +40,6 @@ $currentPath = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 <nav class="fixed top-0 left-0 right-0 z-50 shadow-lg bg-white dark:bg-black text-gray-800 dark:text-gray-100 transition-colors duration-300 lg:py-0 py-1">
     <div class="max-w-7xl mx-auto px-4">
         <div class="flex justify-between items-center h-16">
-
             <!-- Logo -->
             <div class="flex-shrink-0">
                 <a href="<?= htmlspecialchars($logo['link'] ?? '/') ?>" class="text-2xl font-bold text-red-600">
@@ -48,7 +47,7 @@ $currentPath = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
                 </a>
             </div>
 
-
+            
             <!-- Desktop Menu -->
             <div class="hidden md:flex items-center space-x-6 font-medium">
                 <?php
@@ -61,14 +60,17 @@ $currentPath = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
                 ];
 
                 foreach ($navItems as $item):
-                    // Exact match for active link
                     $isActive = rtrim($currentPath, '/') === rtrim($item['url'], '/') ? 'active' : '';
+                    $target = $item['target'] ?? '_self';
                 ?>
-                    <a href="<?= $item['url'] ?>" target="<?= $item['target'] ?? '_self' ?>" class="nav-link hover:text-red-500 transition-colors duration-300 <?= $isActive ?>">
-                        <?= $item['label'] ?>
+                    <a href="<?= htmlspecialchars($item['url']) ?>"
+                        target="<?= htmlspecialchars($target) ?>"
+                        class="nav-link hover:text-red-500 transition-colors duration-300 <?= $isActive ?>">
+                        <?= htmlspecialchars($item['label']) ?>
                     </a>
                 <?php endforeach; ?>
             </div>
+
             <!-- Right section: Mobile theme toggle + hamburger -->
             <div class="flex items-center gap-5">
                 <button
@@ -93,6 +95,7 @@ $currentPath = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
             </div>
         </div>
     </div>
+
     <!-- Mobile Menu -->
     <div
         id="mobile-menu"
@@ -100,12 +103,16 @@ $currentPath = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
         <div class="w-full h-[2px] bg-black dark:bg-white mt-2"></div>
 
         <ul class="py-6 flex flex-col gap-6">
-            <?php foreach ($navItems as $item):
+            <?php
+            foreach ($navItems as $item):
                 $isActiveMobile = rtrim($currentPath, '/') === rtrim($item['url'], '/') ? 'active' : '';
+                $target = $item['target'] ?? '_self'; // Open Fancybet Guide in new tab only
             ?>
-                <a href="<?= $item['url'] ?>" target="href=" <?= $item['url'] ?>" target="<?= $item['target'] ?? '_self' ?>" class="flex items-center hover:text-red-500 transition-all duration-500 delay-200 <?= $isActiveMobile ?>">
+                <a href="<?= htmlspecialchars($item['url']) ?>"
+                    target="<?= htmlspecialchars($target) ?>"
+                    class="flex items-center hover:text-red-500 transition-all duration-500 delay-200 <?= $isActiveMobile ?>">
                     <?php
-                    // Add simple icons for mobile menu
+              
                     $icons = [
                         'Home' => 'fa-house',
                         'Tournaments' => 'fa-trophy',
@@ -115,10 +122,11 @@ $currentPath = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
                     ];
                     ?>
                     <i class="fa-solid <?= $icons[$item['label']] ?? 'fa-circle' ?> text-lg w-6 text-center"></i>
-                    <span class="ml-2"><?= $item['label'] ?></span>
+                    <span class="ml-2"><?= htmlspecialchars($item['label']) ?></span>
                 </a>
             <?php endforeach; ?>
         </ul>
     </div>
+
 </nav>
 <script src="./js/navbar.js"></script>

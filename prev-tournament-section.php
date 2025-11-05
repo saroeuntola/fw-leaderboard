@@ -19,7 +19,7 @@ $latestTournament = $lionTournament->getLatest(10);
                 <!-- Left: Image -->
                 <img src="./admin/uploads/<?= htmlspecialchars($item['image']) ?>"
                     alt="<?= htmlspecialchars($item['title']) ?>" loading="lazy"
-                    class="w-full md:w-32 h-48 md:h-24 object-cover rounded-lg flex-shrink-0">
+                    class="w-full md:w-32 h-48 md:h-24 rounded-lg flex-shrink-0">
 
                 <!-- Center: Title & Date -->
                 <div class="flex-1 text-center md:text-left px-4">

@@ -34,7 +34,7 @@ $posts = $listPost->getLastPosts(4, 'en');
             <div class="overflow-hidden rounded-t-xl">
                 <img src="./admin/post/<?= htmlspecialchars($post['image']); ?>"
                     alt="<?= htmlspecialchars($post['name']); ?>" loading="lazy"
-                    class="w-full h-60 object-cover transition-transform duration-500 hover:scale-105">
+                    class="w-full h-60 transition-transform duration-500 hover:scale-105">
             </div>
             <div class="p-4">
                 <h2 class="text-lg font-semibold mb-2 mr-6 truncate"><?= htmlspecialchars($post['name']); ?></h2>
@@ -64,7 +64,7 @@ $posts = $listPost->getLastPosts(4, 'en');
                 <!-- Left: Image -->
                 <img src="./admin/uploads/<?= htmlspecialchars($item['image']) ?>"
                     alt="<?= htmlspecialchars($item['title']) ?>" loading="lazy"
-                    class="w-full md:w-32 h-48 md:h-24 object-cover rounded-lg flex-shrink-0">
+                    class="w-full md:w-32 h-48 md:h-24 rounded-lg flex-shrink-0">
 
                 <!-- Center: Title & Date -->
                 <div class="flex-1 text-center md:text-left px-4">
