@@ -186,10 +186,10 @@ function banglaDate($date)
 
         <!-- Upload Modal -->
         <dialog id="uploadModal" class="modal">
-            <div class="modal-box">
+            <div class="modal-box bg-gray-800">
                 <h3 class="font-bold text-lg mb-4">Upload Leaderboard CSV</h3>
                 <form method="POST" enctype="multipart/form-data">
-                    <input type="file" name="csv_file" accept=".csv" class="file-input file-input-bordered w-full mb-4" required />
+                    <input type="file" name="csv_file" accept=".csv" class="file-input file-input-bordered w-full mb-4 bg-gray-800" required />
                     <div class="modal-action">
                         <button type="submit" name="upload" class="btn btn-primary">Upload</button>
                         <button type="button" class="btn" onclick="document.getElementById('uploadModal').close()">Cancel</button>
