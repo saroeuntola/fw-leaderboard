@@ -1,0 +1,9 @@
+   .image-card {
+        height:200px;
+    }
+
+    @media (max-width: 640px) {
+        .image-card {
+            height: 260px;
+        }
+    }

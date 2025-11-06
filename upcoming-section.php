@@ -5,7 +5,7 @@ $eventLib = new UpcomingEvent();
 $events = $eventLib->getAll();
 ?>
 
-<h1 class="text-3xl font-bold mb-8 text-gray-900 dark:text-gray-100 md:text-left text-center">Upcoming Events</h1>
+<h1 class="lg:text-3xl text-2xl font-bold mb-4 text-gray-900 dark:text-gray-100 mt-4">Upcoming Events</h1>
 
 <div class="grid gap-5 md:grid-cols-2 lg:grid-cols-3 w-full max-w-7xl">
     <?php foreach ($events as $index => $event): ?>
