@@ -143,7 +143,7 @@ function banglaDate($date)
                         <th>Username</th>
                         <th>Bet Market</th>
                         <th>Points</th>
-                        <th>Price</th>
+                        <th>Price</th>     
                     </tr>
                 </thead>
                 <tbody>
@@ -196,14 +196,12 @@ function banglaDate($date)
                     </div>
                 </form>
             </div>
-        </dialog>
+        </dialog> 
 
         <!-- Delete All Form -->
         <form method="POST" id="deleteAllForm">
             <input type="hidden" name="delete_all" value="1">
         </form>
-
-
     </main>
         <script>
             const toggleBtn = document.getElementById('toggleSidebar');
@@ -213,8 +211,6 @@ function banglaDate($date)
                     sidebar.classList.toggle('-translate-x-full');
                 });
             }
-        </script>
-
+        </script> 
 </body>
-
 </html>
