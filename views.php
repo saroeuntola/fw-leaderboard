@@ -24,54 +24,8 @@ $latestTournament = $tournament->getLatest(1);
     <meta name="description" content="<?= htmlspecialchars(($post['meta_desc'] ?? '')) ?>" />
     <meta name="keywords" content="<?= htmlspecialchars($post['meta_keyword'] ?? '') ?>" />
     <link rel="stylesheet" href="./src/output.css">
+    <link rel="stylesheet" href="./css/style.css">
 </head>
-
-<style>
-    .desc-editor table {
-        width: 100%;
-        border-collapse: collapse;
-        margin: 1rem 0;
-        font-size: 15px;
-        border: 1px solid #e2e8f0;
-        border-radius: 8px;
-    }
-
-    .desc-editor th,
-    .desc-editor td {
-        padding: 12px 16px;
-        text-align: left;
-        border: 1px solid #e2e8f0;
-    }
-
-    .desc-editor th {
-        font-weight: 600;
-        text-align: center;
-        background-color: brown;
-        color: white;
-    }
-
-
-    .desc-editor h2 {
-        font-size: 22pt;
-        color: rgb(220 38 38);
-        font-weight: bold;
-    }
-
-    .desc-editor h3 {
-        font-size: 16pt;
-        font-weight: bold;
-    }
-
-    @media (max-width: 768px) {
-        .desc-editor h2 {
-            font-size: 16pt;
-        }
-
-        .desc-editor h3 {
-            font-size: 14pt;
-        }
-    }
-</style>
 
 <body class="bg-gray-200 dark:bg-gray-900 dark:text-white text-gray-900">
     <?php include "./navbar.php" ?>
@@ -163,10 +117,13 @@ $latestTournament = $tournament->getLatest(1);
                         : "views-tiger-result?id=" . urlencode($t['id']);
                     ?>
                     <div class="dark:bg-gray-800 p-4 rounded-2xl bg-white">
-                        <a href="<?= htmlspecialchars($link) ?>" class="block rounded-lg hover:scale-105 transition-transform">
+                        <h3 class="mb-4 text-xl font-bold border-b border-gray-700 pb-2 dark:text-white text-gray-900">Latest Tournament Result</h3>
+                        <a href="<?= htmlspecialchars($link) ?>" class="rounded-lg hover:scale-105 transition-transform">
                             <img src="<?= htmlspecialchars($t['image'] ? '/v2/admin/uploads/' . $t['image'] : './images/img-card.png') ?>"
                                 alt="<?= htmlspecialchars($t['title']); ?>"
-                                class="w-full h-40 object-cover rounded-md shadow-md">
+                                class="w-full image-card rounded-md shadow-md"
+                                loading="lazy">
+
                             <div class="py-2">
                                 <h3 class="text-md sm:text-base font-semibold"><?= htmlspecialchars($t['title']); ?></h3>
                                 <p class="text-sm text-gray-400"><?= date('F d, Y', strtotime($t['created_at'])); ?></p>
