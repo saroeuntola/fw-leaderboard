@@ -10,8 +10,6 @@ $relatedPosts = $postLib->getRelatedpost($post['id'] ?? 0, $post['category_id'] 
 
 $tournament = new TournamentPost();
 $latestTournament = $tournament->getLatest(1);
-
-
 ?>
 <!DOCTYPE html>
 <html lang="en" class="bg-gray-800">
@@ -83,12 +81,11 @@ $latestTournament = $tournament->getLatest(1);
                             ?>
                             <a href="<?= htmlspecialchars($link) ?>"
                                 class="flex items-center gap-4 bg-white dark:bg-gray-900 rounded-lg hover:bg-gray-700 transition-all duration-300 p-2 group">
-
                                 <!-- Thumbnail -->
                                 <?php if (!empty($rPost['image'])): ?>
                                     <img src="/v2/admin/post/<?= htmlspecialchars($rPost['image']) ?>"
                                         alt="<?= htmlspecialchars($rPost['name']) ?>"
-                                        class="w-[80px] h-[80px] rounded-md object-cover flex-shrink-0 shadow-sm group-hover:scale-105 transition-transform duration-300">
+                                        class="w-[80px] h-[80px] rounded-m flex-shrink-0 shadow-sm group-hover:scale-105 transition-transform duration-300">
                                 <?php else: ?>
                                     <div class="w-[80px] h-[80px] bg-gray-700 rounded-md flex items-center justify-center text-gray-400 text-sm">
                                         No Image
@@ -97,10 +94,13 @@ $latestTournament = $tournament->getLatest(1);
 
                                 <!-- Info -->
                                 <div class="flex-1">
-                                    <h3 class="dark:text-white text-gray-900 text-sm sm:text-base font-semibold leading-tight line-clamp-2 group-hover:text-red-400 transition-colors duration-300">
+                                    <h3 class="dark:text-white text-gray-900 text-sm sm:text-base font-semibold leading-tight line-clamp-2 group-hover:text-red-400 transition-colors mb-2 duration-300">
                                         <?= htmlspecialchars($rPost['name']) ?>
                                     </h3>
-                                    <p class="text-xs text-gray-400 mt-1"><?= htmlspecialchars(date('F d, Y', strtotime($rPost['created_at']))); ?></p>
+                                    <div class="flex items-center gap-2">
+                                        <i class="fa-solid fa-earth-americas text-gray-400"></i>
+                                        <p class="text-gray-400 text-xs"><?= date('F-j-Y', strtotime($rPost['created_at'])) ?></p>
+                                    </div>
                                 </div>
                             </a>
                         <?php endforeach; ?>
@@ -126,7 +126,14 @@ $latestTournament = $tournament->getLatest(1);
 
                             <div class="py-2">
                                 <h3 class="text-md sm:text-base font-semibold"><?= htmlspecialchars($t['title']); ?></h3>
-                                <p class="text-sm text-gray-400"><?= date('F d, Y', strtotime($t['created_at'])); ?></p>
+                                <div class="mt-4">
+
+                                    <div class="flex items-center gap-2">
+                                        <i class="fa-solid fa-earth-americas text-gray-400"></i>
+                                        <p class="text-gray-400 text-xs"><?= date('F d, Y', strtotime($t['created_at'])) ?></p>
+                                    </div>
+
+                                </div>
                             </div>
                         </a>
                     </div>
@@ -136,6 +143,7 @@ $latestTournament = $tournament->getLatest(1);
                 <p>No tournaments available.</p>
             <?php endif; ?>
         </aside>
+
     </div>
     <?php
     include "./footer.php"

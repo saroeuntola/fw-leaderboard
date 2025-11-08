@@ -1,5 +1,5 @@
 <?php
-include "./admin/lib/db.php";
+   include "./admin/lib/db.php";
 ?>
 <!DOCTYPE html>
 <html lang="en" class="">
@@ -9,7 +9,6 @@ include "./admin/lib/db.php";
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FancyWin Leaderboard</title>
 
-    <!-- Compiled Tailwind CSS -->
     <link rel="stylesheet" href="./src/output.css">
     <link rel="stylesheet" href="./css/style.css">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
@@ -26,27 +25,33 @@ include "./admin/lib/db.php";
     <?php 
       include "loading.php"
     ?>
+    
     <header>
         <?php
         include "navbar.php"
         ?>
     </header>
+
+
     <main>
         <section class="px-4 max-w-7xl m-auto pt-[100px]">
             <?php
             include 'slideshow.php';
             ?>
         </section>
+
         <section class="px-4 max-w-7xl m-auto pt-[50px]">
             <?php
             include 'upcoming-section.php';
             ?>
         </section>
+
         <section class="px-4 max-w-7xl m-auto pt-[60px] pb-[50px]">
             <?php
             include 'last-news-section.php';
             ?>
         </section>
+
     </main>
 
     <?php

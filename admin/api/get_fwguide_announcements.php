@@ -8,6 +8,7 @@ $allowedOrigins = [
     'http://fw-leaderboard:8080',
     'https://fwguide.online',
     'http://localhost:4173',
+    'https://www.fwguide.online'
 
 ];
 

@@ -8,11 +8,11 @@ $eventObj = new UpcomingEvent();
 $events = $eventObj->getAll();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $id         = $_POST['id'] ?? null; // <-- fix here
+    $id         = $_POST['id'] ?? null;
     $title      = $_POST['title'];
     $matches    = $_POST['matches'];
     $event_date = $_POST['event_date'];
-    $duration   = $_POST['duration']; // new
+    $duration   = $_POST['duration'];
 
     if ($id) {
         $eventObj->update($id, $title, $matches, $event_date, $duration);
@@ -24,13 +24,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     exit;
 }
 
-
 if (isset($_GET['delete'])) {
     $id = intval($_GET['delete']);
     $eventObj->delete($id);
     header('Location: ' . $_SERVER['PHP_SELF']);
     exit;
 }
+
 ?>
 
 <!DOCTYPE html>

@@ -21,7 +21,7 @@ $latestTournament = $tournament->getLatest(1);
     <meta name="description" content="<?= htmlspecialchars(($post['meta_desc'] ?? '')) ?>" />
     <meta name="keywords" content="<?= htmlspecialchars($post['meta_keyword'] ?? '') ?>" />
     <link rel="stylesheet" href="./src/output.css">
-   <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/style.css">
 </head>
 
 
@@ -71,16 +71,15 @@ $latestTournament = $tournament->getLatest(1);
                     <div class="flex flex-col gap-2">
                         <?php foreach ($relatedPosts as $rPost): ?>
                             <?php
-                            // Normalize the category name
+
                             $categoryName = strtolower(trim($rPost['category_name'] ?? ''));
 
-                            // Select link based on category
                             if ($categoryName === 'news') {
                                 $link = "./views-news?slug=" . urlencode($rPost['slug']);
                             } elseif ($categoryName === 'tournaments') {
                                 $link = "./views?slug=" . urlencode($rPost['slug']);
                             } else {
-                                // Default fallback
+
                                 $link = "./views.php?slug=" . urlencode($rPost['slug']);
                             }
                             ?>
@@ -91,7 +90,7 @@ $latestTournament = $tournament->getLatest(1);
                                 <?php if (!empty($rPost['image'])): ?>
                                     <img src="/v2/admin/post/<?= htmlspecialchars($rPost['image']) ?>"
                                         alt="<?= htmlspecialchars($rPost['name']) ?>"
-                                        class="w-[80px] h-[80px] rounded-md object-cover flex-shrink-0 shadow-sm group-hover:scale-105 transition-transform duration-300">
+                                        class="w-[80px] h-[80px] rounded-md flex-shrink-0 shadow-sm group-hover:scale-105 transition-transform duration-300">
                                 <?php else: ?>
                                     <div class="w-[80px] h-[80px] bg-gray-700 rounded-md flex items-center justify-center text-gray-400 text-sm">
                                         No Image
@@ -100,10 +99,13 @@ $latestTournament = $tournament->getLatest(1);
 
                                 <!-- Info -->
                                 <div class="flex-1">
-                                    <h3 class="dark:text-white text-gray-900 text-sm sm:text-base font-semibold leading-tight line-clamp-2 group-hover:text-red-400 transition-colors duration-300">
+                                    <h3 class="dark:text-white text-gray-900 text-sm sm:text-base font-semibold leading-tight line-clamp-2 group-hover:text-red-400 transition-colors mb-2 duration-300">
                                         <?= htmlspecialchars($rPost['name']) ?>
                                     </h3>
-                                    <p class="text-xs text-gray-400 mt-1"><?= htmlspecialchars(date('F d, Y', strtotime($rPost['created_at']))); ?></p>
+                                    <div class="flex items-center gap-2">
+                                        <i class="fa-solid fa-earth-americas text-gray-400"></i>
+                                        <p class="text-gray-400 text-xs"><?= date('F j, Y', strtotime($rPost['created_at'])) ?></p>
+                                    </div>
                                 </div>
                             </a>
                         <?php endforeach; ?>
@@ -129,7 +131,14 @@ $latestTournament = $tournament->getLatest(1);
 
                             <div class="py-2">
                                 <h3 class="text-md sm:text-base font-semibold"><?= htmlspecialchars($t['title']); ?></h3>
-                                <p class="text-sm text-gray-400"><?= date('F d, Y', strtotime($t['created_at'])); ?></p>
+                                <div class="mt-4">
+                                    
+                                    <div class="flex items-center gap-2">
+                                        <i class="fa-solid fa-earth-americas text-gray-400"></i>
+                                        <p class="text-gray-400 text-xs"><?= date('F j, Y', strtotime($t['created_at'])) ?></p>
+                                    </div>
+
+                                </div>
                             </div>
                         </a>
                     </div>
