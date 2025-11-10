@@ -11,7 +11,7 @@
 
     <link rel="stylesheet" href="./src/output.css">
     <link rel="stylesheet" href="./css/style.css">
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="./js/jquery-3.7.1.min.js"></script>
     <link rel="icon" type="image/png" href="/v2/iamges/icons/favicon-96x96.png" sizes="96x96" />
     <link rel="icon" type="image/svg+xml" href="/v2/iamges/icons/favicon.svg" />
     <link rel="shortcut icon" href="/v2/images/icons/favicon.ico" />

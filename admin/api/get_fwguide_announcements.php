@@ -3,13 +3,12 @@ header('Content-Type: application/json');
 
 // Allow only specific origins
 $allowedOrigins = [
-    'http://localhost:5173',
-    'http://localhost:5174',
+    // 'http://localhost:5173',
+    // 'http://localhost:5174',
     'http://fw-leaderboard:8080',
     'https://fwguide.online',
-    'http://localhost:4173',
+    // 'http://localhost:4173',
     'https://www.fwguide.online'
-
 ];
 
 if (isset($_SERVER['HTTP_ORIGIN']) && in_array($_SERVER['HTTP_ORIGIN'], $allowedOrigins)) {

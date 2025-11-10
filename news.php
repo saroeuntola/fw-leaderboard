@@ -23,12 +23,13 @@ $posts = $listPost->getPostByCategory(3, 'en', $limit, $page);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>News</title>
     <link rel="stylesheet" href="./src/output.css">
+    <script src="./js/jquery-3.7.1.min.js"></script>
     <link rel="icon" type="image/x-icon" href="/v2/images/favicon.png">
 </head>
 
 <body class="dark:bg-gray-900 text-white bg-gray-200">
-    <?php 
-       include "./loading.php";
+    <?php
+    include "./loading.php";
     ?>
     <?php include "./navbar.php" ?>
     <main class="max-w-7xl m-auto px-4 pt-32 pb-32">
@@ -45,10 +46,10 @@ $posts = $listPost->getPostByCategory(3, 'en', $limit, $page);
                     <div class="p-4">
                         <h2 class="text-lg font-semibold mb-2 truncate text-gray-900 dark:text-white"><?= htmlspecialchars($post['name']) ?></h2>
                         <div class="flex items-center gap-2 mt-2">
-                            <i class="fa-solid fa-earth-americas text-gray-400"></i>                      
+                            <i class="fa-solid fa-earth-americas text-gray-400"></i>
                             <p class="text-gray-400 text-xs"><?= date('F-j-Y', strtotime($post['created_at'])) ?></p>
                         </div>
-  
+
                     </div>
                 </a>
             <?php endforeach; ?>

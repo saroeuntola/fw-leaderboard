@@ -10,7 +10,7 @@ include "./admin/lib/db.php";
     <title>Leaderboard</title>
     <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="./src/output.css">
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="./js/jquery-3.7.1.min.js"></script>
     <link rel="icon" type="image/x-icon" href="/v2/images/favicon.ico">
     <link rel="stylesheet" href="./css/style.css">
 </head>

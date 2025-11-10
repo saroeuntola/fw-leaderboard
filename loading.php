@@ -84,7 +84,7 @@
         }
     }
 </style>
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="./js/jquery-3.7.1.min.js"></script>
 <body class="bg-white dark:bg-gray-900 text-white">
     <!-- Loader -->
     <div id="pageLoader" class="fixed inset-0 z-[9999] bg-white dark:bg-gray-900 flex items-center justify-center transition-opacity  duration-1000" aria-live="polite">

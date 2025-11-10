@@ -81,7 +81,6 @@ if (isset($_GET['delete'])) {
         </div>
     </main>
 
-
     <!-- Modal -->
     <div id="eventModal" class="fixed inset-0 bg-black/50 flex items-center justify-center hidden">
         <div class="bg-gray-800 p-6 rounded-lg w-full max-w-md">
@@ -114,11 +113,10 @@ if (isset($_GET['delete'])) {
     </div>
 
     <script>
-        const events = <?= json_encode($events) ?>;
 
+        const events = <?= json_encode($events) ?>;
         function openModal(mode, id = null) {
             document.getElementById('eventModal').classList.remove('hidden');
-
             if (mode === 'create') {
                 document.getElementById('modalTitle').innerText = 'Add Event';
                 document.getElementById('eventForm').reset();
@@ -136,7 +134,6 @@ if (isset($_GET['delete'])) {
                 document.getElementById('duration').value = ev.duration;
             }
         }
-
         function closeModal() {
             document.getElementById('eventModal').classList.add('hidden');
         }

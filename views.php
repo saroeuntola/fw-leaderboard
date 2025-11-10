@@ -23,6 +23,7 @@ $latestTournament = $tournament->getLatest(1);
     <meta name="keywords" content="<?= htmlspecialchars($post['meta_keyword'] ?? '') ?>" />
     <link rel="stylesheet" href="./src/output.css">
     <link rel="stylesheet" href="./css/style.css">
+    
 </head>
 
 <body class="bg-gray-200 dark:bg-gray-900 dark:text-white text-gray-900">
