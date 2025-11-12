@@ -22,7 +22,7 @@ include "./admin/lib/db.php";
     <?php
     include "./navbar.php"
     ?>
-    <main class="pt-32 m-auto max-w-7xl px-4 pb-32">
+    <main class="pt-28 m-auto max-w-7xl px-4 pb-32">
 
         <h1 class="text-red-600 text-3xl text-center font-bold mb-4">Leaderboard</h1>
 

@@ -25,14 +25,11 @@
     <?php 
       include "loading.php"
     ?>
-    
     <header>
         <?php
         include "navbar.php"
         ?>
     </header>
-
-
     <main>
         <section class="px-4 max-w-7xl m-auto pt-[100px]">
             <?php
@@ -51,7 +48,6 @@
             include 'last-news-section.php';
             ?>
         </section>
-
     </main>
 
     <?php
@@ -63,7 +59,6 @@
     $encoded = base64_encode($js);
     echo '<script src="data:text/javascript;base64,' . $encoded . '" defer></script>';
     ?>
-
 </body>
 
 </html>
