@@ -1,7 +1,6 @@
 <?php
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
-ob_start();
 include('../lib/checkroles.php');
 include "../lib/users_lib.php";
 protectRoute([1]);
