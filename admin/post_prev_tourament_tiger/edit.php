@@ -2,7 +2,7 @@
 ob_start();
 include "../lib/checkroles.php";
 include '../lib/tiger_tourament_lib.php';
-protectPathAccess();
+protectRoute([1, 3]);
 $tournament = new TigerTouramentPost();
 
 // Get ID from query param

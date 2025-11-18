@@ -2,7 +2,7 @@
 ob_start();
 include('../lib/checkroles.php');
 include('../lib/post_lib.php');
-protectPathAccess();
+protectRoute([1, 3]);
 $product = new Post();
 if (isset($_GET['id'])) {
     $productId = intval($_GET['id']);

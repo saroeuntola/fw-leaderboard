@@ -4,7 +4,7 @@ error_reporting(E_ALL);
 ob_start();
 include "../lib/checkroles.php";
 include '../lib/prev_tournament_lib.php';
-protectPathAccess();
+protectRoute([1, 3]);
 $tournament = new TournamentPost();
 
 // Handle form submit

@@ -1,8 +1,7 @@
 <?php
 include('../lib/checkroles.php');
 include('../lib/users_lib.php');
-
-protectPathAccess();
+protectRoute([1]);
 $users = new User();
 if (isset($_GET['id'])) {
     $userId = intval($_GET['id']);

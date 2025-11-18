@@ -4,7 +4,7 @@ error_reporting(E_ALL);
 ob_start();
 include "../lib/checkroles.php";
 include '../lib/fwguide_announcement.php';
-protectPathAccess();
+protectRoute([1, 3]);
 
 $fwguide = new FwguideAnnouncement();
 

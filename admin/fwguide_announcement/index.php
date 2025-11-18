@@ -6,7 +6,7 @@ error_reporting(E_ALL);
 include "../lib/checkroles.php";
 include '../lib/users_lib.php';
 include '../lib/fwguide_announcement.php';
-protectPathAccess();
+protectRoute([1, 3]);
 
 $FwAnm = new FwguideAnnouncement();
 $allFwAnms = $FwAnm->getAll();

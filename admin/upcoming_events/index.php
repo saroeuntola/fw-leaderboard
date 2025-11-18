@@ -3,7 +3,7 @@ ob_start();
 include "../lib/checkroles.php";
 include '../lib/upcoming_event_lib.php';
 include '../lib/users_lib.php';
-protectPathAccess();
+protectRoute([1,3]);
 $eventObj = new UpcomingEvent();
 $events = $eventObj->getAll();
 

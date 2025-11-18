@@ -2,7 +2,7 @@
 ob_start();
 include('../lib/checkroles.php');
 include "../lib/users_lib.php";
-protectPathAccess();
+protectRoute([1]);
 $user = new User();
 $users = $user->getUsers();
 // Handle status toggle
@@ -33,7 +33,7 @@ if (isset($_GET['toggle_status_id'])) {
         background-color: yellowgreen;
     }
 
-    .manager {
+    .poster {
         background-color: skyblue;
     }
 
@@ -76,6 +76,7 @@ if (isset($_GET['toggle_status_id'])) {
                         <th class="px-6 py-3">Email</th>
                         <th class="px-6 py-3">Role</th>
                         <th class="px-6 py-3">Status</th>
+                        <th class="px-6 py-3">Change Password</th>
                         <th class="px-6 py-3 text-center">Actions</th>
                     </tr>
                 </thead>
@@ -108,6 +109,15 @@ if (isset($_GET['toggle_status_id'])) {
                                         <span class="inactive px-3 py-1 text-white rounded-full text-sm">Inactive</span>
                                     <?php endif; ?>
                                 </td>
+
+                                <td class="px-6 py-4 text-center">
+                                    <button
+                                        class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition changePassBtn"
+                                        data-user-id="<?= $userRow['id']; ?>">
+                                        Change Password
+                                    </button>
+                                </td>
+
                                 <td class="px-6 py-4 flex justify-center space-x-2">
                                     <a href="edit?id=<?= $userRow['id']; ?>" class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition">Edit</a>
 
@@ -129,11 +139,80 @@ if (isset($_GET['toggle_status_id'])) {
                 </tbody>
             </table>
         </div>
+
+
+        <!-- Change Password Modal -->
+        <div id="changePassModal"
+            class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
+
+            <div class="bg-white w-full max-w-md p-6 rounded-xl shadow-xl relative">
+
+                <!-- Close Button -->
+                <button id="closeModalBtn"
+                    class="absolute top-3 right-3 text-gray-600 hover:text-black text-2xl">
+                    &times;
+                </button>
+
+                <h2 class="text-2xl font-bold mb-4">Change Password</h2>
+
+                <form method="POST" action="change_password" id="passwordForm" class="space-y-4">
+
+                    <input type="hidden" name="user_id" id="modalUserId">
+
+                    <div>
+                        <label class="font-semibold">New Password</label>
+                        <input type="password" name="new_password"
+                            class="w-full px-4 py-2 border rounded-lg" required>
+                    </div>
+
+                    <div>
+                        <label class="font-semibold">Confirm Password</label>
+                        <input type="password" name="confirm_password"
+                            class="w-full px-4 py-2 border rounded-lg" required>
+                    </div>
+
+                    <button type="submit"
+                        class="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-2 rounded-lg font-semibold">
+                        Save Password
+                    </button>
+
+                </form>
+            </div>
+        </div>
+
     </main>
 
 
 
 </body>
+
+<script>
+    const modal = document.getElementById('changePassModal');
+    const closeModalBtn = document.getElementById('closeModalBtn');
+    const modalUserId = document.getElementById('modalUserId');
+
+    // Open modal when clicking Change Password button
+    document.querySelectorAll('.changePassBtn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const userId = btn.dataset.userId;
+            modalUserId.value = userId;
+            modal.classList.remove('hidden');
+        });
+    });
+
+    // Close modal button
+    closeModalBtn.addEventListener('click', () => {
+        modal.classList.add('hidden');
+    });
+
+    // Close on clicking outside modal content
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            modal.classList.add('hidden');
+        }
+    });
+</script>
+
 <script>
     const searchInput = document.getElementById('searchInput');
     const tableRows = document.querySelectorAll('#usersTable tbody tr');

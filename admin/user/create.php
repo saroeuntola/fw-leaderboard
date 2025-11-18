@@ -2,8 +2,7 @@
 ob_start();
 include('../lib/checkroles.php');
 include('../lib/users_lib.php');
-
-protectPathAccess();
+protectRoute([1]);
 $userAuth = new Auth();
 $role = new User();
 $roles = $role->getRoles();
@@ -11,7 +10,7 @@ $roles = $role->getRoles();
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $username = $_POST['username'];
     $email    = $_POST['email'];
-    $phone    = $_POST['phone'];
+    $phone    = $_POST['phone'] ?? null;
     $password = $_POST['password'];
     $role_id  = $_POST['role'];
 
@@ -32,14 +31,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Create Acount</title>
+    <title>Add Users</title>
     <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 </head>
 
 <body class="bg-gray-100 flex items-center justify-center min-h-screen">
     <div class="w-full max-w-md bg-white p-8 rounded-lg shadow-md">
-        <h2 class="text-2xl font-bold text-center mb-6">Register</h2>
+        <h2 class="text-2xl font-bold text-center mb-6">Create Account</h2>
 
         <?php if (!empty($error)): ?>
             <p class="text-red-500 text-center mb-4"><?= htmlspecialchars($error) ?></p>
@@ -89,7 +88,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <button type="submit"
                     class="w-full py-2 px-4 bg-indigo-600 text-white font-semibold rounded-lg 
                  hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                    Register
+                    Create
                 </button>
             </div>
         </form>

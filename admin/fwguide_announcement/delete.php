@@ -6,7 +6,7 @@ ob_start();
 include "../lib/checkroles.php";
 include '../lib/fwguide_announcement.php';
 
-protectPathAccess();
+protectRoute([1, 3]);
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     header('Location: ./');

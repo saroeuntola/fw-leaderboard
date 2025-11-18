@@ -6,7 +6,7 @@ ob_start();
 include "../lib/checkroles.php";
 include '../lib/users_lib.php';
 include '../lib/prev_tournament_lib.php';
-protectPathAccess();
+protectRoute([1, 3]);
 $tournament = new TournamentPost;
 // Fetch all tournaments
 $allTournaments = $tournament->getAllTournaments();

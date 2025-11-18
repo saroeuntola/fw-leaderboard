@@ -1,7 +1,7 @@
 <?php
 ob_start();
 include('../lib/checkroles.php');
-protectPathAccess();
+protectRoute([1]);
 include('../lib/users_lib.php');
 $userAuth = new Auth();
 $role = new User();
@@ -23,8 +23,6 @@ if (!$userData) {
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   $username         = $_POST['username'];
   $email            = $_POST['email'];
-  $currentPassword  = $_POST['current_password'];
-  $newPassword      = $_POST['new_password'];
   $sex              = $_POST['sex'];
   $role_id          = $_POST['role'];
 
@@ -34,18 +32,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     'sex'      => $sex,
     'role_id'  => $role_id,
   ];
-
-  // Check if user wants to change password
-  if (!empty($currentPassword)) {
-    if (password_verify($currentPassword, $userData['password'])) {
-      // Current password is correct
-      if (!empty($newPassword)) {
-        $dataToUpdate['password'] = $newPassword;
-      }
-    } else {
-      echo "<script>alert('Incorrect current password. Password not changed.');</script>";
-    }
-  }
 
   $role->updateUser($userId, $dataToUpdate);
   header('Location: ./');
@@ -84,19 +70,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <input type="email" id="email" name="email" value="<?= htmlspecialchars($userData['email']) ?>" required
           class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
       </div>
-      <!-- Current Password -->
-      <div class="mb-4">
-        <label for="current_password" class="block text-sm font-medium text-gray-700">Current Password</label>
-        <input type="password" id="current_password" name="current_password"
-          class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500 sm:text-sm">
-      </div>
-
-      <!-- New Password -->
-      <div class="mb-4">
-        <label for="new_password" class="block text-sm font-medium text-gray-700">New Password</label>
-        <input type="password" id="new_password" name="new_password"
-          class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-      </div>
+    
 
       <!-- Role -->
       <div class="mb-4">

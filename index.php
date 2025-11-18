@@ -1,5 +1,5 @@
 <?php
-   include "./admin/lib/db.php";
+include "./admin/lib/db.php";
 ?>
 <!DOCTYPE html>
 <html lang="en" class="">
@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="./src/output.css">
     <link rel="stylesheet" href="./css/style.css">
     <script src="./js/jquery-3.7.1.min.js"></script>
+    <link rel="icon" href="https://img.f369w.com/fw/h5/assets/images/icons/PWAicon-192px.png?v=1763107699903" type="image/png">
     <link rel="icon" type="image/png" href="/v2/iamges/icons/favicon-96x96.png" sizes="96x96" />
     <link rel="icon" type="image/svg+xml" href="/v2/iamges/icons/favicon.svg" />
     <link rel="shortcut icon" href="/v2/images/icons/favicon.ico" />
@@ -22,8 +23,8 @@
 </head>
 
 <body class="bg-gray-200 text-gray-900 dark:bg-gray-900 dark:text-gray-100 min-h-screen">
-    <?php 
-      include "loading.php"
+    <?php
+    include "loading.php"
     ?>
     <header>
         <?php

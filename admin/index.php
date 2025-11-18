@@ -3,7 +3,7 @@ ob_start();
 include "../admin/lib/checkroles.php";
 include "../admin/lib/total_count_lib.php";
 include "../admin/lib/users_lib.php";
-protectPathAccess();
+protectRoute([1, 3]);
 $count = new Count();
 $userCount = $count->getUserCount();
 $postCount = $count->getPostCount();

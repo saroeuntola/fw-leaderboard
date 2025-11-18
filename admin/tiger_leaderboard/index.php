@@ -3,7 +3,7 @@ ob_start();
 include "../lib/checkroles.php";
 include "../lib/users_lib.php";
 include "../lib/tiger_leaderboard_lib.php";
-protectPathAccess();
+protectRoute([1]);
 $leaderboardObj = new TigerLeaderboard();
 // -------------------
 // Handle CSV Upload

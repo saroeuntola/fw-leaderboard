@@ -7,7 +7,7 @@ include '../lib/post_lib.php';
 include '../lib/users_lib.php';
 include '../lib/category_lib.php';
 // include $_SERVER['DOCUMENT_ROOT'] . '/config/baseURL.php';
-protectPathAccess();
+protectRoute([1, 3]);
 $product = new Post();
 $category = new Category();
 $categories = $category->getCategories();

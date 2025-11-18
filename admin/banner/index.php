@@ -6,7 +6,7 @@ include "../lib/checkroles.php";
 include "../lib/users_lib.php";
 include "../lib/banner_lib.php";
 
-protectPathAccess();
+protectRoute([1, 3]);
 $bannerObj = new Banner();
 // Handle CRUD actions
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

@@ -3,7 +3,7 @@ ob_start();
 include "../lib/checkroles.php";
 include "../lib/users_lib.php";
 include "../lib/tiger_banner_lib.php";
-protectPathAccess();
+protectRoute([1, 3]);
 $bannerObj = new Tiger_banners();
 // Handle CRUD actions
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

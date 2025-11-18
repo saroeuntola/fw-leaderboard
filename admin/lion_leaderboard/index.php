@@ -5,8 +5,7 @@ ob_start();
 include "../lib/checkroles.php";       
 include "../lib/users_lib.php";
 include "../lib/leaderboard_lib.php";
-
-protectPathAccess();
+protectRoute([1]);
 $leaderboardObj = new Leaderboard();
 // -------------------
 // Handle CSV Upload

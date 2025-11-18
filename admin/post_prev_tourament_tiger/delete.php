@@ -4,7 +4,7 @@ error_reporting(E_ALL);
 ob_start();
 include "../lib/checkroles.php";
 include '../lib/tiger_tourament_lib.php';
-protectPathAccess();
+protectRoute([1, 3]);
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     header('Location: ./');
     exit;

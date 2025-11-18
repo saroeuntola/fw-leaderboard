@@ -5,7 +5,7 @@ ob_start();
 include "../lib/checkroles.php";
 include '../lib/prev_tournament_lib.php';
 
-protectPathAccess();
+protectRoute([1, 3]);
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     header('Location: ./');
     exit;

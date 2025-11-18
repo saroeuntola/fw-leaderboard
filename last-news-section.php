@@ -35,6 +35,7 @@ $posts = $listPost->getLastPosts(4, 'en');
             <div class="p-4">
                 <h2 class="text-lg font-semibold mb-2 mr-6 truncate"><?= htmlspecialchars($post['name']); ?></h2>
                 <div class="items-center flex mt-2 gap-2">
+                    
                     <i class="fa-solid fa-earth-americas text-gray-400"></i>
                     <p class="text-gray-400 text-xs"><?= date('F j, Y', strtotime($post['created_at'])); ?></p>
                 </div>
@@ -68,7 +69,7 @@ $posts = $listPost->getLastPosts(4, 'en');
                     <div class="flex items-center mt-1 gap-2">
                         <i class="fa-solid fa-earth-americas text-gray-400"></i>
                         <p class="text-gray-400 text-sm">
-                            <?= htmlspecialchars(date('F-j-Y', strtotime($item['created_at']))) ?>
+                            <?= htmlspecialchars(date('F j, Y', strtotime($item['created_at']))) ?>
                         </p>
                     </div>
                 </div>

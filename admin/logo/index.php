@@ -4,7 +4,7 @@ error_reporting(E_ALL);
 ob_start();
 include "../lib/checkroles.php";
 include "../lib/users_lib.php";
-protectPathAccess();
+protectRoute([1, 3]);
 include "../lib/brand_lib.php";
 
 $brandObj = new Brand();

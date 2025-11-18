@@ -2,7 +2,7 @@
 ob_start();
 include "../lib/checkroles.php";
 include '../lib/prev_tournament_lib.php';
-protectPathAccess();
+protectRoute([1, 3]);
 $tournament = new TournamentPost();
 
 // Get ID from query param

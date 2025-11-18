@@ -5,7 +5,7 @@ ob_start();
 include "../lib/checkroles.php";
 include "../lib/users_lib.php";
 include '../lib/tiger_tourament_lib.php';
-protectPathAccess();
+protectRoute([1, 3]);
 $tournament = new TigerTouramentPost();
 
 // Fetch all tournaments
