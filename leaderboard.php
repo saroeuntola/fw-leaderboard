@@ -2,7 +2,7 @@
 include "./admin/lib/db.php";
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="lang=" bn-BD"">
 
 <head>
     <meta charset="UTF-8">

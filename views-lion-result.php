@@ -7,7 +7,7 @@ $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
 $data = $tournament->getTournamentById($id);
 ?>
 <!DOCTYPE html>
-<html lang="en" class="bg-gray-900">
+<html lang="bn-BD" class="bg-gray-900">
 
 <head>
     <meta charset="UTF-8">

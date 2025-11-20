@@ -16,7 +16,7 @@ if ($totalPages < 1) $totalPages = 1;
 $posts = $listPost->getPostByCategory(3, 'en', $limit, $page);
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn-BD">
 
 <head>
     <meta charset="UTF-8">

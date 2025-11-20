@@ -2,25 +2,126 @@
 include "./admin/lib/db.php";
 ?>
 <!DOCTYPE html>
-<html lang="en" class="">
+<html lang="bn-BD">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FancyWin Leaderboard</title>
+    <title>FancyWin Leaderboard - Bangladesh</title>
+    <meta name="description" content="FancyWin Leaderboard - Check the latest scores and rankings of your favorite players in Bangladesh. Stay updated with real-time stats and top players.">
+    <meta name="keywords" content="FancyWin, leaderboard Bangladesh, top players Bangladesh, Bangladesh gaming leaderboard, online gaming Bangladesh, real-time scores">
+    <meta name="author" content="FancyWin">
+    <meta name="robots" content="index, follow">
 
+    <!-- Canonical URL -->
+    <link rel="canonical" href="fancybet-leaderboard.com/" />
+
+    <!-- CSS -->
     <link rel="stylesheet" href="./src/output.css">
     <link rel="stylesheet" href="./css/style.css">
+
+    <!-- JS -->
     <script src="./js/jquery-3.7.1.min.js"></script>
-    <link rel="icon" href="https://img.f369w.com/fw/h5/assets/images/icons/PWAicon-192px.png?v=1763107699903" type="image/png">
-    <link rel="icon" type="image/png" href="/v2/iamges/icons/favicon-96x96.png" sizes="96x96" />
-    <link rel="icon" type="image/svg+xml" href="/v2/iamges/icons/favicon.svg" />
-    <link rel="shortcut icon" href="/v2/images/icons/favicon.ico" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/v2/images/icons/apple-touch-icon.png" />
-    <meta name="apple-mobile-web-app-title" content="FancyWin" />
-    <link rel="manifest" href="/v2/images/icons/site.webmanifest" />
+
+    <!-- Favicons -->
+    <link rel="apple-touch-icon" sizes="57x57" href="/v2/icons/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/v2/icons/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/v2/icons/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/v2/icons/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/v2/icons/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/v2/icons/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/v2/icons/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/v2/icons/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/v2/icons/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/v2/icons/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/v2/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/v2/icons/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/v2/icons/favicon-16x16.png">
+    <link rel="icon" href="/v2/favicon.ico" type="image/x-icon">
+
+    <link rel="manifest" href="/v2/icons/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/v2/icons/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:title" content="FancyWin Leaderboard - Bangladesh">
+    <meta property="og:description" content="Check the latest scores and rankings of your favorite players in Bangladesh. Real-time stats and top players.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="fancybet-leaderboard.com/">
+    <meta property="og:image" content="fancybet-leaderboard.com/v2/images/icons/og-image.png">
+    <meta property="og:locale" content="en_BD">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="FancyWin Leaderboard - Bangladesh">
+    <meta name="twitter:description" content="Check the latest scores and rankings of your favorite players in Bangladesh.">
+    <meta name="twitter:image" content="fancybet-leaderboard.com/v2/images/icons/og-image.png">
+    <meta name="twitter:site" content="@FancyWin">
+
+    <!-- Local SEO -->
+    <meta name="geo.region" content="BD">
+    <meta name="geo.placename" content="Bangladesh">
+    <meta name="geo.position" content="23.6850;90.3563">
+    <meta name="ICBM" content="23.6850,90.3563">
+
+    <!-- Structured Data: Organization -->
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "name": "FancyWin",
+            "url": "fancybet-leaderboard.com",
+            "logo": "fancybet-leaderboard.com/v2/images/icons/apple-touch-icon.png",
+            "address": {
+                "@type": "PostalAddress",
+                "addressLocality": "Bangladesh",
+                "addressCountry": "BD"
+            }
+        }
+    </script>
+    <!-- Structured Data: LocalBusiness (Dhaka) -->
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "LocalBusiness",
+            "name": "FancyWin Leaderboard",
+            "image": "fancybet-leaderboard.com/v2/images/icons/apple-touch-icon.png",
+            "@id": "fancybet-leaderboard.com",
+            "url": "fancybet-leaderboard.com",
+            "telephone": "+8801645787953",
+            "address": {
+                "@type": "PostalAddress",
+                "streetAddress": "1205, Dhaka",
+                "addressLocality": "Dhaka",
+                "addressRegion": "Dhaka Division",
+                "postalCode": "1207",
+                "addressCountry": "BD"
+            },
+            "geo": {
+                "@type": "GeoCoordinates",
+                "latitude": 23.8103,
+                "longitude": 90.4125
+            },
+            "openingHoursSpecification": {
+                "@type": "OpeningHoursSpecification",
+                "dayOfWeek": [
+                    "Monday",
+                    "Tuesday",
+                    "Wednesday",
+                    "Thursday",
+                    "Friday",
+                    "Saturday"
+                ],
+                "opens": "08:00",
+                "closes": "22:00"
+            },
+
+        }
+    </script>
 
 </head>
+
 
 <body class="bg-gray-200 text-gray-900 dark:bg-gray-900 dark:text-gray-100 min-h-screen">
     <?php

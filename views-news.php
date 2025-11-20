@@ -11,7 +11,7 @@ $tournament = new TournamentPost();
 $latestTournament = $tournament->getLatest(1);
 ?>
 <!DOCTYPE html>
-<html lang="en" class="bg-gray-800">
+<html lang="bn-BD" class="bg-gray-800">
 
 <head>
     <meta charset="UTF-8">
@@ -132,7 +132,7 @@ $latestTournament = $tournament->getLatest(1);
                             <div class="py-2">
                                 <h3 class="text-md sm:text-base font-semibold"><?= htmlspecialchars($t['title']); ?></h3>
                                 <div class="mt-4">
-                                    
+
                                     <div class="flex items-center gap-2">
                                         <i class="fa-solid fa-earth-americas text-gray-400"></i>
                                         <p class="text-gray-400 text-xs"><?= date('F j, Y', strtotime($t['created_at'])) ?></p>

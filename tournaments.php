@@ -16,7 +16,7 @@ if ($totalPages < 1) $totalPages = 1;
 $posts = $listPost->getPostByCategory(2, 'en', $limit, $page);
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn-BD">
 
 <head>
     <meta charset="UTF-8">
@@ -42,7 +42,7 @@ $posts = $listPost->getPostByCategory(2, 'en', $limit, $page);
                             alt="<?= htmlspecialchars($post['name']) ?>"
                             loading="lazy"
                             class="w-full h-60 transition-transform duration-500 hover:scale-105">
-                            
+
                     </div>
                     <div class="p-4">
                         <h2 class="text-lg font-semibold mb-2 truncate text-gray-900 dark:text-white"><?= htmlspecialchars($post['name']) ?></h2>
