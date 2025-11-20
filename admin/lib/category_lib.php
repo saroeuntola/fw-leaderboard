@@ -9,7 +9,7 @@ class Category
     }
 
     // CREATE a new category
-    public function createCategory($name,$cat_image)
+    public function createCategory($name,$cat_image, $post_by)
     {
         $quotedName = $this->db->quote($name);
         $result = dbSelect('categories', 'id', "name=$quotedName");
@@ -20,8 +20,8 @@ class Category
 
         $data = [
             'name' => $name,
-            'cat_image' => $cat_image
-    
+            'cat_image' => $cat_image,
+            'post_by' => $post_by
     ];
         return dbInsert('categories', $data);
     }
@@ -42,7 +42,7 @@ class Category
     }
 
     // UPDATE a category
-    public function updateCategory($id, $newName, $newImage)
+    public function updateCategory($id, $newName, $newImage, $post_by)
     {
         $category = $this->getCategory($id);
         if (!$category) {
@@ -51,7 +51,8 @@ class Category
 
         $data = [
             'name' => $newName,
-            'cat_image' => $newImage 
+            'cat_image' => $newImage,
+            'post_by' => $post_by
         ];
         return dbUpdate('categories', $data, "id=" . $this->db->quote($id));
     }

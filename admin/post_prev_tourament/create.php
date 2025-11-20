@@ -6,12 +6,13 @@ include "../lib/checkroles.php";
 include '../lib/prev_tournament_lib.php';
 protectRoute([1, 3]);
 $tournament = new TournamentPost();
-
+$currentUser = $_SESSION['username'] ?? '';
 // Handle form submit
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $title = $_POST['title'] ?? '';
     $desc = $_POST['description'] ?? '';
-    $type = $_POST['type'] ?? 'lion'; // Default to 'lion'
+    $type = $_POST['type'] ?? 'lion';
+    $post_by = $currentUser ?? '';
     $image = $_FILES['image'] ?? null;
 
     $imagePath = "";
@@ -32,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Store tournament with type
-    $tournament->createTournament($title, $imagePath, $desc, $type);
+    $tournament->createTournament($title, $imagePath, $desc, $type, $post_by);
 
     echo "<script>alert('Tournament created successfully!');window.location='./';</script>";
     exit;

@@ -65,17 +65,17 @@ class TournamentPost
     /**
      * Create new tournament
      */
-    public function createTournament($title, $image, $description, $type)
+    public function createTournament($title, $image, $description, $type, $post_by)
     {
         $stmt = $this->db->prepare("
-            INSERT INTO tournaments (title, image, description, type)
-            VALUES (:title, :image, :description, :type)
+            INSERT INTO tournaments (title, image, description, type, post_by)
+            VALUES (:title, :image, :description, :type, :post_by)
         ");
         $stmt->bindParam(':title', $title);
         $stmt->bindParam(':image', $image);
         $stmt->bindParam(':description', $description);
         $stmt->bindParam(':type', $type);
-
+        $stmt->bindParam(':post_by', $post_by);
         return $stmt->execute();
     }
     public function getLatestByType($type, $limit = 2)
@@ -92,11 +92,11 @@ class TournamentPost
     /**
      * Update tournament
      */
-    public function updateTournament($id, $title, $image, $description, $type)
+    public function updateTournament($id, $title, $image, $description, $type, $post_by)
     {
         $stmt = $this->db->prepare("
             UPDATE tournaments 
-            SET title = :title, image = :image, description = :description, type = :type, updated_at = NOW()
+            SET title = :title, image = :image, description = :description, type = :type, post_by = :post_by, updated_at = NOW()
             WHERE id = :id
         ");
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
@@ -104,7 +104,7 @@ class TournamentPost
         $stmt->bindParam(':image', $image);
         $stmt->bindParam(':description', $description);
         $stmt->bindParam(':type', $type);
-
+        $stmt->bindParam(':post_by', $post_by);
         return $stmt->execute();
     }
 

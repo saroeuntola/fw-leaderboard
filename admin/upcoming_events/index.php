@@ -3,9 +3,10 @@ ob_start();
 include "../lib/checkroles.php";
 include '../lib/upcoming_event_lib.php';
 include '../lib/users_lib.php';
-protectRoute([1,3]);
+protectRoute([1, 3]);
 $eventObj = new UpcomingEvent();
 $events = $eventObj->getAll();
+$currentUser = $_SESSION['username'];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $id         = $_POST['id'] ?? null;
@@ -13,11 +14,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $matches    = $_POST['matches'];
     $event_date = $_POST['event_date'];
     $duration   = $_POST['duration'];
+    $post_by = $currentUser;
 
     if ($id) {
-        $eventObj->update($id, $title, $matches, $event_date, $duration);
+        $eventObj->update($id, $title, $matches, $event_date, $duration, $post_by);
     } else {
-        $eventObj->create($title, $matches, $event_date, $duration);
+        $eventObj->create($title, $matches, $event_date, $duration, $post_by);
     }
 
     header('Location: ' . $_SERVER['PHP_SELF']);
@@ -59,6 +61,7 @@ if (isset($_GET['delete'])) {
                         <th class="px-4 py-2">Matches</th>
                         <th class="px-4 py-2">Duration (minutes)</th>
                         <th class="px-4 py-2">Event Date</th>
+                        <th class="px-4 py-2">Post by</th>
                         <th class="px-4 py-2">Actions</th>
                     </tr>
                 </thead>
@@ -70,6 +73,7 @@ if (isset($_GET['delete'])) {
                             <td class="px-4 py-2"><?= $ev['matches'] ?></td>
                             <td class="px-4 py-2"><?= htmlspecialchars($ev['duration']) ?></td>
                             <td class="px-4 py-2"><?= $ev['event_date'] ?></td>
+                            <td class="px-4 py-2"><?= htmlspecialchars($ev['post_by']) ?></td>
                             <td class="px-4 py-2 space-x-2">
                                 <button onclick="openModal('edit', <?= $ev['id'] ?>)" class="bg-blue-500 px-2 py-1 rounded hover:bg-blue-600">Edit</button>
                                 <a href="?delete=<?= $ev['id'] ?>" onclick="return confirm('Are you sure to delete?')" class="bg-red-500 px-2 py-1 rounded hover:bg-red-600">Delete</a>
@@ -113,8 +117,8 @@ if (isset($_GET['delete'])) {
     </div>
 
     <script>
-
         const events = <?= json_encode($events) ?>;
+
         function openModal(mode, id = null) {
             document.getElementById('eventModal').classList.remove('hidden');
             if (mode === 'create') {
@@ -134,6 +138,7 @@ if (isset($_GET['delete'])) {
                 document.getElementById('duration').value = ev.duration;
             }
         }
+
         function closeModal() {
             document.getElementById('eventModal').classList.add('hidden');
         }

@@ -17,11 +17,11 @@ if (!$record) {
     header('Location: ./');
     exit;
 }
+$currentUser = $_SESSION['username'];
 
-// Pre-fill form values
 $title = $record['title'] ?? '';
 $desc = $record['description'] ?? '';
-$type = $record['type'] ?? 'lion'; // default to lion
+$type = $record['type'] ?? 'lion';
 $imagePath = $record['image'] ?? '';
 $error = '';
 
@@ -29,6 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $title = $_POST['title'] ?? '';
     $desc = $_POST['description'] ?? '';
     $type = $_POST['type'] ?? 'lion';
+    $post_by = $currentUser ?? '';
 
     // Handle image upload
     if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
@@ -58,7 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Update tournament with type
-    $updated = $tournament->updateTournament($id, $title, $imagePath, $desc, $type);
+    $updated = $tournament->updateTournament($id, $title, $imagePath, $desc, $type, $post_by);
 
     if ($updated) {
         echo "<script>alert('Tournament updated successfully!');window.location='./';</script>";

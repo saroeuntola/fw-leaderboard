@@ -41,6 +41,8 @@ $products = $product->getPost();
                         <th class="px-6 py-3">Image</th>
                         <th class="px-6 py-3">Title</th>
                         <th class="px-6 py-3">Category</th>
+                        <th class="px-6 py-3">Post by</th>
+                        <th class="px-6 py-3">created_at</th>
                         <th class="px-6 py-3 text-center">Actions</th>
                     </tr>
                 </thead>
@@ -58,6 +60,15 @@ $products = $product->getPost();
                                 <td class="px-6 py-4 font-medium text-white">
                                     <?= htmlspecialchars($item['category_name']); ?>
                                 </td>
+
+                                <td class="px-6 py-4 font-medium text-white">
+                                    <?= htmlspecialchars($item['post_by']); ?>
+                                </td>
+
+                                <td class="px-6 py-4 font-medium text-white">
+                                    <?= htmlspecialchars($item['created_at']); ?>
+                                </td>
+
                                 <td class="px-4 py-4 flex justify-center space-x-3">
                                     <a href="edit?id=<?= $item['id']; ?>"
                                         class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg text-white font-medium transition">

@@ -44,7 +44,8 @@ $allTournaments = $tournament->getAllTournaments();
                             <th class="px-4 py-2 text-sm font-semibold text-gray-300">Image</th>
                             <th class="px-4 py-2 text-sm font-semibold text-gray-300">Title</th>
                             <th class="px-4 py-2 text-sm font-semibold text-gray-300">Type</th>
-                            <th class="px-4 py-2 text-sm font-semibold text-gray-300">Date</th>
+                            <th class="px-4 py-2 text-sm font-semibold text-gray-300">Post by</th>
+                            <th class="px-4 py-2 text-sm font-semibold text-gray-300">created_at</th>
                             <th class="px-4 py-2 text-sm font-semibold text-gray-300 text-center">Actions</th>
                         </tr>
                     </thead>
@@ -68,7 +69,7 @@ $allTournaments = $tournament->getAllTournaments();
                                 <td class="px-4 py-3 text-sm text-gray-300 font-medium"><?= htmlspecialchars($item['title']) ?></td>
 
                                 <td class="px-4 py-3 text-sm text-gray-300 font-medium"><?= htmlspecialchars($item['type']) ?></td>
-
+                                <td class="px-4 py-3 text-sm text-gray-300 font-medium"><?= htmlspecialchars($item['post_by']) ?></td>
                                 <td class="px-4 py-3 text-sm text-gray-400">
                                     <?= htmlspecialchars(date('Y-m-d', strtotime($item['created_at']))) ?>
                                 </td>

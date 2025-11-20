@@ -9,12 +9,13 @@ class lion_banners
     }
 
     // Create a new lion_banners
-    public function createBanner($title, $image, $link)
+    public function createBanner($title, $image, $link, $post_by)
     {
         $data = [
             'title' => $title,
             'image' => $image,
-            'link' => $link
+            'link' => $link,
+            'post_by' => $post_by
         ];
         return dbInsert('lion_banners', $data);
     }
@@ -28,8 +29,6 @@ class lion_banners
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-
-    // READ a specific lion_banners by ID
     public function getlion_bannersById($id)
     {
         $quotedId = $this->db->quote($id);
@@ -38,7 +37,7 @@ class lion_banners
         return ($result && count($result) > 0) ? $result[0] : null;
     }
     // Update a lion_banners
-    public function updatelion_banners($id, $title, $image, $link)
+    public function updatelion_banners($id, $title, $image, $link, $post_by)
     {
         if (!$this->getlion_bannersById($id)) {
             return false;
@@ -47,13 +46,13 @@ class lion_banners
         $data = [
             'title' => $title,
             'image' => $image,
-            'link' => $link
+            'link' => $link,
+            'post_by' => $post_by
         ];
+
         return dbUpdate('lion_banners', $data, "id=" . $this->db->quote($id));
     }
 
-    // Delete a product
-    // Delete a lion_banners (with image file removal)
     public function deletelion_banners($id)
     {
         // Get lion_banners info
@@ -64,7 +63,6 @@ class lion_banners
                 unlink($filePath);
             }
         }
-
         return dbDelete('lion_banners', "id=" . $this->db->quote($id));
     }
 }

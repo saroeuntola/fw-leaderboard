@@ -5,7 +5,7 @@ ob_start();
 include "../lib/checkroles.php";
 include "../lib/users_lib.php";
 include "../lib/banner_lib.php";
-
+$currentUser = $_SESSION['username'] ?? 'user';
 protectRoute([1, 3]);
 $bannerObj = new Banner();
 // Handle CRUD actions
@@ -13,8 +13,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['create'])) {
         $title = $_POST['title'];
         $link  = $_POST['link'];
+        $post_by = $currentUser;
         $image = '';
-
         if (!empty($_FILES['image']['name'])) {
             $uploadDir = "../uploads/banners/";
             if (!file_exists($uploadDir)) mkdir($uploadDir, 0777, true);
@@ -24,12 +24,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $image = "uploads/banners/" . $filename;
         }
 
-        $bannerObj->createBanner($title, $image, $link);
+        $bannerObj->createBanner($title, $image, $link, $post_by);
     }
+
     if (isset($_POST['update'])) {
         $id    = $_POST['id'];
         $title = $_POST['title'];
         $link  = $_POST['link'];
+        $post_by = $currentUser;
         $image = $_POST['old_image'];
 
         if (!empty($_FILES['image']['name'])) {
@@ -49,7 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
         }
 
-        $bannerObj->updateBanner($id, $title, $image, $link);
+        $bannerObj->updateBanner($id, $title, $image, $link, $post_by);
     }
 
     if (isset($_POST['delete'])) {
@@ -63,6 +65,7 @@ $banners = $bannerObj->getBanner();
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -70,6 +73,7 @@ $banners = $bannerObj->getBanner();
     <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 </head>
+
 <body class="flex h-screen bg-gray-900">
     <!-- Sidebar -->
     <?php include "../include/sidebar.php" ?>
@@ -88,6 +92,8 @@ $banners = $bannerObj->getBanner();
                         <th>Banner</th>
                         <th>Title</th>
                         <th>Link</th>
+                        <th>Post by</th>
+                        <th>Create At</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -95,19 +101,24 @@ $banners = $bannerObj->getBanner();
                     <?php foreach ($banners as $i => $b): ?>
                         <tr>
                             <td><?= $i + 1 ?></td>
+
                             <td>
                                 <?php if ($b['image']): ?>
                                     <img src="../<?= htmlspecialchars($b['image']) ?>" class="h-16 w-32 object-cover rounded" loading="lazy" />
                                 <?php endif; ?>
                             </td>
+
                             <td><?= htmlspecialchars($b['title']) ?></td>
                             <td><a href="<?= htmlspecialchars($b['link']) ?>" class="link" target="_blank"><?= htmlspecialchars($b['link']) ?></a></td>
+                            <td><?= htmlspecialchars($b['post_by']) ?></td>
+                            <td><?= htmlspecialchars($b['created_at']) ?></td>
                             <td class="flex gap-2">
                                 <!-- Edit button -->
                                 <button class="btn btn-sm btn-warning"
                                     onclick="openEditModal(<?= $b['id'] ?>, '<?= htmlspecialchars($b['title'], ENT_QUOTES) ?>', '<?= htmlspecialchars($b['link'], ENT_QUOTES) ?>', '<?= $b['image'] ?>')">
                                     Edit
                                 </button>
+
                                 <!-- Delete -->
                                 <form method="POST" onsubmit="return confirm('Delete this banner?')">
                                     <input type="hidden" name="id" value="<?= $b['id'] ?>">

@@ -12,6 +12,7 @@ $product = new Post();
 $category = new Category();
 $categories = $category->getCategories();
 
+$currentUser = $_SESSION ['username'] ?? '';
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $gameName = $_POST['name'] ?? '';
     $description = $_POST['description'] ?? '';
@@ -25,6 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $meta_desc_bn = $_POST['meta_desc_bn'] ?? '';
     $meta_keyword_bn = $_POST['meta_keyword_bn'] ?? '';
     $game_link = $_POST['game_link'] ?? '';
+    $post_by = $currentUser ?? '';
 
     // Handle Image Upload
     $imagePath = "";
@@ -43,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (empty($gameName) || empty($description) || empty($categoryId)) {
         echo "<p class='text-red-500 text-center'>Error: Title, Description, and Category are required.</p>";
     } else {
-        if ($product->createpost($gameName, $imagePath, $description, $game_link, $categoryId, $meta_text, $name_bn, $description_bn, $meta_text_bn, $meta_desc, $meta_keyword, $meta_desc_bn, $meta_keyword_bn)) {
+        if ($product->createpost($gameName, $imagePath, $description, $game_link, $categoryId, $meta_text, $name_bn, $description_bn, $meta_text_bn, $meta_desc, $meta_keyword, $meta_desc_bn, $meta_keyword_bn, $post_by)) {
             header("Location: ./");
             exit;
         } else {

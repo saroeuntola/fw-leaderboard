@@ -9,31 +9,33 @@ class UpcomingEvent
     }
 
 
-    public function create(string $title, string $matches, string $event_date, int $duration): bool
+    public function create(string $title, string $matches, string $event_date, int $duration, string $post_by): bool
     {
         $stmt = $this->db->prepare("
-            INSERT INTO upcoming_event (title, matches, event_date, duration, created_at)
-            VALUES (:title, :matches, :event_date, :duration, NOW())
+            INSERT INTO upcoming_event (title, matches, event_date, duration, created_at, post_by)
+            VALUES (:title, :matches, :event_date, :duration, NOW(), :post_by)
         ");
         $stmt->bindParam(':title', $title);
         $stmt->bindParam(':matches', $matches);
         $stmt->bindParam(':event_date', $event_date);
         $stmt->bindParam(':duration', $duration, PDO::PARAM_INT);
+        $stmt->bindParam(':post_by', $post_by);
         return $stmt->execute();
     }
 
     // Update an existing event
-    public function update(int $id, string $title, string $matches, string $event_date, int $duration): bool
+    public function update(int $id, string $title, string $matches, string $event_date, int $duration, string $post_by): bool
     {
         $stmt = $this->db->prepare("
             UPDATE upcoming_event
-            SET title = :title, matches = :matches, event_date = :event_date, duration = :duration
+            SET title = :title, matches = :matches, event_date = :event_date, duration = :duration, post_by = :post_by
             WHERE id = :id
         ");
         $stmt->bindParam(':title', $title);
         $stmt->bindParam(':matches', $matches);
         $stmt->bindParam(':event_date', $event_date);
         $stmt->bindParam(':duration', $duration, PDO::PARAM_INT);
+        $stmt->bindParam(':post_by', $post_by);
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         return $stmt->execute();
     }

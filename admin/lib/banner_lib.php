@@ -7,11 +7,12 @@ class Banner {
     }
 
     // Create a new Banner
-    public function createBanner($title, $image, $link) {
+    public function createBanner($title, $image, $link, $post_by) {
         $data = [
             'title' => $title,
             'image' => $image,
-            'link' => $link
+            'link' => $link,
+            'post_by' => $post_by
         ];
         return dbInsert('banner', $data);
     }
@@ -34,7 +35,7 @@ class Banner {
         return ($result && count($result) > 0) ? $result[0] : null;
     }
     // Update a Banner
-    public function updateBanner($id, $title, $image, $link) {
+    public function updateBanner($id, $title, $image, $link, $post_by) {
         if (!$this->getBannerById($id)) {
             return false; 
         }
@@ -42,13 +43,12 @@ class Banner {
         $data = [
             'title' => $title,
             'image' => $image,
-            'link' => $link
+            'link' => $link,
+            'post_by' => $post_by
         ];
         return dbUpdate('banner', $data, "id=" . $this->db->quote($id));
     }
 
-    // Delete a product
-    // Delete a Banner (with image file removal)
     public function deleteBanner($id)
     {
         // Get banner info

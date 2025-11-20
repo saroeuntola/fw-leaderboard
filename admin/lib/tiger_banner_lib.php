@@ -9,12 +9,13 @@ class Tiger_banners
     }
 
     // Create a new tiger_banners
-    public function createBanner($title, $image, $link)
+    public function createBanner($title, $image, $link, $post)
     {
         $data = [
             'title' => $title,
             'image' => $image,
-            'link' => $link
+            'link' => $link,
+            'post_by' => $post
         ];
         return dbInsert('tiger_banners', $data);
     }
@@ -38,7 +39,7 @@ class Tiger_banners
         return ($result && count($result) > 0) ? $result[0] : null;
     }
     // Update a tiger_banners
-    public function updatetiger_banners($id, $title, $image, $link)
+    public function updatetiger_banners($id, $title, $image, $link, $post)
     {
         if (!$this->gettiger_bannersById($id)) {
             return false;
@@ -47,7 +48,8 @@ class Tiger_banners
         $data = [
             'title' => $title,
             'image' => $image,
-            'link' => $link
+            'link' => $link,
+            'post_by' => $post
         ];
         return dbUpdate('tiger_banners', $data, "id=" . $this->db->quote($id));
     }

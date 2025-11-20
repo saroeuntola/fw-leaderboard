@@ -7,11 +7,12 @@ class Brand {
     }
 
     // Create a new Brand
-    public function createBrand($name, $image, $link) {
+    public function createBrand($name, $image, $link, $post_by) {
         $data = [
             'brand_name' => $name,
             'brand_image' => $image,
-            'link' => $link
+            'link' => $link,
+            'post_by' => $post_by
         ];
         return dbInsert('brand', $data);
     }
@@ -39,7 +40,7 @@ class Brand {
         return ($result && count($result) > 0) ? $result[0] : null;
     }
     // Update a Brand
-    public function updateBrand($id, $name, $image, $link) {
+    public function updateBrand($id, $name, $image, $link, $post_by) {
         if (!$this->getBrandById($id)) {
             return false; 
         }
@@ -47,7 +48,8 @@ class Brand {
         $data = [
             'brand_name' => $name,
             'brand_image' => $image,
-            'link' => $link
+            'link' => $link,
+            'post_by' => $post_by
         ];
         return dbUpdate('brand', $data, "id=" . $this->db->quote($id));
     }

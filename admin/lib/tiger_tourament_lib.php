@@ -36,7 +36,7 @@ class TigerTouramentPost
               ORDER BY created_at DESC, id DESC 
               LIMIT :limit";
         try {
-            $this->db->query("SET SESSION query_cache_type = 0"); // Disable caching
+            $this->db->query("SET SESSION query_cache_type = 0");
             $stmt = $this->db->prepare($query);
             $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
             $stmt->execute();

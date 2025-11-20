@@ -2,17 +2,19 @@
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 ob_start();
-include "../lib/checkroles.php";                   
+include "../lib/checkroles.php";
 include "../lib/users_lib.php";
 include "../lib/lion_banner_lib.php";
 
 protectRoute([1, 3]);
+$currentUser = $_SESSION['username'] ?? '';
 $bannerObj = new lion_banners();
 // Handle CRUD actions
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['create'])) {
         $title = $_POST['title'];
         $link  = $_POST['link'];
+        $post_by = $currentUser;
         $image = '';
 
         if (!empty($_FILES['image']['name'])) {
@@ -24,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $image = "uploads/banners/" . $filename;
         }
 
-        $bannerObj->createBanner($title, $image, $link);
+        $bannerObj->createBanner($title, $image, $link, $post_by);
     }
 
     if (isset($_POST['update'])) {
@@ -32,6 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $title = $_POST['title'];
         $link  = $_POST['link'];
         $image = $_POST['old_image'];
+        $post_by = $currentUser;
 
         if (!empty($_FILES['image']['name'])) {
             $uploadDir = "../uploads/banners/";
@@ -50,7 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
         }
 
-        $bannerObj->updatelion_banners($id, $title, $image, $link);
+        $bannerObj->updatelion_banners($id, $title, $image, $link, $post_by);
     }
 
     if (isset($_POST['delete'])) {
@@ -95,6 +98,8 @@ $banners = $bannerObj->getlion_banners();
                         <th>Banner</th>
                         <th>Title</th>
                         <th>Link</th>
+                        <th>Post by</th>
+                        <th>created_at</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -109,6 +114,8 @@ $banners = $bannerObj->getlion_banners();
                             </td>
                             <td><?= htmlspecialchars($b['title']) ?></td>
                             <td><a href="<?= htmlspecialchars($b['link']) ?>" class="link" target="_blank"><?= htmlspecialchars($b['link']) ?></a></td>
+                            <td><?= htmlspecialchars($b['post_by']) ?></td>
+                            <td><?= htmlspecialchars($b['created_at']) ?></td>
                             <td class="flex gap-2">
                                 <!-- Edit button -->
                                 <button class="btn btn-sm btn-warning"

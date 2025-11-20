@@ -8,12 +8,13 @@ protectRoute([1, 3]);
 include "../lib/brand_lib.php";
 
 $brandObj = new Brand();
-
+$currentUser = $_SESSION['username'] ?? '';
 // Handle CRUD actions
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['create'])) {
         $name = $_POST['brand_name'];
         $link = $_POST['link'];
+        $post_by = $currentUser ?? '';
         $image = '';
 
         if (!empty($_FILES['brand_image']['name'])) {
@@ -25,13 +26,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $image = "uploads/brands/" . $filename;
         }
 
-        $brandObj->createBrand($name, $image, $link);
+        $brandObj->createBrand($name, $image, $link, $post_by);
     }
 
     if (isset($_POST['update'])) {
         $id    = $_POST['id'];
         $name  = $_POST['brand_name'];
         $link  = $_POST['link'];
+        $post_by = $currentUser ?? '';
         $image = $_POST['old_image'];
 
         if (!empty($_FILES['brand_image']['name'])) {
@@ -48,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
         }
 
-        $brandObj->updateBrand($id, $name, $image, $link);
+        $brandObj->updateBrand($id, $name, $image, $link, $post_by);
     }
 
     if (isset($_POST['delete'])) {
@@ -97,6 +99,8 @@ $brands = $brandObj->getBrand();
                         <th>Logo</th>
                         <th>Name</th>
                         <th>Link</th>
+                        <th>Post by</th>
+                        <th>created_at</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -112,6 +116,8 @@ $brands = $brandObj->getBrand();
                             <td><?= htmlspecialchars($b['brand_name']) ?></td>
 
                             <td><a href="<?= htmlspecialchars($b['link']) ?>" class="link" target="_blank"><?= htmlspecialchars($b['link']) ?></a></td>
+                            <td><?= htmlspecialchars($b['post_by']) ?></td>
+                            <td><?= htmlspecialchars($b['created_at']) ?></td>
                             <td class="flex gap-2">
                                 <!-- Edit -->
                                 <button class="btn btn-sm btn-warning"

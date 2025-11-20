@@ -20,7 +20,8 @@ class Post {
                      p.$description_field AS description, 
                      p.game_link, p.category_id, p.created_at, 
                      p.$meta_text_field AS meta_text, 
-                     c.name AS category_name
+                     c.name AS category_name,
+                     p.post_by
               FROM post p
               JOIN categories c ON p.category_id = c.id
               ORDER BY p.created_at DESC
@@ -78,7 +79,8 @@ class Post {
                 p.category_id, 
                 p.created_at, 
                 p.$meta_text_field AS meta_text, 
-                c.name AS category_name 
+                c.name AS category_name,
+                p.post_by
               FROM post p
               JOIN categories c ON p.category_id = c.id 
               WHERE p.category_id = :categoryId 
@@ -116,6 +118,7 @@ class Post {
                      p.$description_field AS description, p.$description_field AS description, p.$meta_desc_field AS meta_desc,
                      p.game_link, p.category_id, p.created_at, 
                      p.$meta_text_field AS meta_text, 
+                      p.post_by,
                      c.name AS category_name 
               FROM post p
               JOIN categories c ON p.category_id = c.id 
@@ -150,7 +153,8 @@ class Post {
             p.meta_keyword_bn,
             p.game_link, 
             p.category_id, 
-            p.created_at, 
+            p.created_at,
+            p.post_by,
             p.$meta_text_field AS meta_text, 
             c.name AS category_name 
           FROM post p
@@ -181,7 +185,8 @@ class Post {
         $query = "SELECT p.id, p.$name_field AS name, p.image, p.$description_field AS description, p.$meta_desc_field AS meta_desc, 
             p.$meta_keyword_field AS meta_keyword,
                      p.game_link, p.category_id, p.created_at, p.$meta_text_field AS meta_text, 
-                     c.name AS category_name 
+                     c.name AS category_name,
+                    p.post_by
               FROM post p
               JOIN categories c ON p.category_id = c.id 
               WHERE p.slug = :slug 
@@ -212,7 +217,8 @@ class Post {
                      p.$description_field AS description, 
                      p.game_link, p.category_id, p.created_at, 
                      p.$meta_text_field AS meta_text, 
-                     c.name AS category_name
+                     c.name AS category_name,
+                      p.post_by
               FROM post p
               JOIN categories c ON p.category_id = c.id 
               WHERE p.id != :id AND p.category_id = :category_id 
@@ -247,7 +253,8 @@ class Post {
         $query = "SELECT p.id, p.$name_field AS name, p.image, p.$description_field AS description, 
                      p.game_link, p.category_id, p.created_at, p.$meta_text_field AS meta_text, 
                      p.slug, 
-                     c.name AS category_name 
+                     c.name AS category_name,  
+                     p.post_by
               FROM post p
               JOIN categories c ON p.category_id = c.id 
               ORDER BY p.created_at DESC
@@ -275,7 +282,8 @@ class Post {
 
         $sql = "SELECT p.id, p.$name_field AS name, p.image, p.$description_field AS description, 
                        p.game_link, p.category_id, p.created_at, p.$meta_text_field AS meta_text, 
-                       c.name AS category_name 
+                       c.name AS category_name,
+                        p.post_by
                 FROM post p
                 JOIN categories c ON p.category_id = c.id
                 WHERE p.$name_field LIKE :query OR c.name LIKE :query";
@@ -298,7 +306,7 @@ class Post {
         return $slug;
     }
 
-    public function createpost($name, $image, $description, $link, $category_id, $meta_text, $name_bn, $description_bn, $meta_text_bn, $meta_desc, $meta_keyword, $meta_desc_bn, $meta_keyword_bn, $slug = null)
+    public function createpost($name, $image, $description, $link, $category_id, $meta_text, $name_bn, $description_bn, $meta_text_bn, $meta_desc, $meta_keyword, $meta_desc_bn, $meta_keyword_bn, $post_by, $slug = null)
     {
         // Auto-generate slug from English name if not provided
         $slug = $slug ?: $this->generateSlug($name);
@@ -318,12 +326,14 @@ class Post {
             'meta_keyword' => $meta_keyword,
             'meta_desc_bn' => $meta_desc_bn,
             'meta_keyword_bn' => $meta_keyword_bn,
+            'post_by' => $post_by
             
+
         ];
         return dbInsert('post', $data);
     }
 
-    public function updatePost($id, $name, $image, $description, $game_link, $category_id, $meta_text, $name_bn, $description_bn, $meta_text_bn, $meta_desc, $meta_keyword, $meta_desc_bn, $meta_keyword_bn, $slug = null)
+    public function updatePost($id, $name, $image, $description, $game_link, $category_id, $meta_text, $name_bn, $description_bn, $meta_text_bn, $meta_desc, $meta_keyword, $meta_desc_bn, $meta_keyword_bn, $post_by, $slug = null)
     {
         if (!$this->getPostById($id)) {
             return false;
@@ -347,6 +357,7 @@ class Post {
             'meta_keyword' => $meta_keyword,
             'meta_desc_bn' => $meta_desc_bn,
             'meta_keyword_bn' => $meta_keyword_bn,
+            'post_by' => $post_by
 
         ];
         return dbUpdate('post', $data, "id=" . $this->db->quote($id));
