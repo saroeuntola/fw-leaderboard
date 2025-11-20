@@ -38,6 +38,7 @@ include "./admin/lib/db.php";
     <link rel="icon" type="image/png" sizes="96x96" href="/v2/icons/favicon-96x96.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/v2/icons/favicon-16x16.png">
     <link rel="icon" href="/v2/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="/v2/icons/favicon.ico" type="image/x-icon">
 
     <link rel="manifest" href="/v2/icons/manifest.json">
     <meta name="msapplication-TileColor" content="#ffffff">
