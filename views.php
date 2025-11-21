@@ -15,15 +15,78 @@ $latestTournament = $tournament->getLatest(1);
 <html lang="en" class="bg-gray-800">
 
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title><?= htmlspecialchars($post['name'] ?? '') ?></title>
-    <link rel="shortcut icon" href="/v2/admin/post/<?= htmlspecialchars($post['image'] ?? '') ?>" type="image">
-    <meta name="description" content="<?= htmlspecialchars(($post['meta_desc'] ?? '')) ?>" />
+
+    <!-- Dynamic Title -->
+    <title><?= htmlspecialchars($post['name'] ?? '') ?> - FancyWin Tournament Bangladesh</title>
+
+    <!-- Description & Keywords -->
+    <meta name="description" content="<?= htmlspecialchars($post['meta_desc'] ?? '') ?>" />
     <meta name="keywords" content="<?= htmlspecialchars($post['meta_keyword'] ?? '') ?>" />
-    <link rel="stylesheet" href="./src/output.css">
-    <link rel="stylesheet" href="./css/style.css">
-    
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://fancybet-leaderboard.com/v2/views/<?= htmlspecialchars($post['slug'] ?? '') ?>" />
+
+    <!-- Favicon (post image preview) -->
+    <link rel="shortcut icon" href="/v2/admin/post/<?= htmlspecialchars($post['image'] ?? '') ?>" type="image/png" />
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="./src/output.css" />
+    <link rel="stylesheet" href="./css/style.css" />
+
+    <!-- Open Graph (Facebook / WhatsApp preview) -->
+    <meta property="og:title" content="<?= htmlspecialchars($post['name'] ?? '') ?>" />
+    <meta property="og:description" content="<?= htmlspecialchars($post['meta_desc'] ?? '') ?>" />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://fancybet-leaderboard.com/v2/views/<?= htmlspecialchars($currentSlug['slug'] ?? '') ?>" />
+    <meta property="og:image" content="https://fancybet-leaderboard.com/v2/admin/post/<?= htmlspecialchars($post['image'] ?? '') ?>" />
+    <meta property="og:locale" content="en_BD" />
+    <meta property="article:section" content="Gaming News" />
+    <meta property="article:published_time" content="<?= htmlspecialchars($post['created_at'] ?? '') ?>" />
+    <meta property="article:modified_time" content="<?= htmlspecialchars($post['updated_at'] ?? '') ?>" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="<?= htmlspecialchars($post['name'] ?? '') ?>" />
+    <meta name="twitter:description" content="<?= htmlspecialchars($post['meta_desc'] ?? '') ?>" />
+    <meta name="twitter:image" content="https://fancybet-leaderboard.com/v2/admin/post/<?= htmlspecialchars($post['image'] ?? '') ?>" />
+    <meta name="twitter:site" content="@FancyWin" />
+
+    <!-- Local SEO -->
+    <meta name="geo.region" content="BD" />
+    <meta name="geo.placename" content="Bangladesh" />
+
+    <!-- Article Schema (Google News) -->
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "NewsArticle",
+            "headline": <?= json_encode($post['name'] ?? '') ?>,
+            "description": <?= json_encode($post['meta_desc'] ?? '') ?>,
+            "image": [
+                "https://fancybet-leaderboard.com/v2/admin/post/<?= htmlspecialchars($post['image'] ?? '') ?>"
+            ],
+            "author": {
+                "@type": "Organization",
+                "name": "FancyWin"
+            },
+            "publisher": {
+                "@type": "Organization",
+                "name": "FancyWin",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://fancybet-leaderboard.com/v2/images/icons/apple-touch-icon.png"
+                }
+            },
+            "datePublished": "<?= htmlspecialchars($post['created_at'] ?? '') ?>",
+            "dateModified": "<?= htmlspecialchars($post['updated_at'] ?? '') ?>",
+            "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": "https://fancybet-leaderboard.com/v2/views/<?= htmlspecialchars($post['slug'] ?? '') ?>"
+            }
+        }
+    </script>
 </head>
 
 <body class="bg-gray-200 dark:bg-gray-900 dark:text-white text-gray-900">

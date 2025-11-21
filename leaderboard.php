@@ -5,15 +5,72 @@ include "./admin/lib/db.php";
 <html lang="lang=" bn-BD"">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Leaderboard</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Title -->
+    <title>Leaderboard - FancyWin Bangladesh</title>
+
+    <!-- Description -->
+    <meta name="description" content="View the latest FancyWin leaderboard in Bangladesh. Check player rankings, scores, and real-time updates." />
+
+    <!-- Keywords -->
+    <meta name="keywords" content="FancyWin, leaderboard Bangladesh, gaming leaderboard BD, player ranking Bangladesh, real-time scores BD, top players Bangladesh" />
+
+    <!-- Robots -->
+    <meta name="robots" content="index, follow" />
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://fancybet-leaderboard.com/v2/leaderboard" />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="FancyWin Leaderboard - Bangladesh" />
+    <meta property="og:description" content="Check the latest leaderboard and rankings of FancyWin players in Bangladesh with real-time updates." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://fancybet-leaderboard.com/v2/leaderboard" />
+    <meta property="og:image" content="https://fancybet-leaderboard.com/v2/images/og-image.png" />
+    <meta property="og:locale" content="en_BD" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="FancyWin Leaderboard - Bangladesh" />
+    <meta name="twitter:description" content="Real-time FancyWin leaderboard for players in Bangladesh." />
+    <meta name="twitter:image" content="https://fancybet-leaderboard.com/v2/images/og-image.png" />
+
+    <!-- Local SEO -->
+    <meta name="geo.region" content="BD" />
+    <meta name="geo.placename" content="Bangladesh" />
+    <meta name="geo.position" content="23.6850;90.3563" />
+    <meta name="ICBM" content="23.6850,90.3563" />
+
+    <!-- Structured Data (WebPage Schema) -->
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "WebPage",
+            "name": "FancyWin Leaderboard",
+            "url": "https://fancybet-leaderboard.com/v2/leaderboard",
+            "description": "View the FancyWin leaderboard with real-time player rankings and scores in Bangladesh.",
+            "publisher": {
+                "@type": "Organization",
+                "name": "FancyWin",
+                "logo": "https://fancybet-leaderboard.com/v2/images/logo.png"
+            }
+        }
+    </script>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/v2/images/favicon.ico" />
+
+    <!-- Styles -->
     <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
-    <link rel="stylesheet" href="./src/output.css">
+    <link rel="stylesheet" href="./src/output.css" />
+    <link rel="stylesheet" href="./css/style.css" />
+
+    <!-- jQuery -->
     <script src="./js/jquery-3.7.1.min.js"></script>
-    <link rel="icon" type="image/x-icon" href="/v2/images/favicon.ico">
-    <link rel="stylesheet" href="./css/style.css">
 </head>
+
 
 <body class=" dark:bg-gray-900 bg-gray-200 dark:dark:text-white text-gray-900 min-h-screen">
     <?php

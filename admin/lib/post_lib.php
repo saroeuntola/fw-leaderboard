@@ -186,7 +186,8 @@ class Post {
             p.$meta_keyword_field AS meta_keyword,
                      p.game_link, p.category_id, p.created_at, p.$meta_text_field AS meta_text, 
                      c.name AS category_name,
-                    p.post_by
+                    p.post_by,
+                    p.slug
               FROM post p
               JOIN categories c ON p.category_id = c.id 
               WHERE p.slug = :slug 

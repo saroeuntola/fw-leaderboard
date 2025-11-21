@@ -7,16 +7,24 @@ include "./admin/lib/db.php";
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FancyWin Leaderboard - Bangladesh</title>
-    <meta name="description" content="FancyWin Leaderboard - Check the latest scores and rankings of your favorite players in Bangladesh. Stay updated with real-time stats and top players.">
-    <meta name="keywords" content="FancyWin, leaderboard Bangladesh, top players Bangladesh, Bangladesh gaming leaderboard, online gaming Bangladesh, real-time scores">
+
+    <!-- SEO Title -->
+    <title>FancyWin - Tournaments, News & Leaderboard in Bangladesh</title>
+
+    <!-- SEO Description -->
+    <meta name="description" content="FancyWin Bangladesh – Explore the latest tournaments, gaming news, and real-time leaderboard updates. Stay informed with competitive rankings, breaking updates, and player statistics.">
+
+    <!-- SEO Keywords -->
+    <meta name="keywords" content="Bangladesh gaming tournaments, BD gaming news, Bangladesh leaderboard, FancyWin Bangladesh, BD online games ranking, gaming tournaments BD, esports Bangladesh, gaming news BD, top players Bangladesh, real-time leaderboard Bangladesh">
+
     <meta name="author" content="FancyWin">
     <meta name="robots" content="index, follow">
 
     <!-- Canonical URL -->
-    <link rel="canonical" href="fancybet-leaderboard.com/" />
+    <link rel="canonical" href="https://fancybet-leaderboard.com/" />
 
     <!-- CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="./src/output.css">
     <link rel="stylesheet" href="./css/style.css">
 
@@ -45,19 +53,20 @@ include "./admin/lib/db.php";
     <meta name="msapplication-TileImage" content="/v2/icons/ms-icon-144x144.png">
     <meta name="theme-color" content="#ffffff">
 
-    <!-- Open Graph / Facebook -->
-    <meta property="og:title" content="FancyWin Leaderboard - Bangladesh">
-    <meta property="og:description" content="Check the latest scores and rankings of your favorite players in Bangladesh. Real-time stats and top players.">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="FancyWin - Tournaments, News & Leaderboard in Bangladesh">
+    <meta property="og:description" content="Discover tournaments, gaming news, and leaderboard rankings updated daily for Bangladeshi players.">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="fancybet-leaderboard.com/">
-    <meta property="og:image" content="fancybet-leaderboard.com/v2/images/icons/og-image.png">
+    <meta property="og:url" content="https://fancybet-leaderboard.com/">
+    <meta property="og:image" content="https://fancybet-leaderboard.com/v2/images/icons/og-image.png">
     <meta property="og:locale" content="en_BD">
 
-    <!-- Twitter Card -->
+    <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="FancyWin Leaderboard - Bangladesh">
-    <meta name="twitter:description" content="Check the latest scores and rankings of your favorite players in Bangladesh.">
-    <meta name="twitter:image" content="fancybet-leaderboard.com/v2/images/icons/og-image.png">
+    <meta name="twitter:title" content="FancyWin - Tournaments, News & Leaderboard in Bangladesh">
+    <meta name="twitter:description" content="FancyWin Bangladesh – Latest tournaments, gaming news, and leaderboard updates.">
+    <meta name="twitter:image" content="https://fancybet-leaderboard.com/v2/images/icons/og-image.png">
     <meta name="twitter:site" content="@FancyWin">
 
     <!-- Local SEO -->
@@ -66,14 +75,14 @@ include "./admin/lib/db.php";
     <meta name="geo.position" content="23.6850;90.3563">
     <meta name="ICBM" content="23.6850,90.3563">
 
-    <!-- Structured Data: Organization -->
+    <!-- Schema: Organization -->
     <script type="application/ld+json">
         {
             "@context": "https://schema.org",
             "@type": "Organization",
             "name": "FancyWin",
-            "url": "fancybet-leaderboard.com",
-            "logo": "fancybet-leaderboard.com/v2/images/icons/apple-touch-icon.png",
+            "url": "https://fancybet-leaderboard.com",
+            "logo": "https://fancybet-leaderboard.com/v2/images/icons/apple-touch-icon.png",
             "address": {
                 "@type": "PostalAddress",
                 "addressLocality": "Bangladesh",
@@ -81,15 +90,16 @@ include "./admin/lib/db.php";
             }
         }
     </script>
-    <!-- Structured Data: LocalBusiness (Dhaka) -->
+
+    <!-- Schema: LocalBusiness Dhaka -->
     <script type="application/ld+json">
         {
             "@context": "https://schema.org",
             "@type": "LocalBusiness",
-            "name": "FancyWin Leaderboard",
-            "image": "fancybet-leaderboard.com/v2/images/icons/apple-touch-icon.png",
-            "@id": "fancybet-leaderboard.com",
-            "url": "fancybet-leaderboard.com",
+            "name": "FancyWin",
+            "image": "https://fancybet-leaderboard.com/v2/images/icons/apple-touch-icon.png",
+            "@id": "https://fancybet-leaderboard.com",
+            "url": "https://fancybet-leaderboard.com",
             "telephone": "+8801645787953",
             "address": {
                 "@type": "PostalAddress",
@@ -107,22 +117,16 @@ include "./admin/lib/db.php";
             "openingHoursSpecification": {
                 "@type": "OpeningHoursSpecification",
                 "dayOfWeek": [
-                    "Monday",
-                    "Tuesday",
-                    "Wednesday",
-                    "Thursday",
-                    "Friday",
-                    "Saturday"
+                    "Monday", "Tuesday", "Wednesday",
+                    "Thursday", "Friday", "Saturday"
                 ],
                 "opens": "08:00",
                 "closes": "22:00"
-            },
-
+            }
         }
     </script>
 
 </head>
-
 
 <body class="bg-gray-200 text-gray-900 dark:bg-gray-900 dark:text-gray-100 min-h-screen">
     <?php

@@ -21,10 +21,83 @@ $posts = $listPost->getPostByCategory(2, 'en', $limit, $page);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>All Tournaments</title>
+
+    <title>FancyWin Tournaments - Latest Gaming Competitions in Bangladesh</title>
+
+    <meta name="description" content="Explore active and upcoming gaming tournaments in Bangladesh. Join FancyWin esports events, compete with top players, and track tournament standings.">
+
+    <meta name="keywords" content="Bangladesh gaming tournaments, BD esports competitions, FancyWin tournaments, online gaming Bangladesh, esports events BD, BD gaming championship, Bangladesh tournament schedule">
+
+    <meta name="robots" content="index, follow">
+
+    <link rel="canonical" href="https://fancybet-leaderboard.com/v2/tournaments" />
+
+    <!-- CSS -->
     <link rel="stylesheet" href="./src/output.css">
-    <link rel="icon" type="image/x-icon" href="/v2/images/favicon.png">
+    <link rel="stylesheet" href="./css/style.css">
+    <script src="./js/jquery-3.7.1.min.js"></script>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/v2/icons/tournament-icon.png">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="FancyWin Tournaments - Gaming Competitions in Bangladesh">
+    <meta property="og:description" content="Discover the latest gaming tournaments happening in Bangladesh. Join competitions and follow standings.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://fancybet-leaderboard.com/v2/tournaments">
+    <meta property="og:image" content="https://fancybet-leaderboard.com/v2/images/icons/og-image.png">
+    <meta property="og:locale" content="en_BD">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="FancyWin Tournaments - Bangladesh Gaming Competitions">
+    <meta name="twitter:description" content="Join Bangladesh gaming tournaments and track standings.">
+    <meta name="twitter:image" content="https://fancybet-leaderboard.com/v2/images/icons/og-image.png">
+
+    <!-- Local SEO -->
+    <meta name="geo.region" content="BD">
+    <meta name="geo.placename" content="Bangladesh">
+
+    <!-- Schema: Organization -->
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "name": "FancyWin",
+            "url": "https://fancybet-leaderboard.com",
+            "logo": "https://fancybet-leaderboard.com/v2/images/icons/apple-touch-icon.png",
+            "address": {
+                "@type": "PostalAddress",
+                "addressLocality": "Bangladesh",
+                "addressCountry": "BD"
+            }
+        }
+    </script>
+
+    <!-- Schema: Local Business (Dhaka) -->
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "LocalBusiness",
+            "name": "FancyWin",
+            "url": "https://fancybet-leaderboard.com",
+            "address": {
+                "@type": "PostalAddress",
+                "streetAddress": "1205, Dhaka",
+                "addressLocality": "Dhaka",
+                "addressRegion": "Dhaka Division",
+                "postalCode": "1207",
+                "addressCountry": "BD"
+            },
+            "geo": {
+                "@type": "GeoCoordinates",
+                "latitude": 23.8103,
+                "longitude": 90.4125
+            }
+        }
+    </script>
 </head>
+
 
 <body class="dark:bg-gray-900 bg-gray-200">
     <?php
