@@ -87,7 +87,7 @@ if (
         font-size: 11px;
     }
 </style>
-<div class="rounded-lg">
+<div class="">
     <?php foreach ($banners as $index => $banner): ?>
         <div class="carousel-item pt-6">
             <?php if (!empty($banner['link'])): ?>
@@ -174,22 +174,22 @@ if (
             <table class="w-full text-center border-collapse text-sm md:text-base">
                 <thead class="bg-yellow-500 text-gray-900 uppercase tracking-wider">
                     <tr>
-                        <th class="py-2">POS.</th>
-                        <th class="py-2">UID</th>
-                        <th class="py-2">Matches</th>
-                        <th class="py-2">T/O</th>
-                        <th class="py-2">Prize</th>
+                        <th class="p-2">POS.</th>
+                        <th class="p-2">UID</th>
+                        <th class="p-2">Matches</th>
+                        <th class="p-2">T/O</th>
+                        <th class="p-2">Prize</th>
                     </tr>
                 </thead>
-                <tbody class="dark:bg-gray-800 bg-white">
+                <tbody class="bg-white dark:bg-[#252525] shadow-[0_0_5px_0_rgba(0,0,0,0.2)] rounded-md">
                     <?php foreach ($pagedData as $index => $player): ?>
                         <?php $rank = $offset + $index + 4; ?>
                         <tr class="text-center border-t border-gray-600 dark:text-white text-gray-900">
-                            <td class="py-2 "><?= $rank ?></td>
-                            <td class="py-2"><?= htmlspecialchars($player['uid']) ?></td>
-                            <td class="py-2"><?= htmlspecialchars($player['matches']) ?></td>
-                            <td class="py-2"><?= htmlspecialchars($player['t_o']) ?></td>
-                            <td class="py-2"><?= htmlspecialchars($player['price']) ?></td>
+                            <td class="p-2 "><?= $rank ?></td>
+                            <td class="p-2"><?= htmlspecialchars($player['uid']) ?></td>
+                            <td class="p-2"><?= htmlspecialchars($player['matches']) ?></td>
+                            <td class="p-2"><?= htmlspecialchars($player['t_o']) ?></td>
+                            <td class="p-2"><?= htmlspecialchars($player['price']) ?></td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>

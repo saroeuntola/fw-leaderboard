@@ -41,7 +41,7 @@ function setIcons(dark) {
   } else {
     themeIcon.outerHTML = `
         <svg id="theme-icon"
-          class="h-6 w-6 text-gray-900 dark:text-yellow-400 transition-transform duration-300 cursor-pointer"
+          class="h-6 w-6 text-white transition-transform duration-300 cursor-pointer"
           fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
           ${moonIcon}
         </svg>

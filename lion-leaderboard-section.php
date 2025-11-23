@@ -153,25 +153,25 @@ if (
         <table class="w-full text-center border-collapse">
             <thead>
                 <tr class="bg-red-800 text-gray-200">
-                    <th class="py-2 th-text">স্থান</th>
-                    <th class="py-2 th-text">খেলোয়াড়ের ব্যবহারকারীর নাম</th>
-                    <th class="py-2 th-text">বেট মার্কেট</th>
-                    <th class="py-2 th-text">পয়েন্ট </th>
-                    <th class="py-2 th-text">প্রাইজ</th>
+                    <th class="p-2 th-text">স্থান</th>
+                    <th class="p-2 th-text">খেলোয়াড়ের ব্যবহারকারীর নাম</th>
+                    <th class="p-2 th-text">বেট মার্কেট</th>
+                    <th class="p-2 th-text">পয়েন্ট </th>
+                    <th class="p-2 th-text">প্রাইজ</th>
                 </tr>
             </thead>
-            <tbody class="dark:bg-gray-800 bg-white dark:text-white text-gray-900">
+            <tbody class="bg-white dark:bg-[#252525] dark:text-white text-gray-900 shadow-[0_0_5px_0_rgba(0,0,0,0.2)]">
                 <?php foreach ($pagedData as $index => $player): ?>
                     <?php
                     // Rank number = offset + index + 4 (since rank starts at 4)
                     $rank = $offset + $index + 4;
                     ?>
                     <tr class="">
-                        <td class="py-2 text-center"><?= $rank ?></td>
-                        <td class="py-2 text-center"><?= htmlspecialchars($player['username']) ?></td>
-                        <td class="py-2 text-center"><?= htmlspecialchars($player['bet_market']) ?></td>
-                        <td class="py-2 text-center"><?= htmlspecialchars($player['point']) ?></td>
-                        <td class="py-2 text-center"><?= htmlspecialchars($player['price']) ?></td>
+                        <td class="p-2 text-center"><?= $rank ?></td>
+                        <td class="p-2 text-center"><?= htmlspecialchars($player['username']) ?></td>
+                        <td class="p-2 text-center"><?= htmlspecialchars($player['bet_market']) ?></td>
+                        <td class="p-2 text-center"><?= htmlspecialchars($player['point']) ?></td>
+                        <td class="p-2 text-center"><?= htmlspecialchars($player['price']) ?></td>
                     </tr>
                 <?php endforeach; ?>
 

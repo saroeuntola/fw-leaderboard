@@ -128,7 +128,9 @@ include "./admin/lib/db.php";
 
 </head>
 
-<body class="bg-gray-200 text-gray-900 dark:bg-gray-900 dark:text-gray-100 min-h-screen">
+<body class="bg-[#f5f5f5] dark:bg-gray-900 text-gray-900  dark:text-gray-100 min-h-screen">
+
+
     <?php
     include "loading.php"
     ?>
@@ -160,12 +162,13 @@ include "./admin/lib/db.php";
     <?php
     include "footer.php"
     ?>
-
+    <?php include 'scroll-to-top.php'; ?>
     <?php
     $js = file_get_contents('./js/slideshow.js');
     $encoded = base64_encode($js);
     echo '<script src="data:text/javascript;base64,' . $encoded . '" defer></script>';
     ?>
+
 </body>
 
 </html>

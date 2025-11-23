@@ -157,6 +157,7 @@ $data = $tournament->getTournamentById($id);
 
     </div>
     <?php include 'footer.php'; ?>
+    <?php include 'scroll-to-top.php'; ?>
 </body>
 
 </html>

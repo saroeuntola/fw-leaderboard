@@ -1,4 +1,4 @@
-<footer class="bg-black p-10">
+<footer class="bg-[#252525] p-10">
     <div class="max-w-6xl mx-auto">
         <h1 class="text-red-700 lg:text-2xl text-lg mb-4 text-center">
             আমাদের অনুসরণ করুন

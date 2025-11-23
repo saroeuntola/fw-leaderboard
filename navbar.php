@@ -37,7 +37,7 @@ $currentPath = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-<nav class="fixed top-0 left-0 right-0 z-50 shadow-lg bg-white dark:bg-black text-gray-800 dark:text-gray-100 transition-colors duration-300 lg:py-0 py-1">
+<nav class="fixed top-0 left-0 right-0 z-50 shadow-lg bg-[#252525] dark:bg-[#252525] text-gray-100 transition-colors duration-300 lg:py-0 py-1">
     <div class="max-w-7xl mx-auto px-4">
         <div class="flex justify-between items-center h-16">
             <!-- Logo -->
@@ -47,7 +47,7 @@ $currentPath = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
                 </a>
             </div>
 
-            
+
             <!-- Desktop Menu -->
             <div class="hidden md:flex items-center space-x-6 font-medium">
                 <?php
@@ -75,11 +75,11 @@ $currentPath = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
             <div class="flex items-center gap-5">
                 <button
                     id="theme-toggle"
-                    class="p-2 rounded-full hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors duration-300"
+                    class="p-2 rounded-full hover:bg-gray-300 transition-colors duration-300"
                     aria-label="Toggle Theme">
                     <svg
                         id="theme-icon"
-                        class="h-6 w-6 text-black dark:text-white transition-colors duration-300"
+                        class="h-6 w-6 text-white transition-colors duration-300"
                         fill="none"
                         stroke="currentColor"
                         stroke-width="2"
@@ -88,7 +88,7 @@ $currentPath = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
                 </button>
                 <!-- Mobile Hamburger -->
                 <button id="mobile-menu-button" class="md:hidden">
-                    <svg id="mobile-menu-icon" class="w-8 h-8 text-gray-800 dark:text-gray-100" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <svg id="mobile-menu-icon" class="w-8 h-8 text-gray-100" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path id="mobile-menu-path" stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
                     </svg>
                 </button>
@@ -99,8 +99,8 @@ $currentPath = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
     <!-- Mobile Menu -->
     <div
         id="mobile-menu"
-        class="max-h-0 overflow-hidden opacity-0 md:hidden bg-white dark:bg-black px-4 transition-all duration-500 ease-in-out">
-        <div class="w-full h-[2px] bg-black dark:bg-white mt-2"></div>
+        class="max-h-0 overflow-hidden opacity-0 md:hidden bg-[#252525] px-4 transition-all duration-500 ease-in-out">
+        <div class="w-full h-[2px] bg-[#252525] mt-2"></div>
 
         <ul class="py-6 flex flex-col gap-6">
             <?php
@@ -112,7 +112,7 @@ $currentPath = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
                     target="<?= htmlspecialchars($target) ?>"
                     class="flex items-center hover:text-red-500 transition-all duration-500 delay-200 <?= $isActiveMobile ?>">
                     <?php
-              
+
                     $icons = [
                         'Home' => 'fa-house',
                         'Tournaments' => 'fa-trophy',

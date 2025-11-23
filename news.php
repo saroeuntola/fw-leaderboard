@@ -169,6 +169,7 @@ $posts = $listPost->getPostByCategory(3, 'en', $limit, $page);
         <?php endif; ?>
     </main>
     <?php include "./footer.php" ?>
+    <?php include 'scroll-to-top.php'; ?>
 </body>
 
 </html>

@@ -89,12 +89,12 @@ $latestTournament = $tournament->getLatest(1);
     </script>
 </head>
 
-<body class="bg-gray-200 dark:bg-gray-900 dark:text-white text-gray-900">
+<body class="bg-[#f5f5f5] dark:bg-gray-900 dark:text-white text-gray-900">
     <?php include "./navbar.php" ?>
-    <div class="container max-w-screen-xl mx-auto px-4 py-8 pt-20 pb-20 flex flex-col lg:flex-row gap-6 mt-10">
+    <div class="container max-w-screen-xl mx-auto px-4 py-8 pt-20 pb-20 flex flex-col lg:flex-row gap-6 mt-10 ">
 
         <!-- MAIN CONTENT -->
-        <div class="flex-1 flex flex-col gap-6">
+        <div class="flex-1 flex flex-col gap-4 bg-white shadow-[0_0_5px_0_rgba(0,0,0,0.2)] dark:bg-[#252525] p-4 rounded-md">
             <div class="rounded-lg">
                 <?php if (!empty($post['image'])): ?>
                     <img src="/v2/admin/post/<?= htmlspecialchars($post['image']) ?>" class="w-full md:h-[380px] h-[220px] lg:h-[400px] mb-4 rounded" loading="lazy">
@@ -122,34 +122,35 @@ $latestTournament = $tournament->getLatest(1);
 
         <!-- SIDEBAR -->
         <aside class="lg:w-80 w-full flex flex-col gap-4 lg:sticky lg:top-24 h-fit">
+
             <!-- RELATED POSTS -->
             <?php if (!empty($relatedPosts)): ?>
-                <div class="bg-gray-100 dark:bg-gray-800 rounded-xl p-4 shadow-md">
+                <div class="bg-white shadow-[0_0_5px_0_rgba(0,0,0,0.2)] dark:bg-[#252525] rounded-md p-4">
                     <h2 class="text-xl font-bold mb-2 border-b border-gray-700 pb-2 dark:text-white text-gray-900">More News</h2>
 
                     <div class="flex flex-col gap-2">
                         <?php foreach ($relatedPosts as $rPost): ?>
                             <?php
-                            // Normalize the category name
+
                             $categoryName = strtolower(trim($rPost['category_name'] ?? ''));
 
-                            // Select link based on category
                             if ($categoryName === 'news') {
                                 $link = "./views-news?slug=" . urlencode($rPost['slug']);
                             } elseif ($categoryName === 'tournaments') {
                                 $link = "./views?slug=" . urlencode($rPost['slug']);
                             } else {
-                                // Default fallback
-                                $link = "./views?slug=" . urlencode($rPost['slug']);
+
+                                $link = "./views.php?slug=" . urlencode($rPost['slug']);
                             }
                             ?>
                             <a href="<?= htmlspecialchars($link) ?>"
-                                class="flex items-center gap-4 bg-white dark:bg-gray-900 rounded-lg hover:bg-gray-700 transition-all duration-300 p-2 group">
+                                class="flex items-center gap-4 bg-white shadow-[0_0_5px_0_rgba(0,0,0,0.2)] dark:bg-[#252525] rounded-lg hover:bg-gray-700 transition-all duration-300 p-2 group">
+
                                 <!-- Thumbnail -->
                                 <?php if (!empty($rPost['image'])): ?>
                                     <img src="/v2/admin/post/<?= htmlspecialchars($rPost['image']) ?>"
                                         alt="<?= htmlspecialchars($rPost['name']) ?>"
-                                        class="w-[80px] h-[80px] rounded-m flex-shrink-0 shadow-sm group-hover:scale-105 transition-transform duration-300">
+                                        class="w-[80px] h-[80px] rounded-md flex-shrink-0 shadow-sm group-hover:scale-105 transition-transform duration-300">
                                 <?php else: ?>
                                     <div class="w-[80px] h-[80px] bg-gray-700 rounded-md flex items-center justify-center text-gray-400 text-sm">
                                         No Image
@@ -163,7 +164,7 @@ $latestTournament = $tournament->getLatest(1);
                                     </h3>
                                     <div class="flex items-center gap-2">
                                         <i class="fa-solid fa-earth-americas text-gray-400"></i>
-                                        <p class="text-gray-400 text-xs"><?= date('F-j-Y', strtotime($rPost['created_at'])) ?></p>
+                                        <p class="text-gray-400 text-xs"><?= date('F j, Y', strtotime($rPost['created_at'])) ?></p>
                                     </div>
                                 </div>
                             </a>
@@ -180,7 +181,7 @@ $latestTournament = $tournament->getLatest(1);
                         ? "views-lion-result?id=" . urlencode($t['id'])
                         : "views-tiger-result?id=" . urlencode($t['id']);
                     ?>
-                    <div class="dark:bg-gray-800 p-4 rounded-2xl bg-white">
+                    <div class="bg-white shadow-[0_0_5px_0_rgba(0,0,0,0.2)] dark:bg-[#252525] p-4 rounded-md">
                         <h3 class="mb-4 text-xl font-bold border-b border-gray-700 pb-2 dark:text-white text-gray-900">Latest Tournament Result</h3>
                         <a href="<?= htmlspecialchars($link) ?>" class="rounded-lg hover:scale-105 transition-transform">
                             <img src="<?= htmlspecialchars($t['image'] ? '/v2/admin/uploads/' . $t['image'] : './images/img-card.png') ?>"
@@ -194,7 +195,7 @@ $latestTournament = $tournament->getLatest(1);
 
                                     <div class="flex items-center gap-2">
                                         <i class="fa-solid fa-earth-americas text-gray-400"></i>
-                                        <p class="text-gray-400 text-xs"><?= date('F d, Y', strtotime($t['created_at'])) ?></p>
+                                        <p class="text-gray-400 text-xs"><?= date('F j, Y', strtotime($t['created_at'])) ?></p>
                                     </div>
 
                                 </div>
@@ -207,11 +208,11 @@ $latestTournament = $tournament->getLatest(1);
                 <p>No tournaments available.</p>
             <?php endif; ?>
         </aside>
-
     </div>
     <?php
     include "./footer.php"
     ?>
+    <?php include 'scroll-to-top.php'; ?>
 </body>
 
 </html>

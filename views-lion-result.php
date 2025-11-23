@@ -55,7 +55,7 @@ $data = $tournament->getTournamentById($id);
     </style>
 </head>
 
-<body class="dark:bg-gray-900 bg-gray-200 dark:text-white text-gray-900">
+<body class="bg-[#f5f5f5] dark:bg-gray-900 dark:text-white text-gray-900">
 
     <?php
     include "./navbar.php"
@@ -122,7 +122,7 @@ $data = $tournament->getTournamentById($id);
             </div>
             <!-- Leaderboard -->
             <?php if (!empty($topPlayers)): ?>
-                <div class="dark:bg-gray-900 bg-gray-200 dark:text-white text-gray-900 rounded-2xl">
+                <div class=" dark:text-white">
                     <!-- <h2 class="text-3xl font-bold mb-6 text-center text-yellow-400">🏆 Tournament Leaderboard</h2> -->
 
                     <!-- Top 3 Section -->
@@ -207,6 +207,7 @@ $data = $tournament->getTournamentById($id);
     <?php
     include "footer.php"
     ?>
+    <?php include 'scroll-to-top.php'; ?>
 </body>
 
 </html>

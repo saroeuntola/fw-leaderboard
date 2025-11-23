@@ -90,12 +90,12 @@ $latestTournament = $tournament->getLatest(1);
 
 
 
-<body class="bg-gray-200 dark:bg-gray-900 dark:text-white text-gray-900">
+<body class="bg-[#f5f5f5] dark:bg-gray-900 dark:text-white text-gray-900">
     <?php include "./navbar.php" ?>
-    <div class="container max-w-screen-xl mx-auto px-4 py-8 pt-20 pb-20 flex flex-col lg:flex-row gap-6 mt-10">
+    <div class="container max-w-screen-xl mx-auto px-4 py-8 pt-20 pb-20 flex flex-col lg:flex-row gap-6 mt-10 ">
 
         <!-- MAIN CONTENT -->
-        <div class="flex-1 flex flex-col gap-6">
+        <div class="flex-1 flex flex-col gap-4 bg-white shadow-[0_0_5px_0_rgba(0,0,0,0.2)] dark:bg-[#252525] p-4 rounded-md">
             <p class="w-20 border border-red-500 font-bold text-red-500 px-2 py-1 rounded-lg text-sm transition-colors text-center">
                 NEWS
             </p>
@@ -130,7 +130,7 @@ $latestTournament = $tournament->getLatest(1);
 
             <!-- RELATED POSTS -->
             <?php if (!empty($relatedPosts)): ?>
-                <div class="bg-gray-100 dark:bg-gray-800 rounded-xl p-4 shadow-md">
+                <div class="bg-white shadow-[0_0_5px_0_rgba(0,0,0,0.2)] dark:bg-[#252525] rounded-md p-4">
                     <h2 class="text-xl font-bold mb-2 border-b border-gray-700 pb-2 dark:text-white text-gray-900">More News</h2>
 
                     <div class="flex flex-col gap-2">
@@ -149,7 +149,7 @@ $latestTournament = $tournament->getLatest(1);
                             }
                             ?>
                             <a href="<?= htmlspecialchars($link) ?>"
-                                class="flex items-center gap-4 bg-white dark:bg-gray-900 rounded-lg hover:bg-gray-700 transition-all duration-300 p-2 group">
+                                class="flex items-center gap-4 bg-white shadow-[0_0_5px_0_rgba(0,0,0,0.2)] dark:bg-[#252525] rounded-lg hover:bg-gray-700 transition-all duration-300 p-2 group">
 
                                 <!-- Thumbnail -->
                                 <?php if (!empty($rPost['image'])): ?>
@@ -186,7 +186,7 @@ $latestTournament = $tournament->getLatest(1);
                         ? "views-lion-result?id=" . urlencode($t['id'])
                         : "views-tiger-result?id=" . urlencode($t['id']);
                     ?>
-                    <div class="dark:bg-gray-800 p-4 rounded-2xl bg-white">
+                    <div class="bg-white shadow-[0_0_5px_0_rgba(0,0,0,0.2)] dark:bg-[#252525] p-4 rounded-md">
                         <h3 class="mb-4 text-xl font-bold border-b border-gray-700 pb-2 dark:text-white text-gray-900">Latest Tournament Result</h3>
                         <a href="<?= htmlspecialchars($link) ?>" class="rounded-lg hover:scale-105 transition-transform">
                             <img src="<?= htmlspecialchars($t['image'] ? '/v2/admin/uploads/' . $t['image'] : './images/img-card.png') ?>"
@@ -217,6 +217,7 @@ $latestTournament = $tournament->getLatest(1);
     <?php
     include "./footer.php"
     ?>
+    <?php include 'scroll-to-top.php'; ?>
 </body>
 
 </html>

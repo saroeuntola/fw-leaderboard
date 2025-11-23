@@ -12,7 +12,13 @@ $listPost = new Post();
 $posts = $listPost->getLastPosts(4, 'en');
 ?>
 
-<h1 class="lg:text-3xl text-2xl font-bold mb-4 text-gray-900 dark:text-gray-100">Latest News</h1>
+<div class="w-full mb-4">
+    <h1 class="inline-block bg-red-800 text-white px-3 py-1 
+           lg:text-xl text-lg font-bold">
+        Latest News
+    </h1>
+    <div class="h-[2px] bg-red-800"></div>
+</div>
 
 <div class="grid gap-3 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 text-gray-900 dark:text-gray-100 cursor-pointer">
     <?php foreach ($posts as $post): ?>
@@ -26,8 +32,8 @@ $posts = $listPost->getLastPosts(4, 'en');
             $link = "views?slug=" . urlencode($post['slug']);
         }
         ?>
-        <a href="<?= htmlspecialchars($link); ?>" class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow">
-            <div class="overflow-hidden rounded-t-xl">
+        <a href="<?= htmlspecialchars($link); ?>" class="bg-white shadow-[0_0_5px_0_rgba(0,0,0,0.2)] dark:bg-[#252525] rounded-md overflow-hidden">
+            <div class="overflow-hidden rounded-t-md">
                 <img src="./admin/post/<?= htmlspecialchars($post['image']); ?>"
                     alt="<?= htmlspecialchars($post['name']); ?>" loading="lazy"
                     class="w-full image-card transition-transform duration-500 hover:scale-105">
@@ -35,7 +41,7 @@ $posts = $listPost->getLastPosts(4, 'en');
             <div class="p-4">
                 <h2 class="text-lg font-semibold mb-2 mr-6 truncate"><?= htmlspecialchars($post['name']); ?></h2>
                 <div class="items-center flex mt-2 gap-2">
-                    
+
                     <i class="fa-solid fa-earth-americas text-gray-400"></i>
                     <p class="text-gray-400 text-xs"><?= date('F j, Y', strtotime($post['created_at'])); ?></p>
                 </div>
@@ -47,7 +53,14 @@ $posts = $listPost->getLastPosts(4, 'en');
 
 
 <section class="mt-10">
-    <h1 class="dark:text-white text-gray-900 lg:text-3xl text-2xl font-bold mb-4">Previous Tournaments</h1>
+
+    <div class="w-full mb-4">
+        <h1 class="inline-block bg-red-800 text-white px-3 py-1 
+           lg:text-xl text-lg font-bold">
+            Previous Tournaments
+        </h1>
+        <div class="h-[2px] bg-red-800"></div>
+    </div>
     <?php if (!empty($latestTournament)): ?>
         <?php foreach ($latestTournament as $item): ?>
             <?php
@@ -56,7 +69,7 @@ $posts = $listPost->getLastPosts(4, 'en');
                 ? "/v2/views-tiger-result?id=" . urlencode($item['id'])
                 : "/v2/views-lion-result?id=" . urlencode($item['id']);
             ?>
-            <div class="dark:bg-gray-800 bg-white rounded-xl shadow-md flex flex-col md:flex-row md:items-center justify-between gap-4 overflow-hidden mb-4">
+            <div class="bg-white shadow-[0_0_5px_0_rgba(0,0,0,0.2)] dark:bg-[#252525] rounded-md flex flex-col md:flex-row md:items-center justify-between gap-4 overflow-hidden mb-4">
 
                 <!-- Left: Image -->
                 <img src="./admin/uploads/<?= htmlspecialchars($item['image']) ?>"

@@ -5,7 +5,14 @@ $latestTournament = $lionTournament->getLatest(10);
 
 ?>
 <section class="mt-10">
-    <h1 class="dark:text-white text-gray-900 lg:text-3xl text-xl font-bold mb-4">Previous Tournaments</h1>
+
+    <div class="w-full mb-4 mt-4">
+        <h1 class="inline-block bg-red-800 text-white px-3 py-1 
+           lg:text-xl text-lg font-bold">
+         Previous Tournaments 
+        </h1>
+        <div class="h-[2px] bg-red-800"></div>
+    </div>
     <?php if (!empty($latestTournament)): ?>
         <?php foreach ($latestTournament as $item): ?>
             <?php
@@ -14,7 +21,8 @@ $latestTournament = $lionTournament->getLatest(10);
                 ? "/v2/views-tiger-result?id=" . urlencode($item['id'])
                 : "/v2/views-lion-result?id=" . urlencode($item['id']);
             ?>
-            <div class="dark:bg-gray-800 bg-white rounded-xl shadow-md flex flex-col md:flex-row md:items-center justify-between gap-4 overflow-hidden mb-4">
+            <div class="bg-white dark:bg-[#252525]
+            shadow-[0_0_5px_0_rgba(0,0,0,0.2)] rounded-md flex flex-col md:flex-row md:items-center justify-between gap-4 overflow-hidden mb-4">
 
                 <!-- Left: Image -->
                 <img src="./admin/uploads/<?= htmlspecialchars($item['image']) ?>"

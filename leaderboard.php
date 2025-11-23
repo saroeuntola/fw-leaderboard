@@ -72,7 +72,7 @@ include "./admin/lib/db.php";
 </head>
 
 
-<body class=" dark:bg-gray-900 bg-gray-200 dark:dark:text-white text-gray-900 min-h-screen">
+<body class=" dark:bg-gray-900 bg-[#f5f5f5] dark:dark:text-white text-gray-900 min-h-screen">
     <?php
     include "./loading.php";
     ?>
@@ -135,7 +135,7 @@ include "./admin/lib/db.php";
 
     include "./footer.php"
     ?>
-
+    <?php include 'scroll-to-top.php'; ?>
     <?php
     $js = file_get_contents('./js/leaderboard.js');
     $encoded = base64_encode($js);
