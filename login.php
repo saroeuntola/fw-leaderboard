@@ -4,45 +4,35 @@ if (session_status() === PHP_SESSION_NONE) session_start();
 include('./admin/lib/auth.php');
 $auth = new Auth();
 $error_message = '';
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $username = trim($_POST['username']);
-    $password = trim($_POST['password']);
-    $remember = isset($_POST['remember']);
-    $loginResult = $auth->login($username, $password, $remember);
-    if ($loginResult === true) {
-        $result = dbSelect(
-            'users',
-            'role_id, status',
-            'username = :username',
-            [':username' => $username]
-        );
 
-        if ($result && count($result) > 0) {
-            $user = $result[0];
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $username = $_POST['username'];
+            $password = $_POST['password'];
+            $remember = isset($_POST['remember']);
 
-            // Check if blocked
-            if ((int)$user['status'] === 0) {
-                $error_message = 'Your account is blocked. Please contact admin.';
-                $auth->logout();
-            } else {
-                // Redirect based on role
-                if ($user['role_id'] == 1) {
-                    header('Location: /v2/admin');
-                } elseif ($user['role_id'] == 2) {
-                    header('Location: /v2');
-                } elseif ($user['role_id'] == 3) {
-                    header('Location: /v2/admin');
+            $loginStatus = $auth->login($username, $password, $remember);
+
+            if ($loginStatus === true) {
+                $result = dbSelect('users', 'role_id', "username=" . $auth->db->quote($username));
+                if ($result && count($result) > 0) {
+                    $user = $result[0];
+
+                    if ($user['role_id'] == 1 || $user['role_id'] == 3) {
+                        header('Location: /v2/admin');
+                        exit();
+                    } elseif ($user['role_id'] == 2) {
+                        header('Location: /v2');
+                        exit();
+                    }
                 }
-                exit();
+            } elseif ($loginStatus === "inactive") {
+                $error_message = "Your account is disabled! Please Contact Admin";
+            } else {
+                $error_message = "Invalid username or password!";
             }
         }
-    } elseif ($loginResult === "inactive") {
-        $error_message = "Your account is inactive. Please contact support.";
-    } else {
-        $error_message = "Invalid username or password!";
-    }
-}
-?>
+
+        ?>
 <!DOCTYPE html>
 <html lang="en">
 

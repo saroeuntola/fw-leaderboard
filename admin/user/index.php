@@ -9,7 +9,7 @@ $user = new User();
 $users = $user->getUsers();
 // Handle status toggle
 if (isset($_GET['toggle_status_id'])) {
-    $id = intval($_GET['toggle_statusbnhgmjlk,;_id']);
+    $id = intval($_GET['toggle_status_id']);
     $user->toggleStatus($id);
     header("Location: " . $_SERVER['PHP_SELF']);
     exit;

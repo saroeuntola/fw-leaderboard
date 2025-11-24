@@ -73,62 +73,87 @@ class Auth
     }
 
     // Login
+    public function is_active($user_id)
+    {
+        global $conn; // or your DB object
+
+        $stmt = $conn->prepare("SELECT active FROM users WHERE id = ? LIMIT 1");
+        $stmt->execute([$user_id]);
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $row && $row['active'] == 1;
+    }
+
+    // Login
     public function login($username, $password, $remember = false)
     {
-        // Fetch user safely using a prepared query
+        $ip = $_SERVER['REMOTE_ADDR'] ?? 'UNKNOWN';
+        $userAgent = $_SERVER['HTTP_USER_AGENT'] ?? 'UNKNOWN';
+        $loginTime = new DateTime('now', new DateTimeZone('Asia/Phnom_Penh'));
+
         $results = dbSelect(
             'users',
             'id, username, password, role_id, status',
-            'username = :username LIMIT 1',
-            [':username' => $username]
+            "username = " . $this->db->quote($username) . " LIMIT 1"
         );
 
-        if ($results && count($results) > 0) {
-            $user = $results[0];
+        // Helper to log login attempt
+        $logAttempt = function ($status) use ($username, $ip, $userAgent, $loginTime) {
+            dbInsert('login_logs', [
+                'username' => $username,
+                'ip_address' => $ip,
+                'user_agent' => $userAgent,
+                'status' => $status,
+                'login_time' => $loginTime->format('Y-m-d H:i:s')
+            ]);
+        };
 
-            // Check if user is inactive
-            if ((int)$user['status'] === 0) {
-                return "inactive"; // account disabled
-            }
-
-            // Verify password hash
-            if (password_verify($password, $user['password'])) {
-                // Set session variables
-                $_SESSION['user_id'] = $user['id'];
-                $_SESSION['username'] = $user['username'];
-                $_SESSION['role_id'] = $user['role_id'];
-
-                // Handle "Remember me" functionality
-                if ($remember) {
-                    $token = bin2hex(random_bytes(32));
-                    $expiry = time() + (86400 * 30); // 30 days
-
-                    dbInsert('user_tokens', [
-                        'user_id' => $user['id'],
-                        'token' => hash('sha256', $token),
-                        'expires_at' => date('Y-m-d H:i:s', $expiry)
-                    ]);
-
-                    // Set secure, HttpOnly cookie
-                    setcookie(
-                        "remember_token",
-                        $token,
-                        [
-                            'expires' => $expiry,
-                            'path' => '/',
-                            'secure' => isset($_SERVER['HTTPS']),
-                            'httponly' => true,
-                            'samesite' => 'Lax'
-                        ]
-                    );
-                }
-
-                return true;
-            }
+        // User not found
+        if (!$results || count($results) == 0) {
+            $logAttempt('failure');
+            return false;
         }
 
+        $user = $results[0];
 
+        // User inactive
+        if ($user['status'] == 0) {
+            $logAttempt('failure');
+            return "inactive";
+        }
+
+        // Password correct
+        if (password_verify($password, $user['password'])) {
+            $_SESSION['user_id'] = $user['id'];
+            $_SESSION['username'] = $user['username'];
+            $_SESSION['role_id'] = $user['role_id'];
+
+            if ($remember) {
+                $token = bin2hex(random_bytes(32));
+                $expiry = time() + (86400 * 30);
+                dbInsert('user_tokens', [
+                    'user_id' => $user['id'],
+                    'token' => hash('sha256', $token),
+                    'expires_at' => date('Y-m-d H:i:s', $expiry)
+                ]);
+                setcookie("remember_token", $token, $expiry, "/", "", true, true);
+            }
+
+            $logAttempt('success');
+            return true;
+        }
+
+        // Wrong password
+        $logAttempt('failure');
         return false;
+    }
+
+    public function getLoginLogs($limit = 50)
+    {
+        $stmt = $this->db->prepare("SELECT * FROM login_logs ORDER BY login_time DESC LIMIT :limit");
+        $stmt->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     // Check if user is logged in

@@ -20,6 +20,7 @@
               <a href="/v2/admin" class="btn btn-ghost btn-block justify-start hover:text-gray-900">
                   Dashboard
               </a>
+              <a href="/v2/admin/login-logs/" class="btn btn-ghost btn-block justify-start hover:text-gray-900">Login Logs</a>
               <a href="/v2/admin/user/" class="btn btn-ghost btn-block justify-start hover:text-gray-900">Users</a>
               <a href="/v2/admin/lion_leaderboard/" class="btn btn-ghost btn-block justify-start hover:text-gray-900">Lion Leaderboard</a>
               <a href="/v2/admin/tiger_leaderboard/" class="btn btn-ghost btn-block justify-start hover:text-gray-900">Tiger Leaderboard</a>
@@ -38,7 +39,7 @@
           <h6 class="text-md font-semibold text-white">
               Welcome, <?= htmlspecialchars($_SESSION['username'] ?? 'User'); ?>
           </h6>
-          <a href="../logout" class="text-sm btn bg-red-700 shadow-none border-none text-white hover:bg-red-900">Logout</a>
+          <a href="/v2/logout" class="text-sm btn bg-red-700 shadow-none border-none text-white hover:bg-red-900">Logout</a>
       </div>
   </aside>
 
