@@ -8,33 +8,7 @@ $logo = $logos[0] ?? null;
 $currentPath = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 ?>
 
-<style>
-    .nav-link {
-        position: relative;
-        display: inline-block;
-        padding-bottom: 2px;
-    }
-
-    .nav-link::after {
-        content: '';
-        position: absolute;
-        left: 0;
-        bottom: 0;
-        height: 2px;
-        width: 100%;
-        background-color: #f43f5e;
-        /* red-500 */
-        transform: scaleX(0);
-        transform-origin: left;
-        transition: transform 0.3s ease;
-    }
-
-    .nav-link:hover::after,
-    .nav-link.active::after {
-        transform: scaleX(1);
-    }
-</style>
-
+<link rel="stylesheet" href="./css/navbar.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 <nav class="fixed top-0 left-0 right-0 z-50 shadow-lg bg-[#252525] dark:bg-[#252525] text-gray-100 transition-colors duration-300 lg:py-0 py-1">
@@ -73,19 +47,30 @@ $currentPath = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
             <!-- Right section: Mobile theme toggle + hamburger -->
             <div class="flex items-center gap-5">
-                <button
-                    id="theme-toggle"
-                    class="p-2 rounded-full hover:bg-gray-300 transition-colors duration-300"
-                    aria-label="Toggle Theme">
-                    <svg
-                        id="theme-icon"
-                        class="h-6 w-6 text-white transition-colors duration-300"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        viewBox="0 0 24 24">
-                    </svg>
+                <button id="theme-toggle" class="toggle-btn" aria-label="Toggle Theme">
+                    <span class="toggle-circle">
+                        <!-- Sun Icon -->
+                        <svg id="icon-sun" class="icon absolute" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="5"></circle>
+                            <line x1="12" y1="1" x2="12" y2="3"></line>
+                            <line x1="12" y1="21" x2="12" y2="23"></line>
+                            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                            <line x1="1" y1="12" x2="3" y2="12"></line>
+                            <line x1="21" y1="12" x2="23" y2="12"></line>
+                            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                        </svg>
+
+                        <!-- Moon Icon -->
+                        <svg id="icon-moon" class="icon absolute" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 12.79A9 9 0 1111.21 3 
+                     7 7 0 0021 12.79z"></path>
+                        </svg>
+                    </span>
                 </button>
+
+
                 <!-- Mobile Hamburger -->
                 <button id="mobile-menu-button" class="md:hidden">
                     <svg id="mobile-menu-icon" class="w-8 h-8 text-gray-100" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">

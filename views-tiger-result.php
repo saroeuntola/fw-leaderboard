@@ -118,7 +118,8 @@ $data = $tournament->getTournamentById($id);
                     <?php endif; ?>
 
                 </div>
-                <div class="dark:bg-gray-800 bg-white rounded-2xl shadow-lg mb-10">
+                <div class="dark:text-white text-gray-800 bg-white dark:bg-[#252525]
+            shadow-[0_0_5px_0_rgba(0,0,0,0.2)] rounded-md  mb-10">
                     <!-- Remaining -->
                     <?php if (count($players) > 3): ?>
                         <div class="overflow-x-auto">

@@ -79,9 +79,12 @@ include "./admin/lib/db.php";
     <?php
     include "./navbar.php"
     ?>
-    <main class="pt-28 m-auto max-w-7xl px-4 pb-32">
+    <main class="pt-[90px] m-auto max-w-7xl px-4 pb-10">
 
-        <h1 class="text-red-600 text-3xl text-center font-bold mb-4">Leaderboard</h1>
+        <h1 class="lg:text-3xl text-2xl font-extrabold text-center mb-6 text-red-700">
+            Leaderboard Rankings
+        </h1>
+
 
         <div class="text-center space-x-4 mt-4 flex justify-center gap-4">
             <!-- Lion Button -->

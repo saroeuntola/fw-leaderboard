@@ -91,7 +91,7 @@ $latestTournament = $tournament->getLatest(1);
 
 <body class="bg-[#f5f5f5] dark:bg-gray-900 dark:text-white text-gray-900">
     <?php include "./navbar.php" ?>
-    <div class="container max-w-screen-xl mx-auto px-4 py-8 pt-20 pb-20 flex flex-col lg:flex-row gap-6 mt-10 ">
+    <div class="container max-w-screen-xl mx-auto px-4 py-8 pt-[50px] flex flex-col lg:flex-row gap-6 mt-10 ">
 
         <!-- MAIN CONTENT -->
         <div class="flex-1 flex flex-col gap-4 bg-white shadow-[0_0_5px_0_rgba(0,0,0,0.2)] dark:bg-[#252525] p-4 rounded-md">
@@ -121,7 +121,7 @@ $latestTournament = $tournament->getLatest(1);
         </div>
 
         <!-- SIDEBAR -->
-        <aside class="lg:w-80 w-full flex flex-col gap-4 lg:sticky lg:top-24 h-fit">
+        <aside class="lg:w-80 w-full flex flex-col gap-4 lg:sticky lg:top-20 h-fit">
 
             <!-- RELATED POSTS -->
             <?php if (!empty($relatedPosts)): ?>

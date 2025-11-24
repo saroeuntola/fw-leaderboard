@@ -140,7 +140,7 @@ include "./admin/lib/db.php";
         ?>
     </header>
     <main>
-        <section class="px-4 max-w-7xl m-auto pt-[100px]">
+        <section class="px-4 max-w-7xl m-auto pt-[90px]">
             <?php
             include 'slideshow.php';
             ?>

@@ -160,13 +160,13 @@ if (
                     <th class="p-2 th-text">প্রাইজ</th>
                 </tr>
             </thead>
-            <tbody class="bg-white dark:bg-[#252525] dark:text-white text-gray-900 shadow-[0_0_5px_0_rgba(0,0,0,0.2)]">
+            <tbody class="bg-white dark:bg-[#252525] dark:text-white text-gray-900 shadow-[0_0_5px_0_rgba(0,0,0,0.2)] ">
                 <?php foreach ($pagedData as $index => $player): ?>
                     <?php
                     // Rank number = offset + index + 4 (since rank starts at 4)
                     $rank = $offset + $index + 4;
                     ?>
-                    <tr class="">
+                    <tr class="border-t border-gray-600">
                         <td class="p-2 text-center"><?= $rank ?></td>
                         <td class="p-2 text-center"><?= htmlspecialchars($player['username']) ?></td>
                         <td class="p-2 text-center"><?= htmlspecialchars($player['bet_market']) ?></td>

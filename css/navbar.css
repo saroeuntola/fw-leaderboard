@@ -1,0 +1,90 @@
+  /* Toggle background */
+    .toggle-btn {
+        width: 52px;
+        height: 28px;
+        border-radius: 9999px;
+        background: #d1d5db;
+        position: relative;
+        cursor: pointer;
+        transition: background 0.3s ease;
+        border: none;
+        padding: 0;
+    }
+
+    /* Circle */
+    .toggle-circle {
+        width: 24px;
+        height: 24px;
+        background: white;
+        border-radius: 9999px;
+        position: absolute;
+        top: 2px;
+        left: 2px;
+        transition: transform 0.3s ease, background 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* Icon styling */
+    .toggle-circle .icon {
+        width: 16px;
+        height: 16px;
+        color: #fbbf24;
+        /* default sun color */
+        opacity: 1;
+        transition: opacity 0.3s ease;
+    }
+
+    /* Moon hidden in light mode */
+    #icon-moon {
+        opacity: 0;
+     
+    }
+
+    /* Dark mode styling */
+    .dark .toggle-btn {
+        background: #4b5563;
+    }
+
+    .dark .toggle-circle {
+        transform: translateX(24px);
+    }
+
+    /* Sun hides in dark mode */
+    .dark #icon-sun {
+        opacity: 0;
+    }
+
+    /* Moon shows in dark mode */
+    .dark #icon-moon {
+        opacity: 1;
+        color: black;
+        /* soft moon color */
+    }
+
+
+    .nav-link {
+        position: relative;
+        display: inline-block;
+        padding-bottom: 2px;
+    }
+
+    .nav-link::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        height: 2px;
+        width: 100%;
+        background-color: #f43f5e;
+        /* red-500 */
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.3s ease;
+    }
+
+    .nav-link:hover::after,
+    .nav-link.active::after {
+        transform: scaleX(1);
+    }

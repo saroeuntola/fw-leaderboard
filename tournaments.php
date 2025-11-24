@@ -105,8 +105,8 @@ $posts = $listPost->getPostByCategory(2, 'en', $limit, $page);
     ?>
 
     <?php include "./navbar.php" ?>
-    <main class="max-w-7xl m-auto px-4 pt-28 pb-32">
-        <h1 class="text-2xl font-bold mb-4 dark:text-white text-gray-900">All Tournaments</h1>
+    <main class="max-w-7xl m-auto px-4 pt-[90px] pb-10">
+        <h1 class="lg:text-xl text-lg font-bold mb-4 dark:text-white text-gray-900">All Tournaments</h1>
         <div class="grid gap-5 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 text-white cursor-pointer">
             <?php foreach ($posts as $post): ?>
                 <a href="views?slug=<?= urlencode($post['slug']); ?>" class="bg-white dark:bg-[#252525]

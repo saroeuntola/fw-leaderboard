@@ -177,7 +177,8 @@ $data = $tournament->getTournamentById($id);
                                         <th class="py-2">Price</th>
                                     </tr>
                                 </thead>
-                                <tbody class="dark:bg-gray-800 bg-white">
+                                <tbody class="dark:text-white text-gray-800 bg-white dark:bg-[#252525]
+            shadow-[0_0_5px_0_rgba(0,0,0,0.2)]">
                                     <?php foreach ($pagedData as $index => $player): ?>
                                         <?php $rank = $offset + $index + 4; ?>
                                         <tr class="text-gray-900 dark:text-white border-t border-gray-700">
