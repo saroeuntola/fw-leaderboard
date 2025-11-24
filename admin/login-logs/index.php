@@ -1,6 +1,7 @@
-
 <?php
-ob_start();
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+
 include('../lib/checkroles.php');
 protectRoute([1]);
 $auth = new Auth();
@@ -9,7 +10,7 @@ $auth = new Auth();
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_all'])) {
     $stmt = $auth->db->prepare("TRUNCATE TABLE login_logs");
     $stmt->execute();
-    header("Location: " . $_SERVER['PHP_SELF']); 
+    header("Location: " . $_SERVER['PHP_SELF']);
     exit;
 }
 
@@ -28,7 +29,7 @@ $logs = $auth->getLoginLogs(50);
 </head>
 
 <body class="bg-gray-900">
-    
+
     <div class="container mx-auto p-4">
         <div class="flex justify-between items-center mb-4">
             <h1 class="text-2xl font-bold text-white">Login Logs</h1>
