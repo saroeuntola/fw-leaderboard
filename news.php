@@ -98,7 +98,7 @@ $posts = $listPost->getPostByCategory(3, 'en', $limit, $page);
 </head>
 
 
-<body class="dark:bg-gray-900 text-white bg-gray-200">
+<body class="dark:bg-gray-900 text-white bg-[#f5f5f5]">
     <?php
     include "./loading.php";
     ?>
@@ -107,7 +107,7 @@ $posts = $listPost->getPostByCategory(3, 'en', $limit, $page);
         <h1 class="text-2xl font-bold mb-4 dark:text-white text-gray-900">All News</h1>
         <div class="grid gap-5 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 text-white cursor-pointer">
             <?php foreach ($posts as $post): ?>
-                <a href="views-news?slug=<?= urlencode($post['slug']); ?>" class="dark:bg-gray-800 bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow">
+                <a href="views-news?slug=<?= urlencode($post['slug']); ?>" class="dark:bg-[#252525] bg-white shadow-[0_0_5px_0_rgba(0,0,0,0.2)] rounded-md overflow-hidden hover:shadow-xl transition-shadow">
                     <!-- Image with hover zoom -->
                     <div class="overflow-hidden rounded-t-xl">
                         <img src="./admin/post/<?= htmlspecialchars($post['image']) ?>"
