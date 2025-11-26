@@ -8,7 +8,6 @@ $banners = $bannerObj->getBanner();
     #myCarousel .carousel-wrapper {
         display: flex;
         transition: transform 0.5s ease-in-out;
-        /* width: 1200px; */
     }
 
     #myCarousel .carousel-item {
@@ -28,7 +27,6 @@ font-size: 20px;
     }
 </style>
 
-
 <div class="carousel w-full relative overflow-hidden" id="myCarousel">
     <div class="carousel-wrapper flex transition-transform duration-500">
         <?php foreach ($banners as $index => $banner): ?>
@@ -36,7 +34,7 @@ font-size: 20px;
                 <?php if (!empty($banner['link'])): ?>
                     <a href="<?= htmlspecialchars($banner['link']) ?>" class="w-full">
                         <img src="/v2/admin/<?= htmlspecialchars($banner['image']) ?>" loading="lazy"
-                            class="w-full lg:h-[400px] h-[210px] rounded-md" />
+                            class="w-full lg:h-[400px] h-[180px] rounded-md" />
                     </a>
                 <?php else: ?>
 
@@ -46,7 +44,7 @@ font-size: 20px;
     </div>
 
     <!-- Prev/Next Buttons -->
-    <div class="absolute lg:inset-y-[180px] inset-y-[85px] left-4 right-4 flex justify-between">
+    <div class="absolute lg:inset-y-[180px] inset-y-[70px] left-4 right-4 flex justify-between">
         <button class="btn btn-circle prev">❮</button>
         <button class="btn btn-circle next">❯</button>
     </div>

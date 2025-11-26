@@ -109,10 +109,10 @@ $posts = $listPost->getPostByCategory(3, 'en', $limit, $page);
             <?php foreach ($posts as $post): ?>
                 <a href="views-news?slug=<?= urlencode($post['slug']); ?>" class="dark:bg-[#252525] bg-white shadow-[0_0_5px_0_rgba(0,0,0,0.2)] rounded-md overflow-hidden hover:shadow-xl transition-shadow">
                     <!-- Image with hover zoom -->
-                    <div class="overflow-hidden rounded-t-xl">
+                    <div class="overflow-hidden rounded-t-md">
                         <img src="./admin/post/<?= htmlspecialchars($post['image']) ?>"
                             alt="<?= htmlspecialchars($post['name']) ?>" loading="lazy"
-                            class="w-full h-60 transition-transform duration-500 hover:scale-105">
+                            class="w-full h-60 transition-transform duration-500 hover:scale-105 object-cover">
                     </div>
                     <div class="p-4">
                         <h2 class="text-lg font-semibold mb-2 truncate text-gray-900 dark:text-white"><?= htmlspecialchars($post['name']) ?></h2>

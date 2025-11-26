@@ -20,10 +20,10 @@ $posts = $listPost->getPostByCategory(2, 'en', 4, 1);
                 class="bg-white dark:bg-[#252525]
             shadow-[0_0_5px_0_rgba(0,0,0,0.2)] rounded-md overflow-hidden">
                 <!-- Image -->
-                <div class="overflow-hidden rounded-t-xl">
+                <div class="overflow-hidden rounded-t-md">
                     <img src="./admin/post/<?= htmlspecialchars($post['image']) ?>"
                         alt="<?= htmlspecialchars($post['name']) ?>" loading="lazy"
-                        class="w-full transition-transform duration-500 hover:scale-105 image-card">
+                        class="w-full transition-transform duration-500 hover:scale-105 image-card object-cover">
                 </div>
 
                 <div class="p-4">

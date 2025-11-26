@@ -36,7 +36,7 @@ $posts = $listPost->getLastPosts(4, 'en');
             <div class="overflow-hidden rounded-t-md">
                 <img src="./admin/post/<?= htmlspecialchars($post['image']); ?>"
                     alt="<?= htmlspecialchars($post['name']); ?>" loading="lazy"
-                    class="w-full image-card transition-transform duration-500 hover:scale-105">
+                    class="w-full object-cover image-card transition-transform duration-500 hover:scale-105">
             </div>
             <div class="p-4">
                 <h2 class="text-lg font-semibold mb-2 mr-6 truncate"><?= htmlspecialchars($post['name']); ?></h2>
