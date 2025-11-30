@@ -93,7 +93,7 @@ if (
             <?php if (!empty($banner['link'])): ?>
                 <a href="<?= htmlspecialchars($banner['link']) ?>" class="w-full">
                     <img src="/v2/admin/<?= htmlspecialchars($banner['image']) ?>" loading="lazy"
-                        class="w-full lg:h-[400px] h-[220px] object-fill rounded-md" />
+                        class="w-full h-auto object-fill rounded-md" />
                 </a>
             <?php else: ?>
 

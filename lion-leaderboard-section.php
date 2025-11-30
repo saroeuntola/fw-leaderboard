@@ -92,7 +92,7 @@ if (
             <?php if (!empty($banner['link'])): ?>
                 <a href="<?= htmlspecialchars($banner['link']) ?>" class="w-full">
                     <img src="/v2/admin/<?= htmlspecialchars($banner['image']) ?>" loading="lazy"
-                        class="w-full lg:h-[400px] h-[220px] rounded-md" />
+                        class="w-full h-auto rounded-md" />
                 </a>
             <?php else: ?>
 
@@ -105,7 +105,7 @@ if (
 
     <?php if (!empty($data)): ?>
         <p class="text-center font-bold dark:text-white text-gray-900 mb-4">
-            Published on <?= banglaDate($data[0]['created_at']) ?>
+            Published on <?= banglaDate($data[0]['created_at'])?>
         </p>
     <?php else: ?>
         <h1 class="text-center font-bold text-red-700">

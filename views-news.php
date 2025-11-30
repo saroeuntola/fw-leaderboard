@@ -102,7 +102,7 @@ $latestTournament = $tournament->getLatest(1);
 
             <div class="rounded-lg">
                 <?php if (!empty($post['image'])): ?>
-                    <img src="/v2/admin/post/<?= htmlspecialchars($post['image']) ?>" class="w-full md:h-[380px] h-[220px] lg:h-[400px] mb-4 rounded" loading="lazy">
+                    <img src="/v2/admin/post/<?= htmlspecialchars($post['image']) ?>" class="w-full h-auto mb-4 rounded" loading="lazy">
                 <?php endif; ?>
 
                 <h1 class="lg:text-3xl text-xl font-bold mb-2 text-red-600"><?= htmlspecialchars($post['name'] ?? '') ?></h1>
@@ -155,7 +155,7 @@ $latestTournament = $tournament->getLatest(1);
                                 <?php if (!empty($rPost['image'])): ?>
                                     <img src="/v2/admin/post/<?= htmlspecialchars($rPost['image']) ?>"
                                         alt="<?= htmlspecialchars($rPost['name']) ?>"
-                                        class="w-[80px] h-[80px] rounded-md flex-shrink-0 shadow-sm group-hover:scale-105 transition-transform duration-300 object-cover">
+                                        class="w-[80px] h-auto rounded-md flex-shrink-0 shadow-sm group-hover:scale-105 transition-transform duration-300 object-cover">
                                 <?php else: ?>
                                     <div class="w-[80px] h-[80px] bg-gray-700 rounded-md flex items-center justify-center text-gray-400 text-sm">
                                         No Image

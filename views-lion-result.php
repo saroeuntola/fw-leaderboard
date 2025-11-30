@@ -67,7 +67,7 @@ $data = $tournament->getTournamentById($id);
                 <img src="./admin/uploads/<?= htmlspecialchars($data['image']) ?>"
                     alt="<?= htmlspecialchars($data['title']) ?>"
                     loading="lazy"
-                    class="w-full rounded-lg shadow-lg mb-6 lg:h-[400px] h-[225px]">
+                    class="w-full rounded-lg shadow-lg mb-6 h-auto">
             <?php endif; ?>
 
             <!-- Title -->
