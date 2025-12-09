@@ -18,7 +18,7 @@ $data = $tournament->getTournamentById($id);
     <script src="./js/jquery-3.7.1.min.js" defer></script>
 </head>
 
-<body class="dark:bg-gray-900 dark:text-white bg-gray-200 text-gray-900">
+<body class="dark:bg-[#181818] dark:text-white bg-gray-200 text-gray-900">
     <?php include 'navbar.php'; ?>
     <div class="container max-w-screen-lg mx-auto px-4 py-10 pt-28">
         <?php if (!empty($data)): ?>

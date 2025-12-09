@@ -99,7 +99,7 @@ $posts = $listPost->getPostByCategory(2, 'en', $limit, $page);
 </head>
 
 
-<body class="dark:bg-gray-900 bg-[#f5f5f5]">
+<body class="dark:bg-[#181818] bg-[#f5f5f5]">
     <?php
     include "./loading.php";
     ?>

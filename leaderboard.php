@@ -74,9 +74,10 @@ include "./admin/lib/db.php";
 </head>
 
 
-<body class=" dark:bg-gray-900 bg-[#f5f5f5] dark:dark:text-white text-gray-900 min-h-screen">
+<body class=" dark:bg-[#181818] bg-[#f5f5f5] dark:dark:text-white text-gray-900 min-h-screen">
     <?php
     include "./loading.php";
+    
     ?>
     <?php
     include "./navbar.php"

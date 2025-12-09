@@ -55,7 +55,7 @@ $data = $tournament->getTournamentById($id);
     </style>
 </head>
 
-<body class="bg-[#f5f5f5] dark:bg-gray-900 dark:text-white text-gray-900">
+<body class="bg-[#f5f5f5] dark:bg-[#181818] dark:text-white text-gray-900">
 
     <?php
     include "./navbar.php"

@@ -98,7 +98,7 @@ $posts = $listPost->getPostByCategory(3, 'en', $limit, $page);
 </head>
 
 
-<body class="dark:bg-gray-900 text-white bg-[#f5f5f5]">
+<body class="dark:bg-[#181818] text-white bg-[#f5f5f5]">
     <?php
     include "./loading.php";
     ?>
