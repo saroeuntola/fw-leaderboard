@@ -22,7 +22,7 @@ $posts = $listPost->getPostByCategory(2, 'en', $limit, $page);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>FancyWin Tournaments - Latest Gaming Competitions in Bangladesh</title>
+    <title>Tournaments - FancyWin</title>
 
     <meta name="description" content="Explore active and upcoming gaming tournaments in Bangladesh. Join FancyWin esports events, compete with top players, and track tournament standings.">
 
@@ -35,7 +35,7 @@ $posts = $listPost->getPostByCategory(2, 'en', $limit, $page);
     <!-- CSS -->
     <link rel="stylesheet" href="./src/output.css">
     <link rel="stylesheet" href="./css/style.css">
-    <script src="./js/jquery-3.7.1.min.js" defer></script>
+    <script src="./js/jquery-3.7.1.min.js"></script>
 
     <!-- Favicon -->
     <link rel="icon" href="/v2/favicon.ico" type="image/x-icon">

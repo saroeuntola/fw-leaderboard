@@ -14,7 +14,7 @@ $currentPath = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
 <nav class="fixed top-0 left-0 right-0 z-50 shadow-lg bg-[#990f02] dark:bg-[#252525] text-gray-100 transition-colors duration-300 lg:py-0 py-1">
     <div class="max-w-7xl mx-auto px-4">
-        <div class="flex justify-between items-center h-16">
+        <div class="flex justify-between items-center h-12">
             <!-- Logo -->
             <div class="flex-shrink-0">
                 <a href="<?= htmlspecialchars($logo['link'] ?? '/') ?>" class="text-2xl font-bold text-red-600">

@@ -9,7 +9,7 @@ include "./admin/lib/db.php";
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <!-- Title -->
-    <title>Leaderboard - FancyWin Bangladesh</title>
+    <title>Leaderboard - FancyWin</title>
 
     <!-- Description -->
     <meta name="description" content="View the latest FancyWin leaderboard in Bangladesh. Check player rankings, scores, and real-time updates." />

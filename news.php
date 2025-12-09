@@ -22,7 +22,7 @@ $posts = $listPost->getPostByCategory(3, 'en', $limit, $page);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>FancyWin Gaming News - Latest Updates & Articles in Bangladesh</title>
+    <title>News - FancyWin</title>
 
     <meta name="description" content="Read the latest gaming news and updates from Bangladesh. Stay informed about esports trends, tournament highlights, player stories, and FancyWin announcements.">
 
@@ -35,9 +35,9 @@ $posts = $listPost->getPostByCategory(3, 'en', $limit, $page);
     <!-- CSS -->
     <link rel="stylesheet" href="./src/output.css">
     <link rel="stylesheet" href="./css/style.css">
-    <script src="./js/jquery-3.7.1.min.js" defer></script>
+    <script src="./js/jquery-3.7.1.min.js"></script>
     <!-- Favicons -->
-    <link rel="icon" type="image/png" href="/v2/icons/news-icon.png">
+    <link rel="icon" href="/v2/favicon.ico" type="image/x-icon">
 
     <!-- Open Graph -->
     <meta property="og:title" content="FancyWin Gaming News - Bangladesh Updates">
