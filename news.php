@@ -35,7 +35,7 @@ $posts = $listPost->getPostByCategory(3, 'en', $limit, $page);
     <!-- CSS -->
     <link rel="stylesheet" href="./src/output.css">
     <link rel="stylesheet" href="./css/style.css">
-    <script src="./js/jquery-3.7.1.min.js"></script>
+    <script src="./js/jquery-3.7.1.min.js" defer></script>
     <!-- Favicons -->
     <link rel="icon" type="image/png" href="/v2/icons/news-icon.png">
 

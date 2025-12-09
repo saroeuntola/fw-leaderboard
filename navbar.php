@@ -9,9 +9,10 @@ $currentPath = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 ?>
 
 <link rel="stylesheet" href="./css/navbar.css">
+<link rel="preconnect" href="https://cdnjs.cloudflare.com">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-<nav class="fixed top-0 left-0 right-0 z-50 shadow-lg bg-[#252525] dark:bg-[#252525] text-gray-100 transition-colors duration-300 lg:py-0 py-1">
+<nav class="fixed top-0 left-0 right-0 z-50 shadow-lg bg-[#990f02] dark:bg-[#252525] text-gray-100 transition-colors duration-300 lg:py-0 py-1">
     <div class="max-w-7xl mx-auto px-4">
         <div class="flex justify-between items-center h-16">
             <!-- Logo -->
@@ -20,8 +21,6 @@ $currentPath = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
                     <img src="/v2/admin/<?= htmlspecialchars($logo['brand_image'] ?? 'default-logo.png') ?>" alt="Logo" class="h-10 object-contain">
                 </a>
             </div>
-
-
             <!-- Desktop Menu -->
             <div class="hidden md:flex items-center space-x-6 font-medium">
                 <?php
@@ -84,8 +83,8 @@ $currentPath = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
     <!-- Mobile Menu -->
     <div
         id="mobile-menu"
-        class="max-h-0 overflow-hidden opacity-0 md:hidden bg-[#252525] px-4 transition-all duration-500 ease-in-out">
-        <div class="w-full h-[2px] bg-[#252525] mt-2"></div>
+        class="max-h-0 overflow-hidden opacity-0 md:hidden bg-[#990b02] dark:bg-[#252525] px-4 transition-all duration-500 ease-in-out">
+        <div class="w-full h-[2px] bg-[#990b02] dark:bg-[#252525] mt-2"></div>
 
         <ul class="py-6 flex flex-col gap-6">
             <?php
@@ -114,4 +113,4 @@ $currentPath = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
     </div>
 
 </nav>
-<script src="./js/navbar.js"></script>
+<script src="./js/navbar.js" defer></script>

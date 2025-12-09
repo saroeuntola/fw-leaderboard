@@ -15,7 +15,7 @@ $data = $tournament->getTournamentById($id);
     <title><?= htmlspecialchars($data['title'] ?? 'Tournament Result') ?></title>
     <link rel="stylesheet" href="./src/output.css">
     <link rel="shortcut icon" href="/v2/admin/uploads/<?= htmlspecialchars($data['image']) ?>" type="image/png">
-    <script src="./js/jquery-3.7.1.min.js"></script>
+    <script src="./js/jquery-3.7.1.min.js" defer></script>
 </head>
 
 <body class="dark:bg-gray-900 dark:text-white bg-gray-200 text-gray-900">

@@ -4,6 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Unauthorized</title>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net/npm">
     <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="./src/output.css">
     <style>

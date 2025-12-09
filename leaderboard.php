@@ -61,14 +61,16 @@ include "./admin/lib/db.php";
 
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="/v2/images/favicon.ico" />
-
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net/npm">
     <!-- Styles -->
     <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+
     <link rel="stylesheet" href="./src/output.css" />
     <link rel="stylesheet" href="./css/style.css" />
 
     <!-- jQuery -->
-    <script src="./js/jquery-3.7.1.min.js"></script>
+    <script src="./js/jquery-3.7.1.min.js" defer></script>
 </head>
 
 

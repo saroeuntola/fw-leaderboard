@@ -35,10 +35,10 @@ $posts = $listPost->getPostByCategory(2, 'en', $limit, $page);
     <!-- CSS -->
     <link rel="stylesheet" href="./src/output.css">
     <link rel="stylesheet" href="./css/style.css">
-    <script src="./js/jquery-3.7.1.min.js"></script>
+    <script src="./js/jquery-3.7.1.min.js" defer></script>
 
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="/v2/icons/tournament-icon.png">
+    <link rel="icon" href="/v2/favicon.ico" type="image/x-icon">
 
     <!-- Open Graph -->
     <meta property="og:title" content="FancyWin Tournaments - Gaming Competitions in Bangladesh">

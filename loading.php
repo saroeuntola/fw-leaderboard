@@ -1,5 +1,5 @@
 <link rel="stylesheet" href="./css/loader.css">
-<script src="./js/jquery-3.7.1.min.js"></script>
+<script src="./js/jquery-3.7.1.min.js" defer></script>
 
 <body class="bg-white dark:bg-gray-900 text-white">
     <!-- Loader -->

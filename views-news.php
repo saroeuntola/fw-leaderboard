@@ -115,7 +115,7 @@ $latestTournament = $tournament->getLatest(1);
                     <p class="text-gray-400 text-sm mb-4">Published on <?= $createdAt->format('F j, Y') ?></p>
                 <?php endif; ?>
 
-                <div class="break-words desc-editor leading-relaxed dark:text-white text-gray-900">
+                <div class="break-words desc-editor leading-relaxed dark:text-white text-gray-900" style="white-space: pre-line;">
                     <?php
                     $description = $post['description'] ?? '';
                     $description = str_replace('../api/content_image/', '/v2/admin/api/content_image/', $description);

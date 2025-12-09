@@ -24,7 +24,11 @@ include "./admin/lib/db.php";
     <link rel="canonical" href="https://fancybet-leaderboard.com/" />
 
     <!-- CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net/npm">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daisyui@5/dist/full.css" />
+
     <link rel="stylesheet" href="./src/output.css">
     <link rel="stylesheet" href="./css/style.css">
 
@@ -52,7 +56,6 @@ include "./admin/lib/db.php";
     <meta name="msapplication-TileColor" content="#ffffff">
     <meta name="msapplication-TileImage" content="/v2/icons/ms-icon-144x144.png">
     <meta name="theme-color" content="#ffffff">
-
 
     <!-- Open Graph -->
     <meta property="og:title" content="FancyWin - Tournaments, News & Leaderboard in Bangladesh">
@@ -129,8 +132,6 @@ include "./admin/lib/db.php";
 </head>
 
 <body class="bg-[#f5f5f5] dark:bg-gray-900 text-gray-900  dark:text-gray-100 min-h-screen">
-
-
     <?php
     include "loading.php"
     ?>
@@ -158,7 +159,6 @@ include "./admin/lib/db.php";
             ?>
         </section>
     </main>
-
     <?php
     include "footer.php"
     ?>
