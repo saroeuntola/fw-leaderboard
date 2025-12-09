@@ -70,7 +70,7 @@ include "./admin/lib/db.php";
     <link rel="stylesheet" href="./css/style.css" />
 
     <!-- jQuery -->
-    <script src="./js/jquery-3.7.1.min.js" defer></script>
+    <script src="./js/jquery-3.7.1.min.js"></script>
 </head>
 
 
