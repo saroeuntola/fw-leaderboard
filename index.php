@@ -7,35 +7,18 @@ include "./admin/lib/db.php";
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <!-- SEO Title -->
-    <title>FancyWin - Tournaments, News & Leaderboard in Bangladesh</title>
-
-    <!-- SEO Description -->
-    <meta name="description" content="FancyWin Bangladesh – Explore the latest tournaments, gaming news, and real-time leaderboard updates. Stay informed with competitive rankings, breaking updates, and player statistics.">
-
-    <!-- SEO Keywords -->
-    <meta name="keywords" content="Bangladesh gaming tournaments, BD gaming news, Bangladesh leaderboard, FancyWin Bangladesh, BD online games ranking, gaming tournaments BD, esports Bangladesh, gaming news BD, top players Bangladesh, real-time leaderboard Bangladesh">
-
+    <title>FancyWin Leaderboard, Tournament | বাংলাদেশ গেমিং</title>
+    <meta name="description" content="FancyWin লিডারবোর্ড ও টুর্নামেন্টে অংশ নিন। বাংলাদেশি গেমারদের সাথে প্রতিযোগিতা করুন, র‍্যাংক দেখুন এবং আকর্ষণীয় পুরস্কার জিতুন।">
+    <meta name="keywords" content="FancyWin leaderboard, Online tournament bd, Gaming leaderboard Bangladesh, বাংলাদেশের সেরা অনলাইন গেমিং লিডারবোর্ড, FancyWin, লিডারবোর্ড বাংলাদেশ, গেমিং টুর্নামেন্ট BD, অনলাইন গেম বাংলাদেশ, ক্যাশ জিতুন BD">
     <meta name="author" content="FancyWin">
     <meta name="robots" content="index, follow">
-
-    <!-- Canonical URL -->
     <link rel="canonical" href="https://fancybet-leaderboard.com/" />
-
-    <!-- CSS -->
-
     <link rel="preconnect" href="https://cdn.jsdelivr.net">
     <link rel="preconnect" href="https://cdn.jsdelivr.net/npm">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daisyui@5/dist/full.css" />
-
     <link rel="stylesheet" href="./src/output.css">
     <link rel="stylesheet" href="./css/style.css">
-
-    <!-- JS -->
     <script src="./js/jquery-3.7.1.min.js"></script>
-
-    <!-- Favicons -->
     <link rel="apple-touch-icon" sizes="57x57" href="/v2/icons/apple-icon-57x57.png">
     <link rel="apple-touch-icon" sizes="60x60" href="/v2/icons/apple-icon-60x60.png">
     <link rel="apple-touch-icon" sizes="72x72" href="/v2/icons/apple-icon-72x72.png">
@@ -51,34 +34,47 @@ include "./admin/lib/db.php";
     <link rel="icon" type="image/png" sizes="16x16" href="/v2/icons/favicon-16x16.png">
     <link rel="icon" href="/v2/favicon.ico" type="image/x-icon">
     <link rel="shortcut icon" href="/v2/icons/favicon.ico" type="image/x-icon">
-
     <link rel="manifest" href="/v2/icons/manifest.json">
     <meta name="msapplication-TileColor" content="#ffffff">
     <meta name="msapplication-TileImage" content="/v2/icons/ms-icon-144x144.png">
     <meta name="theme-color" content="#ffffff">
-
-    <!-- Open Graph -->
     <meta property="og:title" content="FancyWin - Tournaments, News & Leaderboard in Bangladesh">
     <meta property="og:description" content="Discover tournaments, gaming news, and leaderboard rankings updated daily for Bangladeshi players.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://fancybet-leaderboard.com/">
     <meta property="og:image" content="https://fancybet-leaderboard.com/v2/images/icons/og-image.png">
     <meta property="og:locale" content="en_BD">
-
-    <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="FancyWin - Tournaments, News & Leaderboard in Bangladesh">
     <meta name="twitter:description" content="FancyWin Bangladesh – Latest tournaments, gaming news, and leaderboard updates.">
     <meta name="twitter:image" content="https://fancybet-leaderboard.com/v2/images/icons/og-image.png">
     <meta name="twitter:site" content="@FancyWin">
-
-    <!-- Local SEO -->
     <meta name="geo.region" content="BD">
     <meta name="geo.placename" content="Bangladesh">
     <meta name="geo.position" content="23.6850;90.3563">
     <meta name="ICBM" content="23.6850,90.3563">
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "name": "FancyWin",
+            "url": "https://fancybet-leaderboard.com/v2",
+            "description": "FancyWin লিডারবোর্ড ও টুর্নামেন্ট প্ল্যাটফর্ম বাংলাদেশি গেমারদের জন্য।",
+            "inLanguage": "bn-BD",
+            "audience": {
+                "@type": "Audience",
+                "geographicArea": {
+                    "@type": "Country",
+                    "name": "Bangladesh"
+                }
+            },
+            "publisher": {
+                "@type": "Organization",
+                "name": "FancyWin"
+            }
+        }
+    </script>
 
-    <!-- Schema: Organization -->
     <script type="application/ld+json">
         {
             "@context": "https://schema.org",
@@ -93,8 +89,6 @@ include "./admin/lib/db.php";
             }
         }
     </script>
-
-    <!-- Schema: LocalBusiness Dhaka -->
     <script type="application/ld+json">
         {
             "@context": "https://schema.org",
@@ -128,7 +122,6 @@ include "./admin/lib/db.php";
             }
         }
     </script>
-
 </head>
 
 <body class="bg-[#f5f5f5] dark:bg-[#181818] text-gray-900  dark:text-gray-100 min-h-screen">
