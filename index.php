@@ -2,7 +2,7 @@
 include "./admin/lib/db.php";
 ?>
 <!DOCTYPE html>
-<html lang="bn-BD">
+<html lang="en-BD">
 
 <head>
     <meta charset="UTF-8">
@@ -38,15 +38,15 @@ include "./admin/lib/db.php";
     <meta name="msapplication-TileColor" content="#ffffff">
     <meta name="msapplication-TileImage" content="/v2/icons/ms-icon-144x144.png">
     <meta name="theme-color" content="#ffffff">
-    <meta property="og:title" content="FancyWin - Tournaments, News & Leaderboard in Bangladesh">
-    <meta property="og:description" content="Discover tournaments, gaming news, and leaderboard rankings updated daily for Bangladeshi players.">
+    <meta property="og:title" content="FancyWin Leaderboard & Tournament বাংলাদেশ">
+    <meta property="og:description" content="বাংলাদেশি গেমারদের জন্য FancyWin লিডারবোর্ড ও টুর্নামেন্ট।">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://fancybet-leaderboard.com/">
     <meta property="og:image" content="https://fancybet-leaderboard.com/v2/images/icons/og-image.png">
     <meta property="og:locale" content="en_BD">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="FancyWin - Tournaments, News & Leaderboard in Bangladesh">
-    <meta name="twitter:description" content="FancyWin Bangladesh – Latest tournaments, gaming news, and leaderboard updates.">
+    <meta name="twitter:title" content="FancyWin Leaderboard & Tournament বাংলাদেশ">
+    <meta name="twitter:description" content="বাংলাদেশি গেমারদের জন্য FancyWin লিডারবোর্ড ও টুর্নামেন্ট।">
     <meta name="twitter:image" content="https://fancybet-leaderboard.com/v2/images/icons/og-image.png">
     <meta name="twitter:site" content="@FancyWin">
     <meta name="geo.region" content="BD">
@@ -59,8 +59,8 @@ include "./admin/lib/db.php";
             "@type": "WebSite",
             "name": "FancyWin",
             "url": "https://fancybet-leaderboard.com/v2",
-            "description": "FancyWin লিডারবোর্ড ও টুর্নামেন্ট প্ল্যাটফর্ম বাংলাদেশি গেমারদের জন্য।",
-            "inLanguage": "bn-BD",
+            "description": "FancyWin লিডারবোর্ড ও টুর্নামেন্টে অংশ নিন। বাংলাদেশি গেমারদের সাথে প্রতিযোগিতা করুন, র‍্যাংক দেখুন এবং আকর্ষণীয় পুরস্কার জিতুন।",
+            "inLanguage": "en-BD",
             "audience": {
                 "@type": "Audience",
                 "geographicArea": {
