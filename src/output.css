@@ -734,10 +734,6 @@ video {
   margin-left: 16rem;
 }
 
-.mr-6 {
-  margin-right: 1.5rem;
-}
-
 .mt-1 {
   margin-top: 0.25rem;
 }
@@ -2303,6 +2299,11 @@ video {
   color: rgb(239 68 68 / var(--tw-text-opacity, 1));
 }
 
+.hover\:text-red-600:hover {
+  --tw-text-opacity: 1;
+  color: rgb(220 38 38 / var(--tw-text-opacity, 1));
+}
+
 .hover\:text-red-700:hover {
   --tw-text-opacity: 1;
   color: rgb(185 28 28 / var(--tw-text-opacity, 1));
@@ -2399,9 +2400,9 @@ video {
   border-color: rgb(55 65 81 / var(--tw-border-opacity, 1));
 }
 
-.dark\:bg-\[\#202020\]:is(.dark *) {
+.dark\:bg-\[\#181818\]:is(.dark *) {
   --tw-bg-opacity: 1;
-  background-color: rgb(32 32 32 / var(--tw-bg-opacity, 1));
+  background-color: rgb(24 24 24 / var(--tw-bg-opacity, 1));
 }
 
 .dark\:bg-\[\#252525\]:is(.dark *) {
@@ -2417,36 +2418,6 @@ video {
 .dark\:bg-gray-900:is(.dark *) {
   --tw-bg-opacity: 1;
   background-color: rgb(17 24 39 / var(--tw-bg-opacity, 1));
-}
-
-.dark\:bg-\[\#2020\]:is(.dark *) {
-  background-color: #2020;
-}
-
-.dark\:bg-\[\#151515\]:is(.dark *) {
-  --tw-bg-opacity: 1;
-  background-color: rgb(21 21 21 / var(--tw-bg-opacity, 1));
-}
-
-.dark\:bg-\[\#11515\]:is(.dark *) {
-  background-color: #11515;
-}
-
-.dark\:bg-\[\#181818\]:is(.dark *) {
-  --tw-bg-opacity: 1;
-  background-color: rgb(24 24 24 / var(--tw-bg-opacity, 1));
-}
-
-.dark\:bg-\[\]:is(.dark *) {
-  background-color: ;
-}
-
-.dark\:bg-\[\#\]:is(.dark *) {
-  background-color: #;
-}
-
-.dark\:bg-\[\#25\]:is(.dark *) {
-  background-color: #25;
 }
 
 .dark\:dark\:text-white:is(.dark *):is(.dark *) {
@@ -2469,9 +2440,19 @@ video {
   color: rgb(255 255 255 / var(--tw-text-opacity, 1));
 }
 
+.dark\:text-gray-900:is(.dark *) {
+  --tw-text-opacity: 1;
+  color: rgb(17 24 39 / var(--tw-text-opacity, 1));
+}
+
 .dark\:hover\:bg-gray-700:hover:is(.dark *) {
   --tw-bg-opacity: 1;
   background-color: rgb(55 65 81 / var(--tw-bg-opacity, 1));
+}
+
+.hover\:dark\:text-red-600:is(.dark *):hover {
+  --tw-text-opacity: 1;
+  color: rgb(220 38 38 / var(--tw-text-opacity, 1));
 }
 
 @media (min-width: 640px) {

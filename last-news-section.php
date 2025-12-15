@@ -32,14 +32,17 @@ $posts = $listPost->getLastPosts(4, 'en');
             $link = "views?slug=" . urlencode($post['slug']);
         }
         ?>
-        <a href="<?= htmlspecialchars($link); ?>" class="bg-white shadow-[0_0_5px_0_rgba(0,0,0,0.2)] dark:bg-[#252525] rounded-md overflow-hidden">
+        <a href="<?= htmlspecialchars($link); ?>" class="bg-white shadow-[0_0_5px_0_rgba(0,0,0,0.2)] dark:bg-[#252525] rounded-md overflow-hidden hover:text-red-600">
             <div class="overflow-hidden rounded-t-md">
                 <img src="./admin/post/<?= htmlspecialchars($post['image']); ?>"
                     alt="<?= htmlspecialchars($post['name']); ?>" loading="lazy"
                     class="w-full object-cover image-card transition-transform duration-500 hover:scale-105">
             </div>
-            <div class="p-4">
-                <h2 class="text-lg font-semibold mb-2 mr-6 truncate"><?= htmlspecialchars($post['name']); ?></h2>
+            <div class="p-2">
+                <h2 class="text-lg font-semibold mb-2 line-clamp-2  transition-all duration-300">
+                    <?= htmlspecialchars(limitText($post['name'], 70)); ?>
+                </h2>
+
                 <div class="items-center flex mt-2 gap-2">
 
                     <i class="fa-solid fa-earth-americas text-gray-400"></i>
@@ -53,7 +56,6 @@ $posts = $listPost->getLastPosts(4, 'en');
 
 
 <section class="mt-10">
-
     <div class="w-full mb-4">
         <h1 class="inline-block bg-red-800 text-white px-3 py-1 
            lg:text-xl text-lg font-bold">
@@ -70,7 +72,6 @@ $posts = $listPost->getLastPosts(4, 'en');
                 : "/v2/views-lion-result?id=" . urlencode($item['id']);
             ?>
             <div class="bg-white shadow-[0_0_5px_0_rgba(0,0,0,0.2)] dark:bg-[#252525] rounded-md flex flex-col md:flex-row md:items-center justify-between gap-4 overflow-hidden mb-4">
-
                 <!-- Left: Image -->
                 <img src="./admin/uploads/<?= htmlspecialchars($item['image']) ?>"
                     alt="<?= htmlspecialchars($item['title']) ?>" loading="lazy"

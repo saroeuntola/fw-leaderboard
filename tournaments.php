@@ -1,6 +1,7 @@
 <?php
 include_once './admin/lib/db.php';
 include_once './admin/lib/post_lib.php';
+include_once './services/textLimit.php';
 
 $listPost = new Post();
 
@@ -16,13 +17,13 @@ if ($totalPages < 1) $totalPages = 1;
 $posts = $listPost->getPostByCategory(2, 'en', $limit, $page);
 ?>
 <!DOCTYPE html>
-<html lang="bn-BD">
+<html lang="en-BD">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Tournaments - FancyWin</title>
+    <title>FancyWin Tournaments - Gaming Tournament in Bangladesh</title>
 
     <meta name="description" content="Explore active and upcoming gaming tournaments in Bangladesh. Join FancyWin esports events, compete with top players, and track tournament standings.">
 
@@ -41,7 +42,7 @@ $posts = $listPost->getPostByCategory(2, 'en', $limit, $page);
     <link rel="icon" href="/v2/favicon.ico" type="image/x-icon">
 
     <!-- Open Graph -->
-    <meta property="og:title" content="FancyWin Tournaments - Gaming Competitions in Bangladesh">
+    <meta property="og:title" content="FancyWin Tournaments - Gaming Tournament in Bangladesh">
     <meta property="og:description" content="Discover the latest gaming tournaments happening in Bangladesh. Join competitions and follow standings.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://fancybet-leaderboard.com/v2/tournaments">
@@ -50,7 +51,7 @@ $posts = $listPost->getPostByCategory(2, 'en', $limit, $page);
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="FancyWin Tournaments - Bangladesh Gaming Competitions">
+    <meta name="twitter:title" content="FancyWin Tournaments - Gaming Tournament in Bangladesh">
     <meta name="twitter:description" content="Join Bangladesh gaming tournaments and track standings.">
     <meta name="twitter:image" content="https://fancybet-leaderboard.com/v2/images/icons/og-image.png">
 
@@ -99,7 +100,7 @@ $posts = $listPost->getPostByCategory(2, 'en', $limit, $page);
 </head>
 
 
-<body class="dark:bg-[#181818] bg-[#f5f5f5]">
+<body class="dark:bg-[#181818] bg-[#f5f5f5] dark:text-white text-gray-900">
     <?php
     include "./loading.php";
     ?>
@@ -107,10 +108,10 @@ $posts = $listPost->getPostByCategory(2, 'en', $limit, $page);
     <?php include "./navbar.php" ?>
     <main class="max-w-7xl m-auto px-4 pt-[90px] pb-10">
         <h1 class="lg:text-xl text-lg font-bold mb-4 dark:text-white text-gray-900">All Tournaments</h1>
-        <div class="grid gap-5 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 text-white cursor-pointer">
+        <div class="grid gap-5 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 cursor-pointer">
             <?php foreach ($posts as $post): ?>
                 <a href="views?slug=<?= urlencode($post['slug']); ?>" class="bg-white dark:bg-[#252525]
-            shadow-[0_0_5px_0_rgba(0,0,0,0.2)] rounded-md overflow-hidden hover:shadow-xl transition-shadow">
+            shadow-[0_0_5px_0_rgba(0,0,0,0.2)] rounded-md overflow-hidden hover:text-red-600">
                     <!-- Image with hover zoom -->
                     <div class="overflow-hidden rounded-t-md">
                         <img src="./admin/post/<?= htmlspecialchars($post['image']) ?>"
@@ -120,7 +121,7 @@ $posts = $listPost->getPostByCategory(2, 'en', $limit, $page);
 
                     </div>
                     <div class="p-4">
-                        <h2 class="text-lg font-semibold mb-2 truncate text-gray-900 dark:text-white"><?= htmlspecialchars($post['name']) ?></h2>
+                        <h2 class="text-lg font-semibold mb-2 line-clamp-2 transition-all duration-300"><?= htmlspecialchars(limitText($post['name'], 70)); ?></h2>
 
                         <div class="flex items-center gap-2">
                             <i class="fa-solid fa-earth-americas text-gray-400"></i>
