@@ -8,7 +8,7 @@
     }
     $user = $userLib->getUser($userId);
     ?>
-  <aside id="sidebar" class="fixed top-0 left-0 h-full w-64 bg-white dark:bg-gray-800 shadow-lg flex flex-col justify-between transition-all duration-300 text-white">
+  <aside id="sidebar" class="fixed top-0 left-0 h-full w-64 bg-gray-800 shadow-lg flex flex-col justify-between transition-all duration-300 text-white">
       <div>
           <div class="flex items-center justify-between ml-4 p-4 border-b border-gray-200 dark:border-gray-700">
               <h1 class="text-xl font-bold">FW Dashboard</h1>

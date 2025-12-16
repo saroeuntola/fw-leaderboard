@@ -12,7 +12,7 @@ $eventCount = $count->getUpcomingEventCount();
 
 
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en" >
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -30,7 +30,7 @@ $eventCount = $count->getUpcomingEventCount();
 
         <div class="grid gap-6 md:grid-cols-3">
             <!-- Users -->
-            <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-md p-6 flex items-center justify-between">
+            <div class="bg-gray-800 rounded-2xl shadow-md p-6 flex items-center justify-between">
                 <div>
                     <p class="text-gray-500 dark:text-gray-400 text-sm">Total Users</p>
                     <h3 class="text-3xl font-bold"><?= htmlspecialchars($userCount) ?></h3>
@@ -39,7 +39,7 @@ $eventCount = $count->getUpcomingEventCount();
             </div>
 
             <!-- Posts -->
-            <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-md p-6 flex items-center justify-between">
+            <div class="bg-gray-800 rounded-2xl shadow-md p-6 flex items-center justify-between">
                 <div>
                     <p class="text-gray-500 dark:text-gray-400 text-sm">Total Posts</p>
                     <h3 class="text-3xl font-bold"><?= htmlspecialchars($postCount) ?></h3>
@@ -48,7 +48,7 @@ $eventCount = $count->getUpcomingEventCount();
             </div>
 
             <!-- Events -->
-            <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-md p-6 flex items-center justify-between">
+            <div class="bg-gray-800 rounded-2xl shadow-md p-6 flex items-center justify-between">
                 <div>
                     <p class="text-gray-500 dark:text-gray-400 text-sm">Upcoming Events</p>
                     <h3 class="text-3xl font-bold"><?= htmlspecialchars($eventCount) ?></h3>
