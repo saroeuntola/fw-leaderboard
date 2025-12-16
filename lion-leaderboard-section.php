@@ -89,8 +89,8 @@ if (
 <div class="max-w-full rounded-lg">
     <?php foreach ($banners as $index => $banner): ?>
         <div class="carousel-item pt-6">
-            <?php if (!empty($banner['link'])): ?>
-                <a href="<?= htmlspecialchars($banner['link']) ?>" class="w-full">
+            <?php if (!empty($banner['image'])): ?>
+                <a href="<?= htmlspecialchars($banner['link'] ?? '#') ?>" class="w-full">
                     <img src="/v2/admin/<?= htmlspecialchars($banner['image']) ?>" loading="lazy" alt="<?= $banner['title'] ?>"
                         class="w-full h-auto rounded-md" />
                 </a>
