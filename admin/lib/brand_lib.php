@@ -12,7 +12,7 @@ class Brand {
             'brand_name' => $name,
             'brand_image' => $image,
             'link' => $link,
-            'post_by' => $post_by
+            'post_by' => $post_by,
         ];
         return dbInsert('brand', $data);
     }

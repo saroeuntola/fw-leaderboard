@@ -92,7 +92,7 @@ $brands = $brandObj->getBrand();
 
         <!-- Table -->
         <div class="overflow-x-auto">
-            <table class="table table-zebra w-full">
+            <table class="table w-full">
                 <thead class="text-white bg-sky-600">
                     <tr>
                         <th>#</th>
