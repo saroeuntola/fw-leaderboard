@@ -5,7 +5,7 @@ include "./admin/lib/lion_banner_lib.php";
 $leaderboardObj = new Leaderboard();
 $data = $leaderboardObj->all();
 $bannerObj = new lion_banners();
-$banners = $bannerObj->getlion_banners();
+$banners = $bannerObj->getlion_bannersByStatus();
 function banglaDate($date)
 {
     $timestamp = strtotime($date);
@@ -91,7 +91,7 @@ if (
         <div class="carousel-item pt-6">
             <?php if (!empty($banner['link'])): ?>
                 <a href="<?= htmlspecialchars($banner['link']) ?>" class="w-full">
-                    <img src="/v2/admin/<?= htmlspecialchars($banner['image']) ?>" loading="lazy"
+                    <img src="/v2/admin/<?= htmlspecialchars($banner['image']) ?>" loading="lazy" alt="<?= $banner['title'] ?>"
                         class="w-full h-auto rounded-md" />
                 </a>
             <?php else: ?>

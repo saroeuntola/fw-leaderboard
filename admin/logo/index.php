@@ -15,6 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $name = $_POST['brand_name'];
         $link = $_POST['link'];
         $post_by = $currentUser ?? '';
+        $status = $_POST['status'];
         $image = '';
 
         if (!empty($_FILES['brand_image']['name'])) {
@@ -26,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $image = "uploads/brands/" . $filename;
         }
 
-        $brandObj->createBrand($name, $image, $link, $post_by);
+        $brandObj->createBrand($name, $image, $link, $post_by, $status);
     }
 
     if (isset($_POST['update'])) {
@@ -34,6 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $name  = $_POST['brand_name'];
         $link  = $_POST['link'];
         $post_by = $currentUser ?? '';
+        $status = $_POST['status'];
         $image = $_POST['old_image'];
 
         if (!empty($_FILES['brand_image']['name'])) {
@@ -50,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
         }
 
-        $brandObj->updateBrand($id, $name, $image, $link, $post_by);
+        $brandObj->updateBrand($id, $name, $image, $link, $post_by, $status);
     }
 
     if (isset($_POST['delete'])) {
@@ -101,6 +103,7 @@ $brands = $brandObj->getBrand();
                         <th>Link</th>
                         <th>Post by</th>
                         <th>created_at</th>
+                        <th>Status</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -118,10 +121,19 @@ $brands = $brandObj->getBrand();
                             <td><a href="<?= htmlspecialchars($b['link']) ?>" class="link" target="_blank"><?= htmlspecialchars($b['link']) ?></a></td>
                             <td><?= htmlspecialchars($b['post_by']) ?></td>
                             <td><?= htmlspecialchars($b['created_at']) ?></td>
+                            <td>
+                                <button
+                                    onclick="toggleStatus(<?= $b['id'] ?>)"
+                                    class="px-3 py-1 rounded text-white text-sm transition-all duration-300 cursor-pointer hover:opacity-70
+                                    <?= $b['status'] == 1 ? 'bg-green-600' : 'bg-red-800' ?>">
+                                    <?= $b['status'] == 1 ? 'Active' : 'Inactive' ?>
+                                </button>
+
+                            </td>
                             <td class="flex gap-2">
                                 <!-- Edit -->
                                 <button class="btn btn-sm btn-warning"
-                                    onclick="openEditModal(<?= $b['id'] ?>, '<?= htmlspecialchars($b['brand_name'], ENT_QUOTES) ?>', '<?= htmlspecialchars($b['link'], ENT_QUOTES) ?>', '<?= $b['brand_image'] ?>')">
+                                    onclick="openEditModal(<?= $b['id'] ?>, '<?= htmlspecialchars($b['brand_name'], ENT_QUOTES) ?>', '<?= htmlspecialchars($b['link'], ENT_QUOTES) ?>', '<?= $b['brand_image'] ?>', '<?= $b['status'] ?>')">
                                     Edit
                                 </button>
                                 <!-- Delete -->
@@ -152,6 +164,17 @@ $brands = $brandObj->getBrand();
                 <input type="file" name="brand_image" accept="image/*"
                     class="file-input file-input-bordered w-full mb-4"
                     onchange="previewImage(event, 'createPreview')" required />
+                <div class="">
+                    <label class="font-semibold mr-4">Status:</label><br>
+                    <input type="radio" name="status" value="1" checked class="">
+                    <label for="">
+                        Active
+                    </label>
+                    <input type="radio" name="status" value="0" class="ml-2">
+                    <label for="">
+                        Inactive
+                    </label>
+                </div>
                 <div class="modal-action">
                     <button type="submit" name="create" class="btn btn-primary">Save</button>
                     <button type="button" class="btn" onclick="createModal.close()">Cancel</button>
@@ -171,20 +194,24 @@ $brands = $brandObj->getBrand();
                     <label for="">Logo Name*</label>
                     <input type="text" name="brand_name" id="editName" class="input input-bordered w-full mb-2 mt-2" required />
                 </div>
-
-
                 <div>
                     <label for="">Link (Optional)</label>
                     <input type="text" name="link" id="editLink" class="input input-bordered w-full mb-2 mt-2" />
                 </div>
-
-
                 <!-- Preview -->
                 <img id="editPreview" src="" class="w-full h-32 object-contain mb-2 rounded border" loading="lazy" />
-
                 <input type="file" name="brand_image" accept="image/*"
                     class="file-input file-input-bordered w-full mb-4"
                     onchange="previewImage(event, 'editPreview')" />
+
+                <div class="mb-4 hidden">
+                    <label class="font-semibold mr-2">Status:</label>
+                    <input type="radio" name="status" id="statusActive" value="1">
+                    <label for="statusActive">Active</label>
+
+                    <input type="radio" name="status" id="statusInactive" value="0" class="ml-2">
+                    <label for="statusInactive">Inactive</label>
+                </div>
                 <div class="modal-action">
                     <button type="submit" name="update" class="btn btn-primary">Update</button>
                     <button type="button" class="btn" onclick="editModal.close()">Cancel</button>
@@ -193,30 +220,7 @@ $brands = $brandObj->getBrand();
         </div>
     </dialog>
 
-    <script>
-        function previewImage(event, previewId) {
-            const file = event.target.files[0];
-            const preview = document.getElementById(previewId);
-
-            if (file) {
-                preview.src = URL.createObjectURL(file);
-                preview.classList.remove("hidden");
-            } else {
-                preview.src = "";
-                preview.classList.add("hidden");
-            }
-        }
-
-        function openEditModal(id, name, link, image) {
-            document.getElementById('editId').value = id;
-            document.getElementById('editName').value = name;
-            document.getElementById('editLink').value = link;
-            document.getElementById('editOldImage').value = image;
-            document.getElementById('editPreview').src = "../" + image;
-            document.getElementById('editPreview').classList.remove("hidden");
-            document.getElementById('editModal').showModal();
-        }
-    </script>
+    <script src="logo.js"></script>
 </body>
 
 </html>

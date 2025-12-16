@@ -1,7 +1,7 @@
 <?php
-include "../admin/lib/banner_lib.php";
+include "./admin/lib/banner_lib.php";
 $bannerObj = new Banner();
-$banners = $bannerObj->getBanner();
+$banners = $bannerObj->getBannerBySatus();
 ?>
 
 <style>

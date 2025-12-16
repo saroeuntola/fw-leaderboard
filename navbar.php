@@ -2,8 +2,7 @@
 // Example PHP navbar (logo can be dynamic)
 include "./admin/lib/brand_lib.php";
 $brandObj = new Brand();
-$logos = $brandObj->getBrandLimit(1);
-$logo = $logos[0] ?? null;
+$logos = $brandObj->getBrandByStatus();
 
 $currentPath = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 ?>
@@ -16,11 +15,18 @@ $currentPath = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
     <div class="max-w-7xl mx-auto px-4">
         <div class="flex justify-between items-center h-16">
             <!-- Logo -->
-            <div class="flex-shrink-0">
-                <a href="<?= htmlspecialchars($logo['link'] ?? '/') ?>" class="text-2xl font-bold text-red-600">
-                    <img src="/v2/admin/<?= htmlspecialchars($logo['brand_image'] ?? 'default-logo.png') ?>" alt="Logo" class="h-10 object-contain">
-                </a>
+            <div class="flex space-x-4">
+                <?php foreach ($logos as $b): ?>
+                    <a href="<?= htmlspecialchars($b['link'] ?? '/') ?>" class="flex-shrink-0">
+                        <img src="/v2/admin/<?= htmlspecialchars($b['brand_image'] ?? 'default-logo.png') ?>"
+                            alt="<?= htmlspecialchars($b['brand_name'] ?? 'logo') ?>"
+                            class="h-10 object-contain">
+                    </a>
+                <?php endforeach; ?>
+
+
             </div>
+
             <!-- Desktop Menu -->
             <div class="hidden md:flex items-center space-x-6 font-medium">
                 <?php

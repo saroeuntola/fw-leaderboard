@@ -7,12 +7,13 @@ class Brand {
     }
 
     // Create a new Brand
-    public function createBrand($name, $image, $link, $post_by) {
+    public function createBrand($name, $image, $link, $post_by, $status) {
         $data = [
             'brand_name' => $name,
             'brand_image' => $image,
             'link' => $link,
             'post_by' => $post_by,
+            'status' => $status
         ];
         return dbInsert('brand', $data);
     }
@@ -25,7 +26,25 @@ class Brand {
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+    public function getBrandByStatus()
+    {
+        $sql = "SELECT * FROM brand WHERE status = 1 ORDER BY created_at DESC";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 
+    public function toggleBannerStatus($id)
+    {
+        $sql = "UPDATE brand
+            SET status = IF(status = 1, 0, 1)
+            WHERE id = :id";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+
+        return $stmt->execute();
+    }
 
     public function getBrand()
     {
@@ -40,7 +59,7 @@ class Brand {
         return ($result && count($result) > 0) ? $result[0] : null;
     }
     // Update a Brand
-    public function updateBrand($id, $name, $image, $link, $post_by) {
+    public function updateBrand($id, $name, $image, $link, $post_by, $status) {
         if (!$this->getBrandById($id)) {
             return false; 
         }
@@ -49,7 +68,8 @@ class Brand {
             'brand_name' => $name,
             'brand_image' => $image,
             'link' => $link,
-            'post_by' => $post_by
+            'post_by' => $post_by,
+            'status' => $status
         ];
         return dbUpdate('brand', $data, "id=" . $this->db->quote($id));
     }

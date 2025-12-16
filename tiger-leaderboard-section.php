@@ -3,7 +3,7 @@ include "./admin/lib/db.php";
 include "./admin/lib/tiger_leaderboard_lib.php";
 include "./admin/lib/tiger_banner_lib.php";
 $bannerObj = new Tiger_banners();
-$banners = $bannerObj->gettiger_banners();
+$banners = $bannerObj->gettiger_bannersByStatus();
 
 $leaderboardObj = new TigerLeaderboard();
 $data = $leaderboardObj->all();

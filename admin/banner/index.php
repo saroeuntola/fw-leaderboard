@@ -14,6 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $title = $_POST['title'];
         $link  = $_POST['link'];
         $post_by = $currentUser;
+        $status = $_POST['status'];
         $image = '';
         if (!empty($_FILES['image']['name'])) {
             $uploadDir = "../uploads/banners/";
@@ -24,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $image = "uploads/banners/" . $filename;
         }
 
-        $bannerObj->createBanner($title, $image, $link, $post_by);
+        $bannerObj->createBanner($title, $image, $link, $post_by, $status);
     }
 
     if (isset($_POST['update'])) {
@@ -32,6 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $title = $_POST['title'];
         $link  = $_POST['link'];
         $post_by = $currentUser;
+        $status = $_POST['status'];
         $image = $_POST['old_image'];
 
         if (!empty($_FILES['image']['name'])) {
@@ -51,7 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
         }
 
-        $bannerObj->updateBanner($id, $title, $image, $link, $post_by);
+        $bannerObj->updateBanner($id, $title, $image, $link, $post_by, $status);
     }
 
     if (isset($_POST['delete'])) {
@@ -94,6 +96,7 @@ $banners = $bannerObj->getBanner();
                         <th>Link</th>
                         <th>Post by</th>
                         <th>Create At</th>
+                        <th>Status</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -112,10 +115,19 @@ $banners = $bannerObj->getBanner();
                             <td><a href="<?= htmlspecialchars($b['link']) ?>" class="link" target="_blank"><?= htmlspecialchars($b['link']) ?></a></td>
                             <td><?= htmlspecialchars($b['post_by']) ?></td>
                             <td><?= htmlspecialchars($b['created_at']) ?></td>
+                            <td>
+                                <button
+                                    onclick="toggleStatus(<?= $b['id'] ?>)"
+                                    class="px-3 py-1 rounded text-white text-sm transition-all duration-300 cursor-pointer hover:opacity-70
+                                    <?= $b['status'] == 1 ? 'bg-green-600' : 'bg-red-800' ?>">
+                                    <?= $b['status'] == 1 ? 'Active' : 'Inactive' ?>
+                                </button>
+
+                            </td>
                             <td class="flex gap-2">
                                 <!-- Edit button -->
                                 <button class="btn btn-sm btn-warning"
-                                    onclick="openEditModal(<?= $b['id'] ?>, '<?= htmlspecialchars($b['title'], ENT_QUOTES) ?>', '<?= htmlspecialchars($b['link'], ENT_QUOTES) ?>', '<?= $b['image'] ?>')">
+                                    onclick="openEditModal(<?= $b['id'] ?>, '<?= htmlspecialchars($b['title'], ENT_QUOTES) ?>', '<?= htmlspecialchars($b['link'], ENT_QUOTES) ?>', '<?= $b['image'] ?>', '<?= $b['status'] ?>')">
                                     Edit
                                 </button>
 
@@ -139,12 +151,23 @@ $banners = $bannerObj->getBanner();
                 <input type="text" name="title" placeholder="Title" class="input input-bordered w-full mb-2" required />
                 <input type="text" name="link" placeholder="Link" class="input input-bordered w-full mb-2" required />
 
+
                 <!-- Preview -->
                 <img id="createPreview" src="" class="hidden w-full h-32 object-cover mb-2 rounded border" loading="lazy" />
 
                 <input type="file" name="image" accept="image/*" class="file-input file-input-bordered w-full mb-4"
                     onchange="previewImage(event, 'createPreview')" required />
-
+                <div class="">
+                    <label class="font-semibold mr-4">Status:</label><br>
+                    <input type="radio" name="status" value="1" checked class="">
+                    <label for="">
+                        Active
+                    </label>
+                    <input type="radio" name="status" value="0" class="ml-2">
+                    <label for="">
+                        Inactive
+                    </label>
+                </div>
                 <div class="modal-action">
                     <button type="submit" name="create" class="btn btn-primary">Save</button>
                     <button type="button" class="btn" onclick="createModal.close()">Cancel</button>
@@ -170,6 +193,16 @@ $banners = $bannerObj->getBanner();
                 <input type="file" name="image" accept="image/*" class="file-input file-input-bordered w-full mb-4"
                     onchange="previewImage(event, 'editPreview')" />
 
+
+                <div class="mb-4 hidden">
+                    <label class="font-semibold mr-2">Status:</label>
+                    <input type="radio" name="status" id="statusActive" value="1">
+                    <label for="statusActive">Active</label>
+
+                    <input type="radio" name="status" id="statusInactive" value="0" class="ml-2">
+                    <label for="statusInactive">Inactive</label>
+                </div>
+
                 <div class="modal-action">
                     <button type="submit" name="update" class="btn btn-primary">Update</button>
                     <button type="button" class="btn" onclick="editModal.close()">Cancel</button>
@@ -177,43 +210,7 @@ $banners = $bannerObj->getBanner();
             </form>
         </div>
     </dialog>
-
-
-    <script>
-        function previewImage(event, previewId) {
-            const file = event.target.files[0];
-            const preview = document.getElementById(previewId);
-
-            if (file) {
-                preview.src = URL.createObjectURL(file);
-                preview.classList.remove("hidden");
-            } else {
-                preview.src = "";
-                preview.classList.add("hidden");
-            }
-        }
-
-        function openEditModal(id, title, link, image) {
-            document.getElementById('editId').value = id;
-            document.getElementById('editTitle').value = title;
-            document.getElementById('editLink').value = link;
-            document.getElementById('editOldImage').value = image;
-            document.getElementById('editPreview').src = "../" + image;
-            document.getElementById('editPreview').classList.remove("hidden");
-            document.getElementById('editModal').showModal();
-        }
-    </script>
-
-    <!-- Sidebar toggle script -->
-    <script>
-        const toggleBtn = document.getElementById('toggleSidebar');
-        const sidebar = document.getElementById('sidebar');
-        if (toggleBtn) {
-            toggleBtn.addEventListener('click', () => {
-                sidebar.classList.toggle('-translate-x-full');
-            });
-        }
-    </script>
+    <script src="banner.js"></script>
 </body>
 
 </html>

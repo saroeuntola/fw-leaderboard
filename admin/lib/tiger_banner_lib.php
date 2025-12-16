@@ -8,18 +8,38 @@ class Tiger_banners
         $this->db = dbConn();
     }
 
+    public function toggleBannerStatus($id)
+    {
+        $sql = "UPDATE tiger_banners
+            SET status = IF(status = 1, 0, 1)
+            WHERE id = :id";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+
+        return $stmt->execute();
+    }
+
     // Create a new tiger_banners
-    public function createBanner($title, $image, $link, $post)
+    public function createBanner($title, $image, $link, $post, $status)
     {
         $data = [
             'title' => $title,
             'image' => $image,
             'link' => $link,
-            'post_by' => $post
+            'post_by' => $post,
+            'status' => $status
         ];
         return dbInsert('tiger_banners', $data);
     }
 
+    public function gettiger_bannersByStatus()
+    {
+        $sql = "SELECT * FROM tiger_banners WHERE status = 1 ORDER BY created_at DESC";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
     // READ all tiger_banners
     public function gettiger_banners()
     {
@@ -39,7 +59,7 @@ class Tiger_banners
         return ($result && count($result) > 0) ? $result[0] : null;
     }
     // Update a tiger_banners
-    public function updatetiger_banners($id, $title, $image, $link, $post)
+    public function updatetiger_banners($id, $title, $image, $link, $post, $status)
     {
         if (!$this->gettiger_bannersById($id)) {
             return false;
@@ -49,7 +69,8 @@ class Tiger_banners
             'title' => $title,
             'image' => $image,
             'link' => $link,
-            'post_by' => $post
+            'post_by' => $post,
+            'status' => $status
         ];
         return dbUpdate('tiger_banners', $data, "id=" . $this->db->quote($id));
     }
