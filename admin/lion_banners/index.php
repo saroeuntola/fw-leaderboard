@@ -91,7 +91,7 @@ $banners = $bannerObj->getlion_banners();
 
         <!-- Table -->
         <div class="overflow-x-auto">
-            <table class="table table-zebra w-full text-white">
+            <table class="table w-full text-white">
                 <thead class="bg-green-600 text-gray-100">
                     <tr>
                         <th>#</th>

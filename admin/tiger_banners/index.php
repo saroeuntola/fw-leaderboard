@@ -90,7 +90,7 @@ $banners = $bannerObj->gettiger_banners();
 
         <!-- Table -->
         <div class="overflow-x-auto">
-            <table class="table table-zebra w-full">
+            <table class="table w-full">
                 <thead class="text-white bg-green-600">
                     <tr>
                         <th>#</th>
