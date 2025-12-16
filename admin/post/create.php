@@ -12,7 +12,7 @@ $product = new Post();
 $category = new Category();
 $categories = $category->getCategories();
 
-$currentUser = $_SESSION ['username'] ?? '';
+$currentUser = $_SESSION['username'] ?? '';
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $gameName = $_POST['name'] ?? '';
     $description = $_POST['description'] ?? '';
@@ -56,6 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -70,6 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
     </style>
 </head>
+
 <body class="bg-gray-800 flex items-center justify-center min-h-screen w-full">
     <div class="w-full max-w-4xl bg-white p-8 rounded-lg shadow-lg">
         <h2 class="text-3xl font-bold text-center mb-6 text-indigo-700">Create Post</h2>
@@ -79,24 +81,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <div class="form-section">
                 <h3 class="text-xl font-semibold text-gray-800 mb-4">English Content</h3>
                 <div>
-                    <label class="block text-sm font-semibold text-gray-700 mb-1">Title* (English)</label>
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">Title*</label>
                     <input type="text" name="name" required class="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-indigo-400 focus:outline-none">
                 </div>
                 <div class="mt-4">
-                    <label class="block text-sm font-semibold text-gray-700 mb-1">Description* (English)</label>
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">Description*</label>
                     <textarea id="editor-en" name="description"></textarea>
                 </div>
                 <div class="mt-4">
-                    <label class="block text-sm font-semibold text-gray-700 mb-1">Meta Description* (English)</label>
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">Meta Description*</label>
                     <input type="text" name="meta_desc" required class="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-indigo-400 focus:outline-none">
                 </div>
-                
+
                 <div class="mt-4">
-                    <label class="block text-sm font-semibold text-gray-700 mb-1">Meta Keyword* (English)</label>
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">Meta Keyword*</label>
                     <input type="text" name="meta_keyword" required class="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-indigo-400 focus:outline-none">
                 </div>
                 <div class="mt-4">
-                    <label class="block text-sm font-semibold text-gray-700 mb-1">Alt image* (English)</label>
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">Alt image*</label>
                     <input type="text" name="meta_text" class="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-indigo-400 focus:outline-none">
                 </div>
             </div>
@@ -144,9 +146,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </div>
 
             <!-- Submit Button -->
-            <button type="submit" class="w-full bg-indigo-600 text-white py-2 px-4 rounded-md text-lg font-semibold hover:bg-indigo-700 transition-all">
-                Post
-            </button>
+            <div class="flex gap-4 pt-5">
+                <button onclick="location.href='./'" class=" bg-red-600 text-white py-2 px-4 rounded-md text-lg font-semibold hover:bg-gray-900 transition-all duration-300 cursor-pointer">
+                    Cancel
+                </button>
+                <button type="submit" class=" bg-green-600 text-white py-2 px-4 rounded-md text-lg font-semibold hover:bg-indigo-700 transition-all duration-300 cursor-pointer">
+                    Post
+                </button>
+            </div>
+
+
         </form>
     </div>
     <script>
@@ -179,7 +188,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 }
 
                 console.log('Upload success:', json.url);
-                resolve(json.url); 
+                resolve(json.url);
             };
             xhr.onerror = () => {
                 reject('Image upload failed due to XHR transport error.');
@@ -212,4 +221,5 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         });
     </script>
 </body>
+
 </html>

@@ -38,15 +38,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $meta_desc_bn = $_POST['meta_desc_bn'] ?? '';
     $meta_keyword_bn = $_POST['meta_keyword_bn'] ?? '';
     $post_by = $currentUser ?? '';
-    
+
     $imagePath = $productData['image'];
     if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
         $uploadDir = "post_image/";
-   
+
         $imageFileName = preg_replace("/[^a-zA-Z0-9._-]/", "", basename($_FILES["image"]["name"]));
         $imagePath = $uploadDir . $imageFileName;
         if (!move_uploaded_file($_FILES["image"]["tmp_name"], $imagePath)) {
-            $imagePath = $productData['image']; 
+            $imagePath = $productData['image'];
         }
     }
 
@@ -97,24 +97,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <div class="form-section">
                 <h3 class="text-xl font-semibold text-gray-800 mb-4">English Content</h3>
                 <div>
-                    <label for="name" class="block text-sm font-medium text-gray-700">Title* (English)</label>
+                    <label for="name" class="block text-sm font-medium text-gray-700">Title*</label>
                     <input type="text" name="name" value="<?= htmlspecialchars($productData['name']) ?>" required
                         class="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-indigo-400 focus:outline-none">
                 </div>
                 <div class="mt-4">
-                    <label for="description" class="block text-sm font-medium text-gray-700">Description* (English)</label>
+                    <label for="description" class="block text-sm font-medium text-gray-700">Description*</label>
                     <textarea id="editor-en" name="description"><?= htmlspecialchars($productData['description']) ?></textarea>
                 </div>
                 <div class="mt-4">
-                    <label class="block text-sm font-semibold text-gray-700 mb-1">Meta Description* (English)</label>
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">Meta Description*</label>
                     <input type="text" name="meta_desc" value="<?= htmlspecialchars($productData['meta_desc']) ?>" class="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-indigo-400 focus:outline-none">
                 </div>
                 <div class="mt-4">
-                    <label class="block text-sm font-semibold text-gray-700 mb-1">Meta Keyword* (English)</label>
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">Meta Keyword*</label>
                     <input type="text" name="meta_keyword" value="<?= htmlspecialchars($productData['meta_keyword']) ?>" class="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-indigo-400 focus:outline-none">
                 </div>
                 <div class="mt-4">
-                    <label for="meta_text" class="block text-sm font-medium text-gray-700">Alt image* (English)</label>
+                    <label for="meta_text" class="block text-sm font-medium text-gray-700">Alt image*</label>
                     <input type="text" name="meta_text" value="<?= htmlspecialchars($productData['meta_text']) ?>"
                         class="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-indigo-400 focus:outline-none">
                 </div>
@@ -172,14 +172,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </div>
 
             <!-- Submit Button -->
-            <button type="submit"
-                class="w-full bg-indigo-600 text-white py-2 px-4 rounded-md text-lg font-semibold hover:bg-indigo-700 transition-all">
-                Update
-            </button>
+            <div class="flex gap-4 pt-5">
+                <button onclick="location.href='./'" class=" bg-red-600 text-white py-2 px-4 rounded-md text-lg font-semibold hover:bg-gray-900 transition-all duration-300 cursor-pointer">
+                    Back
+                </button>
+                <button type="submit" class=" bg-green-600 text-white py-2 px-4 rounded-md text-lg font-semibold hover:bg-indigo-700 transition-all duration-300 cursor-pointer">
+                    Update
+                </button>
+            </div>
         </form>
     </div>
     <script>
-
         const example_image_upload_handler = (blobInfo, progress) => new Promise((resolve, reject) => {
             const xhr = new XMLHttpRequest();
             xhr.withCredentials = true;
@@ -207,7 +210,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 }
 
                 console.log('Upload success:', json.url);
-                resolve(json.url); 
+                resolve(json.url);
             };
 
             xhr.onerror = () => {
@@ -224,7 +227,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             plugins: 'table image link lists code',
             toolbar: 'undo redo | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist | table | image | code',
             automatic_uploads: true,
-            images_upload_handler: example_image_upload_handler, 
+            images_upload_handler: example_image_upload_handler,
             images_upload_credentials: true,
             images_reuse_filename: true,
             image_title: true,

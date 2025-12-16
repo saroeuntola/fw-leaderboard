@@ -60,13 +60,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Update tournament with type
     $updated = $tournament->updateTournament($id, $title, $imagePath, $desc, $type, $post_by);
-
     if ($updated) {
-        echo "<script>alert('Tournament updated successfully!');window.location='./';</script>";
+       header("Location: ./");
         exit;
     } else {
-        $error = 'Failed to update tournament.';
+        $error = 'Failed to update tournament. Please try again.';
     }
+
 }
 ?>
 
@@ -133,10 +133,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     class="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-indigo-400 focus:outline-none">
             </div>
 
-            <button type="submit"
-                class="w-full bg-indigo-600 text-white py-2 px-4 rounded-md text-lg font-semibold hover:bg-indigo-700 transition-all">
-                Update Tournament
-            </button>
+            <div class="flex gap-4 pt-5">
+                <button onclick="location.href='./'" class=" bg-red-600 text-white py-2 px-4 rounded-md text-lg font-semibold hover:bg-gray-900 transition-all duration-300 cursor-pointer">
+                    Back
+                </button>
+                <button type="submit" class=" bg-green-600 text-white py-2 px-4 rounded-md text-lg font-semibold hover:bg-indigo-700 transition-all duration-300 cursor-pointer">
+                    Update
+                </button>
+            </div>
         </form>
     </div>
 

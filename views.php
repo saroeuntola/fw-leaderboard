@@ -26,7 +26,7 @@ $latestTournament = $tournament->getLatest(1);
     <meta name="keywords" content="<?= htmlspecialchars($post['meta_keyword'] ?? '') ?>" />
 
     <!-- Canonical URL -->
-    <link rel="canonical" href="https://fancybet-leaderboard.com/v2/views/<?= htmlspecialchars($post['slug'] ?? '') ?>" />
+    <link rel="canonical" href="https://fancybet-leaderboard.com/v2/views?slug=<?= htmlspecialchars($currentSlug['slug'] ?? '') ?>" />
 
     <!-- Favicon (post image preview) -->
     <link rel="shortcut icon" href="/v2/admin/post/<?= htmlspecialchars($post['image'] ?? '') ?>" type="image/png" />
@@ -39,7 +39,7 @@ $latestTournament = $tournament->getLatest(1);
     <meta property="og:title" content="<?= htmlspecialchars($post['name'] ?? '') ?>" />
     <meta property="og:description" content="<?= htmlspecialchars($post['meta_desc'] ?? '') ?>" />
     <meta property="og:type" content="article" />
-    <meta property="og:url" content="https://fancybet-leaderboard.com/v2/views/<?= htmlspecialchars($currentSlug['slug'] ?? '') ?>" />
+    <meta property="og:url" content="https://fancybet-leaderboard.com/v2/views?slug=<?= htmlspecialchars($currentSlug['slug'] ?? '') ?>" />
     <meta property="og:image" content="https://fancybet-leaderboard.com/v2/admin/post/<?= htmlspecialchars($post['image'] ?? '') ?>" />
     <meta property="og:locale" content="en_BD" />
     <meta property="article:section" content="Gaming News" />
@@ -83,7 +83,7 @@ $latestTournament = $tournament->getLatest(1);
             "dateModified": "<?= htmlspecialchars($post['updated_at'] ?? '') ?>",
             "mainEntityOfPage": {
                 "@type": "WebPage",
-                "@id": "https://fancybet-leaderboard.com/v2/views/<?= htmlspecialchars($post['slug'] ?? '') ?>"
+                "@id": "https://fancybet-leaderboard.com/v2/views?slug=<?= htmlspecialchars($currentSlug['slug'] ?? '') ?>"
             }
         }
     </script>
