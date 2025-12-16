@@ -18,7 +18,7 @@ $latestTournament = $tournament->getLatest(1);
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <!-- Dynamic Title -->
-    <title><?= htmlspecialchars($post['name'] ?? '') ?> - FancyWin News Bangladesh</title>
+    <title><?= htmlspecialchars($post['name'] ?? '') ?></title>
 
     <!-- Description & Keywords -->
     <meta name="description" content="<?= htmlspecialchars($post['meta_desc'] ?? '') ?>" />
