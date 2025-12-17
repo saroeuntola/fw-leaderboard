@@ -27,7 +27,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $meta_keyword_bn = $_POST['meta_keyword_bn'] ?? '';
     $game_link = $_POST['game_link'] ?? '';
     $post_by = $currentUser ?? '';
-
+    $status = $_POST['status'];
+    $postNo = $_POST['postNo'];
+    $meta_title = $_POST['meta_title'] ?? '';
     // Handle Image Upload
     $imagePath = "";
     if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
@@ -45,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (empty($gameName) || empty($description) || empty($categoryId)) {
         echo "<p class='text-red-500 text-center'>Error: Title, Description, and Category are required.</p>";
     } else {
-        if ($product->createpost($gameName, $imagePath, $description, $game_link, $categoryId, $meta_text, $name_bn, $description_bn, $meta_text_bn, $meta_desc, $meta_keyword, $meta_desc_bn, $meta_keyword_bn, $post_by)) {
+        if ($product->createpost($gameName, $imagePath, $description, $game_link, $categoryId, $meta_text, $name_bn, $description_bn, $meta_text_bn, $meta_desc, $meta_keyword, $meta_desc_bn, $meta_keyword_bn, $post_by, $status, $postNo, $meta_title)) {
             header("Location: ./");
             exit;
         } else {
@@ -89,6 +91,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <textarea id="editor-en" name="description"></textarea>
                 </div>
                 <div class="mt-4">
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">Meta Title*</label>
+                    <input type="text" name="meta_title" required class="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-indigo-400 focus:outline-none">
+                </div>
+                <div class="mt-4">
                     <label class="block text-sm font-semibold text-gray-700 mb-1">Meta Description*</label>
                     <input type="text" name="meta_desc" required class="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-indigo-400 focus:outline-none">
                 </div>
@@ -102,31 +108,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <input type="text" name="meta_text" class="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-indigo-400 focus:outline-none">
                 </div>
             </div>
-
-            <!-- Bengali Fields -->
-            <!-- <div class="form-section">
-                <h3 class="text-xl font-semibold text-gray-800 mb-4">Bengali Content</h3>
-                <div>
-                    <label class="block text-sm font-semibold text-gray-700 mb-1">Title* (Bengali)</label>
-                    <input type="text" name="name_bn" class="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-indigo-400 focus:outline-none">
-                </div>
-                <div class="mt-4">
-                    <label class="block text-sm font-semibold text-gray-700 mb-1">Description* (Bengali)</label>
-                    <textarea id="editor-bn" name="description_bn"></textarea>
-                </div>
-                <div class="mt-4">
-                    <label class="block text-sm font-semibold text-gray-700 mb-1">Meta Description* (Bengali)</label>
-                    <input type="text" name="meta_desc_bn" required class="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-indigo-400 focus:outline-none">
-                </div>
-                <div class="mt-4">
-                    <label class="block text-sm font-semibold text-gray-700 mb-1">Meta Keyword* (Bengali)</label>
-                    <input type="text" name="meta_keyword_bn" required class="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-indigo-400 focus:outline-none">
-                </div>
-                <div class="mt-4">
-                    <label class="block text-sm font-semibold text-gray-700 mb-1">Alt image* (Bengali)</label>
-                    <input type="text" name="meta_text_bn" class="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-indigo-400 focus:outline-none">
-                </div>
-            </div> -->
 
             <!-- Image Upload -->
             <div>
@@ -145,6 +126,30 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 </select>
             </div>
 
+            <!-- Post No -->
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-1">Post No*</label>
+                <input type="number" name="postNo" id="postNo" required
+                    class="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-indigo-400 focus:outline-none"
+                    oninput="checkPostNo()">
+                <p id="postNoError" class="text-red-500 text-sm mt-1 hidden">
+                 Number already exists. Please choose a different number.
+                </p>
+            </div>
+
+
+            <div class="">
+                <label class="font-semibold mr-4">Status:</label><br>
+                <input type="radio" name="status" value="1" checked class="">
+                <label for="">
+                    Public
+                </label>
+                <input type="radio" name="status" value="0" class="ml-2">
+                <label for="">
+                    Draft
+                </label>
+            </div>
+
             <!-- Submit Button -->
             <div class="flex gap-4 pt-5">
                 <button onclick="location.href='./'" class=" bg-red-600 text-white py-2 px-4 rounded-md text-lg font-semibold hover:bg-gray-900 transition-all duration-300 cursor-pointer">
@@ -158,6 +163,36 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         </form>
     </div>
+    <script>
+        let postNoInput = document.getElementById('postNo');
+        let postNoError = document.getElementById('postNoError');
+
+        function checkPostNo() {
+            const value = postNoInput.value;
+            if (value === '') {
+                postNoError.classList.add('hidden');
+                return;
+            }
+
+            fetch('check_postno', { // Make sure this URL exists
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: `postNo=${value}`
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.exists) {
+                        postNoError.classList.remove('hidden');
+                    } else {
+                        postNoError.classList.add('hidden');
+                    }
+                })
+                .catch(err => console.error('Error:', err));
+        }
+    </script>
+
     <script>
         const example_image_upload_handler = (blobInfo, progress) => new Promise((resolve, reject) => {
             const xhr = new XMLHttpRequest();

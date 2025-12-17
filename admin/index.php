@@ -19,7 +19,6 @@ $eventCount = $count->getUpcomingEventCount();
     <title>Admin Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" />
-
 </head>
 
 <body class=" bg-gray-900 text-gray-100 min-h-screen flex transition-colors duration-300">

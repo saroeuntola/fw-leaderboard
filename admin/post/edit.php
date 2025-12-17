@@ -38,6 +38,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $meta_desc_bn = $_POST['meta_desc_bn'] ?? '';
     $meta_keyword_bn = $_POST['meta_keyword_bn'] ?? '';
     $post_by = $currentUser ?? '';
+    $status = $_POST['status'] ?? '';
+    $postNo = $_POST['postNo'] ?? '';
+    $meta_title = $_POST['meta_title'] ?? '';
 
     $imagePath = $productData['image'];
     if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
@@ -54,7 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (empty($gameName) || empty($description) || empty($categoryId)) {
         echo "<p class='text-red-500 text-center'>Error: Title, Description, and Category are required.</p>";
     } else {
-        if ($product->updatePost($id, $gameName, $imagePath, $description, $game_link, $categoryId, $meta_text, $name_bn, $description_bn, $meta_text_bn, $meta_desc, $meta_keyword, $meta_desc_bn, $meta_keyword_bn, $post_by)) {
+        if ($product->updatePost($id, $gameName, $imagePath, $description, $game_link, $categoryId, $meta_text, $name_bn, $description_bn, $meta_text_bn, $meta_desc, $meta_keyword, $meta_desc_bn, $meta_keyword_bn, $post_by, $status, $postNo, $meta_title)) {
             header("Location: index.php");
             exit;
         } else {
@@ -105,6 +108,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <label for="description" class="block text-sm font-medium text-gray-700">Description*</label>
                     <textarea id="editor-en" name="description"><?= htmlspecialchars($productData['description']) ?></textarea>
                 </div>
+
+                <div class="mt-4">
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">Meta Title*</label>
+                    <input type="text" name="meta_title" value="<?= htmlspecialchars($productData['meta_title']) ?>" class="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-indigo-400 focus:outline-none">
+                </div>
                 <div class="mt-4">
                     <label class="block text-sm font-semibold text-gray-700 mb-1">Meta Description*</label>
                     <input type="text" name="meta_desc" value="<?= htmlspecialchars($productData['meta_desc']) ?>" class="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-indigo-400 focus:outline-none">
@@ -118,34 +126,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <input type="text" name="meta_text" value="<?= htmlspecialchars($productData['meta_text']) ?>"
                         class="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-indigo-400 focus:outline-none">
                 </div>
-            </div>
 
-            <!-- Bengali Fields -->
-            <!-- <div class="form-section">
-                <h3 class="text-xl font-semibold text-gray-800 mb-4">Bengali Content</h3>
-                <div>
-                    <label for="name_bn" class="block text-sm font-medium text-gray-700">Title* (Bengali)</label>
-                    <input type="text" name="name_bn" value="<?= htmlspecialchars($productDataBn['name']) ?>"
-                        class="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-indigo-400 focus:outline-none">
+                <div class="mt-4" hidden>
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">No*</label>
+                    <input type="text" name="postNo" value="<?= htmlspecialchars($productData['postNo']) ?>" class="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-indigo-400 focus:outline-none">
                 </div>
-                <div class="mt-4">
-                    <label for="description_bn" class="block text-sm font-medium text-gray-700">Description* (Bengali)</label>
-                    <textarea id="editor-bn" name="description_bn"><?= htmlspecialchars($productDataBn['description']) ?></textarea>
+                <div class="mt-4" hidden>
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">status</label>
+                    <input type="text" name="status" value="<?= htmlspecialchars($productData['status']) ?>" class="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-indigo-400 focus:outline-none">
                 </div>
-                <div class="mt-4">
-                    <label class="block text-sm font-semibold text-gray-700 mb-1">Meta Description* (Bengali)</label>
-                    <input type="text" name="meta_desc_bn" value="<?= htmlspecialchars($productDataBn['meta_desc_bn']) ?>" class="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-indigo-400 focus:outline-none">
-                </div>
-                <div class="mt-4">
-                    <label class="block text-sm font-semibold text-gray-700 mb-1">Meta Keyword* (Bengali)</label>
-                    <input type="text" name="meta_keyword_bn" value="<?= htmlspecialchars($productDataBn['meta_keyword_bn']) ?>" class="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-indigo-400 focus:outline-none">
-                </div>
-                <div class="mt-4">
-                    <label for="meta_text_bn" class="block text-sm font-medium text-gray-700">Alt image* (Bengali)</label>
-                    <input type="text" name="meta_text_bn" value="<?= htmlspecialchars($productDataBn['meta_text']) ?>"
-                        class="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-indigo-400 focus:outline-none">
-                </div>
-            </div> -->
+            </div>
 
             <!-- Image -->
             <div>

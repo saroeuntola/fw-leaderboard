@@ -6,6 +6,53 @@ class Post {
     public function __construct() {
         $this->db = dbConn(); 
     }
+
+    public function updatePostNo(int $id, int $postNo): bool
+    {
+        $sql = "UPDATE post SET postNo = :postNo WHERE id = :id";
+        $stmt = $this->db->prepare($sql);
+        return $stmt->execute([
+            ':postNo' => $postNo,
+            ':id' => $id
+        ]);
+    }
+    public function getCategories()
+    {
+        $stmt = $this->db->prepare("SELECT id, name FROM categories ORDER BY name ASC");
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function postNoExists(int $postNo, ?int $excludeId = null): bool
+    {
+        $sql = "SELECT COUNT(*) FROM post WHERE postNo = :postNo";
+
+        if ($excludeId !== null) {
+            $sql .= " AND id != :id";
+        }
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(':postNo', $postNo, PDO::PARAM_INT);
+
+        if ($excludeId !== null) {
+            $stmt->bindValue(':id', $excludeId, PDO::PARAM_INT);
+        }
+
+        $stmt->execute();
+        return $stmt->fetchColumn() > 0;
+    }
+
+    public function togglePostStatus($id)
+    {
+        $sql = "UPDATE post
+            SET status = IF(status = 1, 0, 1)
+            WHERE id = :id";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+
+        return $stmt->execute();
+    }
     public function getLastPosts($limit = 5, $lang = 'en')
     {
         // Validate language
@@ -23,8 +70,8 @@ class Post {
                      c.name AS category_name,
                      p.post_by
               FROM post p
-              JOIN categories c ON p.category_id = c.id
-              ORDER BY p.created_at DESC
+              JOIN categories c ON p.category_id = c.id WHERE status = 1
+              ORDER BY p.postNo ASC
               LIMIT :limit";
 
         try {
@@ -58,15 +105,11 @@ class Post {
         $meta_text_field = $lang === 'en' ? 'meta_text' : 'meta_text_bn';
         $meta_desc_field = $lang === 'en' ? 'meta_desc' : 'meta_desc_bn';
         $meta_keyword_field = $lang === 'en' ? 'meta_keyword' : 'meta_keyword_bn';
-
                 $offset = ($page - 1) * $limit;
-
-                // If $limit is null or non-positive, we'll omit LIMIT/OFFSET to fetch all results
                 $limitClause = '';
                 if ($limit !== null && (int)$limit > 0) {
                         $limitClause = 'LIMIT :limit OFFSET :offset';
                 }
-
                 $query = "SELECT 
                 p.id, 
                 p.slug, 
@@ -83,10 +126,8 @@ class Post {
                 p.post_by
               FROM post p
               JOIN categories c ON p.category_id = c.id 
-              WHERE p.category_id = :categoryId 
-              ORDER BY p.created_at DESC
-                            $limitClause";
-
+              WHERE p.category_id = :categoryId AND p.status = 1
+              ORDER BY p.postNo ASC $limitClause";
         try {
             $stmt = $this->db->prepare($query);
             $stmt->bindValue(':categoryId', $categoryId, PDO::PARAM_INT);
@@ -117,12 +158,12 @@ class Post {
         $query = "SELECT p.id, p.slug, p.$name_field AS name, p.image, 
                      p.$description_field AS description, p.$description_field AS description, p.$meta_desc_field AS meta_desc,
                      p.game_link, p.category_id, p.created_at, 
-                     p.$meta_text_field AS meta_text, 
-                      p.post_by,
+                     p.$meta_text_field AS meta_text,
+                    p.post_by, p.status, p.postNo, p.meta_title,
                      c.name AS category_name 
               FROM post p
               JOIN categories c ON p.category_id = c.id 
-              ORDER BY p.created_at DESC";
+              ORDER BY p.postNo ASC";
 
         try {
             $stmt = $this->db->query($query);
@@ -155,6 +196,9 @@ class Post {
             p.category_id, 
             p.created_at,
             p.post_by,
+            p.status,
+            p.meta_title,
+            p.postNo,
             p.$meta_text_field AS meta_text, 
             c.name AS category_name 
           FROM post p
@@ -187,6 +231,9 @@ class Post {
                      p.game_link, p.category_id, p.created_at, p.$meta_text_field AS meta_text, 
                      c.name AS category_name,
                     p.post_by,
+                    p.status,
+                    p.meta_title,
+                    p.postNo,
                     p.slug
               FROM post p
               JOIN categories c ON p.category_id = c.id 
@@ -222,7 +269,7 @@ class Post {
                       p.post_by
               FROM post p
               JOIN categories c ON p.category_id = c.id 
-              WHERE p.id != :id AND p.category_id = :category_id 
+              WHERE p.id != :id AND p.category_id = :category_id AND p.status = 1
               ORDER BY RAND() 
               LIMIT :limit";
 
@@ -258,7 +305,7 @@ class Post {
                      p.post_by
               FROM post p
               JOIN categories c ON p.category_id = c.id 
-              ORDER BY p.created_at DESC
+              ORDER BY p.postNo ASC
               LIMIT :limit";
         try {
             $stmt = $this->db->prepare($query);
@@ -287,7 +334,7 @@ class Post {
                         p.post_by
                 FROM post p
                 JOIN categories c ON p.category_id = c.id
-                WHERE p.$name_field LIKE :query OR c.name LIKE :query";
+                WHERE p.$name_field LIKE :query OR c.name LIKE :query AND p.status = 1";
         try {
             $stmt = $this->db->prepare($sql);
             $stmt->execute(['query' => '%' . $query . '%']);
@@ -307,7 +354,7 @@ class Post {
         return $slug;
     }
 
-    public function createpost($name, $image, $description, $link, $category_id, $meta_text, $name_bn, $description_bn, $meta_text_bn, $meta_desc, $meta_keyword, $meta_desc_bn, $meta_keyword_bn, $post_by, $slug = null)
+    public function createpost($name, $image, $description, $link, $category_id, $meta_text, $name_bn, $description_bn, $meta_text_bn, $meta_desc, $meta_keyword, $meta_desc_bn, $meta_keyword_bn, $post_by, $status, $postNo,$meta_title, $slug = null)
     {
         // Auto-generate slug from English name if not provided
         $slug = $slug ?: $this->generateSlug($name);
@@ -327,22 +374,20 @@ class Post {
             'meta_keyword' => $meta_keyword,
             'meta_desc_bn' => $meta_desc_bn,
             'meta_keyword_bn' => $meta_keyword_bn,
-            'post_by' => $post_by
-            
-
+            'post_by' => $post_by,
+            'status' => $status,
+            'postNo' => $postNo,
+            'meta_title' => $meta_title
         ];
         return dbInsert('post', $data);
     }
 
-    public function updatePost($id, $name, $image, $description, $game_link, $category_id, $meta_text, $name_bn, $description_bn, $meta_text_bn, $meta_desc, $meta_keyword, $meta_desc_bn, $meta_keyword_bn, $post_by, $slug = null)
+    public function updatePost($id, $name, $image, $description, $game_link, $category_id, $meta_text, $name_bn, $description_bn, $meta_text_bn, $meta_desc, $meta_keyword, $meta_desc_bn, $meta_keyword_bn, $post_by, $status, $postNo, $meta_title, $slug = null)
     {
         if (!$this->getPostById($id)) {
             return false;
         }
-
-        // Auto-generate slug from English name if not provided
         $slug = $slug ?: $this->generateSlug($name);
-
         $data = [
             'name' => $name,
             'slug' => $slug,
@@ -358,7 +403,10 @@ class Post {
             'meta_keyword' => $meta_keyword,
             'meta_desc_bn' => $meta_desc_bn,
             'meta_keyword_bn' => $meta_keyword_bn,
-            'post_by' => $post_by
+            'post_by' => $post_by,
+            'status' => $status,
+            'postNo' => $postNo,
+            'meta_title' => $meta_title
 
         ];
         return dbUpdate('post', $data, "id=" . $this->db->quote($id));
@@ -380,7 +428,7 @@ class Post {
 
     public function getPostPaginated($limit, $offset)
     {
-        $stmt = $this->db->prepare("SELECT * FROM post ORDER BY id DESC LIMIT :limit OFFSET :offset");
+        $stmt = $this->db->prepare("SELECT * FROM post ORDER BY postNo ACS LIMIT :limit OFFSET :offset");
         $stmt->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
         $stmt->bindValue(':offset', (int)$offset, PDO::PARAM_INT);
         $stmt->execute();

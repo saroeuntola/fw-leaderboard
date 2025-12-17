@@ -19,7 +19,7 @@ $latestTournament = $tournament->getLatest(1);
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <!-- Dynamic Title -->
-    <title><?= htmlspecialchars($post['name'] ?? '') ?></title>
+    <title><?= htmlspecialchars($post['meta_title'] ?? '') ?></title>
 
     <!-- Description & Keywords -->
     <meta name="description" content="<?= htmlspecialchars($post['meta_desc'] ?? '') ?>" />
@@ -36,7 +36,7 @@ $latestTournament = $tournament->getLatest(1);
     <link rel="stylesheet" href="./css/style.css" />
 
     <!-- Open Graph (Facebook / WhatsApp preview) -->
-    <meta property="og:title" content="<?= htmlspecialchars($post['name'] ?? '') ?>" />
+    <meta property="og:title" content="<?= htmlspecialchars($post['meta_title'] ?? '') ?>" />
     <meta property="og:description" content="<?= htmlspecialchars($post['meta_desc'] ?? '') ?>" />
     <meta property="og:type" content="article" />
     <meta property="og:url" content="https://fancybet-leaderboard.com/v2/views?slug=<?= htmlspecialchars($currentSlug['slug'] ?? '') ?>" />
@@ -48,9 +48,9 @@ $latestTournament = $tournament->getLatest(1);
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="<?= htmlspecialchars($post['name'] ?? '') ?>" />
+    <meta name="twitter:title" content="<?= htmlspecialchars($post['meta_title'] ?? '') ?>" />
     <meta name="twitter:description" content="<?= htmlspecialchars($post['meta_desc'] ?? '') ?>" />
-    <meta name="twitter:image" content="https://fancybet-leaderboard.com/v2/admin/post/<?= htmlspecialchars($post['image'] ?? '') ?>" />
+    <meta name="twitter:image" content="https://fancybet-leaderboard.com/v2/admin/post/<?= htmlspecialchars($post['meta_title'] ?? '') ?>" />
     <meta name="twitter:site" content="@FancyWin" />
 
     <!-- Local SEO -->
@@ -62,7 +62,7 @@ $latestTournament = $tournament->getLatest(1);
         {
             "@context": "https://schema.org",
             "@type": "NewsArticle",
-            "headline": <?= json_encode($post['name'] ?? '') ?>,
+            "headline": <?= json_encode($post['meta_title'] ?? '') ?>,
             "description": <?= json_encode($post['meta_desc'] ?? '') ?>,
             "image": [
                 "https://fancybet-leaderboard.com/v2/admin/post/<?= htmlspecialchars($post['image'] ?? '') ?>"
