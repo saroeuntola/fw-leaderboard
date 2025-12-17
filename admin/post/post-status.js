@@ -51,8 +51,8 @@ function saveModalPostNo() {
             // Update table
             const rowInput = document.querySelector(`#postNoText${currentPostId}`);
             if (rowInput) rowInput.innerText = postNo;
-
             document.getElementById('postNoModal').close();
+            location.reload();
         } else {
             alert(data.message || 'Failed to update');
         }
