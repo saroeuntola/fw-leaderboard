@@ -147,7 +147,7 @@ include "./services/textLimit.php";
             ?>
         </section>
 
-        <section class="px-4 max-w-7xl m-auto pt-[60px] pb-[50px]">
+        <section class="px-4 max-w-7xl m-auto pt-[50px] pb-[50px]">
             <?php
             include 'last-news-section.php';
             ?>

@@ -7,19 +7,21 @@ require "../lib/post_lib.php";
 
 protectRoute([1, 3]);
 
-$id = (int)($_POST['id'] ?? 0);
-$postNo = (int)($_POST['postNo'] ?? 0);
+$post = new Post();
 
-$postObj = new Post();
+$id = (int)$_POST['id'];
+$postNo = (int)$_POST['postNo'];
 
-if ($postObj->postNoExists($postNo, $id)) {
+$exists = $post->findPostByPostNo($postNo, $id);
+
+if ($exists) {
     echo json_encode([
-        'success' => false,
-        'message' => 'Post number already exists'
+        'exists' => true
     ]);
     exit;
 }
 
-$postObj->updatePostNo($id, $postNo);
+// Normal update
+$post->replacePostNo($id, $postNo);
 
 echo json_encode(['success' => true]);

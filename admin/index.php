@@ -7,7 +7,7 @@ protectRoute([1, 3]);
 $count = new Count();
 $userCount = $count->getUserCount();
 $postCount = $count->getPostCount();
-$eventCount = $count->getUpcomingEventCount();
+
 ?>
 
 
@@ -47,13 +47,7 @@ $eventCount = $count->getUpcomingEventCount();
             </div>
 
             <!-- Events -->
-            <div class="bg-gray-800 rounded-2xl shadow-md p-6 flex items-center justify-between">
-                <div>
-                    <p class="text-gray-500 dark:text-gray-400 text-sm">Upcoming Events</p>
-                    <h3 class="text-3xl font-bold"><?= htmlspecialchars($eventCount) ?></h3>
-                </div>
-                <div class="text-purple-500 text-4xl">📅</div>
-            </div>
+           
         </div>
     </main>
 </body>

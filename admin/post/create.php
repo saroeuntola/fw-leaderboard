@@ -30,6 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $status = $_POST['status'];
     $postNo = $_POST['postNo'];
     $meta_title = $_POST['meta_title'] ?? '';
+    $replace = $_POST['replacePostNo'] ?? 0;
     // Handle Image Upload
     $imagePath = "";
     if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
@@ -129,13 +130,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <!-- Post No -->
             <div>
                 <label class="block text-sm font-semibold text-gray-700 mb-1">Post No*</label>
+
                 <input type="number" name="postNo" id="postNo" required
                     class="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-indigo-400 focus:outline-none"
                     oninput="checkPostNo()">
+
                 <p id="postNoError" class="text-red-500 text-sm mt-1 hidden">
-                 Number already exists. Please choose a different number.
+                    Number already exists.
                 </p>
+
+                <button type="button"
+                    id="replaceBtn"
+                    onclick="enableReplace()"
+                    class="mt-2 hidden bg-orange-600 text-white px-4 py-2 rounded-md text-sm hover:bg-orange-700">
+                    Replace number existing post
+                </button>
+
+                <input type="hidden" name="replacePostNo" id="replacePostNo" value="0">
             </div>
+
 
 
             <div class="">
@@ -166,32 +179,65 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <script>
         let postNoInput = document.getElementById('postNo');
         let postNoError = document.getElementById('postNoError');
+        let replaceBtn = document.getElementById('replaceBtn');
+        let replaceHidden = document.getElementById('replacePostNo');
 
         function checkPostNo() {
             const value = postNoInput.value;
-            if (value === '') {
+
+            if (!value) {
                 postNoError.classList.add('hidden');
+                replaceBtn.classList.add('hidden');
+                replaceHidden.value = 0;
                 return;
             }
 
-            fetch('check_postno', { // Make sure this URL exists
+            fetch('check_postno', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded'
                     },
                     body: `postNo=${value}`
                 })
-                .then(res => res.json())
-                .then(data => {
-                    if (data.exists) {
+                .then(r => r.json())
+                .then(d => {
+                    if (d.exists) {
                         postNoError.classList.remove('hidden');
+                        replaceBtn.classList.remove('hidden');
+                        replaceHidden.value = 0;
                     } else {
                         postNoError.classList.add('hidden');
+                        replaceBtn.classList.add('hidden');
+                        replaceHidden.value = 0;
                     }
+                });
+        }
+
+        function enableReplace() {
+            const value = postNoInput.value;
+            console.log('Sending postNo:', value); // 👈 DEBUG
+
+            fetch('replace_postno_create', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: `postNo=${encodeURIComponent(value)}`
                 })
-                .catch(err => console.error('Error:', err));
+                .then(r => r.json())
+                .then(d => {
+                    console.log('replace response:', d);
+                    if (d.success) {
+                        replaceHidden.value = 1;
+                        postNoError.classList.add('hidden');
+                        replaceBtn.classList.add('hidden');
+                    } else {
+                        alert(d.message);
+                    }
+                });
         }
     </script>
+
 
     <script>
         const example_image_upload_handler = (blobInfo, progress) => new Promise((resolve, reject) => {

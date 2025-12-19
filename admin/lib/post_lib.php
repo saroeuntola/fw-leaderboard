@@ -7,6 +7,87 @@ class Post {
         $this->db = dbConn(); 
     }
 
+    public function replacePostNoForCreate($postNo)
+    {
+        try {
+            $this->db->beginTransaction();
+
+            // get max postNo
+            $stmt = $this->db->query("SELECT IFNULL(MAX(postNo), 0) + 1 AS nextNo FROM post");
+            $nextNo = (int)$stmt->fetch(PDO::FETCH_ASSOC)['nextNo'];
+
+            // move existing post
+            $update = $this->db->prepare(
+                "UPDATE post SET postNo = :nextNo WHERE postNo = :postNo"
+            );
+            $update->execute([
+                'nextNo' => $nextNo,
+                'postNo' => $postNo
+            ]);
+
+            $this->db->commit();
+            return true;
+        } catch (Exception $e) {
+            $this->db->rollBack();
+            return false;
+        }
+    }
+
+
+    // Check if postNo exists (exclude current post)
+    public function findPostByPostNo($postNo, $excludeId = null)
+    {
+        $sql = "SELECT id FROM post WHERE postNo = ?";
+        $params = [$postNo];
+
+        if ($excludeId) {
+            $sql .= " AND id != ?";
+            $params[] = $excludeId;
+        }
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute($params);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    // Get next available postNo
+    public function getNextPostNo()
+    {
+        $stmt = $this->db->query("SELECT MAX(postNo) AS max_no FROM post");
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        return ($row['max_no'] ?? 0) + 1;
+    }
+
+    // Replace postNo logic
+    public function replacePostNo($currentId, $newPostNo)
+    {
+        $this->db->beginTransaction();
+
+        try {
+            // Find conflict post
+            $conflict = $this->findPostByPostNo($newPostNo, $currentId);
+
+            if ($conflict) {
+                $newFreeNo = $this->getNextPostNo();
+
+                // Move old post to new number
+                $stmt = $this->db->prepare("UPDATE post SET postNo = ? WHERE id = ?");
+                $stmt->execute([$newFreeNo, $conflict['id']]);
+            }
+
+            // Update current post
+            $stmt = $this->db->prepare("UPDATE post SET postNo = ? WHERE id = ?");
+            $stmt->execute([$newPostNo, $currentId]);
+
+            $this->db->commit();
+            return true;
+        } catch (Exception $e) {
+            $this->db->rollBack();
+            return false;
+        }
+    }
+
+
     public function updatePostNo(int $id, int $postNo): bool
     {
         $sql = "UPDATE post SET postNo = :postNo WHERE id = :id";

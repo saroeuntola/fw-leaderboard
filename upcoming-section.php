@@ -2,42 +2,180 @@
 include './admin/lib/upcoming_event_lib.php';
 
 $eventLib = new UpcomingEvent();
-$events = $eventLib->getAll();
-?>
+$events = $eventLib->getAll(); 
+$timezone = new DateTimeZone('Asia/Dhaka');
 
-<div class="w-full mb-4">
-    <h1 class="inline-block bg-red-800 text-white px-3 py-1 
-           lg:text-xl text-lg font-bold">
-        Upcoming Events
-    </h1>
-<div class="h-[2px] bg-red-800"></div>
+foreach ($events as &$e) {
+    $start = new DateTime($e['start_date'], $timezone);
+    $end   = new DateTime($e['end_date'], $timezone);
+    $e['start_ms'] = $start->getTimestamp() * 1000;
+    $e['end_ms']   = $end->getTimestamp() * 1000;
+}
+unset($e);
+?>
+<style>
+    .live-badge {
+        display: inline-block;
+        background: #16a34a;
+        color: #fff;
+        font-weight: bold;
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-size: .8rem;
+        margin-left: 5px;
+        animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+        0% {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        50% {
+            transform: scale(1.1);
+            opacity: 0.7;
+        }
+
+        100% {
+            transform: scale(1);
+            opacity: 1;
+        }
+    }
+
+    .progress-container {
+        background: #e5e7eb;
+        border-radius: 4px;
+        height: 8px;
+        margin-top: 8px;
+        overflow: hidden;
+    }
+
+    .progress-bar {
+        background: #16a34a;
+        height: 100%;
+        width: 0%;
+        transition: width 0.5s linear;
+    }
+
+    .event-card a {
+        color: unset;
+    }
+</style>
+
+
+<!-- RUNNING EVENTS -->
+<div id="runningSection" class="w-full mb-6 hidden">
+    <h1 class="inline-block bg-green-600 text-white px-3 py-1 lg:text-xl text-lg font-bold">🔴 Ongoing Events</h1>
+    <div class="h-[2px] bg-green-600"></div>
+    <div id="runningContainer" class="grid gap-5 md:grid-cols-2 lg:grid-cols-3 w-full max-w-7xl mt-4"></div>
 </div>
 
+<!-- UPCOMING EVENTS -->
+<div id="upcomingSection" class="w-full mb-4">
+    <h1 class="inline-block bg-red-800 text-white px-3 py-1 lg:text-xl text-lg font-bold">⏳ Upcoming Events</h1>
+    <div class="h-[2px] bg-red-800"></div>
+    <div id="upcomingContainer" class="grid gap-5 md:grid-cols-2 lg:grid-cols-3 w-full max-w-7xl mt-4">
+        <?php foreach ($events as $event): ?>
+            <div class="event-card bg-white text-gray-900 dark:bg-[#252525] dark:text-gray-100 rounded-md p-6 text-center shadow"
+                data-id="<?= $event['id'] ?>"
+                data-type="<?= $event['type'] ?>"
+                data-start="<?= $event['start_ms'] ?>"
+                data-end="<?= $event['end_ms'] ?>"
+                data-status="<?= $event['status'] ?>">
+                <h2 class="text-xl font-semibold flex items-center justify-center">
+                    <span class="event-title">
+                        <?= html_entity_decode($event['title']) ?>
+                    </span>
+                </h2>
 
-<div class="grid gap-5 md:grid-cols-2 lg:grid-cols-3 w-full max-w-7xl">
-    <?php foreach ($events as $index => $event): ?>
-        <div class="bg-white text-gray-900 dark:bg-[#252525] dark:text-gray-100 rounded-md p-6 text-center shadow-[0_0_5px_0_rgba(0,0,0,0.2)] ">
-            <h2 class="text-xl font-semibold"><?= htmlspecialchars($event['title']) ?></h2>
-            <p class="text-sm text-gray-900 dark:text-gray-100 mt-2">Matches: <?= htmlspecialchars($event['matches']) ?></p>
-            <p class="text-sm text-gray-900 dark:text-gray-100 mt-2">Event Date: <?= htmlspecialchars($event['event_date']) ?></p>
-            <p class="text-sm text-gray-900 dark:text-gray-100 mt-1">Duration: <?= htmlspecialchars($event['duration']) ?> minutes</p>
-            <div id="countdown-<?= $index ?>" class="text-2xl font-bold text-green-400 mt-4"></div>
-        </div>
-    <?php endforeach; ?>
-</div>
-<?php
-$js = file_get_contents('./js/upcoming-event.js');
-$encoded = base64_encode($js);
-echo '<script src="data:text/javascript;base64,' . $encoded . '" defer></script>';
-?>
-<script>
-    document.addEventListener("DOMContentLoaded", () => {
-        <?php foreach ($events as $index => $event): ?>
-            startCountdown(
-                "countdown-<?= $index ?>",
-                "<?= htmlspecialchars($event['event_date']) ?>",
-                <?= intval($event['duration'] ?? 120) ?>
-            );
+                <p class="text-sm mt-2">Matches: <?= $event['matches'] ?></p>
+                <p class="text-sm mt-2">Start Date: <?= $event['start_date'] ?></p>
+                <p class="text-sm mt-1">End Date: <?= $event['end_date'] ?></p>
+                <p class="time-label text-sm mt-1"></p>
+                <p class="text-sm mt-3 font-semibold"><span class="countdown"></span></p>
+
+            </div>
         <?php endforeach; ?>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+
+        function startCountdown(card) {
+            const countdown = card.querySelector('.countdown');
+            const progressContainer = card.querySelector('.progress-container');
+
+            // Use pre-calculated timestamps (in milliseconds)
+            const eventStart = parseInt(card.dataset.start);
+            const eventEnd = parseInt(card.dataset.end);
+
+            const timer = setInterval(function() {
+                const now = Date.now(); // just use current browser timestamp
+
+                if (now < eventStart) { // UPCOMING
+                    const diff = eventStart - now;
+                    const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+                    const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
+                    const m = Math.floor((diff / (1000 * 60)) % 60);
+                    const s = Math.floor((diff / 1000) % 60);
+
+                    countdown.innerHTML = `
+                    <div class="text-cyan-400 text-sm mb-1">Starts in:</div>
+                    <span class="text-yellow-400 text-lg">${d}d</span> :
+                    <span class="text-cyan-400 text-lg">${h}h</span> :
+                    <span class="text-green-400 text-lg">${m}m</span> :
+                    <span class="text-red-500 text-lg">${s}s</span>
+                `;
+
+                    progressContainer?.classList.add('hidden');
+
+                } else if (now >= eventStart && now < eventEnd) { // RUNNING
+                    if (!card.closest('#runningContainer')) {
+                        const type = card.dataset.type;
+                        const titleEl = card.querySelector('.event-title');
+                        if (!titleEl) return;
+
+                        const link = document.createElement('a');
+                        link.href = type === 'lion' ? './view-lion-leaderboard' : './view-tiger-leaderboard';
+                        link.className = '';
+                        link.innerHTML = titleEl.innerHTML;
+
+                        titleEl.replaceWith(link);
+                        document.getElementById('runningContainer').appendChild(card);
+                    }
+
+                    const diff = eventEnd - now;
+                    const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
+                    const m = Math.floor((diff / (1000 * 60)) % 60);
+                    const s = Math.floor((diff / 1000) % 60);
+
+                    countdown.innerHTML = `
+                    <div class="text-yellow-400 text-sm mb-1 animate-pulse">Time left:</div>
+                    <span class="text-yellow-400 text-lg">${h}h</span> :
+                    <span class="text-green-400 text-lg">${m}m</span> :
+                    <span class="text-pink-400 text-lg">${s}s</span>
+                `;
+
+                } else { // ENDED
+                    countdown.innerHTML = "<span class='text-red-500 font-semibold'>Event Ended</span>";
+                    clearInterval(timer);
+                    card.remove();
+                }
+            }, 1000);
+        }
+
+        // Start countdown for all event cards
+        document.querySelectorAll('.event-card').forEach(card => startCountdown(card));
+
+        // Hide sections if empty
+        setInterval(function() {
+            const rSec = document.getElementById('runningSection');
+            if (rSec) rSec.classList.toggle('hidden', document.getElementById('runningContainer').children.length === 0);
+            const uSec = document.getElementById('upcomingSection');
+            if (uSec) uSec.classList.toggle('hidden', document.getElementById('upcomingContainer').children.length === 0);
+        }, 1000);
+
     });
 </script>

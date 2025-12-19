@@ -144,6 +144,13 @@ $categories = $product->getCategories();
                             <label for="modalPostNo" class="font-semibold">Number</label>
                             <input type="number" name="postNo" id="modalPostNo" class="input input-bordered bg-gray-500" min="0" oninput="checkModalPostNo()">
                             <small id="modalPostNoError" class="text-red-500 hidden">This number is already used</small>
+                            <button
+                                type="button"
+                                id="replaceBtn"
+                                class="btn btn-warning hidden"
+                                onclick="replacePostNo()">
+                                Replace
+                            </button>
                         </div>
 
                         <div class="modal-action justify-start ">

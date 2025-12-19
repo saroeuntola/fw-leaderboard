@@ -1,5 +1,5 @@
 <?php
-include "./admin/lib/db.php";
+require_once "./admin/lib/db.php";
 include "./admin/lib/leaderboard_lib.php";
 include "./admin/lib/lion_banner_lib.php";
 $leaderboardObj = new Leaderboard();
@@ -68,15 +68,8 @@ $pagedData = array_slice($tableData, $offset, $limit);
 $total_records = count($tableData);
 $total_pages = 1 + ceil(($total_records - $firstPageLimit) / $otherPageLimit);
 
-if (
-    !isset($_SERVER['HTTP_X_REQUESTED_WITH']) ||
-    strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) !== 'xmlhttprequest'
-) {
-    header("Location: /");
-    exit();
-}
-?>
 
+?>
 <style>
     .text-footer {
         font-size: 11px;

@@ -17,6 +17,7 @@ $data = $tournament->getTournamentById($id);
     <link rel="icon" href="/v2/admin/uploads/<?= htmlspecialchars($data['image']) ?>" type="image/png">
     <link rel="stylesheet" href="./src/output.css">
     <script src="./js/jquery-3.7.1.min.js"></script>
+    
     <style>
         .card-table {
             width: 100%;
