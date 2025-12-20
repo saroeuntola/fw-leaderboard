@@ -50,7 +50,6 @@ class TournamentPost
         }
     }
 
-
     /**
      * Get a single tournament by ID
      */
@@ -87,8 +86,6 @@ class TournamentPost
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC) ?: [];
     }
-
-
     /**
      * Update tournament
      */

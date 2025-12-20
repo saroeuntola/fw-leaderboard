@@ -4,12 +4,10 @@ include "../lib/checkroles.php";
 include '../lib/upcoming_event_lib.php';
 include '../lib/users_lib.php';
 protectRoute([1, 3]);
-                        date_default_timezone_set('Asia/Dhaka');
-
-                        $eventObj = new UpcomingEvent();
+date_default_timezone_set('Asia/Dhaka');
+$eventObj = new UpcomingEvent();
 $events = $eventObj->getUpcomingEvents();
 $currentUser = $_SESSION['username'];
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $id         = $_POST['id'] ?? null;
     $title      = $_POST['title'];
@@ -28,7 +26,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     header('Location: ' . $_SERVER['PHP_SELF']);
     exit;
 }
-
 if (isset($_GET['delete'])) {
     $id = intval($_GET['delete']);
     $eventObj->delete($id);
@@ -36,7 +33,6 @@ if (isset($_GET['delete'])) {
     exit;
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -47,7 +43,6 @@ if (isset($_GET['delete'])) {
     <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
     <script src="/v2/js/tinymce/tinymce.min.js"></script>
 </head>
-
 <body class="bg-gray-900 text-white min-h-screen">
     <?php include "../include/sidebar.php" ?>
     <main class="flex-1 ml-64 p-6 transition-all duration-300" id="main-content">
@@ -104,7 +99,7 @@ if (isset($_GET['delete'])) {
                     name="title"
                     class="w-full p-2 rounded bg-gray-700 text-white"
                     rows="3">
-</textarea>
+                </textarea>
 
                 <div>
                     <label class="block text-sm mb-1">Matches*</label>

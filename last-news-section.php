@@ -53,8 +53,6 @@ $posts = $listPost->getLastPosts(4, 'en');
         </a>
     <?php endforeach; ?>
 </div>
-
-
 <section class="mt-10">
     <div class="w-full mb-4">
         <h1 class="inline-block bg-red-800 text-white px-3 py-1 

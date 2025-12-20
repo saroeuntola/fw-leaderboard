@@ -74,7 +74,6 @@ $total_pages = 1 + ceil(($total_records - $firstPageLimit) / $otherPageLimit);
     .text-footer {
         font-size: 11px;
     }
-
     .th-text {
         font-size: 11px;
     }
@@ -186,17 +185,14 @@ $total_pages = 1 + ceil(($total_records - $firstPageLimit) / $otherPageLimit);
             data-page="1" data-file="<?= $file ?>" data-target="<?= $target ?>">
             <i class="fa-solid fa-angles-left"></i>
         </a>
-
         <!-- Prev arrow -->
         <a href="#" class="pagination-link px-3 py-1 rounded <?= $page == 1 ? 'bg-amber-600 text-white cursor-not-allowed' : 'bg-amber-600 text-white' ?>"
             data-page="<?= max(1, $page - 1) ?>" data-file="<?= $file ?>" data-target="<?= $target ?>">
             <i class="fa-solid fa-arrow-left"></i>
         </a>
-
         <!-- Desktop first page -->
         <a href="#" class="pagination-link px-3 py-1 <?= $page == 1 ? 'bg-red-700 text-white' : 'bg-gray-300 text-black hover:bg-red-700 hover:text-white' ?> rounded"
             data-page="1" data-file="<?= $file ?>" data-target="<?= $target ?>">1</a>
-
         <?php
         // Desktop sliding window
         $startDesktop = max(2, $page - 2);
