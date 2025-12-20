@@ -2,13 +2,10 @@
 include_once './admin/lib/db.php';
 include_once './admin/lib/post_lib.php';
 include_once './services/textLimit.php';
-
 $listPost = new Post();
-
-// Pagination setup
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 if ($page < 1) $page = 1;
-$limit = 12; // items per page
+$limit = 12;
 
 $totalPosts = (int)$listPost->getPostCountByCategory(3);
 $totalPages = $limit > 0 ? (int)ceil($totalPosts / $limit) : 1;
@@ -22,44 +19,27 @@ $posts = $listPost->getPostByCategory(2, 'en', $limit, $page);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>FancyWin Tournaments - Gaming Tournament in Bangladesh</title>
-
+    <title>FancyWin Fancybet Tournaments - Gaming Tournament in Bangladesh</title>
     <meta name="description" content="Explore active and upcoming gaming tournaments in Bangladesh. Join FancyWin esports events, compete with top players, and track tournament standings.">
-
     <meta name="keywords" content="Bangladesh gaming tournaments, BD esports competitions, FancyWin tournaments, online gaming Bangladesh, esports events BD, BD gaming championship, Bangladesh tournament schedule">
-
     <meta name="robots" content="index, follow">
-
     <link rel="canonical" href="https://fancybet-leaderboard.com/v2/tournaments" />
-
-    <!-- CSS -->
     <link rel="stylesheet" href="./src/output.css">
     <link rel="stylesheet" href="./css/style.css">
     <script src="./js/jquery-3.7.1.min.js"></script>
-
-    <!-- Favicon -->
     <link rel="icon" href="/v2/favicon.ico" type="image/x-icon">
-
-    <!-- Open Graph -->
     <meta property="og:title" content="FancyWin Tournaments - Gaming Tournament in Bangladesh">
     <meta property="og:description" content="Discover the latest gaming tournaments happening in Bangladesh. Join competitions and follow standings.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://fancybet-leaderboard.com/v2/tournaments">
     <meta property="og:image" content="https://fancybet-leaderboard.com/v2/images/icons/og-image.png">
     <meta property="og:locale" content="en_BD">
-
-    <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="FancyWin Tournaments - Gaming Tournament in Bangladesh">
     <meta name="twitter:description" content="Join Bangladesh gaming tournaments and track standings.">
     <meta name="twitter:image" content="https://fancybet-leaderboard.com/v2/images/icons/og-image.png">
-
-    <!-- Local SEO -->
     <meta name="geo.region" content="BD">
     <meta name="geo.placename" content="Bangladesh">
-
-    <!-- Schema: Organization -->
     <script type="application/ld+json">
         {
             "@context": "https://schema.org",
@@ -74,8 +54,6 @@ $posts = $listPost->getPostByCategory(2, 'en', $limit, $page);
             }
         }
     </script>
-
-    <!-- Schema: Local Business (Dhaka) -->
     <script type="application/ld+json">
         {
             "@context": "https://schema.org",
@@ -98,13 +76,10 @@ $posts = $listPost->getPostByCategory(2, 'en', $limit, $page);
         }
     </script>
 </head>
-
-
 <body class="dark:bg-[#181818] bg-[#f5f5f5] dark:text-white text-gray-900">
     <?php
     include "./loading.php";
     ?>
-
     <?php include "./navbar.php" ?>
     <main class="max-w-7xl m-auto px-4 pt-[90px] pb-10">
         <h1 class="lg:text-xl text-lg font-bold mb-4 dark:text-white text-gray-900">All Tournaments</h1>
@@ -144,10 +119,8 @@ $posts = $listPost->getPostByCategory(2, 'en', $limit, $page);
                             <span class="px-3 py-1.5 rounded-l-md bg-gray-700 text-gray-400">Prev</span>
                         <?php endif; ?>
                     </li>
-
-                    <!-- Page numbers (show a limited window) -->
                     <?php
-                    $window = 5; // how many page links to show
+                    $window = 5;
                     $start = max(1, $page - floor($window / 2));
                     $end = min($totalPages, $start + $window - 1);
                     if ($end - $start + 1 < $window) {

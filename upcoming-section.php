@@ -62,12 +62,15 @@ unset($e);
         color: unset;
     }
 </style>
+
+
 <!-- RUNNING EVENTS -->
 <div id="runningSection" class="w-full mb-6 hidden">
     <h1 class="inline-block bg-green-600 text-white px-3 py-1 lg:text-xl text-lg font-bold">🔴 Ongoing Events</h1>
     <div class="h-[2px] bg-green-600"></div>
     <div id="runningContainer" class="grid gap-5 md:grid-cols-2 lg:grid-cols-3 w-full max-w-7xl mt-4"></div>
 </div>
+
 <!-- UPCOMING EVENTS -->
 <div id="upcomingSection" class="w-full mb-4">
     <h1 class="inline-block bg-red-800 text-white px-3 py-1 lg:text-xl text-lg font-bold">⏳ Upcoming Events</h1>
@@ -99,15 +102,19 @@ unset($e);
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+
         function startCountdown(card) {
             const countdown = card.querySelector('.countdown');
             const progressContainer = card.querySelector('.progress-container');
+
+            // Use pre-calculated timestamps (in milliseconds)
             const eventStart = parseInt(card.dataset.start);
             const eventEnd = parseInt(card.dataset.end);
 
             const timer = setInterval(function() {
-                const now = Date.now(); 
-                if (now < eventStart) { 
+                const now = Date.now(); // just use current browser timestamp
+
+                if (now < eventStart) { // UPCOMING
                     const diff = eventStart - now;
                     const d = Math.floor(diff / (1000 * 60 * 60 * 24));
                     const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
@@ -121,43 +128,61 @@ unset($e);
                     <span class="text-green-400 text-lg">${m}m</span> :
                     <span class="text-red-500 text-lg">${s}s</span>
                 `;
+
                     progressContainer?.classList.add('hidden');
-                } else if (now >= eventStart && now < eventEnd) { 
-                    if (!card.closest('#runningContainer')) {
+
+                } else if (now >= eventStart && now < eventEnd) { // RUNNING
+                    if (!card.closest('a')) {
                         const type = card.dataset.type;
+
                         const link = document.createElement('a');
                         link.href = type === 'lion' ?
                             './view-lion-leaderboard' :
                             './view-tiger-leaderboard';
-                        link.className = 'block'; 
+
+                        link.className = 'block';
                         link.style.textDecoration = 'none';
+
+                        // Wrap card with <a>
                         card.parentNode.insertBefore(link, card);
                         link.appendChild(card);
+
                         document.getElementById('runningContainer').appendChild(link);
                     }
+
+
                     const diff = eventEnd - now;
                     const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
                     const m = Math.floor((diff / (1000 * 60)) % 60);
                     const s = Math.floor((diff / 1000) % 60);
+
                     countdown.innerHTML = `
-        <div class="text-yellow-400 text-sm mb-1 animate-pulse">Time left:</div>
-        <span class="text-yellow-400 text-lg">${h}h</span> :
-        <span class="text-green-400 text-lg">${m}m</span> :
-        <span class="text-pink-400 text-lg">${s}s</span>
-    `;
+                    <div class="text-yellow-400 text-sm mb-1 animate-pulse">Time left:</div>
+                    <span class="text-yellow-400 text-lg">${h}h</span> :
+                    <span class="text-green-400 text-lg">${m}m</span> :
+                    <span class="text-pink-400 text-lg">${s}s</span>
+                `;
+
                 } else { // ENDED
                     countdown.innerHTML = "<span class='text-red-500 font-semibold'>Event Ended</span>";
                     clearInterval(timer);
-                    card.remove();
+
+                    const wrapper = card.closest('a');
+                    (wrapper || card).remove();
                 }
             }, 1000);
         }
+
+        // Start countdown for all event cards
         document.querySelectorAll('.event-card').forEach(card => startCountdown(card));
+
+        // Hide sections if empty
         setInterval(function() {
             const rSec = document.getElementById('runningSection');
             if (rSec) rSec.classList.toggle('hidden', document.getElementById('runningContainer').children.length === 0);
             const uSec = document.getElementById('upcomingSection');
             if (uSec) uSec.classList.toggle('hidden', document.getElementById('upcomingContainer').children.length === 0);
         }, 1000);
+
     });
 </script>
