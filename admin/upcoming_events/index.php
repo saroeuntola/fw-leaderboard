@@ -117,12 +117,12 @@ if (isset($_GET['delete'])) {
                 </div>
 
                 <div>
-                    <label class="block text-sm mb-1">Start Date*</label>
+                    <label class="block text-sm mb-1">Start Date* (UTC+6)</label>
                     <input type="datetime-local" id="start_date" name="start_date" class="w-full p-2 rounded bg-gray-700 text-white" required>
                 </div>
 
                 <div>
-                    <label class="block text-sm mb-1">End Date*</label>
+                    <label class="block text-sm mb-1">End Date* (UTC+6)</label>
                     <input type="datetime-local" id="end_date" name="end_date" class="w-full p-2 rounded bg-gray-700 text-white" required>
                 </div>
 
