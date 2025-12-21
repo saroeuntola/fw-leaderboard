@@ -82,7 +82,8 @@ unset($e);
                 data-type="<?= $event['type'] ?>"
                 data-start="<?= $event['start_ms'] ?>"
                 data-end="<?= $event['end_ms'] ?>"
-                data-status="<?= $event['status'] ?>">
+                data-status="<?= $event['status'] ?>"
+                data-link="<?= htmlspecialchars($event['link']?? '') ?>">
                 <h2 class="text-xl font-semibold flex items-center justify-center">
                     <span class="event-title">
                         <?= html_entity_decode($event['title']) ?>
@@ -135,9 +136,15 @@ unset($e);
                 } else if (now >= eventStart && now < eventEnd) { // RUNNING
                     if (!card.closest('a')) {
                         const type = card.dataset.type;
+                        let href = '#';
+
+                        if (type === 'lion') href = './view-lion-leaderboard';
+                        else if (type === 'tiger') href = './view-tiger-leaderboard';
+                        else if (type === 'spacial') href = card.dataset.link || '#'; // dynamic DB link
 
                         const link = document.createElement('a');
-                        link.href = type === 'lion' ? './view-lion-leaderboard' : './view-tiger-leaderboard';
+                        link.href = href;
+                        link.target = '_blank'; // open in new tab
                         link.className = 'block';
                         link.style.textDecoration = 'none';
 

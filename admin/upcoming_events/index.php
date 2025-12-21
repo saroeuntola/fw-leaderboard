@@ -14,13 +14,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $matches    = $_POST['matches'];
     $type       = $_POST['type'];
     $start_date = $_POST['start_date'];
-    $end_date   = $_POST['end_date'];
-    $post_by    = $currentUser;
+    $end_date   = $_POST['end_date'];   
+    $post_by    = $currentUser; 
+    $link = $_POST['link'] ?? '';
+
 
     if ($id) {
-        $eventObj->update($id, $title, $matches, $type, $start_date, $end_date, $post_by);
+        $eventObj->update($id, $title, $matches, $type, $start_date, $end_date, $link, $post_by);
     } else {
-        $eventObj->create($title, $matches, $type, $start_date, $end_date, $post_by);
+        $eventObj->create($title, $matches, $type, $start_date, $end_date, $link, $post_by );
     }
 
     header('Location: ' . $_SERVER['PHP_SELF']);
@@ -61,6 +63,7 @@ if (isset($_GET['delete'])) {
                         <th class="px-4 py-2">Start Date</th>
                         <th class="px-4 py-2">End Date</th>
                         <th class="px-4 py-2">Event Status</th>
+                        <th class="px-4 py-2">Link</th>
                         <th class="px-4 py-2">Post by</th>
                         <th class="px-4 py-2">Actions</th>
                     </tr>
@@ -76,6 +79,7 @@ if (isset($_GET['delete'])) {
                             <td class="px-4 py-2"><?= $ev['start_date'] ?></td>
                             <td class="px-4 py-2"><?= $ev['end_date'] ?></td>
                             <td class="px-4 py-2"><?= $ev['status'] ?></td>
+                            <td class="px-4 py-2"><?= $ev['link'] ?? 'Null' ?></td>
                             <td class="px-4 py-2"><?= htmlspecialchars($ev['post_by']) ?></td>
                             <td class="px-4 py-2 space-x-2">
                                 <button onclick="openModal('edit', <?= $ev['id'] ?>)" class="bg-blue-500 px-2 py-1 rounded hover:bg-blue-600">Edit</button>
@@ -113,6 +117,7 @@ if (isset($_GET['delete'])) {
                     <select id="type" name="type" class="w-full p-2 rounded bg-gray-700 text-white" required>
                         <option value="lion">Lion</option>
                         <option value="tiger">Tiger</option>
+                        <option value="spacial">Special</option>
                     </select>
                 </div>
 
@@ -126,6 +131,10 @@ if (isset($_GET['delete'])) {
                     <input type="datetime-local" id="end_date" name="end_date" class="w-full p-2 rounded bg-gray-700 text-white" required>
                 </div>
 
+                <div>
+                    <label class="block text-sm mb-1">Link</label>
+                    <input type="text" id="link" name="link" placeholder="Optional" class="w-full p-2 rounded bg-gray-700 text-white">
+                </div>
                 <div class="flex justify-end space-x-2">
                     <button type="button" onclick="closeModal()" class="bg-gray-600 px-3 py-1 rounded hover:bg-gray-700">Cancel</button>
                     <button type="submit" class="bg-green-500 px-3 py-1 rounded hover:bg-green-600">Save</button>
@@ -133,33 +142,13 @@ if (isset($_GET['delete'])) {
             </form>
         </div>
     </div>
-    <script>
-        tinymce.init({
-            selector: '#title',
-            height: 180,
-            menubar: false,
-            branding: false,
-            license_key: 'gpl',
 
-            plugins: 'textcolor',
-            toolbar: 'bold forecolor',
-
-            toolbar_mode: 'sliding',
-            content_style: `
-        body {
-            color: white;
-            background: #808080;
-            font-family: inherit;
-        }
-    `
-        });
-    </script>
 
 
     <script>
         tinymce.init({
             selector: '#title',
-            height: 400,
+            height: 230,
             license_key: 'gpl',
             plugins: 'table code image lists',
             toolbar: 'undo redo | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist | table | image | code',
@@ -185,6 +174,7 @@ if (isset($_GET['delete'])) {
                 document.getElementById('type').value = ev.type;
                 document.getElementById('start_date').value = ev.start_date.replace(' ', 'T');
                 document.getElementById('end_date').value = ev.end_date.replace(' ', 'T');
+                document.getElementById('link').value = ev.link;
 
                 // Set rich text editor content
                 tinymce.get('title').setContent(ev.title);

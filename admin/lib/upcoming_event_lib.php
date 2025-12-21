@@ -15,23 +15,26 @@ class UpcomingEvent
         string $matches,
         string $type,
         string $start_date,
-        string $end_date,
-        string $post_by
+        string $end_date, 
+         string $link,
+        string $post_by,
     ): bool {
         // PHP timezone is already Asia/Dhaka
         $stmt = $this->db->prepare("
-        INSERT INTO upcoming_event 
-        (title, matches, type, start_date, end_date, status, created_at, post_by)
-        VALUES (:title, :matches, :type, :start_date, :end_date, 'upcoming', NOW(), :post_by)
-    ");
+    INSERT INTO upcoming_event 
+    (title, matches, type, start_date, end_date, link, status, created_at, post_by)
+    VALUES (:title, :matches, :type, :start_date, :end_date, :link, 'upcoming', NOW(), :post_by)
+");
+
 
         $stmt->bindParam(':title', $title);
         $stmt->bindParam(':matches', $matches);
         $stmt->bindParam(':type', $type);
         $stmt->bindParam(':start_date', $start_date);
-        $stmt->bindParam(':end_date', $end_date);
+        $stmt->bindParam(':end_date', $end_date); 
+        $stmt->bindParam(':link', $link);
         $stmt->bindParam(':post_by', $post_by);
-
+       
         return $stmt->execute();
     }
     // Update an existing event
@@ -41,8 +44,10 @@ class UpcomingEvent
         string $matches,
         string $type,
         string $start_date,
-        string $end_date,
-        string $post_by
+        string $end_date, 
+        string $link,
+        string $post_by,
+       
     ): bool {
         $stmt = $this->db->prepare("
         UPDATE upcoming_event
@@ -50,7 +55,8 @@ class UpcomingEvent
             matches = :matches,
             type = :type,
             start_date = :start_date,
-            end_date = :end_date,
+            end_date = :end_date, 
+            link = :link,
             post_by = :post_by
         WHERE id = :id
     ");
@@ -60,6 +66,7 @@ class UpcomingEvent
         $stmt->bindParam(':type', $type);
         $stmt->bindParam(':start_date', $start_date);
         $stmt->bindParam(':end_date', $end_date);
+        $stmt->bindParam(':link', $link);
         $stmt->bindParam(':post_by', $post_by);
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
 
