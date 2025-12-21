@@ -34,9 +34,6 @@ class UpcomingEvent
 
         return $stmt->execute();
     }
-
-
-
     // Update an existing event
     public function update(
         int $id,

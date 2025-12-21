@@ -112,14 +112,15 @@ unset($e);
             const eventEnd = parseInt(card.dataset.end);
 
             const timer = setInterval(function() {
-                const now = Date.now(); // just use current browser timestamp
+                const now = Date.now(); // current browser timestamp
+                let diff, d, h, m, s;
 
                 if (now < eventStart) { // UPCOMING
-                    const diff = eventStart - now;
-                    const d = Math.floor(diff / (1000 * 60 * 60 * 24));
-                    const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
-                    const m = Math.floor((diff / (1000 * 60)) % 60);
-                    const s = Math.floor((diff / 1000) % 60);
+                    diff = eventStart - now;
+                    d = Math.floor(diff / (1000 * 60 * 60 * 24));
+                    h = Math.floor((diff / (1000 * 60 * 60)) % 24);
+                    m = Math.floor((diff / (1000 * 60)) % 60);
+                    s = Math.floor((diff / 1000) % 60);
 
                     countdown.innerHTML = `
                     <div class="text-cyan-400 text-sm mb-1 animate-pulse">Starts in:</div>
@@ -136,32 +137,30 @@ unset($e);
                         const type = card.dataset.type;
 
                         const link = document.createElement('a');
-                        link.href = type === 'lion' ?
-                            './view-lion-leaderboard' :
-                            './view-tiger-leaderboard';
-
+                        link.href = type === 'lion' ? './view-lion-leaderboard' : './view-tiger-leaderboard';
                         link.className = 'block';
                         link.style.textDecoration = 'none';
 
-                        // Wrap card with <a>
                         card.parentNode.insertBefore(link, card);
                         link.appendChild(card);
-
                         document.getElementById('runningContainer').appendChild(link);
                     }
 
-
-                    const diff = eventEnd - now;
-                    const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
-                    const m = Math.floor((diff / (1000 * 60)) % 60);
-                    const s = Math.floor((diff / 1000) % 60);
+                    diff = eventEnd - now;
+                    d = Math.floor(diff / (1000 * 60 * 60 * 24));
+                    h = Math.floor((diff / (1000 * 60 * 60)) % 24);
+                    m = Math.floor((diff / (1000 * 60)) % 60);
+                    s = Math.floor((diff / 1000) % 60);
 
                     countdown.innerHTML = `
                     <div class="text-yellow-400 text-sm mb-1 animate-pulse">Time left:</div>
+                    ${d > 0 ? `<span class="text-yellow-400 text-lg">${d}d</span> :` : ''}
                     <span class="text-yellow-400 text-lg">${h}h</span> :
                     <span class="text-green-400 text-lg">${m}m</span> :
                     <span class="text-pink-400 text-lg">${s}s</span>
                 `;
+
+                    progressContainer?.classList.remove('hidden');
 
                 } else { // ENDED
                     countdown.innerHTML = "<span class='text-red-500 font-semibold'>Event Ended</span>";

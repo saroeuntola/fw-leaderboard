@@ -43,6 +43,7 @@ if (isset($_GET['delete'])) {
     <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
     <script src="/v2/js/tinymce/tinymce.min.js"></script>
 </head>
+
 <body class="bg-gray-900 text-white min-h-screen">
     <?php include "../include/sidebar.php" ?>
     <main class="flex-1 ml-64 p-6 transition-all duration-300" id="main-content">
@@ -69,6 +70,7 @@ if (isset($_GET['delete'])) {
                         <tr class="border-b border-gray-700">
                             <td class="px-4 py-2"><?= $index + 1 ?></td>
                             <td class="px-4 py-2"> <?= html_entity_decode($ev['title']) ?></td>
+
                             <td class="px-4 py-2"><?= $ev['matches'] ?></td>
                             <td class="px-4 py-2"><?= htmlspecialchars($ev['type']) ?></td>
                             <td class="px-4 py-2"><?= $ev['start_date'] ?></td>
@@ -155,25 +157,37 @@ if (isset($_GET['delete'])) {
 
 
     <script>
+        tinymce.init({
+            selector: '#title',
+            height: 400,
+            license_key: 'gpl',
+            plugins: 'table code image lists',
+            toolbar: 'undo redo | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist | table | image | code',
+        });
+
         const events = <?= json_encode($events) ?>;
 
         function openModal(mode, id = null) {
             document.getElementById('eventModal').classList.remove('hidden');
+
             if (mode === 'create') {
                 document.getElementById('modalTitle').innerText = 'Add Event';
                 document.getElementById('eventForm').reset();
                 document.getElementById('eventId').value = '';
+                tinymce.get('title').setContent(''); // clear editor
             } else if (mode === 'edit') {
                 document.getElementById('modalTitle').innerText = 'Edit Event';
                 const ev = events.find(e => e.id == id);
                 if (!ev) return;
 
                 document.getElementById('eventId').value = ev.id;
-                document.getElementById('title').value = ev.title;
                 document.getElementById('matches').value = ev.matches;
                 document.getElementById('type').value = ev.type;
                 document.getElementById('start_date').value = ev.start_date.replace(' ', 'T');
                 document.getElementById('end_date').value = ev.end_date.replace(' ', 'T');
+
+                // Set rich text editor content
+                tinymce.get('title').setContent(ev.title);
             }
         }
 
@@ -181,6 +195,7 @@ if (isset($_GET['delete'])) {
             document.getElementById('eventModal').classList.add('hidden');
         }
     </script>
+
 </body>
 
 </html>
