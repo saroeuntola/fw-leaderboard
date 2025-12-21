@@ -1,21 +1,57 @@
+# Enable URL rewriting
 RewriteEngine On
-RewriteBase /v2/
-
-# Hide .php extension, only if the PHP file exists
+# Serve extensionless URLs, but exclude root
+RewriteCond %{REQUEST_URI} !^/$
 RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME}.php -f
+RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(.*)$ $1.php [L,QSA]
-
-# Redirect .php requests to clean URLs (optional)
-RewriteCond %{THE_REQUEST} \s([^.]+)\.php[?\s] [NC]
-RewriteRule ^ %1 [R=301,L]
-
-# Serve index.php automatically in folders
-DirectoryIndex index.php
 
 # Deny access to sensitive files
 <FilesMatch "\.(env|ini|log|bak|sql|git|htaccess)$">
     Require all denied
 </FilesMatch>
+
+# Disable directory listing
 Options -Indexes
 
+<IfModule mod_brotli.c>
+    BrotliCompressionQuality 6
+    AddOutputFilterByType BROTLI_COMPRESS text/html text/plain text/xml
+    AddOutputFilterByType BROTLI_COMPRESS text/css text/javascript
+    AddOutputFilterByType BROTLI_COMPRESS application/javascript
+    AddOutputFilterByType BROTLI_COMPRESS application/json
+    AddOutputFilterByType BROTLI_COMPRESS image/svg+xml
+</IfModule>
+
+# ------------------------------------------------------
+# GZIP Compression Fallback (if Brotli not available)
+# ------------------------------------------------------
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css
+    AddOutputFilterByType DEFLATE application/javascript application/json
+    AddOutputFilterByType DEFLATE application/x-javascript
+    AddOutputFilterByType DEFLATE application/xml application/xhtml+xml
+    AddOutputFilterByType DEFLATE image/svg+xml
+
+    # Fix for old browsers
+    BrowserMatch ^Mozilla/4 gzip-only-text/html
+    BrowserMatch ^Mozilla/4\.0[678] no-gzip
+    BrowserMatch \bMSIE !no-gzip !gzip-only-text/html
+</IfModule>
+
+# ----------------------------------------------------------------------
+# Enable caching for static assets only (no HTML/PHP)
+# ----------------------------------------------------------------------
+<IfModule mod_headers.c>
+
+    # Do NOT cache dynamic content (HTML, PHP, JSON)
+  <FilesMatch "\.(html|htm|php|json|xml|js|css)$">
+        Header set Cache-Control "no-store, no-cache, must-revalidate, max-age=0"
+    </FilesMatch>
+
+    # ------------------------------------------------------------------
+    # Prevent the site from being embedded in iframes (clickjacking protection)
+    # ------------------------------------------------------------------
+    Header always set X-Frame-Options "SAMEORIGIN"
+    Header always set Content-Security-Policy "frame-ancestors 'self' https://fancywinaff.com;"
+</IfModule>
