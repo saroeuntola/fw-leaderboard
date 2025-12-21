@@ -38,7 +38,7 @@ $fwguide = new FwguideAnnouncement();
 try {
     $announcements = $fwguide->getAll();
     // Build full image URLs
-    $baseUrl = (isset($_SERVER['HTTPS']) ? "https" : "http") . "://{$_SERVER['HTTP_HOST']}/v2/admin/uploads/";
+    $baseUrl = (isset($_SERVER['HTTPS']) ? "https" : "http") . "://{$_SERVER['HTTP_HOST']}/admin/uploads/";
 
     foreach ($announcements as &$item) {
         $item['image_pc'] = !empty($item['image_pc']) ? $baseUrl . $item['image_pc'] : null;
