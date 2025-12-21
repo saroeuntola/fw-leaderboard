@@ -26,10 +26,10 @@ $latestTournament = $tournament->getLatest(1);
     <meta name="keywords" content="<?= htmlspecialchars($post['meta_keyword'] ?? '') ?>" />
 
     <!-- Canonical URL -->
-    <link rel="canonical" href="https://fancybet-leaderboard.com/v2/views?slug=<?= htmlspecialchars($currentSlug['slug'] ?? '') ?>" />
+    <link rel="canonical" href="https://fancybet-leaderboard.com/views?slug=<?= htmlspecialchars($currentSlug['slug'] ?? '') ?>" />
 
     <!-- Favicon (post image preview) -->
-    <link rel="shortcut icon" href="/v2/admin/post/<?= htmlspecialchars($post['image'] ?? '') ?>" type="image/png" />
+    <link rel="shortcut icon" href="/admin/post/<?= htmlspecialchars($post['image'] ?? '') ?>" type="image/png" />
 
     <!-- Styles -->
     <link rel="stylesheet" href="./src/output.css" />
@@ -39,8 +39,8 @@ $latestTournament = $tournament->getLatest(1);
     <meta property="og:title" content="<?= htmlspecialchars($post['meta_title'] ?? '') ?>" />
     <meta property="og:description" content="<?= htmlspecialchars($post['meta_desc'] ?? '') ?>" />
     <meta property="og:type" content="article" />
-    <meta property="og:url" content="https://fancybet-leaderboard.com/v2/views?slug=<?= htmlspecialchars($currentSlug['slug'] ?? '') ?>" />
-    <meta property="og:image" content="https://fancybet-leaderboard.com/v2/admin/post/<?= htmlspecialchars($post['image'] ?? '') ?>" />
+    <meta property="og:url" content="https://fancybet-leaderboard.com/views?slug=<?= htmlspecialchars($currentSlug['slug'] ?? '') ?>" />
+    <meta property="og:image" content="https://fancybet-leaderboard.com/admin/post/<?= htmlspecialchars($post['image'] ?? '') ?>" />
     <meta property="og:locale" content="en_BD" />
     <meta property="article:section" content="Gaming News" />
     <meta property="article:published_time" content="<?= htmlspecialchars($post['created_at'] ?? '') ?>" />
@@ -50,7 +50,7 @@ $latestTournament = $tournament->getLatest(1);
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="<?= htmlspecialchars($post['meta_title'] ?? '') ?>" />
     <meta name="twitter:description" content="<?= htmlspecialchars($post['meta_desc'] ?? '') ?>" />
-    <meta name="twitter:image" content="https://fancybet-leaderboard.com/v2/admin/post/<?= htmlspecialchars($post['meta_title'] ?? '') ?>" />
+    <meta name="twitter:image" content="https://fancybet-leaderboard.com/admin/post/<?= htmlspecialchars($post['meta_title'] ?? '') ?>" />
     <meta name="twitter:site" content="@FancyWin" />
 
     <!-- Local SEO -->
@@ -65,7 +65,7 @@ $latestTournament = $tournament->getLatest(1);
             "headline": <?= json_encode($post['meta_title'] ?? '') ?>,
             "description": <?= json_encode($post['meta_desc'] ?? '') ?>,
             "image": [
-                "https://fancybet-leaderboard.com/v2/admin/post/<?= htmlspecialchars($post['image'] ?? '') ?>"
+                "https://fancybet-leaderboard.com/admin/post/<?= htmlspecialchars($post['image'] ?? '') ?>"
             ],
             "author": {
                 "@type": "Organization",
@@ -76,14 +76,14 @@ $latestTournament = $tournament->getLatest(1);
                 "name": "FancyWin",
                 "logo": {
                     "@type": "ImageObject",
-                    "url": "https://fancybet-leaderboard.com/v2/images/icons/apple-touch-icon.png"
+                    "url": "https://fancybet-leaderboard.com/images/icons/apple-touch-icon.png"
                 }
             },
             "datePublished": "<?= htmlspecialchars($post['created_at'] ?? '') ?>",
             "dateModified": "<?= htmlspecialchars($post['updated_at'] ?? '') ?>",
             "mainEntityOfPage": {
                 "@type": "WebPage",
-                "@id": "https://fancybet-leaderboard.com/v2/views?slug=<?= htmlspecialchars($currentSlug['slug'] ?? '') ?>"
+                "@id": "https://fancybet-leaderboard.com/views?slug=<?= htmlspecialchars($currentSlug['slug'] ?? '') ?>"
             }
         }
     </script>
@@ -97,7 +97,7 @@ $latestTournament = $tournament->getLatest(1);
         <div class="flex-1 flex flex-col gap-4 bg-white shadow-[0_0_5px_0_rgba(0,0,0,0.2)] dark:bg-[#252525] p-4 rounded-md">
             <div class="rounded-lg">
                 <?php if (!empty($post['image'])): ?>
-                    <img src="/v2/admin/post/<?= htmlspecialchars($post['image']) ?>" class="w-full h-auto mb-4 rounded" loading="lazy">
+                    <img src="/admin/post/<?= htmlspecialchars($post['image']) ?>" class="w-full h-auto mb-4 rounded" loading="lazy">
                 <?php endif; ?>
 
                 <h1 class="lg:text-3xl text-xl font-bold mb-2 text-red-600"><?= htmlspecialchars($post['name'] ?? '') ?></h1>
@@ -113,7 +113,7 @@ $latestTournament = $tournament->getLatest(1);
                 <div class="break-words desc-editor leading-relaxed dark:text-white text-gray-900" style="white-space: pre-line;">
                     <?php
                     $description = $post['description'] ?? '';
-                    $description = str_replace('../api/content_image/', '/v2/admin/api/content_image/', $description);
+                    $description = str_replace('../api/content_image/', '/admin/api/content_image/', $description);
                     echo $description;
                     ?>
                 </div>
@@ -148,7 +148,7 @@ $latestTournament = $tournament->getLatest(1);
 
                                 <!-- Thumbnail -->
                                 <?php if (!empty($rPost['image'])): ?>
-                                    <img src="/v2/admin/post/<?= htmlspecialchars($rPost['image']) ?>"
+                                    <img src="/admin/post/<?= htmlspecialchars($rPost['image']) ?>"
                                         alt="<?= htmlspecialchars($rPost['name']) ?>"
                                         class="w-[80px] h-[80px] rounded-md flex-shrink-0 shadow-sm group-hover:scale-105 transition-transform duration-300 object-cover">
                                 <?php else: ?>
@@ -184,7 +184,7 @@ $latestTournament = $tournament->getLatest(1);
                     <div class="bg-white shadow-[0_0_5px_0_rgba(0,0,0,0.2)] dark:bg-[#252525] p-4 rounded-md">
                         <h3 class="mb-4 text-xl font-bold border-b border-gray-700 pb-2 dark:text-white text-gray-900">Latest Tournament Result</h3>
                         <a href="<?= htmlspecialchars($link) ?>" class="rounded-lg hover:scale-105 transition-transform">
-                            <img src="<?= htmlspecialchars($t['image'] ? '/v2/admin/uploads/' . $t['image'] : './images/img-card.png') ?>"
+                            <img src="<?= htmlspecialchars($t['image'] ? '/admin/uploads/' . $t['image'] : './images/img-card.png') ?>"
                                 alt="<?= htmlspecialchars($t['title']); ?>"
                                 class="w-full image-card rounded-md shadow-md"
                                 loading="lazy">

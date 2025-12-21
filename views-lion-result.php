@@ -14,7 +14,7 @@ $data = $tournament->getTournamentById($id);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title> <?= htmlspecialchars($data['title'] ?? 'Tournament Result') ?></title>
     <
-    <link rel="icon" href="/v2/admin/uploads/<?= htmlspecialchars($data['image']) ?>" type="image/png">
+    <link rel="icon" href="/admin/uploads/<?= htmlspecialchars($data['image']) ?>" type="image/png">
     <link rel="stylesheet" href="./src/output.css">
     <script src="./js/jquery-3.7.1.min.js"></script>
     

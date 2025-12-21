@@ -65,7 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create Posts</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <script src="/v2/js/tinymce/tinymce.min.js"></script>
+    <script src="/js/tinymce/tinymce.min.js"></script>
     <style>
         .form-section {
             border-bottom: 1px solid #e5e7eb;
@@ -243,7 +243,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         const example_image_upload_handler = (blobInfo, progress) => new Promise((resolve, reject) => {
             const xhr = new XMLHttpRequest();
             xhr.withCredentials = true;
-            xhr.open('POST', '/v2/admin/api/upload_image');
+            xhr.open('POST', '/admin/api/upload_image');
 
             xhr.upload.onprogress = (e) => {
                 progress(e.loaded / e.total * 100);

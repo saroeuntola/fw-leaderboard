@@ -23,21 +23,21 @@ $posts = $listPost->getPostByCategory(2, 'en', $limit, $page);
     <meta name="description" content="Explore active and upcoming gaming tournaments in Bangladesh. Join FancyWin esports events, compete with top players, and track tournament standings.">
     <meta name="keywords" content="Bangladesh gaming tournaments, BD esports competitions, FancyWin tournaments, online gaming Bangladesh, esports events BD, BD gaming championship, Bangladesh tournament schedule">
     <meta name="robots" content="index, follow">
-    <link rel="canonical" href="https://fancybet-leaderboard.com/v2/tournaments" />
+    <link rel="canonical" href="https://fancybet-leaderboard.com/tournaments" />
     <link rel="stylesheet" href="./src/output.css">
     <link rel="stylesheet" href="./css/style.css">
     <script src="./js/jquery-3.7.1.min.js"></script>
-    <link rel="icon" href="/v2/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
     <meta property="og:title" content="FancyWin Tournaments - Gaming Tournament in Bangladesh">
     <meta property="og:description" content="Discover the latest gaming tournaments happening in Bangladesh. Join competitions and follow standings.">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://fancybet-leaderboard.com/v2/tournaments">
-    <meta property="og:image" content="https://fancybet-leaderboard.com/v2/images/icons/og-image.png">
+    <meta property="og:url" content="https://fancybet-leaderboard.com/tournaments">
+    <meta property="og:image" content="https://fancybet-leaderboard.com/images/icons/og-image.png">
     <meta property="og:locale" content="en_BD">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="FancyWin Tournaments - Gaming Tournament in Bangladesh">
     <meta name="twitter:description" content="Join Bangladesh gaming tournaments and track standings.">
-    <meta name="twitter:image" content="https://fancybet-leaderboard.com/v2/images/icons/og-image.png">
+    <meta name="twitter:image" content="https://fancybet-leaderboard.com/images/icons/og-image.png">
     <meta name="geo.region" content="BD">
     <meta name="geo.placename" content="Bangladesh">
     <script type="application/ld+json">
@@ -46,7 +46,7 @@ $posts = $listPost->getPostByCategory(2, 'en', $limit, $page);
             "@type": "Organization",
             "name": "FancyWin",
             "url": "https://fancybet-leaderboard.com",
-            "logo": "https://fancybet-leaderboard.com/v2/images/icons/apple-touch-icon.png",
+            "logo": "https://fancybet-leaderboard.com/images/icons/apple-touch-icon.png",
             "address": {
                 "@type": "PostalAddress",
                 "addressLocality": "Bangladesh",

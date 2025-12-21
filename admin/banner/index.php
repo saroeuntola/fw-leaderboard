@@ -60,7 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $id = $_POST['id'];
         $bannerObj->deleteBanner($id);
     }
-    header("Location: /v2/admin/banner/");
+    header("Location: /admin/banner/");
     exit;
 }
 $banners = $bannerObj->getBanner();

@@ -11,17 +11,17 @@ include "./admin/lib/db.php";
     <meta name="description" content="View the latest FancyWin leaderboard in Bangladesh. Check player rankings, scores, and real-time updates." />
     <meta name="keywords" content="FancyWin, leaderboard Bangladesh, gaming leaderboard BD, player ranking Bangladesh, real-time scores BD, top players Bangladesh" />
     <meta name="robots" content="index, follow" />
-    <link rel="canonical" href="https://fancybet-leaderboard.com/v2/leaderboard" />
+    <link rel="canonical" href="https://fancybet-leaderboard.com/leaderboard" />
     <meta property="og:title" content="FancyWin Leaderboard - Bangladesh" />
     <meta property="og:description" content="Check the latest leaderboard and rankings of FancyWin players in Bangladesh with real-time updates." />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://fancybet-leaderboard.com/v2/leaderboard" />
-    <meta property="og:image" content="https://fancybet-leaderboard.com/v2/images/og-image.png" />
+    <meta property="og:url" content="https://fancybet-leaderboard.com/leaderboard" />
+    <meta property="og:image" content="https://fancybet-leaderboard.com/images/og-image.png" />
     <meta property="og:locale" content="en_BD" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="FancyWin Leaderboard - Bangladesh" />
     <meta name="twitter:description" content="Real-time FancyWin leaderboard for players in Bangladesh." />
-    <meta name="twitter:image" content="https://fancybet-leaderboard.com/v2/images/og-image.png" />
+    <meta name="twitter:image" content="https://fancybet-leaderboard.com/images/og-image.png" />
     <meta name="geo.region" content="BD" />
     <meta name="geo.placename" content="Bangladesh" />
     <meta name="geo.position" content="23.6850;90.3563" />
@@ -31,16 +31,16 @@ include "./admin/lib/db.php";
             "@context": "https://schema.org",
             "@type": "WebPage",
             "name": "FancyWin Leaderboard",
-            "url": "https://fancybet-leaderboard.com/v2/leaderboard",
+            "url": "https://fancybet-leaderboard.com/leaderboard",
             "description": "View the FancyWin leaderboard with real-time player rankings and scores in Bangladesh.",
             "publisher": {
                 "@type": "Organization",
                 "name": "FancyWin",
-                "logo": "https://fancybet-leaderboard.com/v2/images/logo.png"
+                "logo": "https://fancybet-leaderboard.com/images/logo.png"
             }
         }
     </script>
-    <link rel="icon" type="image/x-icon" href="/v2/images/favicon.ico" />
+    <link rel="icon" type="image/x-icon" href="/images/favicon.ico" />
     <link rel="preconnect" href="https://cdn.jsdelivr.net">
     <link rel="preconnect" href="https://cdn.jsdelivr.net/npm">
     <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
@@ -62,7 +62,7 @@ include "./admin/lib/db.php";
         <div class="text-center space-x-4 mt-4 flex justify-center gap-4">
             <!-- Lion Button -->
             <button class="btn bg-red-700 border-none shadow-nonetext-white text-white px-6 py-2 flex items-center gap-2 hover:opacity-80 transition-all"
-                data-file="/v2/lion-leaderboard-section"
+                data-file="/lion-leaderboard-section"
                 data-target="#container-lion"
                 data-hide="#container-tiger">
                 <img src="./images/lion-logo.png" class="w-6" alt="lion logo" loading="lazy">
@@ -75,7 +75,7 @@ include "./admin/lib/db.php";
             </button>
             <!-- Tiger Button -->
             <button class="btn bg-yellow-600 border-none shadow-none text-white px-6 py-2 flex items-center gap-2 hover:opacity-80 transition-all"
-                data-file="/v2/tiger-leaderboard-section"
+                data-file="/tiger-leaderboard-section"
                 data-target="#container-tiger"
                 data-hide="#container-lion">
                 <img src="./images/tiger-logo.png" class="w-8" alt="tiger logo" loading="lazy">

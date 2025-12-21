@@ -85,7 +85,7 @@ $total_pages = 1 + ceil(($total_records - $firstPageLimit) / $otherPageLimit);
         <div class="carousel-item pt-6">
             <?php if (!empty($banner['image'])): ?>
                 <a href="<?= htmlspecialchars($banner['link'] ?? '#') ?>" class="w-full">
-                    <img src="/v2/admin/<?= htmlspecialchars($banner['image']) ?>" loading="lazy"
+                    <img src="/admin/<?= htmlspecialchars($banner['image']) ?>" loading="lazy"
                         class="w-full h-auto object-fill rounded-md" />
                 </a>
             <?php else: ?>
@@ -196,7 +196,7 @@ $total_pages = 1 + ceil(($total_records - $firstPageLimit) / $otherPageLimit);
         <?php
         $lastPage = $total_pages;
         $target = "#container-tiger";  // container for Tiger leaderboard
-        $file = "/v2/tiger-leaderboard-section";   // Tiger leaderboard file
+        $file = "/tiger-leaderboard-section";   // Tiger leaderboard file
         ?>
 
         <!-- First page button -->

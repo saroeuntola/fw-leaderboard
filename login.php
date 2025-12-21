@@ -18,10 +18,10 @@ $error_message = '';
                     $user = $result[0];
 
                     if ($user['role_id'] == 1 || $user['role_id'] == 3) {
-                        header('Location: /v2/admin');
+                        header('Location: //admin');
                         exit();
                     } elseif ($user['role_id'] == 2) {
-                        header('Location: /v2');
+                        header('Location: /');
                         exit();
                     }
                 }

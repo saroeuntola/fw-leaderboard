@@ -75,7 +75,7 @@ if ($id <= 0) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Tournament</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <script src="/v2/js/tinymce/tinymce.min.js"></script>
+    <script src="/js/tinymce/tinymce.min.js"></script>
 </head>
 
 <body class="bg-gray-900 flex items-center justify-center min-h-screen">
@@ -104,7 +104,7 @@ if ($id <= 0) {
             <?php if (!empty($record['image'])): ?>
                 <div>
                     <label class="block text-sm font-semibold text-gray-700 mb-1">Current Image</label>
-                    <img src="/v2/admin/uploads/<?= htmlspecialchars($record['image']) ?>" alt="current image" class="w-48 h-auto mb-2">
+                    <img src="/admin/uploads/<?= htmlspecialchars($record['image']) ?>" alt="current image" class="w-48 h-auto mb-2">
                 </div>
             <?php endif; ?>
 
@@ -127,7 +127,7 @@ if ($id <= 0) {
         // TinyMCE setup with image upload handler
         const image_upload_handler = (blobInfo, progress) => new Promise((resolve, reject) => {
             const xhr = new XMLHttpRequest();
-            xhr.open('POST', '/v2/admin/api/upload_image');
+            xhr.open('POST', '/admin/api/upload_image');
             xhr.upload.onprogress = (e) => progress(e.loaded / e.total * 100);
 
             xhr.onload = () => {

@@ -54,7 +54,7 @@
             </a>
         </div>
         <a onclick="window.open('https://www.gambleaware.org/home', '_blank')" class="flex items-center justify-center hover:opacity-70">
-            <img src="/data/imgs/18+BeGambleAware.org.png" alt="" class="w-[250px] cursor-pointer">
+            <img src="/images/18+BeGambleAware.org.png" alt="BeGambleAware" class="w-[250px] cursor-pointer">
         </a>
         <!-- Copyright -->
         <div class="text-center text-white text-sm mt-4">

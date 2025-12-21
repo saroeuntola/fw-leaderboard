@@ -77,7 +77,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <script src="/v2/js/tinymce/tinymce.min.js"></script>
+    <script src="/js/tinymce/tinymce.min.js"></script>
     <style>
         .ql-editor {
             min-height: 150px;
@@ -176,7 +176,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         const example_image_upload_handler = (blobInfo, progress) => new Promise((resolve, reject) => {
             const xhr = new XMLHttpRequest();
             xhr.withCredentials = true;
-            xhr.open('POST', '/v2/admin/api/upload_image');
+            xhr.open('POST', '/admin/api/upload_image');
             xhr.upload.onprogress = (e) => {
                 progress(e.loaded / e.total * 100);
                 console.log(`Uploading: ${(e.loaded / e.total * 100).toFixed(2)}%`);

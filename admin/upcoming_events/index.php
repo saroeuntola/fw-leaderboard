@@ -43,7 +43,7 @@ if (isset($_GET['delete'])) {
     <title>Upcoming Events CRUD</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
-    <script src="/v2/js/tinymce/tinymce.min.js"></script>
+    <script src="/js/tinymce/tinymce.min.js"></script>
 </head>
 
 <body class="bg-gray-900 text-white min-h-screen">

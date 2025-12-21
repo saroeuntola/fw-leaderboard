@@ -33,7 +33,7 @@ font-size: 20px;
             <div class="carousel-item">
                 <?php if (!empty($banner['link'])): ?>
                     <a href="<?= htmlspecialchars($banner['link']) ?>" class="w-full">
-                        <img src="/v2/admin/<?= htmlspecialchars($banner['image']) ?>" loading="lazy"
+                        <img src="/admin/<?= htmlspecialchars($banner['image']) ?>" loading="lazy"
                             class="w-full lg:h-[400px] h-[180px] rounded-md" />
                     </a>
                 <?php else: ?>

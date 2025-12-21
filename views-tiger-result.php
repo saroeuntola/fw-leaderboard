@@ -14,7 +14,7 @@ $data = $tournament->getTournamentById($id);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= htmlspecialchars($data['title'] ?? 'Tournament Result') ?></title>
     <link rel="stylesheet" href="./src/output.css">
-    <link rel="shortcut icon" href="/v2/admin/uploads/<?= htmlspecialchars($data['image']) ?>" type="image/png">
+    <link rel="shortcut icon" href="/admin/uploads/<?= htmlspecialchars($data['image']) ?>" type="image/png">
     <script src="./js/jquery-3.7.1.min.js" defer></script>
 </head>
 
@@ -24,7 +24,7 @@ $data = $tournament->getTournamentById($id);
         <?php if (!empty($data)): ?>
 
             <?php if (!empty($data['image'])): ?>
-                <img src="/v2/admin/uploads/<?= htmlspecialchars($data['image']) ?>"
+                <img src="/admin/uploads/<?= htmlspecialchars($data['image']) ?>"
                     class="w-full rounded-lg shadow-lg mb-6 h-auto" loading="lazy">
             <?php endif; ?>
             <h1 class="lg:text-3xl text-xl font-bold mb-4 text-red-700"><?= htmlspecialchars($data['title']) ?></h1>

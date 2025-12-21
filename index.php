@@ -20,35 +20,35 @@ include "./services/textLimit.php";
     <link rel="stylesheet" href="./src/output.css">
     <link rel="stylesheet" href="./css/style.css">
     <script src="./js/jquery-3.7.1.min.js"></script>
-    <link rel="apple-touch-icon" sizes="57x57" href="/v2/icons/apple-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="60x60" href="/v2/icons/apple-icon-60x60.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="/v2/icons/apple-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="/v2/icons/apple-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="/v2/icons/apple-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="/v2/icons/apple-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="/v2/icons/apple-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="/v2/icons/apple-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="/v2/icons/apple-icon-180x180.png">
-    <link rel="icon" type="image/png" sizes="192x192" href="/v2/icons/android-icon-192x192.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/v2/icons/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="96x96" href="/v2/icons/favicon-96x96.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/v2/icons/favicon-16x16.png">
-    <link rel="icon" href="/v2/favicon.ico" type="image/x-icon">
-    <link rel="shortcut icon" href="/v2/icons/favicon.ico" type="image/x-icon">
-    <link rel="manifest" href="/v2/icons/manifest.json">
+    <link rel="apple-touch-icon" sizes="57x57" href="/icons/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/icons/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/icons/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/icons/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/icons/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/icons/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/icons/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/icons/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/icons/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/icons/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16x16.png">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="/icons/favicon.ico" type="image/x-icon">
+    <link rel="manifest" href="/icons/manifest.json">
     <meta name="msapplication-TileColor" content="#ffffff">
-    <meta name="msapplication-TileImage" content="/v2/icons/ms-icon-144x144.png">
+    <meta name="msapplication-TileImage" content="/icons/ms-icon-144x144.png">
     <meta name="theme-color" content="#ffffff">
     <meta property="og:title" content="FancyWin Leaderboard & Tournament বাংলাদেশ">
     <meta property="og:description" content="বাংলাদেশি গেমারদের জন্য FancyWin লিডারবোর্ড ও টুর্নামেন্ট।">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://fancybet-leaderboard.com/">
-    <meta property="og:image" content="https://fancybet-leaderboard.com/v2/images/icons/og-image.png">
+    <meta property="og:image" content="https://fancybet-leaderboard.com/images/icons/og-image.png">
     <meta property="og:locale" content="en_BD">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="FancyWin Leaderboard & Tournament বাংলাদেশ">
     <meta name="twitter:description" content="বাংলাদেশি গেমারদের জন্য FancyWin লিডারবোর্ড ও টুর্নামেন্ট।">
-    <meta name="twitter:image" content="https://fancybet-leaderboard.com/v2/images/icons/og-image.png">
+    <meta name="twitter:image" content="https://fancybet-leaderboard.com/images/icons/og-image.png">
     <meta name="twitter:site" content="@FancyWin">
     <meta name="geo.region" content="BD">
     <meta name="geo.placename" content="Bangladesh">
@@ -59,7 +59,7 @@ include "./services/textLimit.php";
             "@context": "https://schema.org",
             "@type": "WebSite",
             "name": "FancyWin",
-            "url": "https://fancybet-leaderboard.com/v2",
+            "url": "https://fancybet-leaderboard.com",
             "description": "FancyWin লিডারবোর্ড ও টুর্নামেন্টে অংশ নিন। বাংলাদেশি গেমারদের সাথে প্রতিযোগিতা করুন, র‍্যাংক দেখুন এবং আকর্ষণীয় পুরস্কার জিতুন।",
             "inLanguage": "en-BD",
             "audience": {
@@ -82,7 +82,7 @@ include "./services/textLimit.php";
             "@type": "Organization",
             "name": "FancyWin",
             "url": "https://fancybet-leaderboard.com",
-            "logo": "https://fancybet-leaderboard.com/v2/images/icons/apple-touch-icon.png",
+            "logo": "https://fancybet-leaderboard.com/images/icons/apple-touch-icon.png",
             "address": {
                 "@type": "PostalAddress",
                 "addressLocality": "Bangladesh",
@@ -95,7 +95,7 @@ include "./services/textLimit.php";
             "@context": "https://schema.org",
             "@type": "LocalBusiness",
             "name": "FancyWin",
-            "image": "https://fancybet-leaderboard.com/v2/images/icons/apple-touch-icon.png",
+            "image": "https://fancybet-leaderboard.com/images/icons/apple-touch-icon.png",
             "@id": "https://fancybet-leaderboard.com",
             "url": "https://fancybet-leaderboard.com",
             "telephone": "+8801645787953",

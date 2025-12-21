@@ -66,8 +66,8 @@ $posts = $listPost->getLastPosts(4, 'en');
             <?php
             // Determine the correct link based on type
             $link = $item['type'] === 'tiger'
-                ? "/v2/views-tiger-result?id=" . urlencode($item['id'])
-                : "/v2/views-lion-result?id=" . urlencode($item['id']);
+                ? "/views-tiger-result?id=" . urlencode($item['id'])
+                : "/views-lion-result?id=" . urlencode($item['id']);
             ?>
             <div class="bg-white shadow-[0_0_5px_0_rgba(0,0,0,0.2)] dark:bg-[#252525] rounded-md flex flex-col md:flex-row md:items-center justify-between gap-4 overflow-hidden mb-4">
                 <!-- Left: Image -->

@@ -8,8 +8,8 @@ if (!$userId) {
 $user = $userLib->getUser($userId);
 
 // Get current path relative to /v2/
-$currentPath = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/'); // e.g. v2/admin/tiger_banners
-$currentPath = preg_replace('#^v2/#', '', $currentPath); // remove "v2/" prefix
+$currentPath = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
+$currentPath = preg_replace('#^v2/#', '', $currentPath);
 ?>
 
 <aside id="sidebar" class="fixed top-0 left-0 h-full w-64 bg-gray-800 shadow-lg flex flex-col justify-between transition-all duration-300 text-white">
@@ -42,7 +42,7 @@ $currentPath = preg_replace('#^v2/#', '', $currentPath); // remove "v2/" prefix
             foreach ($sidebarLinks as $path => $title):
                 $activeClass = ($currentPath === $path) ? 'bg-gray-200 text-gray-800' : '';
             ?>
-                <a href="/v2/<?= $path ?>/" class="btn btn-ghost btn-block justify-start hover:text-gray-800 <?= $activeClass ?>">
+                <a href="/<?= $path ?>/" class="btn btn-ghost btn-block justify-start hover:text-gray-800 <?= $activeClass ?>">
                     <?= $title ?>
                 </a>
             <?php endforeach; ?>

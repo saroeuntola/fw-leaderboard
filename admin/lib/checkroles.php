@@ -9,7 +9,7 @@ function protectRoute($allowedRoles = [])
     // Not logged in at all
     if (!$auth->is_logged_in()) {
         session_destroy();
-        header("Location: /v2/unauthorized");
+        header("Location: /unauthorized");
         exit;
     }
 
@@ -21,13 +21,13 @@ function protectRoute($allowedRoles = [])
         // User is disabled while logged in → force logout
         session_unset();
         session_destroy();
-        header("Location: /v2/account-disable");
+        header("Location: /account-disable");
         exit;
     }
 
     // Role not allowed
     if (!isset($_SESSION['role_id']) || !in_array($_SESSION['role_id'], $allowedRoles)) {
-        header("Location: /v2/unauthorized");
+        header("Location: /unauthorized");
         exit;
     }
 }

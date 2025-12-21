@@ -18,7 +18,7 @@ $currentPath = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
             <div class="flex space-x-4">
                 <?php foreach ($logos as $b): ?>
                     <a href="<?= htmlspecialchars($b['link'] ?? '/') ?>" class="flex-shrink-0">
-                        <img src="/v2/admin/<?= htmlspecialchars($b['brand_image'] ?? 'default-logo.png') ?>"
+                        <img src="/admin/<?= htmlspecialchars($b['brand_image'] ?? 'default-logo.png') ?>"
                             alt="<?= htmlspecialchars($b['brand_name'] ?? 'logo') ?>"
                             class="h-10 object-contain">
                     </a>
@@ -31,10 +31,10 @@ $currentPath = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
             <div class="hidden md:flex items-center space-x-6 font-medium">
                 <?php
                 $navItems = [
-                    ['label' => 'Home', 'url' => '/v2'],
-                    ['label' => 'Tournaments', 'url' => '/v2/tournaments'],
-                    ['label' => 'News', 'url' => '/v2/news'],
-                    ['label' => 'Leaderboard', 'url' => '/v2/leaderboard'],
+                    ['label' => 'Home', 'url' => '/'],
+                    ['label' => 'Tournaments', 'url' => '/tournaments'],
+                    ['label' => 'News', 'url' => '/news'],
+                    ['label' => 'Leaderboard', 'url' => '/leaderboard'],
                     ['label' => 'Fancybet Guide', 'url' => 'https://fancybet.info', 'target' => '_blank'],
                 ];
 

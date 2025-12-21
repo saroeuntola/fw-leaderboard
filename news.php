@@ -31,28 +31,28 @@ $posts = $listPost->getPostByCategory(3, 'en', $limit, $page);
 
     <meta name="robots" content="index, follow">
 
-    <link rel="canonical" href="https://fancybet-leaderboard.com/v2/news" />
+    <link rel="canonical" href="https://fancybet-leaderboard.com/news" />
 
     <!-- CSS -->
     <link rel="stylesheet" href="./src/output.css">
     <link rel="stylesheet" href="./css/style.css">
     <script src="./js/jquery-3.7.1.min.js"></script>
     <!-- Favicons -->
-    <link rel="icon" href="/v2/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
 
     <!-- Open Graph -->
     <meta property="og:title" content="FancyWin Gaming News - Bangladesh Updates">
     <meta property="og:description" content="Latest gaming and esports news from Bangladesh. Updates on tournaments, players, and FancyWin announcements.">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://fancybet-leaderboard.com/v2/news">
-    <meta property="og:image" content="https://fancybet-leaderboard.com/v2/images/icons/og-image.png">
+    <meta property="og:url" content="https://fancybet-leaderboard.com/news">
+    <meta property="og:image" content="https://fancybet-leaderboard.com/images/icons/og-image.png">
     <meta property="og:locale" content="en_BD">
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="FancyWin Gaming News - Bangladesh">
     <meta name="twitter:description" content="Read the latest gaming and esports updates from Bangladesh.">
-    <meta name="twitter:image" content="https://fancybet-leaderboard.com/v2/images/icons/og-image.png">
+    <meta name="twitter:image" content="https://fancybet-leaderboard.com/images/icons/og-image.png">
 
     <!-- Local SEO -->
     <meta name="geo.region" content="BD">
@@ -65,7 +65,7 @@ $posts = $listPost->getPostByCategory(3, 'en', $limit, $page);
             "@type": "Organization",
             "name": "FancyWin",
             "url": "https://fancybet-leaderboard.com",
-            "logo": "https://fancybet-leaderboard.com/v2/images/icons/apple-touch-icon.png",
+            "logo": "https://fancybet-leaderboard.com/images/icons/apple-touch-icon.png",
             "address": {
                 "@type": "PostalAddress",
                 "addressLocality": "Bangladesh",

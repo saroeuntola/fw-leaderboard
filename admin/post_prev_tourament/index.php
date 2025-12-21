@@ -54,7 +54,7 @@ $allTournaments = $tournament->getAllTournaments();
                             <?php
                             // Securely prepare image URL and fallback
                             $imagePath = '../uploads/' . htmlspecialchars($item['image']);
-                            $fallback = '/v2/images/no-image.png'; // <-- fallback image
+                            $fallback = '/images/no-image.png'; // <-- fallback image
                             $imageUrl = (file_exists($imagePath) && !empty($item['image'])) ? $imagePath : $fallback;
                             ?>
                             <tr class="hover:bg-gray-700 transition">
