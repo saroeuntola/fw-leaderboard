@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-https://fancybet-leaderboard.com/sitemap.xml
+https://fancybet-leaderboard.com/sitemap-index.xml

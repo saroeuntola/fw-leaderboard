@@ -19,7 +19,7 @@ $posts = $listPost->getPostByCategory(2, 'en', $limit, $page);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FancyWin Fancybet Tournaments - Gaming Tournament in Bangladesh</title>
+    <title>Fancybet Tournaments - Gaming Tournament in Bangladesh</title>
     <meta name="description" content="Explore active and upcoming gaming tournaments in Bangladesh. Join FancyWin esports events, compete with top players, and track tournament standings.">
     <meta name="keywords" content="Bangladesh gaming tournaments, BD esports competitions, FancyWin tournaments, online gaming Bangladesh, esports events BD, BD gaming championship, Bangladesh tournament schedule">
     <meta name="robots" content="index, follow">

@@ -1,57 +1,133 @@
-# Enable URL rewriting
-RewriteEngine On
-# Serve extensionless URLs, but exclude root
-RewriteCond %{REQUEST_URI} !^/$
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.*)$ $1.php [L,QSA]
+# =========================================
+# Enable Rewrite Engine
+# =========================================
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
 
-# Deny access to sensitive files
+    # -----------------------------------------
+    # Redirect index.php or /index to root (/)
+    # -----------------------------------------
+    
+    RewriteCond %{THE_REQUEST} \s/+(index(\.php)?)([\s?]|$) [NC]
+    RewriteRule ^index(\.php)?$ / [R=301,L]
+    RewriteRule ^sitemap\.xml$ /sitemap-index.php [L]
+
+    RewriteRule ^sitemap-pages\.xml$ sitemap-pages.php [L]
+    RewriteRule ^sitemap-posts\.xml$ sitemap-posts.php [L]
+    RewriteRule ^sitemap-index\.xml$ sitemap-index.php [L]
+
+    # -----------------------------------------
+    # Sitemap clean URL
+    # -----------------------------------------
+
+
+    # -----------------------------------------
+    # Redirect .php requests to extensionless
+    # -----------------------------------------
+    RewriteCond %{THE_REQUEST} \s/+([^\s?]+)\.php[\s?] [NC]
+    RewriteRule ^ %1 [R=301,L]
+
+    # -----------------------------------------
+    # Internally map extensionless to .php
+    # -----------------------------------------
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME}.php -f
+    RewriteRule ^(.*)$ $1.php [L]
+</IfModule>
+
+# Disable compression for sitemap.xml
+<FilesMatch "\.xml$">
+    SetEnv no-gzip 1
+</FilesMatch>
+
+# =========================================
+# Security: Deny access to sensitive files
+# =========================================
 <FilesMatch "\.(env|ini|log|bak|sql|git|htaccess)$">
     Require all denied
 </FilesMatch>
 
-# Disable directory listing
+# =========================================
+# Prevent directory listing
+# =========================================
 Options -Indexes
 
-<IfModule mod_brotli.c>
-    BrotliCompressionQuality 6
-    AddOutputFilterByType BROTLI_COMPRESS text/html text/plain text/xml
-    AddOutputFilterByType BROTLI_COMPRESS text/css text/javascript
-    AddOutputFilterByType BROTLI_COMPRESS application/javascript
-    AddOutputFilterByType BROTLI_COMPRESS application/json
-    AddOutputFilterByType BROTLI_COMPRESS image/svg+xml
+# =========================================
+# Security: Block exploit patterns
+# =========================================
+<IfModule mod_rewrite.c>
+    RewriteCond %{QUERY_STRING} (\.\./|\.\.\\) [NC,OR]
+    RewriteCond %{QUERY_STRING} (etc/passwd|boot.ini|\.ini|\.log) [NC,OR]
+    RewriteCond %{QUERY_STRING} (\%27)|(\')|(\-\-)|(\%23)|(#) [NC,OR]
+    RewriteCond %{QUERY_STRING} (\%3C)|(<)|(\%3E)|(>) [NC]
+    RewriteRule .* - [F,L]
 </IfModule>
 
-# ------------------------------------------------------
-# GZIP Compression Fallback (if Brotli not available)
-# ------------------------------------------------------
-<IfModule mod_deflate.c>
-    AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css
-    AddOutputFilterByType DEFLATE application/javascript application/json
-    AddOutputFilterByType DEFLATE application/x-javascript
-    AddOutputFilterByType DEFLATE application/xml application/xhtml+xml
-    AddOutputFilterByType DEFLATE image/svg+xml
-
-    # Fix for old browsers
-    BrowserMatch ^Mozilla/4 gzip-only-text/html
-    BrowserMatch ^Mozilla/4\.0[678] no-gzip
-    BrowserMatch \bMSIE !no-gzip !gzip-only-text/html
-</IfModule>
-
-# ----------------------------------------------------------------------
-# Enable caching for static assets only (no HTML/PHP)
-# ----------------------------------------------------------------------
+# =========================================
+# Security Headers
+# =========================================
 <IfModule mod_headers.c>
-
-    # Do NOT cache dynamic content (HTML, PHP, JSON)
-  <FilesMatch "\.(html|htm|php|json|xml|js|css)$">
-        Header set Cache-Control "no-store, no-cache, must-revalidate, max-age=0"
-    </FilesMatch>
-
-    # ------------------------------------------------------------------
-    # Prevent the site from being embedded in iframes (clickjacking protection)
-    # ------------------------------------------------------------------
+    Header unset X-Powered-By
+    Header always set X-Content-Type-Options "nosniff"
     Header always set X-Frame-Options "SAMEORIGIN"
-    Header always set Content-Security-Policy "frame-ancestors 'self' https://fancywinaff.com;"
+    Header always set X-XSS-Protection "1; mode=block"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    Header always set Strict-Transport-Security "max-age=15552000; includeSubDomains; preload"
+    Header always set Permissions-Policy "geolocation=(), microphone=(), camera=(), payment=(), usb=()"
+</IfModule>
+
+# =========================================
+# Gzip Compression
+# =========================================
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript application/json
+</IfModule>
+
+<FilesMatch "sitemap(-index|-pages|-posts)?\.xml$">
+    <IfModule mod_headers.c>
+        Header set Cache-Control "no-store, no-cache, must-revalidate, max-age=0"
+        Header set Pragma "no-cache"
+        Header set Expires "0"
+    </IfModule>
+</FilesMatch>
+
+
+# =========================================
+# Cache Static Images (1 Year)
+# =========================================
+<IfModule mod_expires.c>
+    ExpiresActive On
+
+    # Images
+    ExpiresByType image/jpg  "access plus 1 year"
+    ExpiresByType image/jpeg "access plus 1 year"
+    ExpiresByType image/png  "access plus 1 year"
+    ExpiresByType image/gif  "access plus 1 year"
+    ExpiresByType image/webp "access plus 1 year"
+    ExpiresByType image/svg+xml "access plus 1 year"
+    ExpiresByType image/x-icon "access plus 1 year"
+
+    # Fonts
+    ExpiresByType font/woff2 "access plus 1 year"
+    ExpiresByType font/woff  "access plus 1 year"
+    ExpiresByType application/font-woff2 "access plus 1 year"
+    ExpiresByType application/font-woff  "access plus 1 year"
+
+</IfModule>
+
+
+# Strong browser caching for static assets
+<IfModule mod_headers.c>
+    <FilesMatch "\.(jpg|jpeg|png|gif|webp|svg|ico|woff|woff2)$">
+        Header set Cache-Control "public, max-age=31536000, immutable"
+    </FilesMatch>
+</IfModule>
+
+<IfModule pagespeed_module>
+    ModPagespeed on
+    ModPagespeedEnableFilters rewrite_images
+    ModPagespeedEnableFilters convert_png_to_jpeg
+    ModPagespeedEnableFilters convert_jpeg_to_webp
 </IfModule>

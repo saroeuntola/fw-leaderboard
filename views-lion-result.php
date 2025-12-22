@@ -5,60 +5,119 @@ include './admin/lib/prev_tournament_lib.php';
 $tournament = new TournamentPost();
 $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
 $data = $tournament->getTournamentById($id);
+
 ?>
+
 <!DOCTYPE html>
-<html lang="bn-BD" class="bg-gray-900">
+<html lang="en-BD" class="bg-gray-900">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> <?= htmlspecialchars($data['title'] ?? 'Tournament Result') ?></title>
-    <
-    <link rel="icon" href="/admin/uploads/<?= htmlspecialchars($data['image']) ?>" type="image/png">
+
+    <!-- Dynamic Page Title -->
+    <title><?= htmlspecialchars($data['title'] ?? 'Previous Lion Tournament Leaderboard Results - Fancybet Bangladesh') ?></title>
+
+    <!-- Static Meta Description -->
+    <meta name="description" content="View the previous Lion tournament leaderboard results on Fancybet Bangladesh. Check player rankings, scores, and historical tournament performance.">
+
+    <!-- Meta Keywords -->
+    <meta name="keywords" content="Lion tournament leaderboard, Fancybet leaderboard Bangladesh, gaming leaderboard BD, player ranking Bangladesh, tournament scores BD, top players Bangladesh">
+
+    <!-- Robots -->
+    <meta name="robots" content="index, follow">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://fancybet-leaderboard.com/view-lion-result?id=<?= urlencode($id) ?>">
+
+    <?php
+    $images = $data['images'] ?? [];
+    $baseImageUrl = "https://fancybet-leaderboard.com/admin/uploads/";
+    $mainImage = !empty($images) ? $baseImageUrl . htmlspecialchars($images[0], ENT_QUOTES) : ($data['image'] ? $baseImageUrl . htmlspecialchars($data['image'], ENT_QUOTES) : 'https://fancybet-leaderboard.com/images/og-image.png');
+    ?>
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="<?= htmlspecialchars($data['title'] ?? 'Previous Lion Tournament Leaderboard - Fancybet Bangladesh') ?>">
+    <meta property="og:description" content="Check previous Lion tournament leaderboard results, player rankings, and scores on Fancybet Bangladesh.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://fancybet-leaderboard.com/view-lion-result?id=<?= urlencode($id) ?>">
+    <meta property="og:image" content="<?= $mainImage ?>">
+    <?php foreach ($images as $i => $img) : ?>
+        <?php if ($i === 0) continue; ?>
+        <meta property="og:image" content="<?= $baseImageUrl . htmlspecialchars($img, ENT_QUOTES) ?>">
+    <?php endforeach; ?>
+    <meta property="og:locale" content="en_BD">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="<?= htmlspecialchars($data['title'] ?? 'Previous Lion Tournament Leaderboard - Fancybet Bangladesh') ?>">
+    <meta name="twitter:description" content="View the Lion tournament leaderboard and player rankings in Bangladesh.">
+    <meta name="twitter:image" content="<?= $mainImage ?>">
+
+    <!-- Favicon -->
+    <link rel="icon" href="<?= $baseImageUrl . htmlspecialchars($data['image'] ?? 'favicon.png') ?>" type="image/png">
+
+    <!-- Styles & Scripts -->
     <link rel="stylesheet" href="./src/output.css">
     <script src="./js/jquery-3.7.1.min.js"></script>
-    
-    <style>
-        .card-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 1rem;
-        }
 
-        .card-table th,
-        .card-table td {
-            border: 1px solid #374151;
-            padding: 0.75rem 1rem;
+    <!-- Structured Data: JSON-LD for Tournament Leaderboard -->
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "SportsEvent",
+            "name": "<?= htmlspecialchars($data['title'] ?? 'Previous Lion Tournament Leaderboard') ?>",
+            "url": "https://fancybet-leaderboard.com/view-lion-result?id=<?= urlencode($id) ?>",
+            "image": [
+                <?php foreach ($images as $i => $img) : ?> "<?= $baseImageUrl . htmlspecialchars($img, ENT_QUOTES) ?>"
+                    <?= $i < count($images) - 1 ? ',' : '' ?>
+                <?php endforeach; ?>
+            ],
+            "description": "Previous Lion tournament leaderboard results with player rankings and scores in Bangladesh."
         }
-
-        .card-table th {
-            background-color: #1f2937;
-            color: #f9fafb;
-            text-align: center;
-        }
-
-        .card-table tbody tr:nth-child(even) {
-            background-color: #111827;
-        }
-
-        .card-table tbody tr:hover {
-            background-color: #1f2937;
-        }
-
-        .card-table td:first-child {
-            text-align: center;
-            font-weight: bold;
-        }
-
-        .card-table td:nth-child(2),
-        .card-table td:nth-child(3) {
-            text-align: right;
-        }
-    </style>
+    </script>
 </head>
 
-<body class="bg-[#f5f5f5] dark:bg-[#181818] dark:text-white text-gray-900">
 
+<style>
+    .card-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 1rem;
+    }
+
+    .card-table th,
+    .card-table td {
+        border: 1px solid #374151;
+        padding: 0.75rem 1rem;
+    }
+
+    .card-table th {
+        background-color: #1f2937;
+        color: #f9fafb;
+        text-align: center;
+    }
+
+    .card-table tbody tr:nth-child(even) {
+        background-color: #111827;
+    }
+
+    .card-table tbody tr:hover {
+        background-color: #1f2937;
+    }
+
+    .card-table td:first-child {
+        text-align: center;
+        font-weight: bold;
+    }
+
+    .card-table td:nth-child(2),
+    .card-table td:nth-child(3) {
+        text-align: right;
+    }
+</style>
+
+<body class="bg-[#f5f5f5] dark:bg-[#181818] dark:text-white text-gray-900">
     <?php
     include "./navbar.php"
     ?>

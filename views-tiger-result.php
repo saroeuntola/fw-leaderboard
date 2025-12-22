@@ -12,11 +12,70 @@ $data = $tournament->getTournamentById($id);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= htmlspecialchars($data['title'] ?? 'Tournament Result') ?></title>
+
+    <!-- Dynamic Page Title -->
+    <title><?= htmlspecialchars($data['title'] ?? 'Previous Tiger Tournament Leaderboard Results - Fancybet Bangladesh') ?></title>
+
+    <!-- Static Meta Description for SEO -->
+    <meta name="description" content="View the previous Tiger tournament leaderboard results on Fancybet Bangladesh. Check player rankings, scores, and historical tournament performance.">
+
+    <!-- Meta Keywords -->
+    <meta name="keywords" content="Tiger tournament leaderboard, Fancybet leaderboard Bangladesh, gaming leaderboard BD, player ranking Bangladesh, tournament scores BD, top players Bangladesh">
+
+    <!-- Robots -->
+    <meta name="robots" content="index, follow">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://fancybet-leaderboard.com/view-tiger-result?id=<?= urlencode($id) ?>">
+
+    <?php
+    $images = $data['images'] ?? [];
+    $baseImageUrl = "https://fancybet-leaderboard.com/admin/uploads/";
+    $mainImage = !empty($images) ? $baseImageUrl . htmlspecialchars($images[0], ENT_QUOTES) : ($data['image'] ? $baseImageUrl . htmlspecialchars($data['image'], ENT_QUOTES) : 'https://fancybet-leaderboard.com/images/og-image.png');
+    ?>
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="<?= htmlspecialchars($data['title'] ?? 'Previous Tiger Tournament Leaderboard - Fancybet Bangladesh') ?>">
+    <meta property="og:description" content="Check previous Tiger tournament leaderboard results, player rankings, and scores on Fancybet Bangladesh.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://fancybet-leaderboard.com/view-tiger-result?id=<?= urlencode($id) ?>">
+    <meta property="og:image" content="<?= $mainImage ?>">
+    <?php foreach ($images as $i => $img) : ?>
+        <?php if ($i === 0) continue; ?>
+        <meta property="og:image" content="<?= $baseImageUrl . htmlspecialchars($img, ENT_QUOTES) ?>">
+    <?php endforeach; ?>
+    <meta property="og:locale" content="en_BD">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="<?= htmlspecialchars($data['title'] ?? 'Previous Tiger Tournament Leaderboard - Fancybet Bangladesh') ?>">
+    <meta name="twitter:description" content="View the Tiger tournament leaderboard and player rankings in Bangladesh.">
+    <meta name="twitter:image" content="<?= $mainImage ?>">
+
+    <!-- Favicon -->
+    <link rel="icon" href="<?= $baseImageUrl . htmlspecialchars($data['image'] ?? 'favicon.png') ?>" type="image/png">
+
+    <!-- Styles & Scripts -->
     <link rel="stylesheet" href="./src/output.css">
-    <link rel="shortcut icon" href="/admin/uploads/<?= htmlspecialchars($data['image']) ?>" type="image/png">
     <script src="./js/jquery-3.7.1.min.js" defer></script>
+
+    <!-- Structured Data: JSON-LD -->
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "SportsEvent",
+            "name": "<?= htmlspecialchars($data['title'] ?? 'Previous Tiger Tournament Leaderboard') ?>",
+            "url": "https://fancybet-leaderboard.com/view-tiger-result?id=<?= urlencode($id) ?>",
+            "image": [
+                <?php foreach ($images as $i => $img) : ?> "<?= $baseImageUrl . htmlspecialchars($img, ENT_QUOTES) ?>"
+                    <?= $i < count($images) - 1 ? ',' : '' ?>
+                <?php endforeach; ?>
+            ],
+            "description": "Previous Tiger tournament leaderboard results with player rankings and scores in Bangladesh."
+        }
+    </script>
 </head>
+
 
 <body class="dark:bg-[#181818] dark:text-white bg-gray-200 text-gray-900">
     <?php include 'navbar.php'; ?>

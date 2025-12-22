@@ -8,9 +8,9 @@ include "./services/textLimit.php";
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FancyWin Leaderboard, Tournament | বাংলাদেশ গেমিং</title>
+    <title>Fancybet Leaderboard | ফ্যান্সিবেট লিডারবোর্ড, টুর্নামেন্টস</title>
     <meta name="description" content="FancyWin লিডারবোর্ড ও টুর্নামেন্টে অংশ নিন। বাংলাদেশি গেমারদের সাথে প্রতিযোগিতা করুন, র‍্যাংক দেখুন এবং আকর্ষণীয় পুরস্কার জিতুন।">
-    <meta name="keywords" content="FancyWin leaderboard, Online tournament bd, Gaming leaderboard Bangladesh, বাংলাদেশের সেরা অনলাইন গেমিং লিডারবোর্ড, FancyWin, লিডারবোর্ড বাংলাদেশ, গেমিং টুর্নামেন্ট BD, অনলাইন গেম বাংলাদেশ, ক্যাশ জিতুন BD">
+    <meta name="keywords" content="টুর্নামেন্টস, ফ্যান্সিবেট লিডারবোর্ড, fancybet, fancywin, fancbet leaderboard, Online tournament bd, Gaming leaderboard Bangladesh, বাংলাদেশের সেরা অনলাইন গেমিং লিডারবোর্ড, FancyWin, লিডারবোর্ড বাংলাদেশ, গেমিং টুর্নামেন্ট BD, অনলাইন গেম বাংলাদেশ, ক্যাশ জিতুন BD">
     <meta name="author" content="FancyWin">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://fancybet-leaderboard.com/" />

@@ -23,7 +23,7 @@ $posts = $listPost->getPostByCategory(3, 'en', $limit, $page);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>News - FancyWin</title>
+    <title>Fancybet - latest gaming news and updates from Bangladesh</title>
 
     <meta name="description" content="Read the latest gaming news and updates from Bangladesh. Stay informed about esports trends, tournament highlights, player stories, and FancyWin announcements.">
 

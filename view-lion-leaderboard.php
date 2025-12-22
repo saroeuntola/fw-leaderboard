@@ -7,15 +7,15 @@ require_once "./admin/lib/db.php";
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Leaderboard - FancyWin</title>
-    <meta name="description" content="View the latest FancyWin leaderboard in Bangladesh. Check player rankings, scores, and real-time updates." />
+    <title>Lion Leaderboard Fancybet</title>
+    <meta name="description" content="View the latest Fancybet lion leaderboard in Bangladesh. Check player rankings, scores, and real-time updates." />
     <meta name="keywords" content="FancyWin, leaderboard Bangladesh, gaming leaderboard BD, player ranking Bangladesh, real-time scores BD, top players Bangladesh" />
     <meta name="robots" content="index, follow" />
-    <link rel="canonical" href="https://fancybet-leaderboard.com/leaderboard" />
+    <link rel="canonical" href="https://fancybet-leaderboard.com/view-lion-leaderboard" />
     <meta property="og:title" content="FancyWin Leaderboard - Bangladesh" />
     <meta property="og:description" content="Check the latest leaderboard and rankings of FancyWin players in Bangladesh with real-time updates." />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://fancybet-leaderboard.com/leaderboard" />
+    <meta property="og:url" content="https://fancybet-leaderboard.com/view-lion-leaderboard" />
     <meta property="og:image" content="https://fancybet-leaderboard.com/images/og-image.png" />
     <meta property="og:locale" content="en_BD" />
     <meta name="twitter:card" content="summary_large_image" />
@@ -31,7 +31,7 @@ require_once "./admin/lib/db.php";
             "@context": "https://schema.org",
             "@type": "WebPage",
             "name": "FancyWin Leaderboard",
-            "url": "https://fancybet-leaderboard.com/leaderboard",
+            "url": "https://fancybet-leaderboard.com/view-lion-leaderboard",
             "description": "View the FancyWin leaderboard with real-time player rankings and scores in Bangladesh.",
             "publisher": {
                 "@type": "Organization",
