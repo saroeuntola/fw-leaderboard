@@ -121,9 +121,10 @@ Options -Indexes
 # =========================================
 # Disable caching for HTML, CSS, JS
 # =========================================
+
 <IfModule mod_headers.c>
-    <FilesMatch "\.(html|htm|css|js)$">
-        Header set Cache-Control "no-store, no-cache, must-revalidate, max-age=0"
+    <FilesMatch "\.(php|html|htm)$">
+        Header set Cache-Control "no-store, no-cache, must-revalidate, max-age=0, proxy-revalidate"
         Header set Pragma "no-cache"
         Header set Expires "0"
     </FilesMatch>
