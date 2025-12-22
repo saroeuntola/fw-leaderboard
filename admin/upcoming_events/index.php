@@ -1,5 +1,9 @@
 <?php
 ob_start();
+                        ini_set('display_errors', 1);
+                        ini_set('display_startup_errors', 1);
+                        error_reporting(E_ALL);
+
 include "../lib/checkroles.php";
 include '../lib/upcoming_event_lib.php';
 include '../lib/users_lib.php';
