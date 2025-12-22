@@ -10,17 +10,17 @@ include "./admin/lib/db.php";
 
     <title>Fancybet লিডারবোর্ড</title>
 
-    <meta name="description" content="বাংলাদেশে FancyWin-এর সর্বশেষ লিডারবোর্ড দেখুন। খেলোয়াড়দের র‍্যাঙ্কিং, স্কোর এবং রিয়েল-টাইম আপডেট দেখুন।" />
+    <meta name="description" content="বাংলাদেশে Fancybet-এর সর্বশেষ লিডারবোর্ড দেখুন। খেলোয়াড়দের র‍্যাঙ্কিং, স্কোর এবং রিয়েল-টাইম আপডেট দেখুন।" />
 
-    <meta name="keywords" content="FancyWin, লিডারবোর্ড বাংলাদেশ, গেমিং লিডারবোর্ড বিডি, খেলোয়াড় র‍্যাঙ্কিং বাংলাদেশ, রিয়েল-টাইম স্কোর বিডি, সেরা খেলোয়াড় বাংলাদেশ" />
+    <meta name="keywords" content="Fancybet, লিডারবোর্ড বাংলাদেশ, গেমিং লিডারবোর্ড বিডি, খেলোয়াড় র‍্যাঙ্কিং বাংলাদেশ, রিয়েল-টাইম স্কোর বিডি, সেরা খেলোয়াড় বাংলাদেশ" />
 
     <meta name="robots" content="index, follow" />
 
     <link rel="canonical" href="https://fancybet-leaderboard.com/leaderboard" />
 
     <!-- Open Graph -->
-    <meta property="og:title" content="FancyWin লিডারবোর্ড - বাংলাদেশ" />
-    <meta property="og:description" content="বাংলাদেশে FancyWin খেলোয়াড়দের সর্বশেষ লিডারবোর্ড ও র‍্যাঙ্কিং রিয়েল-টাইম আপডেটসহ দেখুন।" />
+    <meta property="og:title" content="Fancybet লিডারবোর্ড - বাংলাদেশ" />
+    <meta property="og:description" content="বাংলাদেশে Fancybet খেলোয়াড়দের সর্বশেষ লিডারবোর্ড ও র‍্যাঙ্কিং রিয়েল-টাইম আপডেটসহ দেখুন।" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://fancybet-leaderboard.com/leaderboard" />
     <meta property="og:image" content="https://fancybet-leaderboard.com/images/og-image.png" />
@@ -28,8 +28,8 @@ include "./admin/lib/db.php";
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="FancyWin লিডারবোর্ড - বাংলাদেশ" />
-    <meta name="twitter:description" content="বাংলাদেশের খেলোয়াড়দের জন্য রিয়েল-টাইম FancyWin লিডারবোর্ড।" />
+    <meta name="twitter:title" content="Fancybet লিডারবোর্ড - বাংলাদেশ" />
+    <meta name="twitter:description" content="বাংলাদেশের খেলোয়াড়দের জন্য রিয়েল-টাইম Fancybet লিডারবোর্ড।" />
     <meta name="twitter:image" content="https://fancybet-leaderboard.com/images/og-image.png" />
 
     <!-- Geo Tags -->
@@ -43,12 +43,12 @@ include "./admin/lib/db.php";
         {
             "@context": "https://schema.org",
             "@type": "WebPage",
-            "name": "FancyWin লিডারবোর্ড",
+            "name": "Fancbet লিডারবোর্ড",
             "url": "https://fancybet-leaderboard.com/leaderboard",
-            "description": "বাংলাদেশে রিয়েল-টাইম খেলোয়াড় র‍্যাঙ্কিং ও স্কোরসহ FancyWin লিডারবোর্ড দেখুন।",
+            "description": "বাংলাদেশে রিয়েল-টাইম খেলোয়াড় র‍্যাঙ্কিং ও স্কোরসহ Fancbet লিডারবোর্ড দেখুন।",
             "publisher": {
                 "@type": "Organization",
-                "name": "FancyWin",
+                "name": "Fancybet",
                 "logo": "https://fancybet-leaderboard.com/images/logo.png"
             }
         }

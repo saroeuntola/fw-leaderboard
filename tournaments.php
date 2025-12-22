@@ -22,7 +22,7 @@ $posts = $listPost->getPostByCategory(2, 'en', $limit, $page);
 
     <title>Fancybet টুর্নামেন্ট – বাংলাদেশে গেমিং টুর্নামেন্ট</title>
 
-    <meta name="description" content="বাংলাদেশের চলমান ও আসন্ন গেমিং টুর্নামেন্টগুলো দেখুন। FancyWin ইস্পোর্টস ইভেন্টে অংশ নিন, শীর্ষ খেলোয়াড়দের সাথে প্রতিযোগিতা করুন এবং টুর্নামেন্টের অবস্থান অনুসরণ করুন।">
+    <meta name="description" content="বাংলাদেশের চলমান ও আসন্ন গেমিং টুর্নামেন্টগুলো দেখুন। Fancybet ইস্পোর্টস ইভেন্টে অংশ নিন, শীর্ষ খেলোয়াড়দের সাথে প্রতিযোগিতা করুন এবং টুর্নামেন্টের অবস্থান অনুসরণ করুন।">
 
     <meta name="keywords" content="বাংলাদেশ গেমিং টুর্নামেন্ট, বিডি ইস্পোর্টস প্রতিযোগিতা, FancyWin টুর্নামেন্ট, অনলাইন গেমিং বাংলাদেশ, ইস্পোর্টস ইভেন্ট বিডি, বিডি গেমিং চ্যাম্পিয়নশিপ, বাংলাদেশ টুর্নামেন্ট সময়সূচি">
 
@@ -100,7 +100,7 @@ $posts = $listPost->getPostByCategory(2, 'en', $limit, $page);
     include "./loading.php";
     ?>
     <?php include "./navbar.php" ?>
-    <main class="max-w-7xl m-auto px-4 pt-[90px] pb-10">
+    <main class="max-w-7xl m-auto px-4 pt-[90px] pb-10 min-h-screen">
         <h1 class="lg:text-xl text-lg font-bold mb-4 dark:text-white text-gray-900">সকল টুর্নামেন্ট</h1>
         <?php if (!empty($posts)): ?>
             <div class="grid gap-5 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 cursor-pointer">

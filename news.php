@@ -22,25 +22,17 @@ $posts = $listPost->getPostByCategory(3, 'en', $limit, $page);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Fancybet - বাংলাদেশ থেকে সর্বশেষ গেমিং খবর ও আপডেট</title>
-
     <meta name="description" content="বাংলাদেশ থেকে সর্বশেষ গেমিং খবর ও আপডেট পড়ুন। ইস্পোর্টস ট্রেন্ড, টুর্নামেন্ট হাইলাইটস, খেলোয়াড়দের গল্প এবং FancyWin ঘোষণার সঙ্গে আপডেট থাকুন।">
-
-    <meta name="keywords" content="বাংলাদেশ গেমিং খবর, বিডি ইস্পোর্টস নিউজ, FancyWin নিউজ, গেমিং আপডেট বাংলাদেশ, ইস্পোর্টস আর্টিকেল বিডি, বাংলাদেশ গেমার স্টোরি, গেমিং আপডেট ২০২৫ বিডি">
-
+    <meta name="keywords" content="বাংলাদেশ গেমিং খবর, বিডি ইস্পোর্টস নিউজ, Fancybet নিউজ, গেমিং আপডেট বাংলাদেশ, ইস্পোর্টস আর্টিকেল বিডি, বাংলাদেশ গেমার স্টোরি, গেমিং আপডেট ২০২৫ বিডি">
     <meta name="robots" content="index, follow">
-
     <link rel="canonical" href="https://fancybet-leaderboard.com/news" />
-
     <!-- CSS -->
     <link rel="stylesheet" href="./src/output.css">
     <link rel="stylesheet" href="./css/style.css">
     <script src="./js/jquery-3.7.1.min.js"></script>
-
     <!-- Favicons -->
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
-
     <!-- Open Graph -->
     <meta property="og:title" content="FancyWin গেমিং নিউজ - বাংলাদেশ আপডেট">
     <meta property="og:description" content="বাংলাদেশ থেকে সর্বশেষ গেমিং ও ইস্পোর্টস খবর। টুর্নামেন্ট, খেলোয়াড় এবং FancyWin ঘোষণার আপডেট।">
@@ -48,23 +40,20 @@ $posts = $listPost->getPostByCategory(3, 'en', $limit, $page);
     <meta property="og:url" content="https://fancybet-leaderboard.com/news">
     <meta property="og:image" content="https://fancybet-leaderboard.com/images/icons/og-image.png">
     <meta property="og:locale" content="bn_BD">
-
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="FancyWin গেমিং নিউজ - বাংলাদেশ">
     <meta name="twitter:description" content="বাংলাদেশ থেকে সর্বশেষ গেমিং ও ইস্পোর্টস আপডেট পড়ুন।">
     <meta name="twitter:image" content="https://fancybet-leaderboard.com/images/icons/og-image.png">
-
     <!-- Local SEO -->
     <meta name="geo.region" content="BD">
     <meta name="geo.placename" content="বাংলাদেশ">
-
     <!-- Schema: Organization -->
     <script type="application/ld+json">
         {
             "@context": "https://schema.org",
             "@type": "Organization",
-            "name": "FancyWin",
+            "name": "Fancybet Leaderboard",
             "url": "https://fancybet-leaderboard.com",
             "logo": "https://fancybet-leaderboard.com/images/icons/apple-touch-icon.png",
             "address": {
@@ -74,7 +63,6 @@ $posts = $listPost->getPostByCategory(3, 'en', $limit, $page);
             }
         }
     </script>
-
     <!-- Schema: Local Business (Dhaka) -->
     <script type="application/ld+json">
         {
@@ -98,15 +86,12 @@ $posts = $listPost->getPostByCategory(3, 'en', $limit, $page);
         }
     </script>
 </head>
-
-
-
 <body class="dark:bg-[#181818] dark:text-white text-gray-900 bg-[#f5f5f5]">
     <?php
     include "./loading.php";
     ?>
     <?php include "./navbar.php" ?>
-    <main class="max-w-7xl m-auto px-4 pt-[90px] pb-10">
+    <main class="max-w-7xl m-auto px-4 pt-[90px] pb-10 min-h-screen">
         <h1 class="lg:text-xl text-lg font-bold mb-4 dark:text-white text-gray-900">সকল খবর</h1>
         <div class="grid gap-5 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 cursor-pointer">
             <?php foreach ($posts as $post): ?>
