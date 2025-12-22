@@ -74,6 +74,7 @@ $total_pages = 1 + ceil(($total_records - $firstPageLimit) / $otherPageLimit);
     .text-footer {
         font-size: 11px;
     }
+
     .th-text {
         font-size: 11px;
     }
@@ -97,7 +98,7 @@ $total_pages = 1 + ceil(($total_records - $firstPageLimit) / $otherPageLimit);
 
     <?php if (!empty($data)): ?>
         <p class="text-center font-bold dark:text-white text-gray-900 mb-4">
-            Published on <?= banglaDate($data[0]['created_at'])?>
+            প্রকাশিত তারিখ <?= banglaDate($data[0]['created_at']) ?>
         </p>
     <?php else: ?>
         <h1 class="text-center font-bold text-red-700">

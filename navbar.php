@@ -31,11 +31,11 @@ $currentPath = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
             <div class="hidden md:flex items-center space-x-6 font-medium">
                 <?php
                 $navItems = [
-                    ['label' => 'Home', 'url' => '/'],
-                    ['label' => 'Tournaments', 'url' => '/tournaments'],
-                    ['label' => 'News', 'url' => '/news'],
-                    ['label' => 'Leaderboard', 'url' => '/leaderboard'],
-                    ['label' => 'Fancybet Guide', 'url' => 'https://fancybet.info', 'target' => '_blank'],
+                    ['label' => 'হোম', 'url' => '/'],
+                    ['label' => 'টুর্নামেন্ট', 'url' => '/tournaments'],
+                    ['label' => 'খবর', 'url' => '/news'],
+                    ['label' => 'লিডারবোর্ড', 'url' => '/leaderboard'],
+                    // ['label' => 'Fancybet Guide', 'url' => 'https://fancybet.info', 'target' => '_blank'],
                 ];
 
                 foreach ($navItems as $item):
@@ -104,11 +104,11 @@ $currentPath = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
                     <?php
 
                     $icons = [
-                        'Home' => 'fa-house',
-                        'Tournaments' => 'fa-trophy',
-                        'News' => 'fa-newspaper',
-                        'Leaderboard' => 'fa-ranking-star',
-                        'Fancybet Guide' => 'fa-book-open',
+                        'হোম' => 'fa-house',
+                        'টুর্নামেন্ট' => 'fa-trophy',
+                        'খবর' => 'fa-newspaper',
+                        'লিডারবোর্ড' => 'fa-ranking-star',
+                        // 'Fancybet Guide' => 'fa-book-open',
                     ];
                     ?>
                     <i class="fa-solid <?= $icons[$item['label']] ?? 'fa-circle' ?> text-lg w-6 text-center"></i>

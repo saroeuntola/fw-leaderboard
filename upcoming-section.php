@@ -66,14 +66,14 @@ unset($e);
 
 <!-- RUNNING EVENTS -->
 <div id="runningSection" class="w-full mb-6 hidden">
-    <h1 class="inline-block bg-green-600 text-white px-3 py-1 lg:text-xl text-lg font-bold">🔴 Ongoing Events</h1>
+    <h1 class="inline-block bg-green-600 text-white px-3 py-1 lg:text-xl text-lg font-bold">🔴 চলমান ইভেন্ট</h1>
     <div class="h-[2px] bg-green-600"></div>
     <div id="runningContainer" class="grid gap-5 md:grid-cols-2 lg:grid-cols-3 w-full max-w-7xl mt-4"></div>
 </div>
 
 <!-- UPCOMING EVENTS -->
 <div id="upcomingSection" class="w-full mb-4">
-    <h1 class="inline-block bg-red-800 text-white px-3 py-1 lg:text-xl text-lg font-bold">⏳ Upcoming Events</h1>
+    <h1 class="inline-block bg-red-800 text-white px-3 py-1 lg:text-xl text-lg font-bold">⏳ আসন্ন ইভেন্ট</h1>
     <div class="h-[2px] bg-red-800"></div>
     <div id="upcomingContainer" class="grid gap-5 md:grid-cols-2 lg:grid-cols-3 w-full max-w-7xl mt-4">
         <?php foreach ($events as $event): ?>
@@ -83,7 +83,7 @@ unset($e);
                 data-start="<?= $event['start_ms'] ?>"
                 data-end="<?= $event['end_ms'] ?>"
                 data-status="<?= $event['status'] ?>"
-                data-link="<?= htmlspecialchars($event['link']?? '') ?>">
+                data-link="<?= htmlspecialchars($event['link'] ?? '') ?>">
                 <h2 class="text-xl font-semibold flex items-center justify-center">
                     <span class="event-title">
                         <?= html_entity_decode($event['title']) ?>

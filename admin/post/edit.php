@@ -28,6 +28,7 @@ $categories = $category->getCategories();
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $gameName = $_POST['name'] ?? '';
     $description = $_POST['description'] ?? '';
+    $game_link = $_POST['game_link'] ?? '';
     $categoryId = $_POST['category_id'] ?? '';
     $meta_text = $_POST['meta_text'] ?? '';
     $name_bn = $_POST['name_bn'] ?? '';
@@ -160,7 +161,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <?php endforeach; ?>
                 </select>
             </div>
-
+            <div class="mt-4">
+                <label class="block text-sm font-semibold text-gray-700 mb-1">Link(Optional)</label>
+                <input type="text" name="game_link" value="<?= htmlspecialchars($productData['game_link']) ?>" class="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-indigo-400 focus:outline-none">
+            </div>
             <!-- Submit Button -->
             <div class="flex gap-4 pt-5">
                 <button onclick="location.href='./'" class=" bg-red-600 text-white py-2 px-4 rounded-md text-lg font-semibold hover:bg-gray-900 transition-all duration-300 cursor-pointer">

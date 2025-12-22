@@ -64,6 +64,7 @@ $categories = $product->getCategories();
                         <th class="px-6 py-3">Image</th>
                         <th class="px-6 py-3">Title</th>
                         <th class="px-6 py-3">Category</th>
+                        <th class="px-6 py-3">Link</th>
                         <th class="px-6 py-3">Post by</th>
                         <th class="px-6 py-3">created_at</th>
 
@@ -88,7 +89,9 @@ $categories = $product->getCategories();
                                 <td class="px-6 py-4 font-medium text-white">
                                     <?= htmlspecialchars($item['category_name']); ?>
                                 </td>
-
+                                <td class="px-6 py-4 font-medium text-white">
+                                    <?= htmlspecialchars($item['game_link']?? "NULL"); ?>
+                                </td>
                                 <td class="px-6 py-4 font-medium text-white">
                                     <?= htmlspecialchars($item['post_by']); ?>
                                 </td>

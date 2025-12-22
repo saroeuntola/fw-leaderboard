@@ -15,7 +15,7 @@ $posts = $listPost->getLastPosts(4, 'en');
 <div class="w-full mb-4">
     <h1 class="inline-block bg-red-800 text-white px-3 py-1 
            lg:text-xl text-lg font-bold">
-        Latest News
+        সর্বশেষ সংবাদ
     </h1>
     <div class="h-[2px] bg-red-800"></div>
 </div>
@@ -57,7 +57,7 @@ $posts = $listPost->getLastPosts(4, 'en');
     <div class="w-full mb-4">
         <h1 class="inline-block bg-red-800 text-white px-3 py-1 
            lg:text-xl text-lg font-bold">
-            Previous Tournaments
+            পূর্ববর্তী টুর্নামেন্ট
         </h1>
         <div class="h-[2px] bg-red-800"></div>
     </div>
@@ -90,7 +90,7 @@ $posts = $listPost->getLastPosts(4, 'en');
                 <div class="px-2 lg:w-auto w-full lg:mb-0 mb-4">
                     <a href="<?= $link ?>"
                         class="block border border-red-500 text-red-500 hover:bg-red-500 hover:text-white px-4 py-2 rounded-lg text-sm transition-colors w-full md:w-auto text-center">
-                        See Result
+                        ফলাফল দেখুন
                     </a>
                 </div>
             </div>

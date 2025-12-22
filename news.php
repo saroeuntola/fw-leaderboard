@@ -23,11 +23,11 @@ $posts = $listPost->getPostByCategory(3, 'en', $limit, $page);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Fancybet - latest gaming news and updates from Bangladesh</title>
+    <title>Fancybet - বাংলাদেশ থেকে সর্বশেষ গেমিং খবর ও আপডেট</title>
 
-    <meta name="description" content="Read the latest gaming news and updates from Bangladesh. Stay informed about esports trends, tournament highlights, player stories, and FancyWin announcements.">
+    <meta name="description" content="বাংলাদেশ থেকে সর্বশেষ গেমিং খবর ও আপডেট পড়ুন। ইস্পোর্টস ট্রেন্ড, টুর্নামেন্ট হাইলাইটস, খেলোয়াড়দের গল্প এবং FancyWin ঘোষণার সঙ্গে আপডেট থাকুন।">
 
-    <meta name="keywords" content="Bangladesh gaming news, BD esports news, FancyWin news, gaming updates Bangladesh, esports articles BD, Bangladesh gamer stories, gaming updates 2025 BD">
+    <meta name="keywords" content="বাংলাদেশ গেমিং খবর, বিডি ইস্পোর্টস নিউজ, FancyWin নিউজ, গেমিং আপডেট বাংলাদেশ, ইস্পোর্টস আর্টিকেল বিডি, বাংলাদেশ গেমার স্টোরি, গেমিং আপডেট ২০২৫ বিডি">
 
     <meta name="robots" content="index, follow">
 
@@ -37,26 +37,27 @@ $posts = $listPost->getPostByCategory(3, 'en', $limit, $page);
     <link rel="stylesheet" href="./src/output.css">
     <link rel="stylesheet" href="./css/style.css">
     <script src="./js/jquery-3.7.1.min.js"></script>
+
     <!-- Favicons -->
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
 
     <!-- Open Graph -->
-    <meta property="og:title" content="FancyWin Gaming News - Bangladesh Updates">
-    <meta property="og:description" content="Latest gaming and esports news from Bangladesh. Updates on tournaments, players, and FancyWin announcements.">
+    <meta property="og:title" content="FancyWin গেমিং নিউজ - বাংলাদেশ আপডেট">
+    <meta property="og:description" content="বাংলাদেশ থেকে সর্বশেষ গেমিং ও ইস্পোর্টস খবর। টুর্নামেন্ট, খেলোয়াড় এবং FancyWin ঘোষণার আপডেট।">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://fancybet-leaderboard.com/news">
     <meta property="og:image" content="https://fancybet-leaderboard.com/images/icons/og-image.png">
-    <meta property="og:locale" content="en_BD">
+    <meta property="og:locale" content="bn_BD">
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="FancyWin Gaming News - Bangladesh">
-    <meta name="twitter:description" content="Read the latest gaming and esports updates from Bangladesh.">
+    <meta name="twitter:title" content="FancyWin গেমিং নিউজ - বাংলাদেশ">
+    <meta name="twitter:description" content="বাংলাদেশ থেকে সর্বশেষ গেমিং ও ইস্পোর্টস আপডেট পড়ুন।">
     <meta name="twitter:image" content="https://fancybet-leaderboard.com/images/icons/og-image.png">
 
     <!-- Local SEO -->
     <meta name="geo.region" content="BD">
-    <meta name="geo.placename" content="Bangladesh">
+    <meta name="geo.placename" content="বাংলাদেশ">
 
     <!-- Schema: Organization -->
     <script type="application/ld+json">
@@ -68,7 +69,7 @@ $posts = $listPost->getPostByCategory(3, 'en', $limit, $page);
             "logo": "https://fancybet-leaderboard.com/images/icons/apple-touch-icon.png",
             "address": {
                 "@type": "PostalAddress",
-                "addressLocality": "Bangladesh",
+                "addressLocality": "বাংলাদেশ",
                 "addressCountry": "BD"
             }
         }
@@ -83,10 +84,10 @@ $posts = $listPost->getPostByCategory(3, 'en', $limit, $page);
             "url": "https://fancybet-leaderboard.com",
             "address": {
                 "@type": "PostalAddress",
-                "streetAddress": "1205, Dhaka",
-                "addressLocality": "Dhaka",
-                "addressRegion": "Dhaka Division",
-                "postalCode": "1207",
+                "streetAddress": "১২০৫, ঢাকা",
+                "addressLocality": "ঢাকা",
+                "addressRegion": "ঢাকা বিভাগ",
+                "postalCode": "১২০৭",
                 "addressCountry": "BD"
             },
             "geo": {
@@ -99,16 +100,26 @@ $posts = $listPost->getPostByCategory(3, 'en', $limit, $page);
 </head>
 
 
+
 <body class="dark:bg-[#181818] dark:text-white text-gray-900 bg-[#f5f5f5]">
     <?php
     include "./loading.php";
     ?>
     <?php include "./navbar.php" ?>
     <main class="max-w-7xl m-auto px-4 pt-[90px] pb-10">
-        <h1 class="lg:text-xl text-lg font-bold mb-4 dark:text-white text-gray-900">All News</h1>
+        <h1 class="lg:text-xl text-lg font-bold mb-4 dark:text-white text-gray-900">সকল খবর</h1>
         <div class="grid gap-5 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 cursor-pointer">
             <?php foreach ($posts as $post): ?>
-                <a href="views-news?slug=<?= urlencode($post['slug']); ?>" class="dark:bg-[#252525] bg-white shadow-[0_0_5px_0_rgba(0,0,0,0.2)] rounded-md overflow-hidden hover:text-red-600">
+                <?php
+                // Determine the URL for the post
+                $isExternal = !empty($post['game_link']);
+                $postUrl = $isExternal
+                    ? $post['game_link']  // Use the external link
+                    : "/views-news?slug=" . urlencode($post['slug']); // Default internal link
+                ?>
+                <a href="<?= htmlspecialchars($postUrl) ?>"
+                    class="dark:bg-[#252525] bg-white shadow-[0_0_5px_0_rgba(0,0,0,0.2)] rounded-md overflow-hidden hover:text-red-600"
+                    <?= $isExternal ? 'target="_blank" rel="noopener noreferrer"' : '' ?>>
                     <!-- Image with hover zoom -->
                     <div class="overflow-hidden rounded-t-md">
                         <img src="./admin/post/<?= htmlspecialchars($post['image']) ?>"
@@ -116,7 +127,9 @@ $posts = $listPost->getPostByCategory(3, 'en', $limit, $page);
                             class="w-full h-60 transition-transform duration-500 hover:scale-105 object-cover">
                     </div>
                     <div class="p-4">
-                        <h2 class="text-lg font-semibold mb-2 line-clamp-2 transition-all duration-300"> <?= htmlspecialchars(limitText($post['name'], 70)); ?></h2>
+                        <h2 class="text-lg font-semibold mb-2 line-clamp-2 transition-all duration-300">
+                            <?= htmlspecialchars(limitText($post['name'], 70)); ?>
+                        </h2>
                         <div class="flex items-center gap-2 mt-2">
                             <i class="fa-solid fa-earth-americas text-gray-400"></i>
                             <p class="text-gray-400 text-xs"><?= date('F-j-Y', strtotime($post['created_at'])) ?></p>
@@ -124,6 +137,7 @@ $posts = $listPost->getPostByCategory(3, 'en', $limit, $page);
                     </div>
                 </a>
             <?php endforeach; ?>
+
         </div>
         <!-- Pagination -->
         <?php if ($totalPages > 1): ?>

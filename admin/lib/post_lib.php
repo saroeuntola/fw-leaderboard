@@ -149,7 +149,7 @@ class Post {
                      p.game_link, p.category_id, p.created_at, 
                      p.$meta_text_field AS meta_text, 
                      c.name AS category_name,
-                     p.post_by
+                     p.post_by, p.status, p.postNo, p.meta_title, p.game_link
               FROM post p
               JOIN categories c ON p.category_id = c.id WHERE status = 1
               ORDER BY p.postNo ASC
@@ -204,7 +204,7 @@ class Post {
                 p.created_at, 
                 p.$meta_text_field AS meta_text, 
                 c.name AS category_name,
-                p.post_by
+                p.post_by, p.game_link
               FROM post p
               JOIN categories c ON p.category_id = c.id 
               WHERE p.category_id = :categoryId AND p.status = 1
@@ -240,7 +240,7 @@ class Post {
                      p.$description_field AS description, p.$description_field AS description, p.$meta_desc_field AS meta_desc,
                      p.game_link, p.category_id, p.created_at, 
                      p.$meta_text_field AS meta_text,
-                    p.post_by, p.status, p.postNo, p.meta_title,
+                    p.post_by, p.status, p.postNo, p.meta_title, p.game_link,
                      c.name AS category_name 
               FROM post p
               JOIN categories c ON p.category_id = c.id 
@@ -287,7 +287,6 @@ class Post {
     public function getPostById($id, $lang = 'en') {
         // Validate language
         $lang = in_array($lang, ['en', 'bn']) ? $lang : 'en';
-        
         // Select language-specific fields
         $name_field = $lang === 'en' ? 'name' : 'name_bn';
         $description_field = $lang === 'en' ? 'description' : 'description_bn';
@@ -364,24 +363,21 @@ class Post {
     {
         // Validate language
         $lang = in_array($lang, ['en', 'bn']) ? $lang : 'en';
-
         // Select language-specific fields
         $name_field = $lang === 'en' ? 'name' : 'name_bn';
         $description_field = $lang === 'en' ? 'description' : 'description_bn';
         $meta_text_field = $lang === 'en' ? 'meta_text' : 'meta_text_bn';
-
         $query = "SELECT p.id, p.slug, p.$name_field AS name, p.image, 
                      p.$description_field AS description, 
                      p.game_link, p.category_id, p.created_at, 
                      p.$meta_text_field AS meta_text, 
                      c.name AS category_name,
-                      p.post_by
+                      p.post_by, p.status, p.postNo, p.meta_title, p.game_link
               FROM post p
               JOIN categories c ON p.category_id = c.id 
               WHERE p.id != :id AND p.category_id = :category_id AND p.status = 1
               ORDER BY RAND() 
               LIMIT :limit";
-
         try {
             $stmt = $this->db->prepare($query);
             $stmt->bindParam(':id', $gameId, PDO::PARAM_INT);
@@ -395,13 +391,10 @@ class Post {
         }
     }
 
-
-
     public function getPopularpost($limit = 6, $lang = 'en')
     {
         // Validate language
         $lang = in_array($lang, ['en', 'bn']) ? $lang : 'en';
-
         // Select language-specific fields
         $name_field = $lang === 'en' ? 'name' : 'name_bn';
         $description_field = $lang === 'en' ? 'description' : 'description_bn';
@@ -411,9 +404,9 @@ class Post {
                      p.game_link, p.category_id, p.created_at, p.$meta_text_field AS meta_text, 
                      p.slug, 
                      c.name AS category_name,  
-                     p.post_by
+                     p.post_by, p.status, p.postNo, p.meta_title, p.game_link
               FROM post p
-              JOIN categories c ON p.category_id = c.id 
+              JOIN categories c ON p.category_id = c.id WHERE p.status = 1
               ORDER BY p.postNo ASC
               LIMIT :limit";
         try {

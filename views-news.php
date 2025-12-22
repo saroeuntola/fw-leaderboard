@@ -97,7 +97,7 @@ $latestTournament = $tournament->getLatest(1);
         <!-- MAIN CONTENT -->
         <div class="flex-1 flex flex-col gap-4 bg-white shadow-[0_0_5px_0_rgba(0,0,0,0.2)] dark:bg-[#252525] p-4 rounded-md">
             <p class="w-20 border border-red-500 font-bold text-red-500 px-2 py-1 rounded-lg text-sm transition-colors text-center">
-                NEWS
+                খবর
             </p>
 
             <div class="rounded-lg">
@@ -131,25 +131,25 @@ $latestTournament = $tournament->getLatest(1);
             <!-- RELATED POSTS -->
             <?php if (!empty($relatedPosts)): ?>
                 <div class="bg-white shadow-[0_0_5px_0_rgba(0,0,0,0.2)] dark:bg-[#252525] rounded-md p-4">
-                    <h2 class="text-xl font-bold mb-2 border-b border-gray-700 pb-2 dark:text-white text-gray-900">More News</h2>
+                    <h2 class="text-xl font-bold mb-2 border-b border-gray-700 pb-2 dark:text-white text-gray-900">আরও খবর</h2>
 
                     <div class="flex flex-col gap-2">
                         <?php foreach ($relatedPosts as $rPost): ?>
                             <?php
-
                             $categoryName = strtolower(trim($rPost['category_name'] ?? ''));
-
-                            if ($categoryName === 'news') {
-                                $link = "./views-news?slug=" . urlencode($rPost['slug']);
-                            } elseif ($categoryName === 'tournaments') {
-                                $link = "./views?slug=" . urlencode($rPost['slug']);
-                            } else {
-
-                                $link = "./views.php?slug=" . urlencode($rPost['slug']);
-                            }
+                            $isExternal = !empty($rPost['game_link']); // check for external link
+                            $link = $isExternal
+                                ? $rPost['game_link'] // use external link
+                                : ($categoryName === 'news'
+                                    ? "./views-news?slug=" . urlencode($rPost['slug'])
+                                    : ($categoryName === 'tournaments'
+                                        ? "./views?slug=" . urlencode($rPost['slug'])
+                                        : "./views?slug=" . urlencode($rPost['slug']))
+                                );
                             ?>
                             <a href="<?= htmlspecialchars($link) ?>"
-                                class="flex items-center gap-4 bg-white shadow-[0_0_5px_0_rgba(0,0,0,0.2)] dark:bg-[#252525] rounded-lg hover:bg-gray-700 transition-all duration-300 p-2 group">
+                                class="flex items-center gap-4 bg-white shadow-[0_0_5px_0_rgba(0,0,0,0.2)] dark:bg-[#252525] rounded-lg hover:bg-gray-700 transition-all duration-300 p-2 group"
+                                <?= $isExternal ? 'target="_blank" rel="noopener noreferrer"' : '' ?>>
 
                                 <!-- Thumbnail -->
                                 <?php if (!empty($rPost['image'])): ?>
@@ -187,7 +187,7 @@ $latestTournament = $tournament->getLatest(1);
                         : "views-tiger-result?id=" . urlencode($t['id']);
                     ?>
                     <div class="bg-white shadow-[0_0_5px_0_rgba(0,0,0,0.2)] dark:bg-[#252525] p-4 rounded-md">
-                        <h3 class="mb-4 text-xl font-bold border-b border-gray-700 pb-2 dark:text-white text-gray-900">Latest Tournament Result</h3>
+                        <h3 class="mb-4 text-xl font-bold border-b border-gray-700 pb-2 dark:text-white text-gray-900">সর্বশেষ টুর্নামেন্ট ফলাফল</h3>
                         <a href="<?= htmlspecialchars($link) ?>" class="rounded-lg hover:scale-105 transition-transform">
                             <img src="<?= htmlspecialchars($t['image'] ? '/admin/uploads/' . $t['image'] : './images/img-card.png') ?>"
                                 alt="<?= htmlspecialchars($t['title']); ?>"

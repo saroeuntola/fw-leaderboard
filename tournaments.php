@@ -19,27 +19,42 @@ $posts = $listPost->getPostByCategory(2, 'en', $limit, $page);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fancybet Tournaments - Gaming Tournament in Bangladesh</title>
-    <meta name="description" content="Explore active and upcoming gaming tournaments in Bangladesh. Join FancyWin esports events, compete with top players, and track tournament standings.">
-    <meta name="keywords" content="Bangladesh gaming tournaments, BD esports competitions, FancyWin tournaments, online gaming Bangladesh, esports events BD, BD gaming championship, Bangladesh tournament schedule">
+
+    <title>Fancybet টুর্নামেন্ট – বাংলাদেশে গেমিং টুর্নামেন্ট</title>
+
+    <meta name="description" content="বাংলাদেশের চলমান ও আসন্ন গেমিং টুর্নামেন্টগুলো দেখুন। FancyWin ইস্পোর্টস ইভেন্টে অংশ নিন, শীর্ষ খেলোয়াড়দের সাথে প্রতিযোগিতা করুন এবং টুর্নামেন্টের অবস্থান অনুসরণ করুন।">
+
+    <meta name="keywords" content="বাংলাদেশ গেমিং টুর্নামেন্ট, বিডি ইস্পোর্টস প্রতিযোগিতা, FancyWin টুর্নামেন্ট, অনলাইন গেমিং বাংলাদেশ, ইস্পোর্টস ইভেন্ট বিডি, বিডি গেমিং চ্যাম্পিয়নশিপ, বাংলাদেশ টুর্নামেন্ট সময়সূচি">
+
     <meta name="robots" content="index, follow">
+
     <link rel="canonical" href="https://fancybet-leaderboard.com/tournaments" />
+
     <link rel="stylesheet" href="./src/output.css">
     <link rel="stylesheet" href="./css/style.css">
     <script src="./js/jquery-3.7.1.min.js"></script>
+
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
-    <meta property="og:title" content="FancyWin Tournaments - Gaming Tournament in Bangladesh">
-    <meta property="og:description" content="Discover the latest gaming tournaments happening in Bangladesh. Join competitions and follow standings.">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="FancyWin টুর্নামেন্ট – বাংলাদেশে গেমিং টুর্নামেন্ট">
+    <meta property="og:description" content="বাংলাদেশে অনুষ্ঠিত সর্বশেষ গেমিং টুর্নামেন্টগুলো আবিষ্কার করুন। প্রতিযোগিতায় অংশ নিন এবং ফলাফল অনুসরণ করুন।">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://fancybet-leaderboard.com/tournaments">
     <meta property="og:image" content="https://fancybet-leaderboard.com/images/icons/og-image.png">
-    <meta property="og:locale" content="en_BD">
+    <meta property="og:locale" content="bn_BD">
+
+    <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="FancyWin Tournaments - Gaming Tournament in Bangladesh">
-    <meta name="twitter:description" content="Join Bangladesh gaming tournaments and track standings.">
+    <meta name="twitter:title" content="FancyWin টুর্নামেন্ট – বাংলাদেশে গেমিং টুর্নামেন্ট">
+    <meta name="twitter:description" content="বাংলাদেশের গেমিং টুর্নামেন্টে অংশ নিন এবং লিডারবোর্ড অনুসরণ করুন।">
     <meta name="twitter:image" content="https://fancybet-leaderboard.com/images/icons/og-image.png">
+
+    <!-- Geo -->
     <meta name="geo.region" content="BD">
-    <meta name="geo.placename" content="Bangladesh">
+    <meta name="geo.placename" content="বাংলাদেশ">
+
+    <!-- Schema: Organization -->
     <script type="application/ld+json">
         {
             "@context": "https://schema.org",
@@ -49,11 +64,13 @@ $posts = $listPost->getPostByCategory(2, 'en', $limit, $page);
             "logo": "https://fancybet-leaderboard.com/images/icons/apple-touch-icon.png",
             "address": {
                 "@type": "PostalAddress",
-                "addressLocality": "Bangladesh",
+                "addressLocality": "বাংলাদেশ",
                 "addressCountry": "BD"
             }
         }
     </script>
+
+    <!-- Schema: LocalBusiness -->
     <script type="application/ld+json">
         {
             "@context": "https://schema.org",
@@ -62,9 +79,9 @@ $posts = $listPost->getPostByCategory(2, 'en', $limit, $page);
             "url": "https://fancybet-leaderboard.com",
             "address": {
                 "@type": "PostalAddress",
-                "streetAddress": "1205, Dhaka",
-                "addressLocality": "Dhaka",
-                "addressRegion": "Dhaka Division",
+                "streetAddress": "1205, ঢাকা",
+                "addressLocality": "ঢাকা",
+                "addressRegion": "ঢাকা বিভাগ",
                 "postalCode": "1207",
                 "addressCountry": "BD"
             },
@@ -76,36 +93,45 @@ $posts = $listPost->getPostByCategory(2, 'en', $limit, $page);
         }
     </script>
 </head>
+
+
 <body class="dark:bg-[#181818] bg-[#f5f5f5] dark:text-white text-gray-900">
     <?php
     include "./loading.php";
     ?>
     <?php include "./navbar.php" ?>
     <main class="max-w-7xl m-auto px-4 pt-[90px] pb-10">
-        <h1 class="lg:text-xl text-lg font-bold mb-4 dark:text-white text-gray-900">All Tournaments</h1>
+        <h1 class="lg:text-xl text-lg font-bold mb-4 dark:text-white text-gray-900">সকল টুর্নামেন্ট</h1>
         <div class="grid gap-5 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 cursor-pointer">
             <?php foreach ($posts as $post): ?>
-                <a href="views?slug=<?= urlencode($post['slug']); ?>" class="bg-white dark:bg-[#252525]
-            shadow-[0_0_5px_0_rgba(0,0,0,0.2)] rounded-md overflow-hidden hover:text-red-600">
+                <?php
+                // Determine the URL for the post
+                $isExternal = !empty($post['game_link']);
+                $postUrl = $isExternal
+                    ? $post['game_link']  // Use the external link
+                    : "/views?slug=" . urlencode($post['slug']); // Default internal link
+                ?>
+                <a href="<?= htmlspecialchars($postUrl) ?>"
+                    class="dark:bg-[#252525] bg-white shadow-[0_0_5px_0_rgba(0,0,0,0.2)] rounded-md overflow-hidden hover:text-red-600"
+                    <?= $isExternal ? 'target="_blank" rel="noopener noreferrer"' : '' ?>>
                     <!-- Image with hover zoom -->
                     <div class="overflow-hidden rounded-t-md">
                         <img src="./admin/post/<?= htmlspecialchars($post['image']) ?>"
-                            alt="<?= htmlspecialchars($post['name']) ?>"
-                            loading="lazy"
+                            alt="<?= htmlspecialchars($post['name']) ?>" loading="lazy"
                             class="w-full h-60 transition-transform duration-500 hover:scale-105 object-cover">
-
                     </div>
                     <div class="p-4">
-                        <h2 class="text-lg font-semibold mb-2 line-clamp-2 transition-all duration-300"><?= htmlspecialchars(limitText($post['name'], 70)); ?></h2>
-
-                        <div class="flex items-center gap-2">
+                        <h2 class="text-lg font-semibold mb-2 line-clamp-2 transition-all duration-300">
+                            <?= htmlspecialchars(limitText($post['name'], 70)); ?>
+                        </h2>
+                        <div class="flex items-center gap-2 mt-2">
                             <i class="fa-solid fa-earth-americas text-gray-400"></i>
                             <p class="text-gray-400 text-xs"><?= date('F-j-Y', strtotime($post['created_at'])) ?></p>
                         </div>
-
                     </div>
                 </a>
             <?php endforeach; ?>
+
         </div>
         <!-- Pagination -->
         <?php if ($totalPages > 1): ?>

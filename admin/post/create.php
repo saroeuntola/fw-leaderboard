@@ -126,6 +126,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <?php endforeach; ?>
                 </select>
             </div>
+            <div class="mt-4">
+                <label class="block text-sm font-semibold text-gray-700 mb-1">Link(Optional)</label>
+                <input type="text" name="game_link" class="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-indigo-400 focus:outline-none">
+            </div>
 
             <!-- Post No -->
             <div>

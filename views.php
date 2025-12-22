@@ -123,34 +123,33 @@ $latestTournament = $tournament->getLatest(1);
         <!-- SIDEBAR -->
         <aside class="lg:w-80 w-full flex flex-col gap-4 lg:sticky lg:top-20 h-fit">
 
-            <!-- RELATED POSTS -->
             <?php if (!empty($relatedPosts)): ?>
                 <div class="bg-white shadow-[0_0_5px_0_rgba(0,0,0,0.2)] dark:bg-[#252525] rounded-md p-4">
-                    <h2 class="text-xl font-bold mb-2 border-b border-gray-700 pb-2 dark:text-white text-gray-900">More News</h2>
+                    <h2 class="text-xl font-bold mb-2 border-b border-gray-700 pb-2 dark:text-white text-gray-900">আরও খবর</h2>
 
                     <div class="flex flex-col gap-2">
                         <?php foreach ($relatedPosts as $rPost): ?>
                             <?php
-
                             $categoryName = strtolower(trim($rPost['category_name'] ?? ''));
-
-                            if ($categoryName === 'news') {
-                                $link = "./views-news?slug=" . urlencode($rPost['slug']);
-                            } elseif ($categoryName === 'tournaments') {
-                                $link = "./views?slug=" . urlencode($rPost['slug']);
-                            } else {
-
-                                $link = "./views.php?slug=" . urlencode($rPost['slug']);
-                            }
+                            $isExternal = !empty($rPost['game_link']); // check for external link
+                            $link = $isExternal
+                                ? $rPost['game_link'] // use external link
+                                : ($categoryName === 'news'
+                                    ? "./views-news?slug=" . urlencode($rPost['slug'])
+                                    : ($categoryName === 'tournaments'
+                                        ? "./views?slug=" . urlencode($rPost['slug'])
+                                        : "./views?slug=" . urlencode($rPost['slug']))
+                                );
                             ?>
                             <a href="<?= htmlspecialchars($link) ?>"
-                                class="flex items-center gap-4 bg-white shadow-[0_0_5px_0_rgba(0,0,0,0.2)] dark:bg-[#252525] rounded-lg hover:bg-gray-700 transition-all duration-300 p-2 group">
+                                class="flex items-center gap-4 bg-white shadow-[0_0_5px_0_rgba(0,0,0,0.2)] dark:bg-[#252525] rounded-lg hover:bg-gray-700 transition-all duration-300 p-2 group"
+                                <?= $isExternal ? 'target="_blank" rel="noopener noreferrer"' : '' ?>>
 
                                 <!-- Thumbnail -->
                                 <?php if (!empty($rPost['image'])): ?>
                                     <img src="/admin/post/<?= htmlspecialchars($rPost['image']) ?>"
                                         alt="<?= htmlspecialchars($rPost['name']) ?>"
-                                        class="w-[80px] h-[80px] rounded-md flex-shrink-0 shadow-sm group-hover:scale-105 transition-transform duration-300 object-cover">
+                                        class="w-[80px] h-auto rounded-md flex-shrink-0 shadow-sm group-hover:scale-105 transition-transform duration-300 object-cover">
                                 <?php else: ?>
                                     <div class="w-[80px] h-[80px] bg-gray-700 rounded-md flex items-center justify-center text-gray-400 text-sm">
                                         No Image
@@ -182,7 +181,7 @@ $latestTournament = $tournament->getLatest(1);
                         : "views-tiger-result?id=" . urlencode($t['id']);
                     ?>
                     <div class="bg-white shadow-[0_0_5px_0_rgba(0,0,0,0.2)] dark:bg-[#252525] p-4 rounded-md">
-                        <h3 class="mb-4 text-xl font-bold border-b border-gray-700 pb-2 dark:text-white text-gray-900">Latest Tournament Result</h3>
+                        <h3 class="mb-4 text-xl font-bold border-b border-gray-700 pb-2 dark:text-white text-gray-900">সর্বশেষ টুর্নামেন্ট ফলাফল</h3>
                         <a href="<?= htmlspecialchars($link) ?>" class="rounded-lg hover:scale-105 transition-transform">
                             <img src="<?= htmlspecialchars($t['image'] ? '/admin/uploads/' . $t['image'] : './images/img-card.png') ?>"
                                 alt="<?= htmlspecialchars($t['title']); ?>"
