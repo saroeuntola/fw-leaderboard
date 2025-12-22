@@ -40,6 +40,6 @@ $posts = $listPost->getPostByCategory(2, 'en', 4, 1);
             </a>
         <?php endforeach; ?>
     <?php else: ?>
-        <p class="text-gray-400 text-center col-span-4">No tournaments found.</p>
+        <p class="text-gray-400 text-center col-span-4">No Tournament Available</p>
     <?php endif; ?>
 </div>

@@ -9,7 +9,7 @@ $latestTournament = $lionTournament->getLatest(10);
     <div class="w-full mb-4 mt-4">
         <h1 class="inline-block bg-red-800 text-white px-3 py-1 
            lg:text-xl text-lg font-bold">
-         Previous Tournaments 
+            Previous Tournaments
         </h1>
         <div class="h-[2px] bg-red-800"></div>
     </div>
@@ -50,6 +50,6 @@ $latestTournament = $lionTournament->getLatest(10);
             </div>
         <?php endforeach; ?>
     <?php else: ?>
-        <p class="text-gray-400">No tournaments available.</p>
+        <p class="text-gray-400">No Tournament Available</p>
     <?php endif; ?>
 </section>

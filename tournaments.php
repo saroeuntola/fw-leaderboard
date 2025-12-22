@@ -95,44 +95,62 @@ $posts = $listPost->getPostByCategory(2, 'en', $limit, $page);
 </head>
 
 
-<body class="dark:bg-[#181818] bg-[#f5f5f5] dark:text-white text-gray-900">
+<body class="min-h-screen dark:bg-[#181818] bg-[#f5f5f5] dark:text-white text-gray-900">
     <?php
     include "./loading.php";
     ?>
     <?php include "./navbar.php" ?>
     <main class="max-w-7xl m-auto px-4 pt-[90px] pb-10">
         <h1 class="lg:text-xl text-lg font-bold mb-4 dark:text-white text-gray-900">সকল টুর্নামেন্ট</h1>
-        <div class="grid gap-5 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 cursor-pointer">
-            <?php foreach ($posts as $post): ?>
-                <?php
-                // Determine the URL for the post
-                $isExternal = !empty($post['game_link']);
-                $postUrl = $isExternal
-                    ? $post['game_link']  // Use the external link
-                    : "/views?slug=" . urlencode($post['slug']); // Default internal link
-                ?>
-                <a href="<?= htmlspecialchars($postUrl) ?>"
-                    class="dark:bg-[#252525] bg-white shadow-[0_0_5px_0_rgba(0,0,0,0.2)] rounded-md overflow-hidden hover:text-red-600"
-                    <?= $isExternal ? 'target="_blank" rel="noopener noreferrer"' : '' ?>>
-                    <!-- Image with hover zoom -->
-                    <div class="overflow-hidden rounded-t-md">
-                        <img src="./admin/post/<?= htmlspecialchars($post['image']) ?>"
-                            alt="<?= htmlspecialchars($post['name']) ?>" loading="lazy"
-                            class="w-full h-60 transition-transform duration-500 hover:scale-105 object-cover">
-                    </div>
-                    <div class="p-4">
-                        <h2 class="text-lg font-semibold mb-2 line-clamp-2 transition-all duration-300">
-                            <?= htmlspecialchars(limitText($post['name'], 70)); ?>
-                        </h2>
-                        <div class="flex items-center gap-2 mt-2">
-                            <i class="fa-solid fa-earth-americas text-gray-400"></i>
-                            <p class="text-gray-400 text-xs"><?= date('F-j-Y', strtotime($post['created_at'])) ?></p>
-                        </div>
-                    </div>
-                </a>
-            <?php endforeach; ?>
+        <?php if (!empty($posts)): ?>
+            <div class="grid gap-5 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 cursor-pointer">
+                <?php foreach ($posts as $post): ?>
+                    <?php
+                    $isExternal = !empty($post['game_link']);
+                    $postUrl = $isExternal
+                        ? $post['game_link']
+                        : "/views?slug=" . urlencode($post['slug']);
+                    ?>
+                    <a href="<?= htmlspecialchars($postUrl) ?>"
+                        class="dark:bg-[#252525] bg-white shadow-[0_0_5px_0_rgba(0,0,0,0.2)] rounded-md overflow-hidden hover:text-red-600"
+                        <?= $isExternal ? 'target="_blank" rel="noopener noreferrer"' : '' ?>>
 
-        </div>
+                        <div class="overflow-hidden rounded-t-md">
+                            <img src="./admin/post/<?= htmlspecialchars($post['image']) ?>"
+                                alt="<?= htmlspecialchars($post['name']) ?>"
+                                loading="lazy"
+                                class="w-full h-60 transition-transform duration-500 hover:scale-105 object-cover">
+                        </div>
+
+                        <div class="p-4">
+                            <h2 class="text-lg font-semibold mb-2 line-clamp-2 transition-all duration-300">
+                                <?= htmlspecialchars(limitText($post['name'], 70)); ?>
+                            </h2>
+                            <div class="flex items-center gap-2 mt-2">
+                                <i class="fa-solid fa-earth-americas text-gray-400"></i>
+                                <p class="text-gray-400 text-xs">
+                                    <?= date('F j, Y', strtotime($post['created_at'])) ?>
+                                </p>
+                            </div>
+                        </div>
+                    </a>
+                <?php endforeach; ?>
+            </div>
+
+        <?php else: ?>
+            <!-- No Tournament Message -->
+            <div class="flex items-center justify-center min-h-[70vh]">
+                <div class="text-center">
+                    <h2 class="text-2xl font-bold text-gray-500 dark:text-gray-400 mb-2">
+                        No Tournament Available
+                    </h2>
+                    <p class="text-sm text-gray-400">
+                        Please check back later for upcoming tournaments.
+                    </p>
+                </div>
+            </div>
+        <?php endif; ?>
+
         <!-- Pagination -->
         <?php if ($totalPages > 1): ?>
             <nav class="mt-6 flex items-center justify-center" aria-label="Pagination">
