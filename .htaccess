@@ -123,7 +123,7 @@ Options -Indexes
 # =========================================
 
 <IfModule mod_headers.c>
-    <FilesMatch "\.(php|html|htm)$">
+    <FilesMatch "\.(php|html|htm|js)$">
         Header set Cache-Control "no-store, no-cache, must-revalidate, max-age=0, proxy-revalidate"
         Header set Pragma "no-cache"
         Header set Expires "0"
