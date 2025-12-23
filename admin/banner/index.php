@@ -2,19 +2,28 @@
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 ob_start();
+
 include "../lib/checkroles.php";
 include "../lib/users_lib.php";
 include "../lib/banner_lib.php";
+
 $currentUser = $_SESSION['username'] ?? 'user';
 protectRoute([1, 3]);
+
 $bannerObj = new Banner();
+
 // Handle CRUD actions
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    /* CREATE BANNER */
     if (isset($_POST['create'])) {
         $title = $_POST['title'];
         $link  = $_POST['link'];
         $post_by = $currentUser;
         $status = $_POST['status'];
+        $postNo = (int)$_POST['postNo'];
+        $replace = isset($_POST['replacePostNo']) ? (int)$_POST['replacePostNo'] : 0;
+
         $image = '';
         if (!empty($_FILES['image']['name'])) {
             $uploadDir = "../uploads/banners/";
@@ -25,15 +34,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $image = "uploads/banners/" . $filename;
         }
 
-        $bannerObj->createBanner($title, $image, $link, $post_by, $status);
+        if ($replace === 1) {
+            // Swap existing postNo with new one
+            $stmt = $bannerObj->db->prepare("SELECT id FROM banner WHERE postNo = ?");
+            $stmt->execute([$postNo]);
+            $conflict = $stmt->fetch(PDO::FETCH_ASSOC);
+            if ($conflict) {
+                $tempNo = (int)$bannerObj->db->query("SELECT IFNULL(MAX(postNo),0)+1 AS tempNo FROM banner")->fetch(PDO::FETCH_ASSOC)['tempNo'];
+                $stmt = $bannerObj->db->prepare("UPDATE banner SET postNo = ? WHERE id = ?");
+                $stmt->execute([$tempNo, $conflict['id']]);
+            }
+        }
+
+        $bannerObj->createBanner($title, $image, $link, $post_by, $status, $postNo);
     }
 
+    /* UPDATE BANNER */
     if (isset($_POST['update'])) {
         $id    = $_POST['id'];
         $title = $_POST['title'];
         $link  = $_POST['link'];
         $post_by = $currentUser;
         $status = $_POST['status'];
+        $postNo = (int)$_POST['postNo'];
         $image = $_POST['old_image'];
 
         if (!empty($_FILES['image']['name'])) {
@@ -47,22 +70,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             move_uploaded_file($_FILES['image']['tmp_name'], $target);
             $image = "uploads/banners/" . $filename;
 
-            // 🔥 Delete old image file (optional, to save space)
+            // Delete old image
             if (!empty($_POST['old_image']) && file_exists("../" . $_POST['old_image'])) {
                 unlink("../" . $_POST['old_image']);
             }
         }
 
-        $bannerObj->updateBanner($id, $title, $image, $link, $post_by, $status);
+        $bannerObj->updateBanner($id, $title, $image, $link, $post_by, $status, $postNo);
     }
 
+    /* DELETE BANNER */
     if (isset($_POST['delete'])) {
         $id = $_POST['id'];
         $bannerObj->deleteBanner($id);
     }
+
     header("Location: /admin/banner/");
     exit;
 }
+
 $banners = $bannerObj->getBanner();
 ?>
 <!DOCTYPE html>
@@ -91,6 +117,7 @@ $banners = $bannerObj->getBanner();
                 <thead class="bg-blue-600 text-white">
                     <tr>
                         <th>#</th>
+                        <th>Index</th>
                         <th>Banner</th>
                         <th>Title</th>
                         <th>Link</th>
@@ -104,7 +131,7 @@ $banners = $bannerObj->getBanner();
                     <?php foreach ($banners as $i => $b): ?>
                         <tr>
                             <td><?= $i + 1 ?></td>
-
+                            <td><?= htmlspecialchars($b['postNo']) ?></td>
                             <td>
                                 <?php if ($b['image']): ?>
                                     <img src="../<?= htmlspecialchars($b['image']) ?>" class="h-16 w-32 object-cover rounded" loading="lazy" />
@@ -125,11 +152,26 @@ $banners = $bannerObj->getBanner();
 
                             </td>
                             <td class="flex gap-2">
+                                <button
+                                    class="btn btn-warning"
+                                    onclick="openPostNoModal(<?= $b['id'] ?>, <?= $b['postNo'] ?>)">
+                                    Edit Index
+                                </button>
+
                                 <!-- Edit button -->
                                 <button class="btn btn-sm btn-warning"
-                                    onclick="openEditModal(<?= $b['id'] ?>, '<?= htmlspecialchars($b['title'], ENT_QUOTES) ?>', '<?= htmlspecialchars($b['link'], ENT_QUOTES) ?>', '<?= $b['image'] ?>', '<?= $b['status'] ?>')">
+                                    onclick="openEditModal(
+        <?= $b['id'] ?>,
+        '<?= htmlspecialchars($b['title'], ENT_QUOTES) ?>',
+        '<?= htmlspecialchars($b['link'], ENT_QUOTES) ?>',
+        '<?= $b['image'] ? htmlspecialchars($b['image'], ENT_QUOTES) : '' ?>',
+        <?= $b['status'] ?>,
+        <?= $b['postNo'] ?>
+    )">
                                     Edit
                                 </button>
+
+
 
                                 <!-- Delete -->
                                 <form method="POST" onsubmit="return confirm('Delete this banner?')">
@@ -143,6 +185,7 @@ $banners = $bannerObj->getBanner();
             </table>
         </div>
     </main>
+
     <!-- Create Modal -->
     <dialog id="createModal" class="modal">
         <div class="modal-box">
@@ -152,31 +195,38 @@ $banners = $bannerObj->getBanner();
                 <input type="text" name="link" placeholder="Link" class="input input-bordered w-full mb-2" required />
 
 
+
                 <!-- Preview -->
                 <img id="createPreview" src="" class="hidden w-full h-32 object-cover mb-2 rounded border" loading="lazy" />
 
                 <input type="file" name="image" accept="image/*" class="file-input file-input-bordered w-full mb-4"
                     onchange="previewImage(event, 'createPreview')" required />
+
                 <div class="">
                     <label class="font-semibold mr-4">Status:</label><br>
                     <input type="radio" name="status" value="1" checked class="">
-                    <label for="">
-                        Active
-                    </label>
+                    <label for="">Active</label>
                     <input type="radio" name="status" value="0" class="ml-2">
-                    <label for="">
-                        Inactive
-                    </label>
+                    <label for="">Inactive</label>
                 </div>
+
+                <input type="number" name="postNo" id="createPostNo" oninput="checkCreatePostNo()" required>
+                <p id="createPostNoError" class="text-red-500 text-sm hidden">Number already exists.</p>
+                <button type="button" id="createReplaceBtn" onclick="enableCreateReplace()" class="hidden bg-orange-600 text-white px-4 py-2 rounded">
+                    Replace existing post
+                </button>
+                <input type="hidden" name="replacePostNo" id="createReplaceFlag" value="0">
+
                 <div class="modal-action">
-                    <button type="submit" name="create" class="btn btn-primary">Save</button>
+                    <button type="submit" name="create" class="btn btn-primary" id="createSaveBtn">Save</button>
                     <button type="button" class="btn" onclick="createModal.close()">Cancel</button>
                 </div>
             </form>
         </div>
     </dialog>
 
-    <!-- Edit Modal -->
+
+    <!-- Edit Modal Post -->
     <dialog id="editModal" class="modal">
         <div class="modal-box">
             <h3 class="font-bold text-lg mb-4">Edit Banner</h3>
@@ -203,14 +253,215 @@ $banners = $bannerObj->getBanner();
                     <label for="statusInactive">Inactive</label>
                 </div>
 
-                <div class="modal-action">
+                <input type="number" name="postNo" id="editPostNo" class="input input-bordered w-full mb-2" required>
+
+                <div class=" modal-action">
                     <button type="submit" name="update" class="btn btn-primary">Update</button>
                     <button type="button" class="btn" onclick="editModal.close()">Cancel</button>
                 </div>
             </form>
         </div>
     </dialog>
+
+
+    <!-- Edit Modal Index -->
+    <dialog id="postNoModal" class="modal">
+        <div class="modal-box bg-sky-900 text-white">
+            <h3 class="font-bold text-lg mb-4">Update Post No.</h3>
+
+            <form id="postNoForm" onsubmit="return false;">
+                <!-- REQUIRED -->
+                <input type="hidden" id="modalPostId">
+
+                <input type="number"
+                    id="modalPostNo"
+                    class="input input-bordered w-full text-black"
+                    oninput="checkModalPostNo()">
+
+                <small id="modalPostNoError" class="text-red-500 hidden">
+                    Number already exists
+                </small>
+
+                <button type="button"
+                    id="modalReplaceBtn"
+                    class="btn btn-warning hidden mt-2"
+                    onclick="enableModalReplace()">
+                    Replace
+                </button>
+
+                <!-- FLAG -->
+                <input type="hidden" id="modalReplaceFlag" value="0">
+
+                <div class="modal-action justify-start">
+                    <button type="button"
+                        class="btn btn-primary"
+                        onclick="saveModalPostNo()">
+                        Save
+                    </button>
+
+                    <button type="button"
+                        class="btn"
+                        onclick="postNoModal.close()">
+                        Cancel
+                    </button>
+                </div>
+            </form>
+        </div>
+    </dialog>
+
+
     <script src="banner.js"></script>
+
+
+
+    <script>
+        const modalPostId = document.getElementById('modalPostId');
+        const modalPostNo = document.getElementById('modalPostNo');
+        const modalPostNoError = document.getElementById('modalPostNoError');
+        const modalReplaceBtn = document.getElementById('modalReplaceBtn');
+        const modalReplaceFlag = document.getElementById('modalReplaceFlag');
+
+        /* OPEN MODAL */
+        function openPostNoModal(id, postNo) {
+            modalPostId.value = id;
+            modalPostNo.value = postNo;
+
+            modalReplaceFlag.value = 0;
+            modalPostNoError.classList.add('hidden');
+            modalReplaceBtn.classList.add('hidden');
+
+            document.getElementById('postNoModal').showModal();
+            console.log(modalPostId.value, modalPostNo.value)
+
+        }
+
+        /* CHECK CONFLICT */
+        function checkModalPostNo() {
+            const postNo = modalPostNo.value;
+            const id = modalPostId.value;
+
+            if (!postNo) {
+                modalPostNoError.classList.add('hidden');
+                modalReplaceBtn.classList.add('hidden');
+                modalReplaceFlag.value = 0;
+                return;
+            }
+
+            fetch('check_postno', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: `postNo=${postNo}&id=${id}`
+                })
+                .then(r => r.json())
+                .then(d => {
+                    if (d.exists) {
+                        modalPostNoError.classList.remove('hidden');
+                        modalReplaceBtn.classList.remove('hidden');
+                        modalReplaceFlag.value = 0;
+                    } else {
+                        modalPostNoError.classList.add('hidden');
+                        modalReplaceBtn.classList.add('hidden');
+                        modalReplaceFlag.value = 0;
+                    }
+                });
+        }
+
+        /* UI ONLY */
+        function enableModalReplace() {
+            modalReplaceFlag.value = 1;
+            modalPostNoError.classList.add('hidden');
+            modalReplaceBtn.classList.add('hidden');
+        }
+
+        /* SAVE */
+        function saveModalPostNo() {
+            const id = modalPostId.value;
+            const postNo = modalPostNo.value;
+            const replace = modalReplaceFlag.value;
+
+            console.log('SAVE DEBUG: id=', id, 'postNo=', postNo, 'replace=', replace);
+
+            // Check for invalid input (allow 0 as valid postNo)
+            if (!id || postNo === '' || postNo === null) {
+                alert('Invalid input');
+                console.log('Invalid input detected:', {
+                    id,
+                    postNo,
+                    replace
+                });
+                return;
+            }
+
+            fetch('update_postno', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: `id=${encodeURIComponent(id)}&postNo=${encodeURIComponent(postNo)}&replace=${encodeURIComponent(replace)}`
+                })
+                .then(r => r.json())
+                .then(d => {
+                    console.log('UPDATE RESPONSE:', d);
+                    if (d.success) {
+                        location.reload();
+                    } else {
+                        alert(d.message || 'Update failed');
+                    }
+                })
+                .catch(err => {
+                    console.error('Request error:', err);
+                    alert('Request error');
+                });
+        }
+    </script>
+    <script>
+        // Create modal elements
+        let createPostNo = document.getElementById('createPostNo');
+        let createPostNoError = document.getElementById('createPostNoError');
+        let createReplaceBtn = document.getElementById('createReplaceBtn');
+        let createReplaceFlag = document.getElementById('createReplaceFlag');
+
+        // Live check on input
+        function checkCreatePostNo() {
+            const value = createPostNo.value;
+
+            if (!value) {
+                createPostNoError.classList.add('hidden');
+                createReplaceBtn.classList.add('hidden');
+                createReplaceFlag.value = 0;
+                return;
+            }
+
+            fetch('check_postno', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: `postNo=${value}`
+                })
+                .then(r => r.json())
+                .then(d => {
+                    if (d.exists) {
+                        createPostNoError.classList.remove('hidden');
+                        createReplaceBtn.classList.remove('hidden');
+                        createReplaceFlag.value = 0;
+                    } else {
+                        createPostNoError.classList.add('hidden');
+                        createReplaceBtn.classList.add('hidden');
+                        createReplaceFlag.value = 0;
+                    }
+                });
+        }
+
+        // Enable replace (UI only)
+        function enableCreateReplace() {
+            createReplaceFlag.value = 1;
+            createPostNoError.classList.add('hidden');
+            createReplaceBtn.classList.add('hidden');
+        }
+    </script>
 </body>
 
 </html>

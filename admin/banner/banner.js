@@ -10,7 +10,7 @@ function previewImage(event, previewId) {
     preview.classList.add("hidden");
   }
 }
-function openEditModal(id, title, link, image, status) {
+function openEditModal(id, title, link, image, status, postNo) {
   document.getElementById("editId").value = id;
   document.getElementById("editTitle").value = title;
   document.getElementById("editLink").value = link;
@@ -24,7 +24,7 @@ function openEditModal(id, title, link, image, status) {
   } else {
     document.getElementById("statusInactive").checked = true;
   }
-
+ document.getElementById("editPostNo").value = postNo;
   document.getElementById("editModal").showModal();
 }
     function toggleStatus(id) {
