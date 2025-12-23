@@ -159,17 +159,19 @@ $banners = $bannerObj->getBanner();
                                 </button>
 
                                 <!-- Edit button -->
+                                <!-- Edit button -->
                                 <button class="btn btn-sm btn-warning"
-                                    onclick="openEditModal(
-        <?= $b['id'] ?>,
-        '<?= htmlspecialchars($b['title'], ENT_QUOTES) ?>',
-        '<?= htmlspecialchars($b['link'], ENT_QUOTES) ?>',
-        '<?= $b['image'] ? htmlspecialchars($b['image'], ENT_QUOTES) : '' ?>',
-        <?= $b['status'] ?>,
-        <?= $b['postNo'] ?>
-    )">
+                                    onclick='openEditModal(
+        <?= $b["id"] ?>,
+        <?= json_encode($b["title"]) ?>,
+        <?= json_encode($b["link"]) ?>,
+        <?= json_encode($b["image"] ?? "") ?>,
+        <?= $b["status"] ?>,
+        <?= $b["postNo"] ?>
+    )'>
                                     Edit
                                 </button>
+
 
 
 
