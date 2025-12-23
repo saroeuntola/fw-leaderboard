@@ -22,9 +22,9 @@ $posts = $listPost->getPostByCategory(2, 'en', $limit, $page);
 
     <title>Fancybet টুর্নামেন্ট – বাংলাদেশে গেমিং টুর্নামেন্ট</title>
 
-    <meta name="description" content="বাংলাদেশের চলমান ও আসন্ন গেমিং টুর্নামেন্টগুলো দেখুন। Fancybet ইস্পোর্টস ইভেন্টে অংশ নিন, শীর্ষ খেলোয়াড়দের সাথে প্রতিযোগিতা করুন এবং টুর্নামেন্টের অবস্থান অনুসরণ করুন।">
+    <meta name="description" content="বাংলাদেশে অনুষ্ঠিত সর্বশেষ গেমিং টুর্নামেন্টগুলো আবিষ্কার করুন। প্রতিযোগিতায় অংশ নিন এবং ফলাফল অনুসরণ করুন।">
 
-    <meta name="keywords" content="বাংলাদেশ গেমিং টুর্নামেন্ট, বিডি ইস্পোর্টস প্রতিযোগিতা, FancyWin টুর্নামেন্ট, অনলাইন গেমিং বাংলাদেশ, ইস্পোর্টস ইভেন্ট বিডি, বিডি গেমিং চ্যাম্পিয়নশিপ, বাংলাদেশ টুর্নামেন্ট সময়সূচি">
+    <meta name="keywords" content="বাংলাদেশ গেমিং টুর্নামেন্ট, বিডি ইস্পোর্টস প্রতিযোগিতা, Fancybet টুর্নামেন্ট, অনলাইন গেমিং বাংলাদেশ, ইস্পোর্টস ইভেন্ট বিডি, বিডি গেমিং চ্যাম্পিয়নশিপ, বাংলাদেশ টুর্নামেন্ট সময়সূচি">
 
     <meta name="robots" content="index, follow">
 
@@ -37,7 +37,7 @@ $posts = $listPost->getPostByCategory(2, 'en', $limit, $page);
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
 
     <!-- Open Graph -->
-    <meta property="og:title" content="FancyWin টুর্নামেন্ট – বাংলাদেশে গেমিং টুর্নামেন্ট">
+    <meta property="og:title" content="Fancybet টুর্নামেন্ট – বাংলাদেশে গেমিং টুর্নামেন্ট">
     <meta property="og:description" content="বাংলাদেশে অনুষ্ঠিত সর্বশেষ গেমিং টুর্নামেন্টগুলো আবিষ্কার করুন। প্রতিযোগিতায় অংশ নিন এবং ফলাফল অনুসরণ করুন।">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://fancybet-leaderboard.com/tournaments">
@@ -46,7 +46,7 @@ $posts = $listPost->getPostByCategory(2, 'en', $limit, $page);
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="FancyWin টুর্নামেন্ট – বাংলাদেশে গেমিং টুর্নামেন্ট">
+    <meta name="twitter:title" content="Fancybet টুর্নামেন্ট – বাংলাদেশে গেমিং টুর্নামেন্ট">
     <meta name="twitter:description" content="বাংলাদেশের গেমিং টুর্নামেন্টে অংশ নিন এবং লিডারবোর্ড অনুসরণ করুন।">
     <meta name="twitter:image" content="https://fancybet-leaderboard.com/images/icons/og-image.png">
 
@@ -59,7 +59,7 @@ $posts = $listPost->getPostByCategory(2, 'en', $limit, $page);
         {
             "@context": "https://schema.org",
             "@type": "Organization",
-            "name": "FancyWin",
+            "name": "Fancybet",
             "url": "https://fancybet-leaderboard.com",
             "logo": "https://fancybet-leaderboard.com/images/icons/apple-touch-icon.png",
             "address": {
@@ -75,7 +75,7 @@ $posts = $listPost->getPostByCategory(2, 'en', $limit, $page);
         {
             "@context": "https://schema.org",
             "@type": "LocalBusiness",
-            "name": "FancyWin",
+            "name": "Fancybet",
             "url": "https://fancybet-leaderboard.com",
             "address": {
                 "@type": "PostalAddress",

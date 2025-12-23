@@ -91,18 +91,37 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <label class="block text-sm font-semibold text-gray-700 mb-1">Description*</label>
                     <textarea id="editor-en" name="description"></textarea>
                 </div>
+
                 <div class="mt-4">
                     <label class="block text-sm font-semibold text-gray-700 mb-1">Meta Title*</label>
-                    <input type="text" name="meta_title" required class="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-indigo-400 focus:outline-none">
-                </div>
-                <div class="mt-4">
-                    <label class="block text-sm font-semibold text-gray-700 mb-1">Meta Description*</label>
-                    <input type="text" name="meta_desc" required class="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-indigo-400 focus:outline-none">
+                    <input type="text" id="meta_title" name="meta_title"
+                        class="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-indigo-400 focus:outline-none"
+                        placeholder="Recommended: max 60 characters">
+                    <div class="mt-1 h-2 w-full bg-gray-200 rounded">
+                        <div id="title_bar" class="h-2 rounded" style="width: 0%; background-color: green;"></div>
+                    </div>
+                    <p class="text-sm text-gray-500 mt-1">
+                        <span id="title_count">0</span>/60 characters
+                        <span id="title_alert" class="ml-2 text-red-600 hidden">Too long!</span>
+                    </p>
                 </div>
 
                 <div class="mt-4">
-                    <label class="block text-sm font-semibold text-gray-700 mb-1">Meta Keyword*</label>
-                    <input type="text" name="meta_keyword" required class="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-indigo-400 focus:outline-none">
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">Meta Description*</label>
+                    <input type="text" id="meta_desc" name="meta_desc"
+                        class="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-indigo-400 focus:outline-none"
+                        placeholder="Recommended: max 160 characters">
+                    <div class="mt-1 h-2 w-full bg-gray-200 rounded">
+                        <div id="desc_bar" class="h-2 rounded" style="width: 0%; background-color: green;"></div>
+                    </div>
+                    <p class="text-sm text-gray-500 mt-1">
+                        <span id="desc_count">0</span>/160 characters
+                        <span id="desc_alert" class="ml-2 text-red-600 hidden">Too long!</span>
+                    </p>
+                </div>
+                <div class="mt-4">
+                    <label class="block text-sm font-semibold text-gray-700 mb-1 ">Meta Keyword*</label>
+                    <input type="text" name="meta_keyword" required class="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-indigo-400 focus:outline-none" placeholder="Separate keywords with commas">
                 </div>
                 <div class="mt-4">
                     <label class="block text-sm font-semibold text-gray-700 mb-1">Alt image*</label>
@@ -130,7 +149,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <label class="block text-sm font-semibold text-gray-700 mb-1">Link(Optional)</label>
                 <input type="text" name="game_link" class="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-indigo-400 focus:outline-none">
             </div>
-
             <!-- Post No -->
             <div>
                 <label class="block text-sm font-semibold text-gray-700 mb-1">Post No*</label>
@@ -152,9 +170,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
                 <input type="hidden" name="replacePostNo" id="replacePostNo" value="0">
             </div>
-
-
-
             <div class="">
                 <label class="font-semibold mr-4">Status:</label><br>
                 <input type="radio" name="status" value="1" checked class="">
@@ -176,8 +191,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     Post
                 </button>
             </div>
-
-
         </form>
     </div>
     <script>
@@ -241,8 +254,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 });
         }
     </script>
-
-
     <script>
         const example_image_upload_handler = (blobInfo, progress) => new Promise((resolve, reject) => {
             const xhr = new XMLHttpRequest();
@@ -303,6 +314,38 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     console.log('TinyMCE initialized:', editor.id);
                 });
             }
+        });
+    </script>
+    <script>
+        const metaTitle = document.getElementById('meta_title');
+        const metaDesc = document.getElementById('meta_desc');
+        const titleCount = document.getElementById('title_count');
+        const descCount = document.getElementById('desc_count');
+        const titleAlert = document.getElementById('title_alert');
+        const descAlert = document.getElementById('desc_alert');
+        const titleBar = document.getElementById('title_bar');
+        const descBar = document.getElementById('desc_bar');
+
+        const SEO_LIMIT_TITLE = 60;
+        const SEO_LIMIT_DESC = 160;
+
+        const updateBar = (length, limit, barEl, alertEl) => {
+            const percent = Math.min(100, (length / limit) * 100);
+            barEl.style.width = percent + '%';
+            barEl.style.backgroundColor = length > limit ? 'red' : 'green';
+            alertEl.classList.toggle('hidden', length <= limit);
+        };
+
+        metaTitle.addEventListener('input', () => {
+            const length = metaTitle.value.length;
+            titleCount.textContent = length;
+            updateBar(length, SEO_LIMIT_TITLE, titleBar, titleAlert);
+        });
+
+        metaDesc.addEventListener('input', () => {
+            const length = metaDesc.value.length;
+            descCount.textContent = length;
+            updateBar(length, SEO_LIMIT_DESC, descBar, descAlert);
         });
     </script>
 </body>
