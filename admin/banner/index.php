@@ -193,10 +193,8 @@ $banners = $bannerObj->getBanner();
         <div class="modal-box">
             <h3 class="font-bold text-lg mb-4">Add Banner</h3>
             <form method="POST" enctype="multipart/form-data">
-                <input type="text" name="title" placeholder="Title" class="input input-bordered w-full mb-2" required />
-                <input type="text" name="link" placeholder="Link" class="input input-bordered w-full mb-2" required />
-
-
+                <input type="text" name="title" placeholder="Title*" class="input input-bordered w-full mb-2" required />
+                <input type="text" name="link" placeholder="Link*" class="input input-bordered w-full mb-2" required />
 
                 <!-- Preview -->
                 <img id="createPreview" src="" class="hidden w-full h-32 object-cover mb-2 rounded border" loading="lazy" />
@@ -204,7 +202,7 @@ $banners = $bannerObj->getBanner();
                 <input type="file" name="image" accept="image/*" class="file-input file-input-bordered w-full mb-4"
                     onchange="previewImage(event, 'createPreview')" required />
 
-                <div class="">
+                <div class="mb-2">
                     <label class="font-semibold mr-4">Status:</label><br>
                     <input type="radio" name="status" value="1" checked class="">
                     <label for="">Active</label>
@@ -212,10 +210,10 @@ $banners = $bannerObj->getBanner();
                     <label for="">Inactive</label>
                 </div>
 
-                <input type="number" name="postNo" id="createPostNo" oninput="checkCreatePostNo()" required>
+                <input type="number" class="input input-bordered w-full mb-2" placeholder="Banner index*" name="postNo" id="createPostNo" oninput="checkCreatePostNo()" required>
                 <p id="createPostNoError" class="text-red-500 text-sm hidden">Number already exists.</p>
-                <button type="button" id="createReplaceBtn" onclick="enableCreateReplace()" class="hidden bg-orange-600 text-white px-4 py-2 rounded">
-                    Replace existing post
+                <button type="button" id="createReplaceBtn" onclick="enableCreateReplace()" class="hidden bg-orange-600 text-white px-4 py-2 rounded cursor-pointer">
+                    Replace
                 </button>
                 <input type="hidden" name="replacePostNo" id="createReplaceFlag" value="0">
 
@@ -226,8 +224,6 @@ $banners = $bannerObj->getBanner();
             </form>
         </div>
     </dialog>
-
-
     <!-- Edit Modal Post -->
     <dialog id="editModal" class="modal">
         <div class="modal-box">
@@ -255,7 +251,7 @@ $banners = $bannerObj->getBanner();
                     <label for="statusInactive">Inactive</label>
                 </div>
 
-                <input type="number" name="postNo" id="editPostNo" class="input input-bordered w-full mb-2" required>
+                <input hidden type="number" name="postNo" id="editPostNo" class="input input-bordered w-full mb-2" required>
 
                 <div class=" modal-action">
                     <button type="submit" name="update" class="btn btn-primary">Update</button>
@@ -310,160 +306,7 @@ $banners = $bannerObj->getBanner();
             </form>
         </div>
     </dialog>
-
-
     <script src="banner.js"></script>
-
-
-
-    <script>
-        const modalPostId = document.getElementById('modalPostId');
-        const modalPostNo = document.getElementById('modalPostNo');
-        const modalPostNoError = document.getElementById('modalPostNoError');
-        const modalReplaceBtn = document.getElementById('modalReplaceBtn');
-        const modalReplaceFlag = document.getElementById('modalReplaceFlag');
-
-        /* OPEN MODAL */
-        function openPostNoModal(id, postNo) {
-            modalPostId.value = id;
-            modalPostNo.value = postNo;
-
-            modalReplaceFlag.value = 0;
-            modalPostNoError.classList.add('hidden');
-            modalReplaceBtn.classList.add('hidden');
-
-            document.getElementById('postNoModal').showModal();
-            console.log(modalPostId.value, modalPostNo.value)
-
-        }
-
-        /* CHECK CONFLICT */
-        function checkModalPostNo() {
-            const postNo = modalPostNo.value;
-            const id = modalPostId.value;
-
-            if (!postNo) {
-                modalPostNoError.classList.add('hidden');
-                modalReplaceBtn.classList.add('hidden');
-                modalReplaceFlag.value = 0;
-                return;
-            }
-
-            fetch('check_postno', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded'
-                    },
-                    body: `postNo=${postNo}&id=${id}`
-                })
-                .then(r => r.json())
-                .then(d => {
-                    if (d.exists) {
-                        modalPostNoError.classList.remove('hidden');
-                        modalReplaceBtn.classList.remove('hidden');
-                        modalReplaceFlag.value = 0;
-                    } else {
-                        modalPostNoError.classList.add('hidden');
-                        modalReplaceBtn.classList.add('hidden');
-                        modalReplaceFlag.value = 0;
-                    }
-                });
-        }
-
-        /* UI ONLY */
-        function enableModalReplace() {
-            modalReplaceFlag.value = 1;
-            modalPostNoError.classList.add('hidden');
-            modalReplaceBtn.classList.add('hidden');
-        }
-
-        /* SAVE */
-        function saveModalPostNo() {
-            const id = modalPostId.value;
-            const postNo = modalPostNo.value;
-            const replace = modalReplaceFlag.value;
-
-            console.log('SAVE DEBUG: id=', id, 'postNo=', postNo, 'replace=', replace);
-
-            // Check for invalid input (allow 0 as valid postNo)
-            if (!id || postNo === '' || postNo === null) {
-                alert('Invalid input');
-                console.log('Invalid input detected:', {
-                    id,
-                    postNo,
-                    replace
-                });
-                return;
-            }
-
-            fetch('update_postno', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded'
-                    },
-                    body: `id=${encodeURIComponent(id)}&postNo=${encodeURIComponent(postNo)}&replace=${encodeURIComponent(replace)}`
-                })
-                .then(r => r.json())
-                .then(d => {
-                    console.log('UPDATE RESPONSE:', d);
-                    if (d.success) {
-                        location.reload();
-                    } else {
-                        alert(d.message || 'Update failed');
-                    }
-                })
-                .catch(err => {
-                    console.error('Request error:', err);
-                    alert('Request error');
-                });
-        }
-    </script>
-    <script>
-        // Create modal elements
-        let createPostNo = document.getElementById('createPostNo');
-        let createPostNoError = document.getElementById('createPostNoError');
-        let createReplaceBtn = document.getElementById('createReplaceBtn');
-        let createReplaceFlag = document.getElementById('createReplaceFlag');
-
-        // Live check on input
-        function checkCreatePostNo() {
-            const value = createPostNo.value;
-
-            if (!value) {
-                createPostNoError.classList.add('hidden');
-                createReplaceBtn.classList.add('hidden');
-                createReplaceFlag.value = 0;
-                return;
-            }
-
-            fetch('check_postno', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded'
-                    },
-                    body: `postNo=${value}`
-                })
-                .then(r => r.json())
-                .then(d => {
-                    if (d.exists) {
-                        createPostNoError.classList.remove('hidden');
-                        createReplaceBtn.classList.remove('hidden');
-                        createReplaceFlag.value = 0;
-                    } else {
-                        createPostNoError.classList.add('hidden');
-                        createReplaceBtn.classList.add('hidden');
-                        createReplaceFlag.value = 0;
-                    }
-                });
-        }
-
-        // Enable replace (UI only)
-        function enableCreateReplace() {
-            createReplaceFlag.value = 1;
-            createPostNoError.classList.add('hidden');
-            createReplaceBtn.classList.add('hidden');
-        }
-    </script>
 </body>
 
 </html>
