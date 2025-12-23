@@ -153,12 +153,12 @@ $banners = $bannerObj->getBanner();
                             </td>
                             <td class="flex gap-2">
                                 <button
-                                    class="btn btn-warning"
+                                    class="btn btn-info btn-sm"
                                     onclick="openPostNoModal(<?= $b['id'] ?>, <?= $b['postNo'] ?>)">
                                     Edit Index
                                 </button>
 
-                                <!-- Edit button -->
+                             
                                 <!-- Edit button -->
                                 <button class="btn btn-sm btn-warning"
                                     onclick='openEditModal(
@@ -265,7 +265,7 @@ $banners = $bannerObj->getBanner();
     <!-- Edit Modal Index -->
     <dialog id="postNoModal" class="modal">
         <div class="modal-box bg-sky-900 text-white">
-            <h3 class="font-bold text-lg mb-4">Update Post No.</h3>
+            <h3 class="font-bold text-lg mb-4">Update Index</h3>
 
             <form id="postNoForm" onsubmit="return false;">
                 <!-- REQUIRED -->
