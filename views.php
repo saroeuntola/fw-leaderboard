@@ -6,7 +6,7 @@ $slug = $_GET['slug'] ?? '';
 $postLib = new Post();
 $post = $postLib->getPostBySlug($slug);
 $currentSlug = $_GET['slug'] ?? '';
-$relatedPosts = $postLib->getRelatedpost($post['id'] ?? 0, 5);
+$relatedPosts = $postLib->getRelatedpost($post['id'] ?? 0, $post['category_id'] ?? 0, 5);
 
 $tournament = new TournamentPost();
 $latestTournament = $tournament->getLatest(1);
