@@ -101,7 +101,7 @@ $latestTournament = $tournament->getLatest(1);
             </p>
 
             <div class="rounded-lg">
-                <?php if (!empty($post['image'])): ?>
+                <?php if (!empty($post['image_mb'])): ?>
                     <picture>
                         <?php if (!empty($post['image_mb'])): ?>
                             <source

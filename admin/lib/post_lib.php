@@ -369,7 +369,7 @@ class Post {
         $name_field = $lang === 'en' ? 'name' : 'name_bn';
         $description_field = $lang === 'en' ? 'description' : 'description_bn';
         $meta_text_field = $lang === 'en' ? 'meta_text' : 'meta_text_bn';
-        $query = "SELECT p.id, p.slug, p.$name_field AS name, p.image,p.image_mb
+        $query = "SELECT p.id, p.slug, p.$name_field AS name, p.image, p.image_mb,
                      p.$description_field AS description, 
                      p.game_link, p.category_id, p.created_at, 
                      p.$meta_text_field AS meta_text, 

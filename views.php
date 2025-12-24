@@ -6,7 +6,7 @@ $slug = $_GET['slug'] ?? '';
 $postLib = new Post();
 $post = $postLib->getPostBySlug($slug);
 $currentSlug = $_GET['slug'] ?? '';
-$relatedPosts = $postLib->getRelatedpost($post['id'] ?? 0, $post['category_id'] ?? 0, 5);
+$relatedPosts = $postLib->getRelatedpost($post['id'] ?? 0, 5);
 
 $tournament = new TournamentPost();
 $latestTournament = $tournament->getLatest(1);
@@ -161,7 +161,7 @@ $latestTournament = $tournament->getLatest(1);
                                 <?= $isExternal ? 'target="_blank" rel="noopener noreferrer"' : '' ?>>
 
                                 <!-- Thumbnail -->
-                                <?php if (!empty($rPost['image'])): ?>
+                                <?php if (!empty($rPost['image_mb'])): ?>
                                     <img src="/admin/post/<?= htmlspecialchars($rPost['image_mb']) ?>"
                                         alt="<?= htmlspecialchars($rPost['name']) ?>"
                                         class="w-[100px] h-auto rounded-md flex-shrink-0 shadow-sm group-hover:scale-105 transition-transform duration-300 object-cover">
