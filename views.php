@@ -164,9 +164,9 @@ $latestTournament = $tournament->getLatest(1);
                                 <?php if (!empty($rPost['image_mb'])): ?>
                                     <img src="/admin/post/<?= htmlspecialchars($rPost['image_mb']) ?>"
                                         alt="<?= htmlspecialchars($rPost['name']) ?>"
-                                        class="w-[100px] h-auto rounded-md flex-shrink-0 shadow-sm group-hover:scale-105 transition-transform duration-300 object-cover">
+                                        class="image-more h-[100px] rounded-md flex-shrink-0 shadow-sm group-hover:scale-105 transition-transform duration-300 object-cover">
                                 <?php else: ?>
-                                    <div class="w-[80px] h-[80px] bg-gray-700 rounded-md flex items-center justify-center text-gray-400 text-sm">
+                                    <div class="image-more h-[100px] bg-gray-700 rounded-md flex items-center justify-center text-gray-400 text-sm">
                                         No Image
                                     </div>
                                 <?php endif; ?>
