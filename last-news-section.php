@@ -34,9 +34,9 @@ $posts = $listPost->getLastPosts(4, 'en');
         ?>
         <a href="<?= htmlspecialchars($link); ?>" class="bg-white shadow-[0_0_5px_0_rgba(0,0,0,0.2)] dark:bg-[#252525] rounded-md overflow-hidden hover:text-red-600">
             <div class="overflow-hidden rounded-t-md">
-                <img src="./admin/post/<?= htmlspecialchars($post['image']); ?>"
+                <img src="./admin/post/<?= htmlspecialchars($post['image_mb'] ?? $post['image'] ); ?>"
                     alt="<?= htmlspecialchars($post['name']); ?>" loading="lazy"
-                    class="w-full object-cover image-card transition-transform duration-500 hover:scale-105">
+                    class="w-full image-card transition-transform duration-500 hover:scale-105">
             </div>
             <div class="p-2">
                 <h2 class="text-lg font-semibold mb-2 line-clamp-2  transition-all duration-300">

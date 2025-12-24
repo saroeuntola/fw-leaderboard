@@ -93,7 +93,7 @@ $posts = $listPost->getPostByCategory(3, 'en', $limit, $page);
     <?php include "./navbar.php" ?>
     <main class="max-w-7xl m-auto px-4 pt-[90px] pb-10 min-h-screen">
         <h1 class="lg:text-xl text-lg font-bold mb-4 dark:text-white text-gray-900">সকল খবর</h1>
-        <div class="grid gap-5 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 cursor-pointer">
+        <div class="grid gap-3 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 cursor-pointer">
             <?php foreach ($posts as $post): ?>
                 <?php
                 // Determine the URL for the post
@@ -107,9 +107,9 @@ $posts = $listPost->getPostByCategory(3, 'en', $limit, $page);
                     <?= $isExternal ? 'target="_blank" rel="noopener noreferrer"' : '' ?>>
                     <!-- Image with hover zoom -->
                     <div class="overflow-hidden rounded-t-md">
-                        <img src="./admin/post/<?= htmlspecialchars($post['image']) ?>"
+                        <img src="./admin/post/<?= htmlspecialchars($post['image_mb']?? $post['image']) ?>"
                             alt="<?= htmlspecialchars($post['name']) ?>" loading="lazy"
-                            class="w-full h-60 transition-transform duration-500 hover:scale-105 object-cover">
+                            class="w-full image-card transition-transform duration-500 hover:scale-105">
                     </div>
                     <div class="p-4">
                         <h2 class="text-lg font-semibold mb-2 line-clamp-2 transition-all duration-300">

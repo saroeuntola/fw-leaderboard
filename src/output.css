@@ -853,6 +853,10 @@ video {
   height: 4rem;
 }
 
+.h-2 {
+  height: 0.5rem;
+}
+
 .h-20 {
   height: 5rem;
 }
@@ -916,6 +920,18 @@ video {
 
 .h-screen {
   height: 100vh;
+}
+
+.h-\[190px\] {
+  height: 190px;
+}
+
+.h-\[px\] {
+  height: px;
+}
+
+.h-\[200px\] {
+  height: 200px;
 }
 
 .max-h-0 {
@@ -2493,6 +2509,10 @@ video {
 @media (min-width: 768px) {
   .md\:mb-0 {
     margin-bottom: 0px;
+  }
+
+  .md\:block {
+    display: block;
   }
 
   .md\:inline {

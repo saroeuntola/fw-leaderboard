@@ -11,6 +11,12 @@ protectRoute([1, 3]);
 $product = new Post();
 $category = new Category();
 $categories = $category->getCategories();
+function generateUniqueImageName($originalName, $prefix = '')
+{
+    $ext = strtolower(pathinfo($originalName, PATHINFO_EXTENSION));
+    $unique = uniqid($prefix, true) . '_' . bin2hex(random_bytes(4));
+    return $unique . '.' . $ext;
+}
 
 $currentUser = $_SESSION['username'] ?? '';
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -32,23 +38,41 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $meta_title = $_POST['meta_title'] ?? '';
     $replace = $_POST['replacePostNo'] ?? 0;
     // Handle Image Upload
-    $imagePath = "";
-    if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
-        $uploadDir = "post_image/";
-        if (!is_dir($uploadDir)) mkdir($uploadDir, 0755, true);
+    $uploadDir = "post_image/";
+    if (!is_dir($uploadDir)) {
+        mkdir($uploadDir, 0755, true);
+    }
 
-        $imageFileName = preg_replace("/[^a-zA-Z0-9._-]/", "", basename($_FILES["image"]["name"]));
-        $imagePath = $uploadDir . time() . "_" . $imageFileName;
-        if (!move_uploaded_file($_FILES["image"]["tmp_name"], $imagePath)) {
+    /* ================= PC IMAGE ================= */
+    $imagePath = "";
+    if (!empty($_FILES['image']['name']) && $_FILES['image']['error'] === 0) {
+
+        $fileName = generateUniqueImageName($_FILES['image']['name'], 'pc_');
+        $imagePath = $uploadDir . $fileName;
+
+        if (!move_uploaded_file($_FILES['image']['tmp_name'], $imagePath)) {
             $imagePath = "";
         }
     }
+
+    /* ================= MOBILE IMAGE ================= */
+    $imageMbPath = "";
+    if (!empty($_FILES['image_mb']['name']) && $_FILES['image_mb']['error'] === 0) {
+
+        $fileNameMb = generateUniqueImageName($_FILES['image_mb']['name'], 'mb_');
+        $imageMbPath = $uploadDir . $fileNameMb;
+
+        if (!move_uploaded_file($_FILES['image_mb']['tmp_name'], $imageMbPath)) {
+            $imageMbPath = "";
+        }
+    }
+
 
     // Validate required fields
     if (empty($gameName) || empty($description) || empty($categoryId)) {
         echo "<p class='text-red-500 text-center'>Error: Title, Description, and Category are required.</p>";
     } else {
-        if ($product->createpost($gameName, $imagePath, $description, $game_link, $categoryId, $meta_text, $name_bn, $description_bn, $meta_text_bn, $meta_desc, $meta_keyword, $meta_desc_bn, $meta_keyword_bn, $post_by, $status, $postNo, $meta_title)) {
+        if ($product->createpost($gameName, $imagePath, $imageMbPath, $description, $game_link, $categoryId, $meta_text, $name_bn, $description_bn, $meta_text_bn, $meta_desc, $meta_keyword, $meta_desc_bn, $meta_keyword_bn, $post_by, $status, $postNo, $meta_title)) {
             header("Location: ./");
             exit;
         } else {
@@ -77,12 +101,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 <body class="bg-gray-800 flex items-center justify-center min-h-screen w-full">
     <div class="w-full max-w-4xl bg-white p-8 rounded-lg shadow-lg">
+        <div class="flex justify-end">
+            <button onclick="location.href='./'" class=" bg-red-600 text-white py-2 px-4 rounded-md text-lg font-semibold hover:bg-gray-900 transition-all duration-300 cursor-pointer justify-end">
+            Close
+        </button>
+        </div>
+        
         <h2 class="text-3xl font-bold text-center mb-6 text-indigo-700">Create Post</h2>
 
         <form action="create" method="POST" enctype="multipart/form-data" class="space-y-5">
             <!-- English Fields -->
             <div class="form-section">
-                <h3 class="text-xl font-semibold text-gray-800 mb-4">English Content</h3>
+                <h3 class="text-xl font-semibold text-gray-800 mb-4">Post Contents</h3>
                 <div>
                     <label class="block text-sm font-semibold text-gray-700 mb-1">Title*</label>
                     <input type="text" name="name" required class="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-indigo-400 focus:outline-none">
@@ -95,29 +125,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <div class="mt-4">
                     <label class="block text-sm font-semibold text-gray-700 mb-1">Meta Title*</label>
                     <input type="text" id="meta_title" name="meta_title"
-                        class="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-indigo-400 focus:outline-none"
-                        placeholder="Recommended: max 60 characters">
-                    <div class="mt-1 h-2 w-full bg-gray-200 rounded">
-                        <div id="title_bar" class="h-2 rounded" style="width: 0%; background-color: green;"></div>
-                    </div>
-                    <p class="text-sm text-gray-500 mt-1">
-                        <span id="title_count">0</span>/60 characters
-                        <span id="title_alert" class="ml-2 text-red-600 hidden">Too long!</span>
-                    </p>
+                        class="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-indigo-400 focus:outline-none">
                 </div>
 
                 <div class="mt-4">
                     <label class="block text-sm font-semibold text-gray-700 mb-1">Meta Description*</label>
                     <input type="text" id="meta_desc" name="meta_desc"
-                        class="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-indigo-400 focus:outline-none"
-                        placeholder="Recommended: max 160 characters">
-                    <div class="mt-1 h-2 w-full bg-gray-200 rounded">
-                        <div id="desc_bar" class="h-2 rounded" style="width: 0%; background-color: green;"></div>
-                    </div>
-                    <p class="text-sm text-gray-500 mt-1">
-                        <span id="desc_count">0</span>/160 characters
-                        <span id="desc_alert" class="ml-2 text-red-600 hidden">Too long!</span>
-                    </p>
+                        class="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-indigo-400 focus:outline-none">
+
                 </div>
                 <div class="mt-4">
                     <label class="block text-sm font-semibold text-gray-700 mb-1 ">Meta Keyword*</label>
@@ -129,11 +144,67 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 </div>
             </div>
 
-            <!-- Image Upload -->
-            <div>
-                <label class="block text-sm font-semibold text-gray-700 mb-1">Upload Image</label>
-                <input type="file" name="image" accept="image/*" class="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-indigo-400 focus:outline-none">
+            <!-- Image Upload Section -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                <!-- PC Image -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">
+                        Image PC (1024px × 400px)
+                    </label>
+
+                    <img
+                        id="preview_pc"
+                        src="<?= !empty($productData['image']) ? htmlspecialchars($productData['image']) : '' ?>"
+                        class="w-full h-50 rounded-md mb-2 border
+                   <?= empty($productData['image']) ? 'hidden' : '' ?>">
+
+                    <p
+                        id="no_pc"
+                        class="text-gray-500 mb-2
+                   <?= !empty($productData['image']) ? 'hidden' : '' ?>">
+                        No image available
+                    </p>
+
+                    <input
+                        type="file"
+                        name="image"
+                        id="image_pc"
+                        accept="image/*"
+                        class="w-full px-4 py-2 border rounded-md
+                   focus:ring-2 focus:ring-indigo-400 focus:outline-none">
+                </div>
+
+                <!-- Mobile Image -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">
+                        Image Mobile (300px × 210px)
+                    </label>
+
+                    <img
+                        id="preview_mb"
+                        src="<?= !empty($productData['image_mb']) ? htmlspecialchars($productData['image_mb']) : '' ?>"
+                        class="w-full h-50 rounded-md mb-2 border
+                   <?= empty($productData['image_mb']) ? 'hidden' : '' ?>">
+
+                    <p
+                        id="no_mb"
+                        class="text-gray-500 mb-2
+                   <?= !empty($productData['image_mb']) ? 'hidden' : '' ?>">
+                        No image available
+                    </p>
+
+                    <input
+                        type="file"
+                        name="image_mb"
+                        id="image_mb"
+                        accept="image/*"
+                        class="w-full px-4 py-2 border rounded-md
+                   focus:ring-2 focus:ring-indigo-400 focus:outline-none">
+                </div>
+
             </div>
+
 
             <!-- Category -->
             <div>
@@ -193,6 +264,36 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </div>
         </form>
     </div>
+    <script>
+        function previewImage(input, previewId, emptyTextId) {
+            const file = input.files[0];
+            if (!file) return;
+
+            if (!file.type.startsWith('image/')) {
+                alert('Please select an image file');
+                input.value = '';
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById(previewId).src = e.target.result;
+                document.getElementById(previewId).classList.remove('hidden');
+                document.getElementById(emptyTextId).classList.add('hidden');
+            };
+            reader.readAsDataURL(file);
+        }
+
+        document.getElementById('image_pc').addEventListener('change', function() {
+            previewImage(this, 'preview_pc', 'no_pc');
+        });
+
+        document.getElementById('image_mb').addEventListener('change', function() {
+            previewImage(this, 'preview_mb', 'no_mb');
+        });
+    </script>
+
+
     <script>
         let postNoInput = document.getElementById('postNo');
         let postNoError = document.getElementById('postNoError');
@@ -316,38 +417,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             }
         });
     </script>
-    <script>
-        const metaTitle = document.getElementById('meta_title');
-        const metaDesc = document.getElementById('meta_desc');
-        const titleCount = document.getElementById('title_count');
-        const descCount = document.getElementById('desc_count');
-        const titleAlert = document.getElementById('title_alert');
-        const descAlert = document.getElementById('desc_alert');
-        const titleBar = document.getElementById('title_bar');
-        const descBar = document.getElementById('desc_bar');
 
-        const SEO_LIMIT_TITLE = 60;
-        const SEO_LIMIT_DESC = 160;
-
-        const updateBar = (length, limit, barEl, alertEl) => {
-            const percent = Math.min(100, (length / limit) * 100);
-            barEl.style.width = percent + '%';
-            barEl.style.backgroundColor = length > limit ? 'red' : 'green';
-            alertEl.classList.toggle('hidden', length <= limit);
-        };
-
-        metaTitle.addEventListener('input', () => {
-            const length = metaTitle.value.length;
-            titleCount.textContent = length;
-            updateBar(length, SEO_LIMIT_TITLE, titleBar, titleAlert);
-        });
-
-        metaDesc.addEventListener('input', () => {
-            const length = metaDesc.value.length;
-            descCount.textContent = length;
-            updateBar(length, SEO_LIMIT_DESC, descBar, descAlert);
-        });
-    </script>
 </body>
 
 </html>

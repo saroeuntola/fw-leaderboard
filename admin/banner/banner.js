@@ -16,20 +16,12 @@ function openEditModal(id, title, link, image, status, postNo) {
   document.getElementById("editLink").value = link;
   document.getElementById("editOldImage").value = image;
   document.getElementById("editPreview").src = image ? "../" + image : "";
-
   // Status (if you want to show it)
   document.getElementById("statusActive").checked = status == 1;
   document.getElementById("statusInactive").checked = status == 0;
-
-  // ✅ Fill postNo
   document.getElementById("editPostNo").value = postNo;
-
-  // Show modal
   document.getElementById("editModal").showModal();
 }
-
-
-
     function toggleStatus(id) {
       fetch("toggle_banner_status", {
         method: "POST",

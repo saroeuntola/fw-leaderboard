@@ -55,14 +55,11 @@ include "./admin/lib/db.php";
     </script>
 
     <link rel="icon" type="image/x-icon" href="/images/favicon.ico" />
-
     <link rel="preconnect" href="https://cdn.jsdelivr.net">
     <link rel="preconnect" href="https://cdn.jsdelivr.net/npm">
-
     <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="./src/output.css" />
     <link rel="stylesheet" href="./css/style.css" />
-
     <script src="./js/jquery-3.7.1.min.js"></script>
 </head>
 

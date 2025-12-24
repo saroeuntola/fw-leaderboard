@@ -97,8 +97,23 @@ $latestTournament = $tournament->getLatest(1);
         <div class="flex-1 flex flex-col gap-4 bg-white shadow-[0_0_5px_0_rgba(0,0,0,0.2)] dark:bg-[#252525] p-4 rounded-md">
             <div class="rounded-lg">
                 <?php if (!empty($post['image'])): ?>
-                    <img src="/admin/post/<?= htmlspecialchars($post['image']) ?>" class="w-full h-auto mb-4 rounded" loading="lazy">
+                    <picture>
+                        <?php if (!empty($post['image_mb'])): ?>
+                            <source
+                                media="(max-width: 640px)"
+                                srcset="/admin/post/<?= htmlspecialchars($post['image_mb']) ?>">
+                        <?php endif; ?>
+                        <source
+                            media="(min-width: 641px)"
+                            srcset="/admin/post/<?= htmlspecialchars($post['image']) ?>">
+                        <img
+                            src="/admin/post/<?= htmlspecialchars($post['image']) ?>"
+                            class="w-full h-auto mb-4 rounded"
+                            loading="lazy"
+                            alt="<?= html_entity_decode($post['title'] ?? '') ?>">
+                    </picture>
                 <?php endif; ?>
+
 
                 <h1 class="lg:text-3xl text-xl font-bold mb-2 text-red-600"><?= htmlspecialchars($post['name'] ?? '') ?></h1>
 

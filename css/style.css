@@ -1,16 +1,6 @@
    .image-card {
-        height:200px;
+        height:210px;
     }
-
-    @media (max-width: 640px) {
-        .image-card {
-            height: 260px;
-        }
-    }
-
-
-
-    
     .desc-editor table {
         width: 100%;
         border-collapse: collapse;

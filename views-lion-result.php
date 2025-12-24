@@ -77,8 +77,6 @@ $data = $tournament->getTournamentById($id);
         }
     </script>
 </head>
-
-
 <style>
     .card-table {
         width: 100%;

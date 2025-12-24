@@ -14,7 +14,6 @@ function banglaDate($date)
     $engDigits = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
     $bangDigits = ['০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯'];
     $formatted = str_replace($engDigits, $bangDigits, $formatted);
-
     $monthsEng = [
         'January',
         'February',
@@ -44,7 +43,6 @@ function banglaDate($date)
         'ডিসেম্বর'
     ];
     $formatted = str_replace($monthsEng, $monthsBn, $formatted);
-
     return $formatted;
 }
 

@@ -103,7 +103,7 @@ $posts = $listPost->getPostByCategory(2, 'en', $limit, $page);
     <main class="max-w-7xl m-auto px-4 pt-[90px] pb-10 min-h-screen">
         <h1 class="lg:text-xl text-lg font-bold mb-4 dark:text-white text-gray-900">সকল টুর্নামেন্ট</h1>
         <?php if (!empty($posts)): ?>
-            <div class="grid gap-5 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 cursor-pointer">
+            <div class="grid gap-3 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 cursor-pointer">
                 <?php foreach ($posts as $post): ?>
                     <?php
                     $isExternal = !empty($post['game_link']);
@@ -116,10 +116,10 @@ $posts = $listPost->getPostByCategory(2, 'en', $limit, $page);
                         <?= $isExternal ? 'target="_blank" rel="noopener noreferrer"' : '' ?>>
 
                         <div class="overflow-hidden rounded-t-md">
-                            <img src="./admin/post/<?= htmlspecialchars($post['image']) ?>"
+                            <img src="./admin/post/<?= htmlspecialchars($post['image_mb']?? $post ['image']) ?>"
                                 alt="<?= htmlspecialchars($post['name']) ?>"
                                 loading="lazy"
-                                class="w-full h-60 transition-transform duration-500 hover:scale-105 object-cover">
+                                class="w-full image-card transition-transform duration-500 hover:scale-105">
                         </div>
 
                         <div class="p-4">
