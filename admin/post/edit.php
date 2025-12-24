@@ -171,16 +171,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 </div>
             </div>
 
-            <!-- Image -->
             <!-- Images -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-
                 <!-- PC Image -->
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">
                         Image PC (1024px x 400px)
                     </label>
-
                     <img
                         id="preview_pc"
                         src="<?= !empty($productData['image']) ? htmlspecialchars($productData['image']) : '' ?>"

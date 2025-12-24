@@ -162,9 +162,9 @@ $latestTournament = $tournament->getLatest(1);
 
                                 <!-- Thumbnail -->
                                 <?php if (!empty($rPost['image'])): ?>
-                                    <img src="/admin/post/<?= htmlspecialchars($rPost['image']) ?>"
+                                    <img src="/admin/post/<?= htmlspecialchars($rPost['image_mb']) ?>"
                                         alt="<?= htmlspecialchars($rPost['name']) ?>"
-                                        class="w-[80px] h-auto rounded-md flex-shrink-0 shadow-sm group-hover:scale-105 transition-transform duration-300 object-cover">
+                                        class="w-[100px] h-auto rounded-md flex-shrink-0 shadow-sm group-hover:scale-105 transition-transform duration-300 object-cover">
                                 <?php else: ?>
                                     <div class="w-[80px] h-[80px] bg-gray-700 rounded-md flex items-center justify-center text-gray-400 text-sm">
                                         No Image

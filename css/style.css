@@ -1,19 +1,15 @@
    .image-card {
         height:210px;
     }
- 
-
     .desc-editor h2 {
         font-size: 22pt;
         color: rgb(220 38 38);
         font-weight: bold;
     }
-
     .desc-editor h3 {
         font-size: 16pt;
         font-weight: bold;
     }
-
     @media (max-width: 768px) {
         .desc-editor h2 {
             font-size: 16pt;
@@ -23,19 +19,14 @@
             font-size: 14pt;
         }
     }
-
-
-    /* Responsive wrapper for tables */
 .desc-editor table {
     width: 100%;
-    border-collapse: collapse; /* ensures borders are not doubled */
+    border-collapse: collapse;
     font-size: 15px;
     border: 1px solid #e2e8f0;
     overflow: hidden;
     box-shadow: 0 2px 5px rgba(0,0,0,0.05);
 }
-
-/* Style table headers */
 .desc-editor th {
     padding: 12px 16px;
     text-align: center;
@@ -45,20 +36,16 @@
     border: 1px solid #e2e8f0;
 }
 
-/* Style table cells */
 .desc-editor td {
     padding: 12px 16px;
     text-align: left;
     border: 1px solid #e2e8f0;
 }
-/* Make tables scrollable on small screens */
 .desc-editor table-wrapper {
     width: 100%;
     overflow-x: auto;
-    -webkit-overflow-scrolling: touch; /* smooth scroll on iOS */
+    -webkit-overflow-scrolling: touch; 
 }
-
-/* Table cells */
 .desc-editor th,
 .desc-editor td {
     padding: 12px 16px;
@@ -66,23 +53,15 @@
     border-bottom: 1px solid #e2e8f0;
 }
 
-/* Table header */
 .desc-editor th {
     font-weight: 600;
     text-align: center;
-    background-color: #7b2cbf; /* deep purple */
+    background-color: #7b2cbf;
     color: #fff;
 }
-
-/* Table body cells */
-
-
-/* Hover effect */
 .desc-editor tr:hover td {
     background-color: #d62323;
 }
-
-/* Caption styling */
 .desc-editor caption {
     caption-side: bottom;
     text-align: center;
@@ -90,8 +69,6 @@
     padding-top: 0.5rem;
     color: #6b7280;
 }
-
-/* Optional: responsive font scaling for very small screens */
 @media (max-width: 640px) {
     .desc-editor th,
     .desc-editor td {
