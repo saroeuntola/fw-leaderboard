@@ -108,15 +108,16 @@ unset($e);
             const countdown = card.querySelector('.countdown');
             const progressContainer = card.querySelector('.progress-container');
 
-            // Use pre-calculated timestamps (in milliseconds)
             const eventStart = parseInt(card.dataset.start);
             const eventEnd = parseInt(card.dataset.end);
+            const eventLink = card.dataset.link || null;
 
             const timer = setInterval(function() {
-                const now = Date.now(); // current browser timestamp
+                const now = Date.now();
                 let diff, d, h, m, s;
 
-                if (now < eventStart) { // UPCOMING
+                // UPCOMING
+                if (now < eventStart) {
                     diff = eventStart - now;
                     d = Math.floor(diff / (1000 * 60 * 60 * 24));
                     h = Math.floor((diff / (1000 * 60 * 60)) % 24);
@@ -133,26 +134,22 @@ unset($e);
 
                     progressContainer?.classList.add('hidden');
 
-                } else if (now >= eventStart && now < eventEnd) { // RUNNING
-                    if (!card.closest('a')) {
-                        const type = card.dataset.type;
-                        let href = '#';
-
-                        if (type === 'lion') href = './view-lion-leaderboard';
-                        else if (type === 'tiger') href = './view-tiger-leaderboard';
-                        else if (type === 'spacial') href = card.dataset.link || '#'; // dynamic DB link
-
+                    // Wrap in link only if data-link exists
+                    if (eventLink && !card.closest('a')) {
                         const link = document.createElement('a');
-                        link.href = href;
-                        link.target = '_blank'; // open in new tab
+                        link.href = eventLink;
+                        link.target = '_blank';
                         link.className = 'block';
                         link.style.textDecoration = 'none';
 
                         card.parentNode.insertBefore(link, card);
                         link.appendChild(card);
-                        document.getElementById('runningContainer').appendChild(link);
+                        document.getElementById('upcomingContainer').appendChild(link);
                     }
 
+                }
+                // RUNNING
+                else if (now >= eventStart && now < eventEnd) {
                     diff = eventEnd - now;
                     d = Math.floor(diff / (1000 * 60 * 60 * 24));
                     h = Math.floor((diff / (1000 * 60 * 60)) % 24);
@@ -169,10 +166,24 @@ unset($e);
 
                     progressContainer?.classList.remove('hidden');
 
-                } else { // ENDED
+                    // Wrap in link only if data-link exists
+                    if (eventLink && !card.closest('a')) {
+                        const link = document.createElement('a');
+                        link.href = eventLink;
+                        link.target = '_blank';
+                        link.className = 'block';
+                        link.style.textDecoration = 'none';
+
+                        card.parentNode.insertBefore(link, card);
+                        link.appendChild(card);
+                        document.getElementById('runningContainer').appendChild(link);
+                    }
+
+                }
+                // ENDED
+                else {
                     countdown.innerHTML = "<span class='text-red-500 font-semibold'>Event Ended</span>";
                     clearInterval(timer);
-
                     const wrapper = card.closest('a');
                     (wrapper || card).remove();
                 }

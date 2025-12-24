@@ -227,6 +227,37 @@ $latestTournament = $tournament->getLatest(1);
     include "./footer.php"
     ?>
     <?php include 'scroll-to-top.php'; ?>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const editorTables = document.querySelectorAll('.desc-editor table');
+
+            editorTables.forEach(table => {
+                // Remove all inline styles and width/height attributes
+                table.removeAttribute('style');
+                table.removeAttribute('width');
+                table.removeAttribute('height');
+                table.removeAttribute('border');
+
+                // Remove inline styles from col and colgroup
+                table.querySelectorAll('col, colgroup').forEach(col => col.removeAttribute('style'));
+
+                // Remove inline styles from tbody, thead, tfoot
+                table.querySelectorAll('thead, tbody, tfoot').forEach(section => section.removeAttribute('style'));
+
+                // Remove inline styles from all rows and cells
+                table.querySelectorAll('tr, th, td').forEach(el => el.removeAttribute('style'));
+
+                // Wrap table in a responsive wrapper if not already wrapped
+                if (!table.parentElement.classList.contains('table-wrapper')) {
+                    const wrapper = document.createElement('div');
+                    wrapper.classList.add('table-wrapper');
+                    table.parentNode.insertBefore(wrapper, table);
+                    wrapper.appendChild(table);
+                }
+            });
+        });
+    </script>
+
 </body>
 
 </html>
