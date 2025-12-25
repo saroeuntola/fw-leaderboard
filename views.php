@@ -232,32 +232,45 @@ $latestTournament = $tournament->getLatest(1);
             const editorTables = document.querySelectorAll('.desc-editor table');
 
             editorTables.forEach(table => {
-                // Remove all inline styles and width/height attributes
-                table.removeAttribute('style');
+
+                // Clean table attributes
                 table.removeAttribute('width');
                 table.removeAttribute('height');
                 table.removeAttribute('border');
 
-                // Remove inline styles from col and colgroup
-                table.querySelectorAll('col, colgroup').forEach(col => col.removeAttribute('style'));
+                // Remove inline styles but preserve text-align
+                const cleanStyle = (el) => {
+                    if (!el.hasAttribute('style')) return;
 
-                // Remove inline styles from tbody, thead, tfoot
-                table.querySelectorAll('thead, tbody, tfoot').forEach(section => section.removeAttribute('style'));
+                    const style = el.getAttribute('style');
 
-                // Remove inline styles from all rows and cells
-                table.querySelectorAll('tr, th, td').forEach(el => el.removeAttribute('style'));
+                    // Extract text-align if exists
+                    const match = style.match(/text-align\s*:\s*(left|right|center|justify)/i);
+                    const textAlign = match ? match[0] : null;
 
-                // Wrap table in a responsive wrapper if not already wrapped
+                    // Remove all styles
+                    el.removeAttribute('style');
+
+                    // Re-apply text-align only
+                    if (textAlign) {
+                        el.style.cssText = textAlign;
+                    }
+                };
+
+                // Clean styles from elements
+                [table, ...table.querySelectorAll('thead, tbody, tfoot, tr, th, td, col, colgroup')]
+                .forEach(cleanStyle);
+
+                // Wrap table for responsiveness
                 if (!table.parentElement.classList.contains('table-wrapper')) {
                     const wrapper = document.createElement('div');
-                    wrapper.classList.add('table-wrapper');
+                    wrapper.className = 'table-wrapper';
                     table.parentNode.insertBefore(wrapper, table);
                     wrapper.appendChild(table);
                 }
             });
         });
     </script>
-
 </body>
 
 </html>
