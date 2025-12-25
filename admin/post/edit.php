@@ -131,14 +131,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 </div>
 
                 <div class="mt-4">
-                    <label class="block text-sm font-semibold text-gray-700 mb-1">Meta Title*</label>
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">Meta Title(optional)</label>
                     <input type="text" id="meta_title" name="meta_title"
                         value="<?= htmlspecialchars($productData['meta_title']) ?>"
                         class="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-indigo-400 focus:outline-none">
                 </div>
 
                 <div class="mt-4">
-                    <label class="block text-sm font-semibold text-gray-700 mb-1">Meta Description*</label>
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">Meta Description(optional)</label>
                     <input type="text" id="meta_desc" name="meta_desc"
                         value="<?= htmlspecialchars($productData['meta_desc']) ?>"
                         class="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-indigo-400 focus:outline-none">
@@ -146,7 +146,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 </div>
 
                 <div class="mt-4">
-                    <label class="block text-sm font-semibold text-gray-700 mb-1">Meta Keyword*</label>
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">Meta Keyword(optional)</label>
                     <input type="text" name="meta_keyword"
                         value="<?= htmlspecialchars($productData['meta_keyword']) ?>"
                         class="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-indigo-400 focus:outline-none"
@@ -156,7 +156,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 
                 <div class="mt-4">
-                    <label for="meta_text" class="block text-sm font-medium text-gray-700">Alt image*</label>
+                    <label for="meta_text" class="block text-sm font-medium text-gray-700">Alt image(optional)</label>
                     <input type="text" name="meta_text" value="<?= htmlspecialchars($productData['meta_text']) ?>"
                         class="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-indigo-400 focus:outline-none">
                 </div>
@@ -223,7 +223,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             <!-- Category -->
             <div>
-                <label for="category_id" class="block text-sm font-medium text-gray-700">Category</label>
+                <label for="category_id" class="block text-sm font-medium text-gray-700">Category**</label>
                 <select name="category_id" required class="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-indigo-400 focus:outline-none">
                     <option value="">Select Category</option>
                     <?php foreach ($categories as $cat): ?>
