@@ -66,7 +66,14 @@ $pagedData = array_slice($tableData, $offset, $limit);
 $total_records = count($tableData);
 $total_pages = 1 + ceil(($total_records - $firstPageLimit) / $otherPageLimit);
 
+function toBanglaNumber($number)
+{
+    $engDigits = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+    $bangDigits = ['০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯'];
 
+    // Convert only digits, keep commas and dots
+    return str_replace($engDigits, $bangDigits, $number);
+}
 ?>
 <style>
     .text-footer {
@@ -112,7 +119,7 @@ $total_pages = 1 + ceil(($total_records - $firstPageLimit) / $otherPageLimit);
                 <p class="text-white font-medium"><?= htmlspecialchars($topPlayers[1]['username']) ?></p>
                 <p class="text-sm text-gray-200">বেট মার্কেট: <?= htmlspecialchars($topPlayers[1]['bet_market']) ?></p>
                 <p class="text-sm text-gray-200">বৈধ বাজি <?= htmlspecialchars($topPlayers[1]['point']) ?></p>
-                <p class="text-gray-200 text-sm ">প্রাইজ: <?= htmlspecialchars($topPlayers[1]['price']) ?></p>
+                <p class="text-gray-200 text-sm ">প্রাইজ: <?= toBanglaNumber($topPlayers[1]['price']) ?></p>
             </div>
         <?php endif; ?>
 
@@ -124,7 +131,7 @@ $total_pages = 1 + ceil(($total_records - $firstPageLimit) / $otherPageLimit);
                 <p class="text-white font-semibold"><?= htmlspecialchars($topPlayers[0]['username']) ?></p>
                 <p class="text-sm text-gray-200">বেট মার্কেট: <?= htmlspecialchars($topPlayers[0]['bet_market']) ?></p>
                 <p class="text-sm text-gray-200">পয়েন্ট: <?= htmlspecialchars($topPlayers[0]['point']) ?></p>
-                <p class="text-gray-200 text-sm">প্রাইজ: <?= htmlspecialchars($topPlayers[0]['price']) ?></p>
+                <p class="text-gray-200 text-sm">প্রাইজ: <?= toBanglaNumber($topPlayers[0]['price']) ?></p>
             </div>
         <?php endif; ?>
 
@@ -136,7 +143,7 @@ $total_pages = 1 + ceil(($total_records - $firstPageLimit) / $otherPageLimit);
                 <p class="text-white font-medium"><?= htmlspecialchars($topPlayers[2]['username']) ?></p>
                 <p class="text-sm text-gray-200">বেট মার্কেট: <?= htmlspecialchars($topPlayers[2]['bet_market']) ?></p>
                 <p class="text-sm text-gray-200">বৈধ বাজি <?= htmlspecialchars($topPlayers[2]['point']) ?></p>
-                <p class="text-gray-200 text-sm ">প্রাইজ: <?= htmlspecialchars($topPlayers[2]['price']) ?></p>
+                <p class="text-gray-200 text-sm ">প্রাইজ: <?= toBanglaNumber($topPlayers[2]['price']) ?></p>
             </div>
         <?php endif; ?>
     </div>
@@ -162,7 +169,7 @@ $total_pages = 1 + ceil(($total_records - $firstPageLimit) / $otherPageLimit);
                         <td class="p-2 text-center"><?= htmlspecialchars($player['username']) ?></td>
                         <td class="p-2 text-center"><?= htmlspecialchars($player['bet_market']) ?></td>
                         <td class="p-2 text-center"><?= htmlspecialchars($player['point']) ?></td>
-                        <td class="p-2 text-center"><?= htmlspecialchars($player['price']) ?></td>
+                        <td class="p-2 text-center"> <?= toBanglaNumber($player['price']) ?></td>
                     </tr>
                 <?php endforeach; ?>
 

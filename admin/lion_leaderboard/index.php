@@ -101,7 +101,16 @@ function banglaDate($date)
 
     return $formatted;
 }
-?>
+        function toBanglaNumber($number)
+        {
+            $engDigits = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+            $bangDigits = ['০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯'];
+
+            // Convert only digits, keep commas and dots
+            return str_replace($engDigits, $bangDigits, $number);
+        }
+
+        ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -152,7 +161,7 @@ function banglaDate($date)
                             <td><?= htmlspecialchars($row['username']) ?></td>
                             <td><?= htmlspecialchars($row['bet_market']) ?></td>
                             <td><?= htmlspecialchars($row['point']) ?></td>
-                            <td><?= htmlspecialchars($row['price']) ?></td>
+                            <td><?= toBanglaNumber($row['price']) ?></td>
                         </tr>
                     <?php endforeach; ?>
                     <?php if (empty($data)): ?>

@@ -72,6 +72,13 @@ function banglaDate($date)
 
     return $formatted;
 }
+
+function toBanglaNumber($number) {
+    $engDigits = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+    $bangDigits = ['০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯'];
+    return str_replace($engDigits, $bangDigits, $number);
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -135,7 +142,8 @@ function banglaDate($date)
                             <td class="font-semibold text-indigo-400"><?= htmlspecialchars($row['uid']) ?></td>
                             <td><?= htmlspecialchars($row['matches']) ?></td>
                             <td><?= htmlspecialchars($row['t_o']) ?></td>
-                            <td class="text-green-400 font-bold"><?= htmlspecialchars($row['price']) ?></td>
+                            <td class="text-green-400 font-bold"><?= toBanglaNumber($row['price']) ?></td>
+
                         </tr>
                     <?php endforeach; ?>
                     <?php if (empty($data)): ?>
