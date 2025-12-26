@@ -53,7 +53,7 @@ $currentPath = preg_replace('#^v2/#', '', $currentPath);
         <h6 class="text-md font-semibold text-white">
             Welcome, <?= htmlspecialchars($_SESSION['username'] ?? 'User'); ?>
         </h6>
-        <a href="/v2/logout" class="text-sm btn bg-red-700 shadow-none border-none text-white hover:bg-red-900">Logout</a>
+        <a href="/logout" class="text-sm btn bg-red-700 shadow-none border-none text-white hover:bg-red-900">Logout</a>
     </div>
 </aside>
 
