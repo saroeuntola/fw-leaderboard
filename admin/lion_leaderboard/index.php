@@ -141,7 +141,7 @@ function banglaDate($date)
                         <th>#</th>
                         <th>Username</th>
                         <th>Bet Market</th>
-                        <th>Points</th>
+                        <th>T/O</th>
                         <th>Price</th>     
                     </tr>
                 </thead>

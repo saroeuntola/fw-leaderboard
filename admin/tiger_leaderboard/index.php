@@ -124,7 +124,7 @@ function banglaDate($date)
                         <th>POS.</th>
                         <th>uID</th>
                         <th>Matches</th>
-                        <th>T/O</th>
+                        <th>point</th>
                         <th>Prize</th>
                     </tr>
                 </thead>

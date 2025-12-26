@@ -111,7 +111,7 @@ $total_pages = 1 + ceil(($total_records - $firstPageLimit) / $otherPageLimit);
                 <h3 class="text-gray-300 font-bold text-lg">#2</h3>
                 <p class="text-white font-medium"><?= htmlspecialchars($topPlayers[1]['username']) ?></p>
                 <p class="text-sm text-gray-200">বেট মার্কেট: <?= htmlspecialchars($topPlayers[1]['bet_market']) ?></p>
-                <p class="text-sm text-gray-200">পয়েন্ট: <?= htmlspecialchars($topPlayers[1]['point']) ?></p>
+                <p class="text-sm text-gray-200">বৈধ বাজি <?= htmlspecialchars($topPlayers[1]['point']) ?></p>
                 <p class="text-gray-200 text-sm ">প্রাইজ: <?= htmlspecialchars($topPlayers[1]['price']) ?></p>
             </div>
         <?php endif; ?>
@@ -135,7 +135,7 @@ $total_pages = 1 + ceil(($total_records - $firstPageLimit) / $otherPageLimit);
                 <h3 class="text-orange-400 font-bold text-lg">#3</h3>
                 <p class="text-white font-medium"><?= htmlspecialchars($topPlayers[2]['username']) ?></p>
                 <p class="text-sm text-gray-200">বেট মার্কেট: <?= htmlspecialchars($topPlayers[2]['bet_market']) ?></p>
-                <p class="text-sm text-gray-200">পয়েন্ট: <?= htmlspecialchars($topPlayers[2]['point']) ?></p>
+                <p class="text-sm text-gray-200">বৈধ বাজি <?= htmlspecialchars($topPlayers[2]['point']) ?></p>
                 <p class="text-gray-200 text-sm ">প্রাইজ: <?= htmlspecialchars($topPlayers[2]['price']) ?></p>
             </div>
         <?php endif; ?>
@@ -147,7 +147,7 @@ $total_pages = 1 + ceil(($total_records - $firstPageLimit) / $otherPageLimit);
                     <th class="p-2 th-text">স্থান</th>
                     <th class="p-2 th-text">খেলোয়াড়ের ব্যবহারকারীর নাম</th>
                     <th class="p-2 th-text">বেট মার্কেট</th>
-                    <th class="p-2 th-text">পয়েন্ট </th>
+                    <th class="p-2 th-text">বৈধ বাজি</th>
                     <th class="p-2 th-text">প্রাইজ</th>
                 </tr>
             </thead>
