@@ -232,7 +232,7 @@ $data = $tournament->getTournamentById($id);
                                         <th class="py-2">No.</th>
                                         <th class="py-2">Username</th>
                                         <th class="py-2">Bet Market</th>
-                                        <th class="py-2">Points</th>
+                                        <th class="py-2">T/O</th>
                                         <th class="py-2">Price</th>
                                     </tr>
                                 </thead>

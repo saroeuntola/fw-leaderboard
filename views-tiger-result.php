@@ -137,7 +137,7 @@ $data = $tournament->getTournamentById($id);
                                     <h3 class="text-yellow-800 font-extrabold text-2xl mb-1">1st</h3>
                                     <p class="text-white font-bold text-lg"><?= htmlspecialchars($players[0]['uid']) ?></p>
                                     <p class="text-sm text-white mt-1">Matches: <?= htmlspecialchars($players[0]['matches']) ?></p>
-                                    <p class="text-sm text-white">T/O: <?= htmlspecialchars($players[0]['to']) ?></p>
+                                    <p class="text-sm text-white">Points: <?= htmlspecialchars($players[0]['to']) ?></p>
                                     <p class="text-white text-sm font-semibold mt-1">Prize: <?= htmlspecialchars($players[0]['prize']) ?></p>
                                 </div>
                             </div>
