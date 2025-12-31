@@ -140,11 +140,11 @@ include "./services/textLimit.php";
             include 'slideshow.php';
             ?>
         </section>
-        <section class="px-4 max-w-7xl m-auto pt-[50px]">
+        <!-- <section class="px-4 max-w-7xl m-auto pt-[50px]">
             <?php
-            include './crickets/home.php';
+            // include './crickets/home.php';
             ?>
-        </section>
+        </section> -->
         <section class="px-4 max-w-7xl m-auto pt-[50px]">
             <?php
             include 'upcoming-section.php';
