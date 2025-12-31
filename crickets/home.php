@@ -51,13 +51,6 @@ usort($upcomingMatches, fn($a, $b) => strtotime($a['dateTimeGMT']) <=> strtotime
 usort($liveMatches, fn($a, $b) => (!empty($b['matchStarted']) && empty($b['matchEnded'])) <=> (!empty($a['matchStarted']) && empty($a['matchEnded'])));
 ?>
 
-<!DOCTYPE html>
-<html lang="en" class="dark">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Cricket Matches</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         .no-scrollbar::-webkit-scrollbar {
@@ -99,9 +92,9 @@ usort($liveMatches, fn($a, $b) => (!empty($b['matchStarted']) && empty($b['match
             right: 0.5rem;
         }
     </style>
-</head>
 
-<body class="bg-gray-100 dark:bg-[#121212] p-5">
+
+
 
     <!-- Tabs -->
     <div class="flex gap-2 mb-5">
@@ -141,7 +134,7 @@ usort($liveMatches, fn($a, $b) => (!empty($b['matchStarted']) && empty($b['match
         $score2 = $m['score'][1] ?? null;
         $status = htmlspecialchars($m['status'] ?? '');
     ?>
-        <a href="match.php?id=<?= $matchId ?>" class="snap-start flex-shrink-0 min-w-[320px] max-w-[320px] bg-white dark:bg-[#252525] rounded-xl shadow hover:shadow-lg transition p-4">
+        <a href="#" class="snap-start flex-shrink-0 min-w-[320px] max-w-[320px] bg-white dark:bg-[#252525] rounded-xl shadow hover:shadow-lg transition p-4">
             <div class="text-xs font-semibold text-gray-500 dark:text-gray-400 mb-3 flex flex-wrap gap-2">
                 <span><?= $matchDate ?></span> •
                 <?php if ($isLive): ?>
@@ -246,7 +239,3 @@ usort($liveMatches, fn($a, $b) => (!empty($b['matchStarted']) && empty($b['match
             });
         });
     </script>
-
-</body>
-
-</html>
