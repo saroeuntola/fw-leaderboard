@@ -117,7 +117,7 @@ function toBanglaNumber($number)
                 <img src="./images/icon-2.png" alt="2nd" class="w-[90px] h-[90px] mx-auto mb-2">
                 <h3 class="text-gray-300 font-bold text-lg">#2</h3>
                 <p class="text-white font-medium"><?= htmlspecialchars($topPlayers[1]['username']) ?></p>
-                <p class="text-sm text-gray-200">বেট মার্কেট: <?= htmlspecialchars($topPlayers[1]['bet_market']) ?></p>
+     
                 <p class="text-sm text-gray-200">বৈধ বাজি <?= htmlspecialchars($topPlayers[1]['point']) ?></p>
                 <p class="text-gray-200 text-sm ">প্রাইজ: <?= toBanglaNumber($topPlayers[1]['price']) ?></p>
             </div>
@@ -129,7 +129,7 @@ function toBanglaNumber($number)
                 <img src="./images/icon-1.png" alt="1st" class="w-[100px] h-[100px] mx-auto mb-2">
                 <h3 class="text-yellow-400 font-bold text-xl">#1</h3>
                 <p class="text-white font-semibold"><?= htmlspecialchars($topPlayers[0]['username']) ?></p>
-                <p class="text-sm text-gray-200">বেট মার্কেট: <?= htmlspecialchars($topPlayers[0]['bet_market']) ?></p>
+              
                 <p class="text-sm text-gray-200">পয়েন্ট: <?= htmlspecialchars($topPlayers[0]['point']) ?></p>
                 <p class="text-gray-200 text-sm">প্রাইজ: <?= toBanglaNumber($topPlayers[0]['price']) ?></p>
             </div>
@@ -141,7 +141,7 @@ function toBanglaNumber($number)
                 <img src="./images/icon-3.png" alt="3rd" class="w-[90px] h-[90px] mx-auto mb-2">
                 <h3 class="text-orange-400 font-bold text-lg">#3</h3>
                 <p class="text-white font-medium"><?= htmlspecialchars($topPlayers[2]['username']) ?></p>
-                <p class="text-sm text-gray-200">বেট মার্কেট: <?= htmlspecialchars($topPlayers[2]['bet_market']) ?></p>
+             
                 <p class="text-sm text-gray-200">বৈধ বাজি <?= htmlspecialchars($topPlayers[2]['point']) ?></p>
                 <p class="text-gray-200 text-sm ">প্রাইজ: <?= toBanglaNumber($topPlayers[2]['price']) ?></p>
             </div>
@@ -153,7 +153,7 @@ function toBanglaNumber($number)
                 <tr class="bg-red-800 text-gray-200">
                     <th class="p-2 th-text">স্থান</th>
                     <th class="p-2 th-text">খেলোয়াড়ের ব্যবহারকারীর নাম</th>
-                    <th class="p-2 th-text">বেট মার্কেট</th>
+                  
                     <th class="p-2 th-text">বৈধ বাজি</th>
                     <th class="p-2 th-text">প্রাইজ</th>
                 </tr>
@@ -167,7 +167,7 @@ function toBanglaNumber($number)
                     <tr class="border-t border-gray-600">
                         <td class="p-2 text-center"><?= $rank ?></td>
                         <td class="p-2 text-center"><?= htmlspecialchars($player['username']) ?></td>
-                        <td class="p-2 text-center"><?= htmlspecialchars($player['bet_market']) ?></td>
+                      
                         <td class="p-2 text-center"><?= htmlspecialchars($player['point']) ?></td>
                         <td class="p-2 text-center"> <?= toBanglaNumber($player['price']) ?></td>
                     </tr>

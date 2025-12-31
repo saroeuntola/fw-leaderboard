@@ -7,15 +7,10 @@ include "./admin/lib/db.php";
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
     <title>Fancybet লিডারবোর্ড</title>
-
     <meta name="description" content="বাংলাদেশে Fancybet-এর সর্বশেষ লিডারবোর্ড দেখুন। খেলোয়াড়দের র‍্যাঙ্কিং, স্কোর এবং রিয়েল-টাইম আপডেট দেখুন।" />
-
     <meta name="keywords" content="Fancybet, লিডারবোর্ড বাংলাদেশ, গেমিং লিডারবোর্ড বিডি, খেলোয়াড় র‍্যাঙ্কিং বাংলাদেশ, রিয়েল-টাইম স্কোর বিডি, সেরা খেলোয়াড় বাংলাদেশ" />
-
     <meta name="robots" content="index, follow" />
-
     <link rel="canonical" href="https://fancybet-leaderboard.com/leaderboard" />
 
     <!-- Open Graph -->

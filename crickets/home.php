@@ -1,0 +1,252 @@
+<?php
+require_once 'services/ApiService.php';
+
+// =====================
+// CACHE CONFIG
+// =====================
+$cacheDir = __DIR__ . '/cache';
+if (!is_dir($cacheDir)) mkdir($cacheDir, 0755, true);
+$cacheTTLUpcoming = 3600; // 1 hour
+$cacheTTLLive = 120;     // 2 minutes
+
+function getMatchesWithCache($cacheFile, $fetchFunction, $cacheTTL)
+{
+    if (file_exists($cacheFile) && (time() - filemtime($cacheFile)) < $cacheTTL) {
+        return json_decode(file_get_contents($cacheFile), true);
+    } else {
+        $matches = $fetchFunction();
+        if (!is_array($matches)) $matches = [];
+        file_put_contents($cacheFile, json_encode($matches));
+        return $matches;
+    }
+}
+
+date_default_timezone_set('Asia/Dhaka');
+$now = new DateTime('now', new DateTimeZone('Asia/Dhaka'));
+
+// =====================
+// FETCH MATCHES
+// =====================
+$upcomingMatches = getMatchesWithCache("$cacheDir/upcoming.json", function () {
+    $resp = ApiService::getUpComingMatch();
+    return $resp['data'] ?? [];
+}, $cacheTTLUpcoming);
+
+$liveMatches = getMatchesWithCache("$cacheDir/live.json", function () {
+    $resp = ApiService::getLiveMatches();
+    return $resp['data'] ?? [];
+}, $cacheTTLLive);
+
+// Filter upcoming matches: only future matches
+$upcomingMatches = array_filter($upcomingMatches, function ($m) use ($now) {
+    $dt = new DateTime($m['dateTimeGMT'], new DateTimeZone('UTC'));
+    $dt->setTimezone(new DateTimeZone('Asia/Dhaka'));
+    return $dt >= $now;
+});
+
+// Sort upcoming matches by datetime ASC
+usort($upcomingMatches, fn($a, $b) => strtotime($a['dateTimeGMT']) <=> strtotime($b['dateTimeGMT']));
+
+// Sort live matches: LIVE first
+usort($liveMatches, fn($a, $b) => (!empty($b['matchStarted']) && empty($b['matchEnded'])) <=> (!empty($a['matchStarted']) && empty($a['matchEnded'])));
+?>
+
+<!DOCTYPE html>
+<html lang="en" class="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Cricket Matches</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .scroll-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.3);
+            padding: 0.5rem;
+            border-radius: 50%;
+            cursor: pointer;
+            display: none;
+            z-index: 10;
+        }
+
+        .scroll-arrow svg {
+            width: 20px;
+            height: 20px;
+            stroke: white;
+        }
+
+        .group:hover .scroll-arrow {
+            display: block;
+        }
+
+        .scroll-arrow.left {
+            left: 0.5rem;
+        }
+
+        .scroll-arrow.right {
+            right: 0.5rem;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100 dark:bg-[#121212] p-5">
+
+    <!-- Tabs -->
+    <div class="flex gap-2 mb-5">
+        <button class="tab-btn px-4 py-2 rounded-full bg-red-600 text-white font-semibold" data-tab="upcoming">Upcoming</button>
+        <button class="tab-btn px-4 py-2 rounded-full bg-white dark:bg-[#252525] text-gray-700 dark:text-gray-200 font-semibold" data-tab="live">Live</button>
+    </div>
+
+    <?php
+    function renderMatchCard($m, $isUpcoming = true)
+    {
+        $matchId   = $m['id'];
+        $title     = htmlspecialchars($m['series'] ?? $m['name'] ?? 'Unknown Series');
+        $venue     = htmlspecialchars($m['venue'] ?? '');
+        $dtUTC     = new DateTime($m['dateTimeGMT'], new DateTimeZone('UTC'));
+        $dtUTC->setTimezone(new DateTimeZone('Asia/Dhaka'));
+        $matchDate = $dtUTC->format('d M Y');
+        $matchTime = $dtUTC->format('g:i A');
+
+        $isLive = !empty($m['matchStarted']) && empty($m['matchEnded']);
+        $timeLabel = $isLive ? 'LIVE' : (!empty($m['matchEnded']) ? 'FINAL' : 'Starts ' . $matchDate);
+
+        if ($isUpcoming) {
+            $team1Img = $m['t1img'] ?? '';
+            $team2Img = $m['t2img'] ?? '';
+            $team1Name = htmlspecialchars($m['t1'] ?? '');
+            $team2Name = htmlspecialchars($m['t2'] ?? '');
+        } else {
+            $team1 = $m['teamInfo'][0] ?? [];
+            $team2 = $m['teamInfo'][1] ?? [];
+            $team1Img = $team1['img'] ?? '';
+            $team2Img = $team2['img'] ?? '';
+            $team1Name = htmlspecialchars($team1['name'] ?? '');
+            $team2Name = htmlspecialchars($team2['name'] ?? '');
+        }
+
+        $score1 = $m['score'][0] ?? null;
+        $score2 = $m['score'][1] ?? null;
+        $status = htmlspecialchars($m['status'] ?? '');
+    ?>
+        <a href="match.php?id=<?= $matchId ?>" class="snap-start flex-shrink-0 min-w-[320px] max-w-[320px] bg-white dark:bg-[#252525] rounded-xl shadow hover:shadow-lg transition p-4">
+            <div class="text-xs font-semibold text-gray-500 dark:text-gray-400 mb-3 flex flex-wrap gap-2">
+                <span><?= $matchDate ?></span> •
+                <?php if ($isLive): ?>
+                    <span class="flex items-center gap-1 text-red-600 font-bold">
+                        <span class="w-2 h-2 bg-red-600 rounded-full animate-pulse"></span> LIVE
+                    </span>
+                <?php else: ?>
+                    <span><?= $timeLabel ?></span>
+                <?php endif; ?>
+                • <span><?= $matchTime ?> Local</span>
+            </div>
+
+            <div class="text-xs text-gray-400 mb-3"><?= $venue ?></div>
+
+            <div class="space-y-3">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-2">
+                        <img src="<?= $team1Img ?>" class="w-8 h-8 rounded-full">
+                        <span class="font-semibold text-sm text-gray-800 dark:text-gray-200"><?= $team1Name ?></span>
+                    </div>
+                    <?php if ($score1): ?><span class="text-sm font-bold"><?= $score1['r'] ?>/<?= $score1['w'] ?></span><?php endif; ?>
+                </div>
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-2">
+                        <img src="<?= $team2Img ?>" class="w-8 h-8 rounded-full">
+                        <span class="font-semibold text-sm text-gray-800 dark:text-gray-200"><?= $team2Name ?></span>
+                    </div>
+                    <?php if ($score2): ?><span class="text-sm font-bold"><?= $score2['r'] ?>/<?= $score2['w'] ?></span><?php endif; ?>
+                </div>
+            </div>
+
+            <div class="text-sm text-gray-700 dark:text-gray-300 mt-3 line-clamp-2"><?= $title ?></div>
+            <?php if (!$isLive && !empty($status)): ?>
+                <div class="mt-2 text-xs font-semibold text-red-600"><?= $status ?></div>
+            <?php endif; ?>
+        </a>
+    <?php } ?>
+
+    <!-- Upcoming -->
+    <div class="tab-content flex gap-4 overflow-x-auto scroll-smooth snap-x snap-mandatory pb-4 no-scrollbar relative group" data-tab="upcoming">
+        <div class="scroll-arrow left" data-scroll-left>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+            </svg>
+        </div>
+        <div class="scroll-arrow right" data-scroll-right>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+        </div>
+        <?php foreach ($upcomingMatches as $m) renderMatchCard($m, true); ?>
+    </div>
+
+    <!-- Live -->
+    <div class="tab-content flex gap-4 overflow-x-auto scroll-smooth snap-x snap-mandatory pb-4 no-scrollbar relative group hidden" data-tab="live">
+        <div class="scroll-arrow left" data-scroll-left>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+            </svg>
+        </div>
+        <div class="scroll-arrow right" data-scroll-right>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+        </div>
+        <?php foreach ($liveMatches as $m) renderMatchCard($m, false); ?>
+    </div>
+
+    <script>
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const tab = btn.dataset.tab;
+                tabBtns.forEach(b => {
+                    b.classList.remove('bg-red-600', 'text-white');
+                    b.classList.add('bg-white', 'dark:bg-[#252525]', 'text-gray-700', 'dark:text-gray-200');
+                });
+                btn.classList.add('bg-red-600', 'text-white');
+                tabContents.forEach(c => c.classList.toggle('hidden', c.dataset.tab !== tab));
+            });
+        });
+
+        // Scroll arrows
+        document.querySelectorAll('[data-scroll-left]').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const container = btn.closest('.group').querySelector('div.flex');
+                container.scrollBy({
+                    left: -300,
+                    behavior: 'smooth'
+                });
+            });
+        });
+        document.querySelectorAll('[data-scroll-right]').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const container = btn.closest('.group').querySelector('div.flex');
+                container.scrollBy({
+                    left: 300,
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+
+</body>
+
+</html>
