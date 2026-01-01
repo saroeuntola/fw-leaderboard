@@ -118,7 +118,7 @@ function toBanglaNumber($number)
                 <h3 class="text-gray-300 font-bold text-lg">#2</h3>
                 <p class="text-white font-medium"><?= htmlspecialchars($topPlayers[1]['username']) ?></p>
      
-                <p class="text-sm text-gray-200">বৈধ বাজি <?= htmlspecialchars($topPlayers[1]['point']) ?></p>
+                <p class="text-sm text-gray-200">পয়েন্টস: <?= htmlspecialchars($topPlayers[1]['point']) ?></p>
                 <p class="text-gray-200 text-sm ">প্রাইজ: <?= toBanglaNumber($topPlayers[1]['price']) ?></p>
             </div>
         <?php endif; ?>
@@ -142,7 +142,7 @@ function toBanglaNumber($number)
                 <h3 class="text-orange-400 font-bold text-lg">#3</h3>
                 <p class="text-white font-medium"><?= htmlspecialchars($topPlayers[2]['username']) ?></p>
              
-                <p class="text-sm text-gray-200">বৈধ বাজি <?= htmlspecialchars($topPlayers[2]['point']) ?></p>
+                <p class="text-sm text-gray-200">পয়েন্টস: <?= htmlspecialchars($topPlayers[2]['point']) ?></p>
                 <p class="text-gray-200 text-sm ">প্রাইজ: <?= toBanglaNumber($topPlayers[2]['price']) ?></p>
             </div>
         <?php endif; ?>
@@ -154,7 +154,7 @@ function toBanglaNumber($number)
                     <th class="p-2 th-text">স্থান</th>
                     <th class="p-2 th-text">খেলোয়াড়ের ব্যবহারকারীর নাম</th>
                   
-                    <th class="p-2 th-text">বৈধ বাজি</th>
+                    <th class="p-2 th-text">পয়েন্টস</th>
                     <th class="p-2 th-text">প্রাইজ</th>
                 </tr>
             </thead>
