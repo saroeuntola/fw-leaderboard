@@ -40,7 +40,7 @@ $seriesId = $data['series_id'] ?? '';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= htmlspecialchars($data['name']) ?></title>
-    <link rel="stylesheet" href="/src/output.css">
+    <link rel="stylesheet" href="/src/output.css?v=<?= time() ?>">
 </head>
 
 <body class="bg-gray-100 dark:bg-[#121212] text-gray-900 dark:text-gray-100">
@@ -106,7 +106,7 @@ $seriesId = $data['series_id'] ?? '';
     </div>
 
 
-        <?php include $_SERVER['DOCUMENT_ROOT'] . '/footer.php'?>
+    <?php include $_SERVER['DOCUMENT_ROOT'] . '/footer.php' ?>
     <!-- COUNTDOWN SCRIPT -->
     <script>
         const matchTime = <?= json_encode($matchTimestamp) ?>;
@@ -190,4 +190,5 @@ $seriesId = $data['series_id'] ?? '';
         });
     </script>
 </body>
+
 </html>

@@ -123,7 +123,7 @@ $isLive = !empty($data['matchStarted']) && empty($data['matchEnded']);
     <meta charset="UTF-8">
     <title><?= htmlspecialchars($data['name']) ?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="/src/output.css">
+    <link rel="stylesheet" href="/src/output.css?v=<?= time() ?>">
 </head>
 
 <body class="bg-gray-100 dark:bg-[#121212] text-white">
@@ -302,7 +302,7 @@ $isLive = !empty($data['matchStarted']) && empty($data['matchEnded']);
     <?php
     include $_SERVER['DOCUMENT_ROOT'] . '/footer.php';
     ?>
-    <?php include $_SERVER['DOCUMENT_ROOT'] . '/scroll-to-top.php';?>
+    <?php include $_SERVER['DOCUMENT_ROOT'] . '/scroll-to-top.php'; ?>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             console.log("Tab script loaded");

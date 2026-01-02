@@ -17,7 +17,7 @@ include "./services/textLimit.php";
     <link rel="preconnect" href="https://cdn.jsdelivr.net">
     <link rel="preconnect" href="https://cdn.jsdelivr.net/npm">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daisyui@5/dist/full.css" />
-    <link rel="stylesheet" href="./src/output.css">
+    <link rel="stylesheet" href="./src/output.css?v=<?= time() ?>">
     <link rel="stylesheet" href="./css/style.css">
     <script src="./js/jquery-3.7.1.min.js"></script>
     <link rel="apple-touch-icon" sizes="57x57" href="/icons/apple-icon-57x57.png">
