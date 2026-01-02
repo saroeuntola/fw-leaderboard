@@ -127,7 +127,7 @@ include "./services/textLimit.php";
 
 <body class="bg-[#f5f5f5] dark:bg-[#181818] text-gray-900  dark:text-gray-100 min-h-screen">
     <?php
-    include "loading.php"
+    include "loading.php";
     ?>
     <header>
         <?php
@@ -140,10 +140,10 @@ include "./services/textLimit.php";
             include 'slideshow.php';
             ?>
         </section>
-        
+
         <section class="px-4 max-w-7xl m-auto pt-[50px]">
             <?php
-            include './crickets/home.php';
+            include $_SERVER['DOCUMENT_ROOT'] . '/crickets/livescore.php';
             ?>
         </section>
 

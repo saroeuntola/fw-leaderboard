@@ -40,17 +40,9 @@ class ApiService
         return self::request('/currentMatches', $params);
     }
 
-
-    public static function getMatchDetails($matchId, array $params = [])
+    public static function getLivescore(array $params = [])
     {
-        $params['id'] = $matchId;
-        return self::request('/match', $params);
-    }
-
-
-    public static function getMatchScoreCard(array $params = [])
-    {
-        return self::request('/match_scorecard', $params);
+        return self::request('/cricScore', $params);
     }
 
     public static function getCurrentMatch(array $params = [])
@@ -64,24 +56,11 @@ class ApiService
     }
 
 
-
-    public static function getAllSeries(array $params = [])
-    {
-        return self::request('/series', $params);
-    }
-
-
     public static function getMatchSqoud(array $params = [])
     {
         return self::request('/match_squad', $params);
     }
 
-
-
-    public static function getAll(array $params = [])
-    {
-        return self::request('/match', $params);
-    }
 
     public static function getAllPlayer (array $params = []){
 
@@ -94,9 +73,48 @@ class ApiService
         return self::request('/cricScore', $params);
     }
 
-    public static function getFinishedMatch(array $params = [])
+    public static function getMatchInfoWthScoreCard(string $matchId)
     {
-        return self::request('/finisMatch', $params);
+        return self::request('/match_scorecard', [
+            'id' => $matchId
+        ]);
     }
 
+    public static function getMatchInfo(string $matchId)
+    {
+        return self::request('/match_scorecard', [
+            'id' => $matchId
+        ]);
+    }
+    
+
+    public static function getMatchPoints(string $matchId)
+    {
+        return self::request('/match_points', [
+            'id' => $matchId
+        ]);
+    }
+
+
+    public static function getSeriesPoints(string $seriesId)
+    {
+        return self::request('/series_points', [
+            'id' => $seriesId
+        ]);
+    }
+
+    public static function getMatchSquad(string $matchId)
+    {
+        return self::request('/match_squad', [
+            'id' => $matchId
+        ]);
+    }
+
+
+    public static function getUpcomingInfo(string $matchId)
+    {
+        return self::request('/match_info', [
+            'id' => $matchId
+        ]);
+    }
 }

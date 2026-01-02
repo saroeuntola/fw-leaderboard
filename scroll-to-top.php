@@ -1,5 +1,5 @@
 
-<link rel="stylesheet" href="./css/scroll-to-top.css">
+<link rel="stylesheet" href="/css/scroll-to-top.css">
 <button id="scrollTopBtn" title="Go to top">↑</button>
 <script>
 

@@ -1,43 +1,24 @@
 <?php
-require_once 'services/ApiService.php';
-
-// =====================
-// CACHE CONFIG
-// =====================
-$cacheDir = __DIR__ . '/cache';
-if (!is_dir($cacheDir)) mkdir($cacheDir, 0755, true);
-$cacheTTLUpcoming = 3600; // 1 hour
-$cacheTTLLive = 120;     // 2 minutes
-
-function getMatchesWithCache($cacheFile, $fetchFunction, $cacheTTL)
-{
-    if (file_exists($cacheFile) && (time() - filemtime($cacheFile)) < $cacheTTL) {
-        return json_decode(file_get_contents($cacheFile), true);
-    } else {
-        $matches = $fetchFunction();
-        if (!is_array($matches)) $matches = [];
-        file_put_contents($cacheFile, json_encode($matches));
-        return $matches;
-    }
-}
+require_once $_SERVER['DOCUMENT_ROOT'] . '/crickets/services/ApiService.php';
+require_once  $_SERVER['DOCUMENT_ROOT'] . '/crickets/services/apiCache.php';
 
 date_default_timezone_set('Asia/Dhaka');
 $now = new DateTime('now', new DateTimeZone('Asia/Dhaka'));
 
+$cacheDir = $_SERVER['DOCUMENT_ROOT'] . '/crickets/services/cache';
 // =====================
 // FETCH MATCHES
 // =====================
-$upcomingMatches = getMatchesWithCache("$cacheDir/upcoming.json", function () {
-    $resp = ApiService::getUpComingMatch();
-    return $resp['data'] ?? [];
-}, $cacheTTLUpcoming);
+$upcomingMatches = apiCache(
+    "$cacheDir/upcoming.json",
+    3600, // 1 hour
+    function () {
+        $resp = ApiService::getUpComingMatch();
+        return $resp['data'] ?? [];
+    }
+);
 
-$liveMatches = getMatchesWithCache("$cacheDir/live.json", function () {
-    $resp = ApiService::getLiveMatches();
-    return $resp['data'] ?? [];
-}, $cacheTTLLive);
 
-// Filter upcoming matches: only future matches
 $upcomingMatches = array_filter($upcomingMatches, function ($m) use ($now) {
     $dt = new DateTime($m['dateTimeGMT'], new DateTimeZone('UTC'));
     $dt->setTimezone(new DateTimeZone('Asia/Dhaka'));
@@ -47,8 +28,7 @@ $upcomingMatches = array_filter($upcomingMatches, function ($m) use ($now) {
 // Sort upcoming matches by datetime ASC
 usort($upcomingMatches, fn($a, $b) => strtotime($a['dateTimeGMT']) <=> strtotime($b['dateTimeGMT']));
 
-// Sort live matches: LIVE first
-usort($liveMatches, fn($a, $b) => (!empty($b['matchStarted']) && empty($b['matchEnded'])) <=> (!empty($a['matchStarted']) && empty($a['matchEnded'])));
+
 ?>
 
 <script src="https://cdn.tailwindcss.com"></script>
@@ -137,7 +117,7 @@ function renderMatchCard($m, $isUpcoming = true)
     $score2 = $m['score'][1] ?? null;
     $status = htmlspecialchars($m['status'] ?? '');
 ?>
-    <a href="#" class="snap-start flex-shrink-0 min-w-[320px] max-w-[320px] bg-white dark:bg-[#252525] rounded-xl shadow hover:shadow-lg transition p-4">
+    <a href="/crickets/match-detail?id=<?= urlencode($matchId) ?>" class="snap-start flex-shrink-0 min-w-[320px] max-w-[320px] bg-white dark:bg-[#252525] rounded-xl shadow hover:shadow-lg transition p-4">
         <div class="text-xs font-semibold text-gray-500 dark:text-gray-400 mb-3 flex flex-wrap gap-2">
             <span><?= $matchDate ?></span> •
             <?php if ($isLive): ?>
@@ -203,42 +183,100 @@ function renderMatchCard($m, $isUpcoming = true)
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
         </svg>
     </div>
-    <?php foreach ($liveMatches as $m) renderMatchCard($m, false); ?>
 </div>
 
 <script>
     const tabBtns = document.querySelectorAll('.tab-btn');
     const tabContents = document.querySelectorAll('.tab-content');
+    const TAB_KEY = "active_tab";
+
+    // Activate a tab
+    function activateTab(tab) {
+        tabContents.forEach(c => c.classList.toggle('hidden', c.dataset.tab !== tab));
+        tabBtns.forEach(b => {
+            b.classList.remove('bg-red-600', 'text-white');
+            b.classList.add('bg-white', 'dark:bg-[#252525]', 'text-gray-700', 'dark:text-gray-200');
+        });
+        const activeBtn = document.querySelector(`.tab-btn[data-tab="${tab}"]`);
+        if (activeBtn) activeBtn.classList.add('bg-red-600', 'text-white');
+
+        localStorage.setItem(TAB_KEY, tab);
+    }
+
+    // Add scroll arrow functionality
+    function initScrollArrows(container) {
+        container.querySelectorAll('[data-scroll-left]').forEach(btn => {
+            btn.addEventListener('click', () => {
+                container.querySelector('div.flex').scrollBy({
+                    left: -300,
+                    behavior: 'smooth'
+                });
+            });
+        });
+        container.querySelectorAll('[data-scroll-right]').forEach(btn => {
+            btn.addEventListener('click', () => {
+                container.querySelector('div.flex').scrollBy({
+                    left: 300,
+                    behavior: 'smooth'
+                });
+            });
+        });
+    }
+
+    // Fetch Live matches dynamically (background update)
+    async function fetchLiveMatches(background = false) {
+        const liveContainer = document.querySelector('.tab-content[data-tab="live"]');
+        if (!liveContainer) return;
+
+        if (!background) {
+            // Only show loading on manual click
+            liveContainer.innerHTML = `<div class="text-center py-6 text-gray-500 dark:text-gray-400">Loading...</div>`;
+        }
+
+        try {
+            const res = await fetch('/crickets/pages/live-match');
+            const html = await res.text();
+
+            if (background) {
+                // Preserve scroll position and prevent flash
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = html;
+                const flexContainer = liveContainer.querySelector('div.flex');
+                const newFlexContainer = tempDiv.querySelector('div.flex');
+                if (flexContainer && newFlexContainer) {
+                    flexContainer.innerHTML = newFlexContainer.innerHTML;
+                }
+            } else {
+                liveContainer.innerHTML = html;
+            }
+
+            initScrollArrows(liveContainer);
+        } catch (err) {
+            if (!background) {
+                liveContainer.innerHTML = `<div class="text-center py-6 text-red-500">Failed to load matches.</div>`;
+            }
+            console.error(err);
+        }
+    }
 
     tabBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
+        btn.addEventListener('click', async () => {
             const tab = btn.dataset.tab;
-            tabBtns.forEach(b => {
-                b.classList.remove('bg-red-600', 'text-white');
-                b.classList.add('bg-white', 'dark:bg-[#252525]', 'text-gray-700', 'dark:text-gray-200');
-            });
-            btn.classList.add('bg-red-600', 'text-white');
-            tabContents.forEach(c => c.classList.toggle('hidden', c.dataset.tab !== tab));
+            activateTab(tab);
+            if (tab === "live") {
+                await fetchLiveMatches(false); 
+            }
         });
     });
 
-    // Scroll arrows
-    document.querySelectorAll('[data-scroll-left]').forEach(btn => {
-        btn.addEventListener('click', () => {
-            const container = btn.closest('.group').querySelector('div.flex');
-            container.scrollBy({
-                left: -300,
-                behavior: 'smooth'
-            });
-        });
-    });
-    document.querySelectorAll('[data-scroll-right]').forEach(btn => {
-        btn.addEventListener('click', () => {
-            const container = btn.closest('.group').querySelector('div.flex');
-            container.scrollBy({
-                left: 300,
-                behavior: 'smooth'
-            });
-        });
-    });
+    const lastTab = localStorage.getItem(TAB_KEY) || 'upcoming';
+    activateTab(lastTab);
+    if (lastTab === 'live') fetchLiveMatches(false);
+
+    // Auto-refresh live tab every 60s in background
+    setInterval(() => {
+        if (localStorage.getItem(TAB_KEY) === 'live') {
+            fetchLiveMatches(true);
+        }
+    }, 30000);
 </script>

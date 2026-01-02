@@ -1,13 +1,13 @@
 <?php
 // Example PHP navbar (logo can be dynamic)
-include "./admin/lib/brand_lib.php";
+include $_SERVER['DOCUMENT_ROOT'] . "/admin/lib/brand_lib.php";
 $brandObj = new Brand();
 $logos = $brandObj->getBrandByStatus();
 
 $currentPath = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 ?>
 
-<link rel="stylesheet" href="./css/navbar.css">
+<link rel="stylesheet" href="/css/navbar.css">
 <link rel="preconnect" href="https://cdnjs.cloudflare.com">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
@@ -119,4 +119,4 @@ $currentPath = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
     </div>
 
 </nav>
-<script src="./js/navbar.js" defer></script>
+<script src="/js/navbar.js" defer></script>
