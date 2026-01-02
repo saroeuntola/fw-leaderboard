@@ -11,7 +11,7 @@ $cacheDir = __DIR__ . '/cache';
  * Quick fetch to detect status
  */
 $temp = apiCache(
-    "$cacheDir/match_status_$matchId.json",
+    "$cacheDir/matchDetail_$matchId.json",
     60,
     fn() => ApiService::getMatchInfo($matchId)
 );
@@ -25,7 +25,7 @@ $matchEnded   = !empty($data['matchEnded']);
 if ($matchStarted && $matchEnded) {
     $ttl = 10 * 60 * 60; // ended
 } elseif ($matchStarted && !$matchEnded) {
-    $ttl = 120; // live
+    $ttl = 60; // live
 } else {
     $ttl = 3600; // upcoming
 }
