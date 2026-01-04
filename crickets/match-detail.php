@@ -24,13 +24,17 @@ if (!$data) die('No match data');
 $matchStarted = !empty($data['matchStarted']);
 $matchEnded   = !empty($data['matchEnded']);
 
-if ($matchStarted && $matchEnded) {
-    $ttl = 10 * 60 * 60;
-} elseif ($matchStarted) {
+if ($matchStarted && !$matchEnded) {
+    // Live match → 3 minutes
     $ttl = 180;
+} elseif ($matchStarted && $matchEnded) {
+    // Finished match → 12 hours
+    $ttl = 12 * 60 * 60;
 } else {
-    $ttl = 3600;
+    // Upcoming match → 1 hour
+    $ttl = 60 * 60;
 }
+
 
 $matchResponse = apiCache(
     "$cacheDir/matchInfo_$matchId.json",
@@ -142,10 +146,7 @@ list($teamA_prob, $teamB_prob) = calcWinProb($data, $teamAScore, $teamBScore);
 $isLive = $matchStarted && !$matchEnded;
 
 
-function generateHmacToken(string $matchId): string
-{
-    return hash_hmac('sha256', $matchId, SECRET_KEY);
-}
+
 
 ?>
 
@@ -172,7 +173,7 @@ function generateHmacToken(string $matchId): string
 
             <?php if ($isLive): ?>
                 <div class="absolute top-3 right-3 bg-red-600 text-[11px] px-2 py-0.5 rounded-md flex gap-1 animate-pulse">
-                    <span class="w-1.5 h-1.5 bg-white rounded-full"></span> LIVE
+                LIVE
                 </div>
             <?php endif; ?>
 
@@ -231,84 +232,110 @@ function generateHmacToken(string $matchId): string
                 <!-- SCORECARD -->
                 <div id="live" class="tab-panel">
                     <?php foreach ($scorecards as $inning): ?>
-                        <div class="bg-white dark:bg-[#1f1f1f] rounded-xl shadow mb-6" data-inning="<?= htmlspecialchars($inning['inning']) ?>">
-                            <div class="px-4 py-3 border-b text-fuchsia-400 font-semibold text-lg"><?= $inning['inning'] ?></div>
+                        <div class="bg-[#1e1e1e] rounded-xl mb-6 overflow-hidden" data-inning="<?= htmlspecialchars($inning['inning']) ?>">
 
-                            <!-- Batting Table -->
-                            <table class="w-full text-sm overflow-x-auto">
-                                <thead class="bg-gray-100 dark:bg-[#2a2a2a]">
-                                    <tr>
-                                        <th class="text-left p-2">Batter</th>
-                                        <th>Dismissal</th>
-                                        <th>R</th>
-                                        <th>B</th>
-                                        <th>4s</th>
-                                        <th>6s</th>
-                                        <th>SR</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php foreach ($inning['batting'] ?? [] as $bat): ?>
-                                        <tr class="border-t">
-                                            <td class="p-2 font-medium"><?= $bat['batsman']['name'] ?></td>
-                                            <td class="text-center"><?= $bat['dismissal-text'] ?? 'not out' ?></td>
-                                            <td class="text-center"><?= $bat['r'] ?></td>
-                                            <td class="text-center"><?= $bat['b'] ?></td>
-                                            <td class="text-center"><?= $bat['4s'] ?></td>
-                                            <td class="text-center"><?= $bat['6s'] ?></td>
-                                            <td class="text-center"><?= $bat['sr'] ?></td>
+                            <!-- INNING HEADER -->
+                            <div class="px-4 py-3 text-fuchsia-400 font-semibold text-lg border-b border-gray-700">
+                                <?= htmlspecialchars($inning['inning']) ?>
+                            </div>
+
+                            <!-- ================= BATSMAN TABLE ================= -->
+                            <div class="overflow-x-auto">
+                                <table class="min-w-[720px] w-full text-sm text-gray-200 bg-[#1f1f1f]">
+                                    <thead>
+                                        <tr class="text-gray-100 bg-gray-600">
+                                            <th class="px-3 py-2 text-left">Batter</th>
+                                            <th class="px-3 py-2 text-left">Dismissal</th>
+                                            <th class="px-2 py-2 text-center">R</th>
+                                            <th class="px-2 py-2 text-center">B</th>
+                                            <th class="px-2 py-2 text-center">4s</th>
+                                            <th class="px-2 py-2 text-center">6s</th>
+                                            <th class="px-2 py-2 text-center">SR</th>
                                         </tr>
-                                    <?php endforeach; ?>
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                        <?php foreach ($inning['batting'] ?? [] as $bat): ?>
+                                            <tr class="border-b border-gray-800 hover:bg-[#262626]">
+                                                <td class="px-3 py-2 font-semibold text-white">
+                                                    <?= htmlspecialchars($bat['batsman']['name']) ?>
+                                                </td>
+                                                <td class="px-3 py-2 text-gray-400">
+                                                    <?= htmlspecialchars($bat['dismissal-text'] ?? 'not out') ?>
+                                                </td>
+                                                <td class="px-2 py-2 text-center font-bold"><?= $bat['r'] ?></td>
+                                                <td class="px-2 py-2 text-center"><?= $bat['b'] ?></td>
+                                                <td class="px-2 py-2 text-center"><?= $bat['4s'] ?></td>
+                                                <td class="px-2 py-2 text-center"><?= $bat['6s'] ?></td>
+                                                <td class="px-2 py-2 text-center text-green-400"><?= $bat['sr'] ?></td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    </tbody>
+                                </table>
+                            </div>
 
-                            <!-- Extras / Total -->
-                            <div class="mt-2 px-2 text-sm">
-                                <?php if (isset($inning['extras'])): ?>
-                                    <div>Extras: <?= $inning['extras']['total'] ?? 0 ?> (b <?= $inning['extras']['b'] ?? 0 ?>, lb <?= $inning['extras']['lb'] ?? 0 ?>, w <?= $inning['extras']['w'] ?? 0 ?>, nb <?= $inning['extras']['nb'] ?? 0 ?>)</div>
+                            <!-- ================= EXTRAS + TOTAL ================= -->
+                            <div class="px-4 py-3 text-sm text-gray-300 border-t border-gray-800">
+                                <?php if (!empty($inning['extras'])): ?>
+                                    Extras: <span class="text-white font-semibold"><?= $inning['extras']['total'] ?? 0 ?></span>
+                                    <span class="text-gray-400">
+                                        (b <?= $inning['extras']['b'] ?? 0 ?>,
+                                        lb <?= $inning['extras']['lb'] ?? 0 ?>,
+                                        w <?= $inning['extras']['w'] ?? 0 ?>,
+                                        nb <?= $inning['extras']['nb'] ?? 0 ?>)
+                                    </span>
                                 <?php endif; ?>
-                                <?php if (isset($inning['total'])): ?>
-                                    <div class="font-semibold">Total: <?= $inning['total']['r'] ?? 0 ?>/<?= $inning['total']['w'] ?? 0 ?> (<?= $inning['total']['o'] ?? 0 ?> ov)</div>
+
+                                <?php if (!empty($inning['total'])): ?>
+                                    <div class="mt-1 text-white font-bold">
+                                        Total: <?= $inning['total']['r'] ?>/<?= $inning['total']['w'] ?>
+                                        <span class="text-gray-400">(<?= $inning['total']['o'] ?> ov)</span>
+                                    </div>
                                 <?php endif; ?>
                             </div>
 
-                            <!-- Fall of Wickets -->
+                            <!-- ================= FALL OF WICKETS ================= -->
                             <?php if (!empty($inning['fow'])): ?>
-                                <div class="mt-2 px-2 text-sm">
-                                    <strong>Fall of Wickets:</strong>
-                                    <?= implode(', ', array_map(fn($f) => "{$f['batsman']} {$f['score']}({$f['over']})", $inning['fow'])) ?>
+                                <div class="px-4 py-3 text-xs text-gray-400 border-t border-gray-800">
+                                    <strong class="text-gray-300">Fall of wickets:</strong>
+                                    <?= implode(', ', array_map(
+                                        fn($f) => "{$f['batsman']} {$f['score']} ({$f['over']})",
+                                        $inning['fow']
+                                    )) ?>
                                 </div>
                             <?php endif; ?>
 
-                            <!-- Bowling Table -->
-                            <table class="w-full text-sm mt-4">
-                                <thead class="bg-gray-100 dark:bg-[#2a2a2a]">
-                                    <tr>
-                                        <th class="text-left p-2">Bowler</th>
-                                        <th>O</th>
-                                        <th>M</th>
-                                        <th>R</th>
-                                        <th>W</th>
-                                        <th>NB</th>
-                                        <th>WD</th>
-                                        <th>ECO</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php foreach ($inning['bowling'] ?? [] as $bowl): ?>
-                                        <tr class="border-t">
-                                            <td class="p-2"><?= $bowl['bowler']['name'] ?></td>
-                                            <td class="text-center"><?= $bowl['o'] ?></td>
-                                            <td class="text-center"><?= $bowl['m'] ?></td>
-                                            <td class="text-center"><?= $bowl['r'] ?></td>
-                                            <td class="text-center"><?= $bowl['w'] ?></td>
-                                            <td class="text-center"><?= $bowl['nb'] ?></td>
-                                            <td class="text-center"><?= $bowl['wd'] ?></td>
-                                            <td class="text-center"><?= $bowl['eco'] ?></td>
+                            <!-- ================= BOWLING TABLE ================= -->
+                            <div class="overflow-x-auto border-t border-gray-700">
+                                <table class="min-w-[720px] w-full text-gray-100 bg-[#1f1f1f]">
+                                    <thead>
+                                        <tr class="text-gray-100 bg-gray-600">
+                                            <th class="px-3 py-2 text-left">Bowler</th>
+                                            <th class="px-2 py-2 text-center">O</th>
+                                            <th class="px-2 py-2 text-center">M</th>
+                                            <th class="px-2 py-2 text-center">R</th>
+                                            <th class="px-2 py-2 text-center">W</th>
+                                            <th class="px-2 py-2 text-center">NB</th>
+                                            <th class="px-2 py-2 text-center">WD</th>
+                                            <th class="px-2 py-2 text-center">ECO</th>
                                         </tr>
-                                    <?php endforeach; ?>
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                        <?php foreach ($inning['bowling'] ?? [] as $bowl): ?>
+                                            <tr class="border-b border-gray-800 hover:bg-[#262626]">
+                                                <td class="px-3 py-2 font-semibold"><?= htmlspecialchars($bowl['bowler']['name']) ?></td>
+                                                <td class="px-2 py-2 text-center"><?= $bowl['o'] ?></td>
+                                                <td class="px-2 py-2 text-center"><?= $bowl['m'] ?></td>
+                                                <td class="px-2 py-2 text-center"><?= $bowl['r'] ?></td>
+                                                <td class="px-2 py-2 text-center font-bold text-red-400"><?= $bowl['w'] ?></td>
+                                                <td class="px-2 py-2 text-center"><?= $bowl['nb'] ?></td>
+                                                <td class="px-2 py-2 text-center"><?= $bowl['wd'] ?></td>
+                                                <td class="px-2 py-2 text-center text-yellow-400"><?= $bowl['eco'] ?></td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    </tbody>
+                                </table>
+                            </div>
+
                         </div>
                     <?php endforeach; ?>
 
@@ -340,10 +367,10 @@ function generateHmacToken(string $matchId): string
     ?>
     <?php include $_SERVER['DOCUMENT_ROOT'] . '/scroll-to-top.php'; ?>
     <script>
-            window.MATCH_DETAIL = {
-                matchId: <?= json_encode($matchId) ?>,
-                seriesId: <?= json_encode($seriesId) ?>
-            };
+        window.MATCH_DETAIL = {
+            matchId: <?= json_encode($matchId) ?>,
+            seriesId: <?= json_encode($seriesId) ?>
+        };
     </script>
     <script src="/crickets/js/match-detail.js?v=<?= time() ?>" defer></script>
 

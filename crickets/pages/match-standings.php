@@ -29,37 +29,55 @@ usort($seriesPoints, function ($a, $b) {
     return ($b['points'] ?? 0) <=> ($a['points'] ?? 0);
 });
 ?>
-
-<div class="bg-white dark:bg-[#1f1f1f] rounded-xl shadow p-4 overflow-x-auto">
-    <table class="w-full text-sm">
-        <thead class="bg-gray-100 dark:bg-[#2a2a2a]">
-            <tr>
-                <th class="text-center">#</th>
-                <th>Team</th>
-                <th class="text-center">M</th>
-                <th class="text-center">W</th>
-                <th class="text-center">L</th>
-                <th class="text-center">T</th>
-                <th class="text-center">NR</th>
-                <th class="text-center">Points</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($seriesPoints as $i => $team): ?>
-                <tr>
-                    <td class="text-center font-medium"><?= $i + 1 ?></td>
-                    <td class="flex items-center gap-2">
-                        <img src="<?= ($team['img'] && $team['img'] !== 'https://h.cricapi.com/img/icon512.png') ? $team['img'] : '/crickets/img/no-club.png' ?>" class="w-6 h-6 rounded-full">
-                        <span><?= $team['teamname'] ?></span>
-                    </td>
-                    <td class="text-center"><?= $team['matches'] ?? 0 ?></td>
-                    <td class="text-center"><?= $team['wins'] ?? 0 ?></td>
-                    <td class="text-center"><?= $team['loss'] ?? 0 ?></td>
-                    <td class="text-center"><?= $team['ties'] ?? 0 ?></td>
-                    <td class="text-center"><?= $team['nr'] ?? 0 ?></td>
-                    <td class="text-center"><?= $team['points'] ?? 0 ?></td>
+<div class="bg-white dark:bg-[#1f1f1f] rounded-xl shadow">
+    <!-- Horizontal scroll ONLY when needed -->
+    <div class="overflow-x-auto">
+        <table class="min-w-[720px] w-full text-sm border-collapse">
+            <thead class="bg-gray-100 dark:bg-[#2a2a2a] sticky top-0 z-10">
+                <tr class="text-gray-700 dark:text-gray-300">
+                    <th class="px-3 py-3 text-center font-semibold">#</th>
+                    <th class="px-4 py-3 text-left font-semibold">Team</th>
+                    <th class="px-3 py-3 text-center font-semibold">M</th>
+                    <th class="px-3 py-3 text-center font-semibold text-green-400">W</th>
+                    <th class="px-3 py-3 text-center font-semibold">L</th>
+                    <th class="px-3 py-3 text-center font-semibold">T</th>
+                    <th class="px-3 py-3 text-center font-semibold">NR</th>
+                    <th class="px-3 py-3 text-center font-semibold text-yellow-400">Pts</th>
                 </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
+            </thead>
+
+            <tbody class="divide-y divide-gray-200 dark:divide-gray-500">
+                <?php foreach ($seriesPoints as $i => $team): ?>
+                    <tr class="hover:bg-gray-50 dark:hover:bg-[#2a2a2a] transition">
+                        <td class="px-3 py-3 text-center font-medium">
+                            <?= $i + 1 ?>
+                        </td>
+
+                        <td class="px-4 py-3">
+                            <div class="flex items-center gap-2">
+                                <img
+                                    src="<?= ($team['img'] && $team['img'] !== 'https://h.cricapi.com/img/icon512.png')
+                                                ? $team['img']
+                                                : '/crickets/img/no-club.png' ?>"
+                                    class="w-6 h-6 rounded-full flex-shrink-0">
+                                <span class="font-medium whitespace-nowrap">
+                                    <?= htmlspecialchars($team['teamname']) ?>
+                                </span>
+                            </div>
+                        </td>
+
+                        <td class="px-3 py-3 text-center"><?= $team['matches'] ?? 0 ?></td>
+                        <td class="px-3 py-3 text-center text-green-400"><?= $team['wins'] ?? 0 ?></td>
+                        <td class="px-3 py-3 text-center text-red-400"><?= $team['loss'] ?? 0 ?></td>
+                        <td class="px-3 py-3 text-center"><?= $team['ties'] ?? 0 ?></td>
+                        <td class="px-3 py-3 text-center"><?= $team['nr'] ?? 0 ?></td>
+
+                        <td class="px-3 py-3 text-center font-bold text-yellow-400">
+                            <?= $team['points'] ?? 0 ?>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
 </div>

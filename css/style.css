@@ -79,3 +79,76 @@
         font-size: 12px;
     }
 }
+
+
+    .no-scrollbar::-webkit-scrollbar {
+        display: none;
+    }
+
+    .no-scrollbar {
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+
+    .tab-btn {
+        padding-bottom: 10px;
+        font-weight: 600;
+        color: #9ca3af;
+        white-space: nowrap;
+    }
+
+    .tab-active {
+        color: #fff;
+        border-bottom: 2px solid #ef4444;
+    }
+
+    .scroll-arrow {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background-color: #9ca3af;
+        /* semi-transparent overlay */
+        border-radius: 9999px;
+        padding: 12px;
+        cursor: pointer;
+        z-index: 20;
+        transition: background 0.2s;
+        font-size: 18px;
+        color: white;
+    }
+
+    .scroll-arrow:hover {
+        background: rgba(239, 68, 68, 0.8);
+    }
+
+    .scroll-arrow.left {
+        left: -20px;
+        /* half outside */
+    }
+
+    .scroll-arrow.right {
+        right: -20px;
+        /* half outside */
+    }
+
+    /* optional: hide arrows on mobile */
+    @media (max-width: 1024px) {
+        .scroll-arrow {
+            display: none;
+        }
+    }
+
+    
+    .series-tab {
+        padding: 6px 14px;
+        border-radius: 9999px;
+        color: #9ca3af;
+        background: transparent;
+        white-space: nowrap;
+        transition: all .2s ease;
+    }
+
+    .series-active {
+        background: #ef4444;
+        color: #fff;
+    }

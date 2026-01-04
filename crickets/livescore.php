@@ -87,9 +87,9 @@ function matchCard($m)
             $url = '/crickets/upcoming-detail?id=' . urlencode($matchId);
         } else { // live or result
             if ($status === "Match abandoned due to rain (with toss)") {
-                 $url = '/crickets/detail?id=' . urlencode($matchId);
+                $url = '/crickets/detail?id=' . urlencode($matchId);
             } else {
-              
+
                 $url = '/crickets/match-detail?id=' . urlencode($matchId);
             }
         }
@@ -106,7 +106,8 @@ function matchCard($m)
 ?>
     <?= $wrapperStart ?>
 
-    <div class="relative lg:min-w-[370px] min-w-[320px] bg-white dark:bg-[#1f1f1f] rounded-xl shadow p-4 snap-start">
+    <div class="relative lg:min-w-[370px] min-w-[320px] bg-white dark:bg-[#1f1f1f] rounded-xl shadow p-4 snap-start match-card"
+        data-series="<?= htmlspecialchars($m['series'] ?? '') ?>">
 
         <!-- LIVE badge -->
         <?php if ($isLive): ?>
@@ -155,64 +156,7 @@ function matchCard($m)
 
     <?= $wrapperEnd ?>
 <?php } ?>
-<style>
-    .no-scrollbar::-webkit-scrollbar {
-        display: none;
-    }
 
-    .no-scrollbar {
-        scrollbar-width: none;
-        -ms-overflow-style: none;
-    }
-
-    .tab-btn {
-        padding-bottom: 10px;
-        font-weight: 600;
-        color: #9ca3af;
-        white-space: nowrap;
-    }
-
-    .tab-active {
-        color: #fff;
-        border-bottom: 2px solid #ef4444;
-    }
-
-    .scroll-arrow {
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        background-color: #9ca3af;
-        /* semi-transparent overlay */
-        border-radius: 9999px;
-        padding: 12px;
-        cursor: pointer;
-        z-index: 20;
-        transition: background 0.2s;
-        font-size: 18px;
-        color: white;
-    }
-
-    .scroll-arrow:hover {
-        background: rgba(239, 68, 68, 0.8);
-    }
-
-    .scroll-arrow.left {
-        left: -20px;
-        /* half outside */
-    }
-
-    .scroll-arrow.right {
-        right: -20px;
-        /* half outside */
-    }
-
-    /* optional: hide arrows on mobile */
-    @media (max-width: 1024px) {
-        .scroll-arrow {
-            display: none;
-        }
-    }
-</style>
 <div class="max-w-7xl mx-auto">
     <!-- ================= PAGE TITLE ================= -->
 
@@ -234,61 +178,106 @@ function matchCard($m)
     </div>
 
     <!-- ================= TAB CONTENT ================= -->
+
     <!-- UPCOMING -->
     <div id="upcoming" class="tab-panel hidden">
+
         <?php if (!empty($upcomingMatches)): ?>
+
+            <?php
+            // Collect unique series
+            $upcomingSeries = [];
+            foreach ($upcomingMatches as $m) {
+                if (!empty($m['series'])) {
+                    $upcomingSeries[$m['series']] = true;
+                }
+            }
+            ?>
+
+            <!-- ===== SUB TABS (SERIES FILTER) ===== -->
+            <div class="flex gap-3 mb-3 overflow-x-auto no-scrollbar text-sm font-semibold">
+                <button class="series-tab series-active" data-series="all">
+                    All
+                </button>
+
+                <?php foreach (array_keys($upcomingSeries) as $series): ?>
+                    <button class="series-tab" data-series="<?= htmlspecialchars($series) ?>">
+                        <?= htmlspecialchars($series) ?>
+                    </button>
+                <?php endforeach; ?>
+            </div>
+
             <div class="relative">
 
                 <!-- LEFT ARROW -->
                 <button class="scroll-arrow left"
                     onclick="scrollContainer('upcoming-scroll', -1)">
-                    &#10094; <!-- ← -->
+                    &#10094;
                 </button>
 
                 <!-- RIGHT ARROW -->
                 <button class="scroll-arrow right"
                     onclick="scrollContainer('upcoming-scroll', 1)">
-                    &#10095; <!-- → -->
+                    &#10095;
                 </button>
 
                 <div id="upcoming-scroll"
-                    class="flex gap-4 overflow-x-auto pb-3 snap-x snap-mandatory no-scrollbar scroll-smooth">
+                    class="flex gap-4 overflow-x-auto pb-3 snap-x snap-mandatory
+                       no-scrollbar scroll-smooth">
+
                     <?php foreach ($upcomingMatches as $m): ?>
                         <?php matchCard($m); ?>
                     <?php endforeach; ?>
+
                 </div>
 
             </div>
 
-
         <?php else: ?>
             <p class="text-gray-400">No upcoming matches.</p>
         <?php endif; ?>
+
     </div>
+
     <!-- LIVE -->
     <div id="live" class="tab-panel">
         <?php if (!empty($liveMatches)): ?>
+
+            <?php
+            // Collect unique series for live matches
+            $liveSeries = [];
+            foreach ($liveMatches as $m) {
+                if (!empty($m['series'])) {
+                    $liveSeries[$m['series']] = true;
+                }
+            }
+            ?>
+
+            <!-- ===== SUB TABS (SERIES FILTER) ===== -->
+            <div class="flex gap-3 mb-3 overflow-x-auto no-scrollbar text-sm font-semibold">
+                <button class="series-tab series-active" data-series="all">All</button>
+                <?php foreach (array_keys($liveSeries) as $series): ?>
+                    <button class="series-tab" data-series="<?= htmlspecialchars($series) ?>">
+                        <?= htmlspecialchars($series) ?>
+                    </button>
+                <?php endforeach; ?>
+            </div>
+
             <div class="relative">
-
                 <!-- LEFT ARROW -->
-                <button class="scroll-arrow left"
-                    onclick="scrollContainer('livescore-scroll', -1)">
-                    &#10094; <!-- ← -->
+                <button class="scroll-arrow left" onclick="scrollContainer('livescore-scroll', -1)">
+                    &#10094;
                 </button>
-
                 <!-- RIGHT ARROW -->
-                <button class="scroll-arrow right"
-                    onclick="scrollContainer('livescore-scroll', 1)">
-                    &#10095; <!-- → -->
+                <button class="scroll-arrow right" onclick="scrollContainer('livescore-scroll', 1)">
+                    &#10095;
                 </button>
 
-                <div id="livescore-scroll"
-                    class="flex gap-4 overflow-x-auto pb-3 snap-x snap-mandatory no-scrollbar scroll-smooth">
+                <div id="livescore-scroll" class="flex gap-4 overflow-x-auto pb-3 snap-x snap-mandatory no-scrollbar scroll-smooth">
                     <?php foreach ($liveMatches as $m): ?>
                         <?php matchCard($m); ?>
                     <?php endforeach; ?>
                 </div>
-
             </div>
 
         <?php else: ?>
@@ -296,41 +285,108 @@ function matchCard($m)
         <?php endif; ?>
     </div>
 
-
-
     <!-- RESULTS -->
     <div id="results" class="tab-panel hidden">
         <?php if (!empty($resultMatches)): ?>
+
+            <?php
+            // Collect unique series for result matches
+            $resultSeries = [];
+            foreach ($resultMatches as $m) {
+                if (!empty($m['series'])) {
+                    $resultSeries[$m['series']] = true;
+                }
+            }
+            ?>
+
+            <!-- ===== SUB TABS (SERIES FILTER) ===== -->
+            <div class="flex gap-3 mb-3 overflow-x-auto no-scrollbar text-sm font-semibold">
+                <button class="series-tab series-active" data-series="all">All</button>
+                <?php foreach (array_keys($resultSeries) as $series): ?>
+                    <button class="series-tab" data-series="<?= htmlspecialchars($series) ?>">
+                        <?= htmlspecialchars($series) ?>
+                    </button>
+                <?php endforeach; ?>
+            </div>
+
             <div class="relative">
-
                 <!-- LEFT ARROW -->
-                <button class="scroll-arrow left"
-                    onclick="scrollContainer('result-scroll', -1)">
-                    &#10094; <!-- ← -->
+                <button class="scroll-arrow left" onclick="scrollContainer('result-scroll', -1)">
+                    &#10094;
                 </button>
-
                 <!-- RIGHT ARROW -->
-                <button class="scroll-arrow right"
-                    onclick="scrollContainer('result-scroll', 1)">
-                    &#10095; <!-- → -->
+                <button class="scroll-arrow right" onclick="scrollContainer('result-scroll', 1)">
+                    &#10095;
                 </button>
 
-                <div id="result-scroll"
-                    class="flex gap-4 overflow-x-auto pb-3 snap-x snap-mandatory no-scrollbar scroll-smooth">
+                <div id="result-scroll" class="flex gap-4 overflow-x-auto pb-3 snap-x snap-mandatory no-scrollbar scroll-smooth">
                     <?php foreach ($resultMatches as $m): ?>
                         <?php matchCard($m); ?>
                     <?php endforeach; ?>
                 </div>
-
             </div>
+
         <?php else: ?>
             <p class="text-gray-400">No results available.</p>
         <?php endif; ?>
     </div>
 
+
 </div>
 
 <!-- ================= TAB SCRIPT ================= -->
+
+<script>
+    document.addEventListener('click', function(e) {
+        const btn = e.target.closest('.series-tab');
+        if (!btn) return;
+
+        const panel = btn.closest('.tab-panel');
+        const series = btn.dataset.series;
+
+        // Toggle active state
+        panel.querySelectorAll('.series-tab')
+            .forEach(b => b.classList.remove('series-active'));
+        btn.classList.add('series-active');
+
+        // Filter cards
+        panel.querySelectorAll('.match-card').forEach(card => {
+            if (series === 'all' || card.dataset.series === series) {
+                card.style.display = '';
+            } else {
+                card.style.display = 'none';
+            }
+        });
+    });
+
+    document.querySelectorAll('.tab-panel .flex.overflow-x-auto').forEach(container => {
+        let isDown = false,
+            startX, scrollLeft;
+
+        container.addEventListener('mousedown', e => {
+            isDown = true;
+            container.classList.add('cursor-grabbing');
+            startX = e.pageX - container.offsetLeft;
+            scrollLeft = container.scrollLeft;
+        });
+        container.addEventListener('mouseleave', () => {
+            isDown = false;
+            container.classList.remove('cursor-grabbing');
+        });
+        container.addEventListener('mouseup', () => {
+            isDown = false;
+            container.classList.remove('cursor-grabbing');
+        });
+        container.addEventListener('mousemove', e => {
+            if (!isDown) return;
+            e.preventDefault();
+            const x = e.pageX - container.offsetLeft;
+            const walk = (x - startX) * 2; // scroll-fast
+            container.scrollLeft = scrollLeft - walk;
+        });
+    });
+</script>
+
 <script>
     const tabs = document.querySelectorAll('.tab-btn');
     const panels = document.querySelectorAll('.tab-panel');
