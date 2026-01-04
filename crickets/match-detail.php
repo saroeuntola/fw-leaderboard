@@ -2,6 +2,7 @@
 require_once 'services/ApiService.php';
 require_once 'services/apiCache.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/admin/lib/db.php';
+
 $matchId = $_GET['id'] ?? null;
 if (!$matchId) die('Match ID missing');
 
@@ -19,15 +20,16 @@ $temp = apiCache(
 $data = $temp['data'] ?? [];
 if (!$data) die('No match data');
 
+// ================= MATCH STATUS =================
 $matchStarted = !empty($data['matchStarted']);
 $matchEnded   = !empty($data['matchEnded']);
 
 if ($matchStarted && $matchEnded) {
-    $ttl = 10 * 60 * 60; // ended
-} elseif ($matchStarted && !$matchEnded) {
-    $ttl = 60; // live
+    $ttl = 10 * 60 * 60;
+} elseif ($matchStarted) {
+    $ttl = 60;
 } else {
-    $ttl = 3600; // upcoming
+    $ttl = 3600;
 }
 
 $matchResponse = apiCache(
@@ -35,12 +37,34 @@ $matchResponse = apiCache(
     $ttl,
     fn() => ApiService::getMatchInfo($matchId)
 );
+
 $data = $matchResponse['data'] ?? [];
-$score     = $data['score'] ?? [];
+
 $scorecards = $data['scorecard'] ?? [];
+$score      = $data['score'] ?? [];
+
 $teamA = $data['teamInfo'][0] ?? [];
 $teamB = $data['teamInfo'][1] ?? [];
 $seriesId = $data['series_id'] ?? null;
+
+// ================= TEAM ↔ SCORE MAPPING =================
+$teamScores = ['A' => null, 'B' => null];
+
+$teamAName = $teamA['name'] ?? '';
+$teamBName = $teamB['name'] ?? '';
+
+foreach ($score as $sc) {
+    $inningName = $sc['inning'] ?? '';
+    if ($teamAName && stripos($inningName, $teamAName) !== false) {
+        $teamScores['A'] = $sc;
+    } elseif ($teamBName && stripos($inningName, $teamBName) !== false) {
+        $teamScores['B'] = $sc;
+    }
+}
+
+$teamAScore = $teamScores['A'];
+$teamBScore = $teamScores['B'];
+
 // ================= DATE =================
 $dt = new DateTime($data['dateTimeGMT'], new DateTimeZone('UTC'));
 $dt->setTimezone(new DateTimeZone('Asia/Dhaka'));
@@ -48,62 +72,65 @@ $matchDate = $dt->format('d M Y');
 $matchTime = $dt->format('g:i A');
 
 // ================= WIN PROBABILITY =================
-function calcWinProb($data)
+function calcWinProb($data, $teamAScore, $teamBScore)
 {
-    $score = $data['score'] ?? [];
     $teamA_prob = 50;
     $teamB_prob = 50;
-    $teamA = $data['teamInfo'][0]['name'] ?? '';
-    $teamB = $data['teamInfo'][1]['name'] ?? '';
-    $isEnded = $data['matchEnded'] ?? false;
 
-    if ($isEnded && count($score) >= 2) {
-        $scoreA = $score[0];
-        $scoreB = $score[1];
-        $winner = $data['matchWinner'] ?? '';
+    $started = !empty($data['matchStarted']);
+    $ended   = !empty($data['matchEnded']);
 
-        if (($scoreA['r'] ?? 0) > ($scoreB['r'] ?? 0)) {
-            $marginRuns = ($scoreA['r'] ?? 0) - ($scoreB['r'] ?? 0);
-            $winnerProb = 55 + ($marginRuns / 2.5);
+    // -------- MATCH ENDED --------
+    if ($ended && $teamAScore && $teamBScore) {
+        if ($teamAScore['r'] > $teamBScore['r']) {
+            $margin = $teamAScore['r'] - $teamBScore['r'];
+            $teamA_prob = min(75, 55 + round($margin / 3));
+            $teamB_prob = 100 - $teamA_prob;
         } else {
-            $wicketsLeft = 10 - ($scoreB['w'] ?? 0);
-            $winnerProb = 55 + ($wicketsLeft * 2.5);
+            $margin = $teamBScore['r'] - $teamAScore['r'];
+            $teamB_prob = min(75, 55 + round($margin / 3));
+            $teamA_prob = 100 - $teamB_prob;
         }
+        return [$teamA_prob, $teamB_prob];
+    }
 
-        $winnerProb = max(55, min(75, round($winnerProb)));
-        $loserProb  = 100 - $winnerProb;
+    // -------- LIVE CHASE --------
+    if ($started && $teamAScore && $teamBScore) {
 
-        if ($winner === $teamA) {
-            $teamA_prob = $winnerProb;
-            $teamB_prob = $loserProb;
+        $aOvers = $teamAScore['o'] ?? 0;
+        $bOvers = $teamBScore['o'] ?? 0;
+
+        $teamAChasing = $aOvers < $bOvers;
+
+        if ($teamAChasing) {
+            $target = $teamBScore['r'] + 1;
+            $runs   = $teamAScore['r'];
+            $w      = $teamAScore['w'];
+            $overs  = $aOvers;
+            $maxOvers = $teamAScore['max_overs'] ?? 20;
         } else {
-            $teamA_prob = $loserProb;
-            $teamB_prob = $winnerProb;
+            $target = $teamAScore['r'] + 1;
+            $runs   = $teamBScore['r'];
+            $w      = $teamBScore['w'];
+            $overs  = $bOvers;
+            $maxOvers = $teamBScore['max_overs'] ?? 20;
         }
-    } elseif (count($score) === 2) {
-        $first  = $score[0];
-        $second = $score[1];
-        $target = ($first['r'] ?? 0) + 1;
-        $runs   = $second['r'] ?? 0;
-        $wickets = $second['w'] ?? 0;
-        $overs  = $second['o'] ?? 0;
-        $maxOvers = $second['max_overs'] ?? 20;
 
         $ballsLeft  = max(1, ($maxOvers * 6) - ($overs * 6));
         $runsNeeded = max(0, $target - $runs);
-        $rrr        = ($runsNeeded / $ballsLeft) * 6;
+        $rrr = ($runsNeeded / $ballsLeft) * 6;
 
-        $pressure = ($rrr / 10) + ($wickets / 10);
-        $chasingProb = 100 - ($pressure * 40);
-        $chasingProb = max(10, min(90, round($chasingProb)));
+        $pressure = ($rrr / 10) + ($w / 10);
+        $chaseProb = max(10, min(90, round(100 - ($pressure * 40))));
 
-        $teamB_prob = $chasingProb;
-        $teamA_prob = 100 - $teamB_prob;
-    } elseif (count($score) === 1) {
-        $runs  = $score[0]['r'] ?? 0;
-        $overs = max(0.1, $score[0]['o'] ?? 0.1);
-        $rr    = $runs / $overs;
+        return $teamAChasing
+            ? [$chaseProb, 100 - $chaseProb]
+            : [100 - $chaseProb, $chaseProb];
+    }
 
+    // -------- FIRST INNINGS --------
+    if ($teamAScore && !$teamBScore) {
+        $rr = $teamAScore['r'] / max(0.1, $teamAScore['o']);
         $teamA_prob = max(45, min(65, round(40 + ($rr * 2.5))));
         $teamB_prob = 100 - $teamA_prob;
     }
@@ -111,9 +138,8 @@ function calcWinProb($data)
     return [$teamA_prob, $teamB_prob];
 }
 
-list($teamA_prob, $teamB_prob) = calcWinProb($data);
-
-$isLive = !empty($data['matchStarted']) && empty($data['matchEnded']);
+list($teamA_prob, $teamB_prob) = calcWinProb($data, $teamAScore, $teamBScore);
+$isLive = $matchStarted && !$matchEnded;
 ?>
 
 <!DOCTYPE html>
@@ -132,44 +158,45 @@ $isLive = !empty($data['matchStarted']) && empty($data['matchEnded']);
     ?>
     <main class="px-4 pb-10">
         <!-- ================= MATCH HEADER ================= -->
-        <div class="relative max-w-6xl mx-auto px-4 bg-white dark:bg-[#1f1f1f] rounded-xl shadow py-5 mt-[90px] mb-6 ">
-            <button class="mb-4 px-4 py-1 bg-amber-700 rounded-md " onclick="history.back()">
-                Back
-            </button>
-            <!-- LIVE Label -->
+        <!-- ================= HEADER ================= -->
+        <div class="relative max-w-6xl mx-auto bg-white dark:bg-[#1f1f1f] rounded-xl shadow py-5 mt-[90px] mb-6 px-4">
+
+            <button class="mb-4 px-4 py-1 bg-amber-700 rounded-md" onclick="history.back()">Back</button>
+
             <?php if ($isLive): ?>
-                <div class="absolute top-3 right-3 bg-red-600 text-white text-[11px] font-bold px-2 py-0.5 rounded-md flex items-center gap-1 animate-pulse">
-                    <span class="w-1.5 h-1.5 bg-white rounded-full"></span>
-                    LIVE
+                <div class="absolute top-3 right-3 bg-red-600 text-[11px] px-2 py-0.5 rounded-md flex gap-1 animate-pulse">
+                    <span class="w-1.5 h-1.5 bg-white rounded-full"></span> LIVE
                 </div>
             <?php endif; ?>
 
-
-            <!-- Match Info -->
             <div class="text-sm text-sky-300 mb-3">
-                <?= $matchDate ?> • <?= $matchTime ?> •
-                <span class="text-white bg-red-500 p-1 rounded-md"><?= htmlspecialchars($data['matchType'] ?? '') ?></span>
+                <?= $matchDate ?> • <?= $matchTime ?>
+                <span class="bg-red-500 text-white px-1 rounded"><?= $data['matchType'] ?></span>
             </div>
-            <div class="text-sm text-green-300 mb-3"><?= htmlspecialchars($data['venue']) ?></div>
 
-            <!-- Teams -->
             <div class="grid grid-cols-2 gap-4 mb-4">
+
                 <div class="text-center p-4 bg-gray-100 dark:bg-[#2a2a2a] rounded-xl">
                     <img src="<?= $teamA['img'] ?>" class="w-12 h-12 mx-auto mb-1">
-                    <div class="font-semibold <?= $teamA_prob > $teamB_prob ? 'text-red-500' : '' ?>"><?= $teamA['name'] ?></div>
-                    <div class="text-lg font-bold"><?= isset($score[0]) ? "{$score[0]['r']}/{$score[0]['w']} ({$score[0]['o']} ov)" : 'Yet to bat' ?></div>
+                    <div class="<?= $teamA_prob > $teamB_prob ? 'text-red-500' : '' ?> font-semibold"><?= $teamA['name'] ?></div>
+                    <div class="text-lg font-bold">
+                        <?= $teamAScore ? "{$teamAScore['r']}/{$teamAScore['w']} ({$teamAScore['o']} ov)" : 'Yet to bat' ?>
+                    </div>
                 </div>
+
                 <div class="text-center p-4 bg-gray-100 dark:bg-[#2a2a2a] rounded-xl">
                     <img src="<?= $teamB['img'] ?>" class="w-12 h-12 mx-auto mb-1">
-                    <div class="font-semibold <?= $teamB_prob > $teamA_prob ? 'text-red-500' : '' ?>"><?= $teamB['name'] ?></div>
-                    <div class="text-lg font-bold"><?= isset($score[1]) ? "{$score[1]['r']}/{$score[1]['w']} ({$score[1]['o']} ov)" : 'Yet to bat' ?></div>
+                    <div class="<?= $teamB_prob > $teamA_prob ? 'text-red-500' : '' ?> font-semibold"><?= $teamB['name'] ?></div>
+                    <div class="text-lg font-bold">
+                        <?= $teamBScore ? "{$teamBScore['r']}/{$teamBScore['w']} ({$teamBScore['o']} ov)" : 'Yet to bat' ?>
+                    </div>
                 </div>
+
             </div>
 
             <!-- Win Probability -->
-            <div class="mt-4">
-                <div class="text-sm text-red-600 mb-3 text-center"><?= htmlspecialchars($data['status']) ?></div>
-                <h2 class="text-center mb-2 text-yellow-500">LIVE WIN PROBABILITY</h2>
+            <div>
+                <div class="text-sm text-red-600 mb-2 text-center"><?= htmlspecialchars($data['status']) ?></div>
                 <div class="flex h-2 rounded-full overflow-hidden">
                     <div class="bg-green-600" style="width:<?= $teamA_prob ?>%"></div>
                     <div class="bg-red-600" style="width:<?= $teamB_prob ?>%"></div>
@@ -179,7 +206,9 @@ $isLive = !empty($data['matchStarted']) && empty($data['matchEnded']);
                     <span><?= $teamB['shortname'] ?> <?= $teamB_prob ?>%</span>
                 </div>
             </div>
+
         </div>
+
 
         <!-- ================= TABS ================= -->
         <div class="max-w-6xl mx-auto">
