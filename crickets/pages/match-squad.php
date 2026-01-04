@@ -6,10 +6,10 @@
         if (!$matchId) die('No match info');
 
         $cacheDir = $_SERVER['DOCUMENT_ROOT'] . '/crickets/cache';
-
+         $TEN_HOURS = 10 * 60 * 60;
         $matchSquadResponse = apiCache(
             "$cacheDir/matchSq_$matchId.json",
-            43200, //10h
+            $TEN_HOURS, //12h
             fn() => ApiService::getMatchSquad($matchId)
         );
 
