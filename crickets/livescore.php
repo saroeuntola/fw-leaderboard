@@ -8,7 +8,7 @@ if (!is_dir($cacheDir)) mkdir($cacheDir, 0755, true);
 // ================= FETCH ALL MATCHES (CACHED) =================
 $response = apiCache(
     "$cacheDir/cricScore_all.json",
-    60, // 2 minutes cache
+    180, // 2 minutes cache
     fn() => ApiService::getLivescore()
 );
 

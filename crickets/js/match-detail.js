@@ -1,92 +1,72 @@
-const TAB_KEY = "match_active_tab";
+document.addEventListener("DOMContentLoaded", () => {
+  console.log("match-detail.js loaded");
 
-export function initMatchTabs(seriesId, matchId) {
-  const tabBtns = document.querySelectorAll(".tab-btn");
-  const tabContents = document.querySelectorAll(".tab-content");
-  const matchEl = document.querySelector("html[data-match-id]");
+  const tabs = document.querySelectorAll(".tab-btn");
+  const panels = document.querySelectorAll(".tab-panel");
 
-  if (!matchEl) return;
+  // ✅ Get data from PHP
+  const matchId = window.MATCH_DETAIL?.matchId || "";
+  const seriesId = window.MATCH_DETAIL?.seriesId || "";
 
-  // Activate tab
-  function activateTab(tab) {
-    tabContents.forEach((c) =>
-      c.classList.toggle("hidden", c.dataset.tab !== tab)
-    );
-    tabBtns.forEach((b) => {
-      b.classList.remove("bg-red-600", "text-white");
-      b.classList.add(
-        "bg-white",
-        "dark:bg-[#252525]",
-        "text-gray-700",
-        "dark:text-gray-200"
-      );
-    });
-    const activeBtn = document.querySelector(`.tab-btn[data-tab="${tab}"]`);
-    if (activeBtn) activeBtn.classList.add("bg-red-600", "text-white");
+  function showTab(tabName) {
+    console.log("showTab:", tabName);
 
-    localStorage.setItem(TAB_KEY, tab);
-  }
+    // Highlight active tab
+    tabs.forEach((b) => b.classList.remove("border-red-600"));
+    const activeBtn = document.querySelector(`.tab-btn[data-tab="${tabName}"]`);
+    if (activeBtn) activeBtn.classList.add("border-red-600");
 
-  // Fetch tab content
-  async function fetchTab(tab) {
-    let url = "";
-    if (tab === "scorecard") {
-      url = `/crickets/pages/scorecard?id=${matchId}`;
-    } else if (tab === "standing") {
-      url = `/crickets/pages/standing.php?series_id=${seriesId}`;
-    } else if (tab === "points") {
-      url = `/crickets/pages/points.php?id=${matchId}`;
-    } else return;
+    // Hide all panels
+    panels.forEach((p) => p.classList.add("hidden"));
 
-    const container = document.querySelector(`.tab-content[data-tab="${tab}"]`);
-    if (!container) return;
+    const panel = document.getElementById(tabName);
+    if (!panel) return;
+    panel.classList.remove("hidden");
 
-    try {
-      const res = await fetch(url);
-      const html = await res.text();
-      container.innerHTML = html;
+    // Lazy load
+    if (tabName !== "live" && panel.dataset.loaded !== "true") {
+      panel.innerHTML = `
+                <div class="flex justify-center items-center py-10">
+                    <div class="w-8 h-8 border-4 border-t-red-600 border-gray-300 rounded-full animate-spin"></div>
+                </div>
+            `;
 
-      // If scorecard, update header scores without flashing
-      if (tab === "scorecard") updateHeaderScores(container);
-    } catch (err) {
-      container.innerHTML = `<div class="text-center py-6 text-red-500">Failed to load ${tab}.</div>`;
-      console.error("Fetch error:", err);
+      let url = "";
+      if (tabName === "standings") {
+        url = `/crickets/pages/match-standings?series_id=${seriesId}`;
+      } else if (tabName === "match-points") {
+        url = `/crickets/pages/match-match-points?id=${matchId}`;
+      } else if (tabName === "squad") {
+        url = `/crickets/pages/match-squad?id=${matchId}`;
+      }
+
+      console.log("Fetching:", url);
+
+      fetch(url)
+        .then((res) => res.text())
+        .then((html) => {
+          panel.innerHTML = html;
+          panel.dataset.loaded = "true";
+        })
+        .catch((err) => {
+          console.error(err);
+          panel.innerHTML = `
+                        <div class="text-red-500 text-center py-10">
+                            Failed to load.
+                            <button class="underline" onclick="location.reload()">Retry</button>
+                        </div>
+                    `;
+        });
     }
+
+    localStorage.setItem("activeTab", tabName);
   }
 
-  // Update header scores and live probability
-  function updateHeaderScores(container) {
-    const liveScoreEl = document.querySelectorAll(".team-score-container");
-    const probEl = document.querySelector(".live-prob-container");
+  // Restore last tab
+  const lastTab = localStorage.getItem("activeTab") || "live";
+  showTab(lastTab);
 
-    if (!liveScoreEl.length) return;
-
-    const newScores = container.querySelectorAll(".team-score-container");
-    newScores.forEach((el, idx) => {
-      if (liveScoreEl[idx]) liveScoreEl[idx].innerHTML = el.innerHTML;
-    });
-
-    const newProb = container.querySelector(".live-prob-container");
-    if (newProb && probEl) probEl.innerHTML = newProb.innerHTML;
-  }
-
-  // Tab click events
-  tabBtns.forEach((btn) => {
-    btn.addEventListener("click", async () => {
-      const tab = btn.dataset.tab;
-      activateTab(tab);
-      await fetchTab(tab);
-    });
+  tabs.forEach((btn) => {
+    btn.addEventListener("click", () => showTab(btn.dataset.tab));
   });
-
-  // Restore last active tab
-  const lastTab = localStorage.getItem(TAB_KEY) || "scorecard";
-  activateTab(lastTab);
-  fetchTab(lastTab);
-
-  // Auto-refresh scorecard every 30s
-  setInterval(() => {
-    const activeTab = localStorage.getItem(TAB_KEY);
-    if (activeTab === "scorecard") fetchTab("scorecard");
-  }, 30000);
-}
+});

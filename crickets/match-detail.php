@@ -13,7 +13,7 @@ $cacheDir = __DIR__ . '/cache';
  */
 $temp = apiCache(
     "$cacheDir/matchDetail_$matchId.json",
-    60,
+    180,
     fn() => ApiService::getMatchInfo($matchId)
 );
 
@@ -27,7 +27,7 @@ $matchEnded   = !empty($data['matchEnded']);
 if ($matchStarted && $matchEnded) {
     $ttl = 10 * 60 * 60;
 } elseif ($matchStarted) {
-    $ttl = 60;
+    $ttl = 180;
 } else {
     $ttl = 3600;
 }
@@ -333,84 +333,11 @@ $isLive = $matchStarted && !$matchEnded;
     ?>
     <?php include $_SERVER['DOCUMENT_ROOT'] . '/scroll-to-top.php'; ?>
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            console.log("Tab script loaded");
-
-            const tabs = document.querySelectorAll('.tab-btn');
-            const panels = document.querySelectorAll('.tab-panel');
-            const matchId = <?= json_encode($matchId ?? '') ?>;
-            const seriesId = <?= json_encode($seriesId ?? '') ?>;
-
-            function showTab(tabName) {
-                console.log("showTab called for:", tabName);
-
-                // Highlight active tab
-                tabs.forEach(b => b.classList.remove('border-red-600'));
-                const activeBtn = document.querySelector(`.tab-btn[data-tab="${tabName}"]`);
-                if (activeBtn) activeBtn.classList.add('border-red-600');
-
-                // Hide all panels
-                panels.forEach(p => p.classList.add('hidden'));
-
-                // Show the selected panel
-                const panel = document.getElementById(tabName);
-                if (!panel) return;
-                panel.classList.remove('hidden');
-
-                // Lazy load other tabs
-                if (tabName !== 'live' && (!panel.dataset.loaded || panel.dataset.loaded === "false")) {
-                    panel.innerHTML = `
-                <div class="flex justify-center items-center py-10">
-                    <div class="w-8 h-8 border-4 border-t-red-600 border-gray-300 rounded-full animate-spin"></div>
-                </div>
-            `;
-
-                    let url;
-                    if (tabName === 'standings') {
-                        url = `/crickets/pages/match-standings?series_id=${seriesId}`;
-                    } else if (tabName === 'match-points') {
-                        url = `/crickets/pages/match-match-points?id=${matchId}`;
-                    } else if (tabName === 'squad') {
-                        url = `/crickets/pages/match-squad?id=${matchId}`;
-                    }
-
-                    console.log("Fetching URL:", url);
-
-                    fetch(url)
-                        .then(res => res.text())
-                        .then(html => {
-                            panel.innerHTML = html;
-                            panel.dataset.loaded = "true";
-                        })
-                        .catch(err => {
-                            console.error("Fetch error:", err);
-                            panel.innerHTML = `<div class="text-red-500 text-center py-10">
-                        Failed to load. <button class="underline" onclick="showTab('${tabName}')">Retry</button>
-                    </div>`;
-                        });
-                }
-
-                // Save last active tab in localStorage
-                localStorage.setItem('activeTab', tabName);
-            }
-
-            // **Default to 'live' tab (Scorecard) only on first load**
-            const lastTab = localStorage.getItem('activeTab');
-            if (lastTab) {
-                showTab(lastTab); // restore previous tab
-            } else {
-                showTab('live'); // first visit -> Scorecard
-            }
-
-            // Click events
-            tabs.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    console.log("Clicked tab:", btn.dataset.tab);
-                    showTab(btn.dataset.tab);
-                });
-            });
-        });
+        window.MATCH_DETAIL = {
+            matchId: <?= json_encode($matchId ?? '') ?>,
+            seriesId: <?= json_encode($seriesId ?? '') ?>
+        };
     </script>
+    <script src="/crickets/js/match-detail.js?v=<?=time()?>"></script>
 </body>
-
 </html>
