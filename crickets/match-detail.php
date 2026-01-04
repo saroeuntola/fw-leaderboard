@@ -140,6 +140,13 @@ function calcWinProb($data, $teamAScore, $teamBScore)
 
 list($teamA_prob, $teamB_prob) = calcWinProb($data, $teamAScore, $teamBScore);
 $isLive = $matchStarted && !$matchEnded;
+
+
+function generateHmacToken(string $matchId): string
+{
+    return hash_hmac('sha256', $matchId, SECRET_KEY);
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -333,11 +340,13 @@ $isLive = $matchStarted && !$matchEnded;
     ?>
     <?php include $_SERVER['DOCUMENT_ROOT'] . '/scroll-to-top.php'; ?>
     <script>
-        window.MATCH_DETAIL = {
-            matchId: <?= json_encode($matchId ?? '') ?>,
-            seriesId: <?= json_encode($seriesId ?? '') ?>
-        };
+            window.MATCH_DETAIL = {
+                matchId: <?= json_encode($matchId) ?>,
+                seriesId: <?= json_encode($seriesId) ?>
+            };
     </script>
-    <script src="/crickets/js/match-detail.js?v=<?=time()?>"></script>
+    <script src="/crickets/js/match-detail.js?v=<?= time() ?>" defer></script>
+
 </body>
+
 </html>

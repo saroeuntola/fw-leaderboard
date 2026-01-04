@@ -79,12 +79,19 @@ function matchCard($m)
     $isLive  = (!empty($m['matchStarted']) && empty($m['matchEnded'])) || (($m['ms'] ?? '') === 'live');
     $label   = matchDayLabel($m['dateTimeGMT'] ?? '');
     $ms      = $m['ms'] ?? '';
-    // Decide URL by match status
+    $status  = trim($m['status'] ?? '');
+
+    // Decide URL by match status & fantasyEnabled
     if ($matchId) {
         if ($ms === 'fixture') {
             $url = '/crickets/upcoming-detail?id=' . urlencode($matchId);
-        } else {
-            $url = '/crickets/match-detail?id=' . urlencode($matchId);
+        } else { // live or result
+            if ($status === "Match abandoned due to rain (with toss)") {
+                 $url = '/crickets/detail?id=' . urlencode($matchId);
+            } else {
+              
+                $url = '/crickets/match-detail?id=' . urlencode($matchId);
+            }
         }
     } else {
         $url = null;

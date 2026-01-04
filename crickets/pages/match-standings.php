@@ -1,7 +1,8 @@
 <?php
 require_once $_SERVER['DOCUMENT_ROOT'] . '/crickets/services/ApiService.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/crickets/services/apiCache.php';
-
+require_once $_SERVER['DOCUMENT_ROOT'] . '/crickets/services/cors.php';
+validateRequest();
 $seriesId = $_GET['series_id'] ?? null;
 if (!$seriesId) die('No series info');
 

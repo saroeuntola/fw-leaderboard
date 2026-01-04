@@ -8,31 +8,35 @@ if (!$matchId) die('Match ID missing');
 
 $cacheDir = __DIR__ . '/cache';
 if (!is_dir($cacheDir)) mkdir($cacheDir, 0755, true);
-$hours = 10 * 60 * 60;
+
+$hours = 8 * 60 * 60;
+
 /**
- * Fetch upcoming match info
+ * Fetch match detail
  */
 $response = apiCache(
-    "$cacheDir/upcoming_$matchId.json",
+    "$cacheDir/Details_$matchId.json",
     $hours,
     fn() => ApiService::getUpcomingInfo($matchId)
 );
 
 $data = $response['data'] ?? [];
-if (!$data) die('No data');
+if (!$data) die('No match data');
 
 /**
- * Date convert UTC → Dhaka
+ * Time convert UTC → Dhaka
  */
 $dt = new DateTime($data['dateTimeGMT'], new DateTimeZone('UTC'));
 $dt->setTimezone(new DateTimeZone('Asia/Dhaka'));
-
 $matchDate = $dt->format('d M Y');
 $matchTime = $dt->format('g:i A');
-$matchTimestamp = $dt->getTimestamp() * 1000;
 
-$seriesId = $data['series_id'] ?? '';
+/**
+ * Helpers
+ */
 $teamsInfo  = $data['teamInfo'] ?? [];
+$scores = $data['score'] ?? [];
+$seriesId = $data['series_id'] ?? '';
 ?>
 <!DOCTYPE html>
 <html lang="en" class="dark">
@@ -45,10 +49,12 @@ $teamsInfo  = $data['teamInfo'] ?? [];
 </head>
 
 <body class="bg-gray-100 dark:bg-[#121212] text-gray-900 dark:text-gray-100">
-    <?php include $_SERVER['DOCUMENT_ROOT'] . '/navbar.php'; ?>
-    <div class="max-w-6xl mx-auto px-4 py-6 mt-20">
-        <!-- MATCH INFO CARD -->
 
+    <?php include $_SERVER['DOCUMENT_ROOT'] . '/navbar.php'; ?>
+
+    <div class="max-w-6xl mx-auto px-4 py-6 mt-20">
+
+        <!-- MATCH HEADER -->
         <div class="bg-white dark:bg-[#1f1f1f] rounded-xl shadow p-5 mb-6">
 
             <h1 class="text-xl font-bold mb-3">
@@ -93,30 +99,20 @@ $teamsInfo  = $data['teamInfo'] ?? [];
             </div>
 
             <!-- STATUS -->
-        
-            <!-- COUNTDOWN -->
-            <div class="text-center mt-4">
-                <p class="text-xs text-gray-400 mb-1">Match starts in</p>
-                <div id="countdown"
-                    class="inline-flex gap-3 px-4 py-2 bg-red-50 text-red-600 rounded-lg font-semibold text-sm">
-                    --
-                </div>
+            <div class="mt-4 text-center text-sm font-semibold text-red-500">
+                <?= htmlspecialchars($data['status'] ?? '') ?>
             </div>
         </div>
+
         <!-- TABS -->
         <div class="flex border-b border-gray-300 dark:border-gray-700 mb-4 overflow-x-auto">
-            <button class="tab-btn px-4 py-2 font-semibold border-b-2"
-                data-tab="overview">
+            <button class="tab-btn px-4 py-2 font-semibold border-b-2 border-red-600" data-tab="overview">
                 Overview
             </button>
-
-            <button class="tab-btn px-4 py-2 font-semibold border-b-2 border-transparent"
-                data-tab="standings">
+            <button class="tab-btn px-4 py-2 font-semibold border-b-2 border-transparent" data-tab="standings">
                 Standings
             </button>
-
-            <button class="tab-btn px-4 py-2 font-semibold border-b-2 border-transparent"
-                data-tab="squad">
+            <button class="tab-btn px-4 py-2 font-semibold border-b-2 border-transparent" data-tab="squad">
                 Squad
             </button>
         </div>
@@ -139,43 +135,16 @@ $teamsInfo  = $data['teamInfo'] ?? [];
                 </div>
             </div>
 
-            <!-- LAZY PANELS -->
+            <!-- LAZY LOAD -->
             <div id="standings" class="tab-panel hidden" data-loaded="false"></div>
             <div id="squad" class="tab-panel hidden" data-loaded="false"></div>
 
         </div>
     </div>
 
+    <?php include $_SERVER['DOCUMENT_ROOT'] . '/footer.php'; ?>
 
-    <?php include $_SERVER['DOCUMENT_ROOT'] . '/footer.php' ?>
-    <!-- COUNTDOWN SCRIPT -->
-    <script>
-        const matchTime = <?= json_encode($matchTimestamp) ?>;
-        const countdownEl = document.getElementById('countdown');
-
-        function updateCountdown() {
-            const now = new Date().getTime();
-            const diff = matchTime - now;
-
-            if (diff <= 0) {
-                countdownEl.innerHTML = '<span class="text-green-600">Match Started</span>';
-                clearInterval(timer);
-                return;
-            }
-
-            const d = Math.floor(diff / (1000 * 60 * 60 * 24));
-            const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
-            const m = Math.floor((diff / (1000 * 60)) % 60);
-            const s = Math.floor((diff / 1000) % 60);
-
-            countdownEl.innerHTML = `<span>${d}d</span><span>${h}h</span><span>${m}m</span><span>${s}s</span>`;
-        }
-
-        updateCountdown();
-        const timer = setInterval(updateCountdown, 1000);
-    </script>
-
-    <!-- TAB FETCH SCRIPT -->
+    <!-- TAB SCRIPT -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
 
@@ -184,18 +153,18 @@ $teamsInfo  = $data['teamInfo'] ?? [];
             const seriesId = <?= json_encode($seriesId) ?>;
             const matchId = <?= json_encode($matchId) ?>;
 
-            function showTab(tabName) {
-                console.log('Tab clicked:', tabName);
+            function showTab(tab) {
 
-                tabs.forEach(btn => btn.classList.remove('border-red-600'));
-                document.querySelector(`[data-tab="${tabName}"]`)
+                tabs.forEach(b => b.classList.remove('border-red-600'));
+                document.querySelector(`[data-tab="${tab}"]`)
                     .classList.add('border-red-600');
 
                 panels.forEach(p => p.classList.add('hidden'));
-                const panel = document.getElementById(tabName);
+                const panel = document.getElementById(tab);
                 panel.classList.remove('hidden');
 
-                if (tabName !== 'overview' && panel.dataset.loaded !== 'true') {
+                if (tab !== 'overview' && panel.dataset.loaded !== 'true') {
+
                     panel.innerHTML = `
                 <div class="flex justify-center py-10">
                     <div class="w-8 h-8 border-4 border-red-600 border-t-transparent rounded-full animate-spin"></div>
@@ -203,23 +172,20 @@ $teamsInfo  = $data['teamInfo'] ?? [];
             `;
 
                     let url = '';
-                    if (tabName === 'standings') {
+                    if (tab === 'standings') {
                         url = `/crickets/pages/match-standings?series_id=${seriesId}`;
                     }
-                    if (tabName === 'squad') {
+                    if (tab === 'squad') {
                         url = `/crickets/pages/match-squad?id=${matchId}`;
                     }
 
-                    console.log('Fetching:', url);
-
                     fetch(url)
-                        .then(res => res.text())
+                        .then(r => r.text())
                         .then(html => {
                             panel.innerHTML = html;
                             panel.dataset.loaded = 'true';
                         })
-                        .catch(err => {
-                            console.error(err);
+                        .catch(() => {
                             panel.innerHTML = `<p class="text-center text-red-500">Failed to load</p>`;
                         });
                 }
@@ -230,6 +196,7 @@ $teamsInfo  = $data['teamInfo'] ?? [];
             });
         });
     </script>
+
 </body>
 
 </html>
