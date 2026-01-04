@@ -6,7 +6,7 @@ $seriesId = $_GET['series_id'] ?? null;
 if (!$seriesId) die('No series info');
 
 $cacheDir = $_SERVER['DOCUMENT_ROOT'] . '/crickets/cache';
-$TEN_HOURS = 10 * 60 * 60;
+$TEN_HOURS = 4 * 60 * 60;
 $seriesPointsResponse = apiCache(
     "$cacheDir/seriesPoints_$seriesId.json",
     $TEN_HOURS,
