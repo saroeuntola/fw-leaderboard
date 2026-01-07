@@ -102,29 +102,8 @@
         border-bottom: 2px solid #ef4444;
     }
 
-    .scroll-arrow {
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        background-color: #9ca3af;
-        /* semi-transparent overlay */
-        border-radius: 9999px;
-        padding: 12px;
-        cursor: pointer;
-        z-index: 20;
-        transition: background 0.2s;
-        font-size: 18px;
-        color: white;
-    }
 
-    .scroll-arrow:hover {
-        background: rgba(239, 68, 68, 0.8);
-    }
-
-    .scroll-arrow.left {
-        left: -20px;
-        /* half outside */
-    }
+  
 
     .scroll-arrow.right {
         right: -20px;
@@ -134,21 +113,109 @@
     /* optional: hide arrows on mobile */
     @media (max-width: 1024px) {
         .scroll-arrow {
-            display: none;
+            display: none !important;
         }
     }
 
+
     
-    .series-tab {
-        padding: 6px 14px;
+    .horizontal-scroll {
+        overflow-x: auto;
+        cursor: grab;
+        user-select: none;
+        -webkit-user-select: none;
+    }
+
+    .horizontal-scroll.dragging {
+        cursor: grabbing;
+    }
+
+    /* ===== Scroll arrows ===== */
+    .scroll-arrow {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 30;
+        width: 36px;
+        height: 36px;
         border-radius: 9999px;
-        color: #9ca3af;
-        background: transparent;
+        background: rgba(0, 0, 0, .65);
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .scroll-arrow.left {
+        left: -14px;
+    }
+
+    .scroll-arrow.right {
+        right: -14px;
+    }
+
+    .scroll-arrow:disabled {
+        opacity: .3;
+        cursor: not-allowed;
+    }
+
+    /* Hide arrows on mobile */
+    @media (max-width: 768px) {
+        .scroll-arrow {
+            display: none !important;
+        }
+    }
+
+    /* ===== Series tabs ===== */
+    .series-tab {
+        padding: 6px 12px;
+        border-radius: 9999px;
         white-space: nowrap;
-        transition: all .2s ease;
+        background: #1f2937;
+        color: #d1d5db;
     }
 
     .series-active {
-        background: #ef4444;
+        background: #0284c7;
         color: #fff;
     }
+
+    /* ===== Match cards ===== */
+    .match-card {
+        position: relative;
+        transition: transform .2s;
+    }
+
+    .match-card:hover {
+        transform: translateY(-3px);
+    }
+
+    .cursor-grabbing {
+        cursor: grabbing !important;
+    }
+
+    .series-scroll,
+    .tab-panel .overflow-x-auto {
+        cursor: grab;
+        user-select: none;
+    }
+
+    
+
+.scroll-container {
+  display: flex;
+  gap: 1rem; /* space between cards */
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch; /* smooth scroll on mobile */
+}
+
+.scroll-container a {
+  flex: 0 0 auto; /* prevent shrinking */
+  scroll-snap-align: start;
+}
+
+
+
+
+   

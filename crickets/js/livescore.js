@@ -1,3 +1,11 @@
+/* ================= SCROLLABLE CONTAINERS ================= */
+const scrollContainers = [
+  "upcoming-scroll",
+  "livescore-scroll",
+  "result-scroll",
+];
+
+/* ================= TABS ================= */
 const tabs = document.querySelectorAll(".tab-btn");
 const panels = document.querySelectorAll(".tab-panel");
 
@@ -12,6 +20,7 @@ function showTab(tab) {
     btn.classList.add("tab-active");
     pnl.classList.remove("hidden");
     localStorage.setItem("cric_tab", tab);
+    updateAllArrows();
   }
 }
 
@@ -19,106 +28,136 @@ tabs.forEach((btn) => {
   btn.addEventListener("click", () => showTab(btn.dataset.tab));
 });
 
-// Restore last active tab
+// Restore last tab
 showTab(localStorage.getItem("cric_tab") || "upcoming");
 
+/* ================= SCROLL ARROWS ================= */
+function updateArrows(id) {
+  const container = document.getElementById(id);
+  if (!container || container.offsetParent === null) return;
 
- const liveContainerId = "livescore-scroll";
+  const wrapper = container.parentElement;
+  const left = wrapper.querySelector(".scroll-arrow.left");
+  const right = wrapper.querySelector(".scroll-arrow.right");
+  if (!left || !right) return;
 
- function updateLiveArrows() {
-   const container = document.getElementById(liveContainerId);
-   if (!container) return;
+  if (container.scrollWidth <= container.clientWidth + 5) {
+    left.style.display = right.style.display = "none";
+  } else {
+    left.style.display = right.style.display = "block";
+  }
 
-   const wrapper = container.parentElement;
-   const leftArrow = wrapper.querySelector(".scroll-arrow.left");
-   const rightArrow = wrapper.querySelector(".scroll-arrow.right");
+  left.disabled = container.scrollLeft <= 0;
+  right.disabled =
+    container.scrollLeft + container.clientWidth >= container.scrollWidth - 1;
+}
 
-   if (container.scrollWidth <= container.clientWidth) {
-     // Not scrollable → hide arrows
-     leftArrow.style.display = "none";
-     rightArrow.style.display = "none";
-   } else {
-     // Scrollable → show arrows
-     leftArrow.style.display = "block";
-     rightArrow.style.display = "block";
+function updateAllArrows() {
+  scrollContainers.forEach(updateArrows);
+}
 
-     // Optional: disable arrows at edges
-     leftArrow.disabled = container.scrollLeft === 0;
-     rightArrow.disabled =
-       container.scrollLeft + container.clientWidth >= container.scrollWidth;
-   }
- }
+function scrollContainer(id, direction) {
+  const el = document.getElementById(id);
+  if (!el) return;
 
- // Scroll function
- function scrollContainer(id, direction) {
-   const el = document.getElementById(id);
-   if (!el) return;
-   const scrollAmount = el.offsetWidth * 0.8;
-   el.scrollBy({
-     left: direction * scrollAmount,
-     behavior: "smooth",
-   });
+  el.scrollBy({
+    left: direction * el.clientWidth * 0.8,
+    behavior: "smooth",
+  });
 
-   // Small timeout to update disabled state after scroll
-   setTimeout(updateLiveArrows, 200);
- }
+  setTimeout(() => updateArrows(id), 200);
+}
 
- // Initial check
- updateLiveArrows();
+/* ========== SAFE UPDATE WITH FILTERED CARDS ========== */
+function updateContainerCards(id, newHTML) {
+  const container = document.getElementById(id);
+  if (!container) return;
 
- // Update on resize
- window.addEventListener("resize", updateLiveArrows);
+  // Preserve height to prevent layout jump
+  const currentHeight = container.offsetHeight;
+  container.style.minHeight = currentHeight + "px";
 
+  container.innerHTML = newHTML;
+  container.scrollLeft = 0;
 
-   document.addEventListener("click", function (e) {
-     const btn = e.target.closest(".series-tab");
-     if (!btn) return;
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      updateArrows(id);
+      container.style.minHeight = "";
+    });
+  });
+}
 
-     const panel = btn.closest(".tab-panel");
-     const series = btn.dataset.series;
+/* ================= SERIES / LEAGUE FILTER ================= */
+document.addEventListener("click", (e) => {
+  const btn = e.target.closest(".series-tab");
+  if (!btn) return;
 
-     // Toggle active state
-     panel
-       .querySelectorAll(".series-tab")
-       .forEach((b) => b.classList.remove("series-active"));
-     btn.classList.add("series-active");
+  const panel = btn.closest(".tab-panel");
+  const series = btn.dataset.series;
 
-     // Filter cards
-     panel.querySelectorAll(".match-card").forEach((card) => {
-       if (series === "all" || card.dataset.series === series) {
-         card.style.display = "";
-       } else {
-         card.style.display = "none";
-       }
-     });
-   });
+  // Activate clicked series tab
+  panel.querySelectorAll(".series-tab").forEach((b) =>
+    b.classList.remove("series-active")
+  );
+  btn.classList.add("series-active");
 
-   document
-     .querySelectorAll(".tab-panel .flex.overflow-x-auto")
-     .forEach((container) => {
-       let isDown = false,
-         startX,
-         scrollLeft;
+  // Show/hide entire <a> wrapper flex items
+  panel.querySelectorAll(".match-card").forEach((card) => {
+    const wrapper = card.closest("a"); // get the flex item
+    if (!wrapper) return;
 
-       container.addEventListener("mousedown", (e) => {
-         isDown = true;
-         container.classList.add("cursor-grabbing");
-         startX = e.pageX - container.offsetLeft;
-         scrollLeft = container.scrollLeft;
-       });
-       container.addEventListener("mouseleave", () => {
-         isDown = false;
-         container.classList.remove("cursor-grabbing");
-       });
-       container.addEventListener("mouseup", () => {
-         isDown = false;
-         container.classList.remove("cursor-grabbing");
-       });
-       container.addEventListener("mousemove", (e) => {
-         if (!isDown) return;
-         e.preventDefault();
-         const x = e.pageX - container.offsetLeft;
-         const walk = (x - startX) * 2; // scroll-fast
-         container.scrollLeft = scrollLeft - walk;
-       });
-     });
+    if (series === "all" || card.dataset.league === series) {
+      wrapper.classList.remove("hidden");
+    } else {
+      wrapper.classList.add("hidden");
+    }
+  });
+
+  // Reset scroll and update arrows
+  const scroll = panel.querySelector('[id$="scroll"]');
+  if (scroll) {
+    scroll.scrollLeft = 0;
+    updateArrows(scroll.id);
+  }
+});
+
+/* ================= DRAG TO SCROLL ================= */
+document
+  .querySelectorAll(".series-scroll, .tab-panel .overflow-x-auto")
+  .forEach((container) => {
+    let isDown = false;
+    let startX = 0;
+    let startScroll = 0;
+
+    container.style.userSelect = "none";
+    container.style.cursor = "grab";
+
+    container.addEventListener("mousedown", (e) => {
+      if (e.button !== 0) return; // left mouse only
+      isDown = true;
+      container.classList.add("cursor-grabbing");
+      startX = e.clientX;
+      startScroll = container.scrollLeft;
+    });
+
+    document.addEventListener("mousemove", (e) => {
+      if (!isDown) return;
+      e.preventDefault();
+      const dx = e.clientX - startX;
+      container.scrollLeft = startScroll - dx * 1.3;
+      updateAllArrows();
+    });
+
+    document.addEventListener("mouseup", () => {
+      if (!isDown) return;
+      isDown = false;
+      container.classList.remove("cursor-grabbing");
+      updateAllArrows();
+    });
+  });
+
+/* ================= AUTO INIT ================= */
+window.addEventListener("resize", updateAllArrows);
+window.addEventListener("DOMContentLoaded", updateAllArrows);
+updateAllArrows();

@@ -3,11 +3,13 @@ include 'API_BASE.php';
 
 class ApiService
 {
-    private static function request($endpoint, array $params = [])
+    private static function request(string $endpoint, array $params = [])
     {
-        $params['apikey'] = API_KEY;
+        $params['APIkey'] = API_KEY; // Use the API key defined in API_BASE
 
-        $url = BASE_API_URL . $endpoint . '?' . http_build_query($params);
+        // Ensure no double '?' in URL
+        $url = rtrim(BASE_API_URL, '/') . '/' . ltrim($endpoint, '/');
+        $url .= '?' . http_build_query($params);
 
         $ch = curl_init($url);
         curl_setopt_array($ch, [
@@ -26,10 +28,38 @@ class ApiService
         }
 
         curl_close($ch);
-        return json_decode($response, true);
+
+        $data = json_decode($response, true);
+
+        // Optional: return empty 'result' if missing
+        if (!isset($data['result'])) {
+            $data['result'] = [];
+        }
+
+        return $data;
     }
 
-    // 🔹 Global functions (with params support)
+    public static function getStanding(array $params = [])
+    {
+        return self::request('', array_merge(['method' => 'get_standings'], $params));
+    }
+
+    // 🔹 Fetch events (upcoming / date range)
+    public static function getMatchEvent(array $params = [])
+    {
+        return self::request('', array_merge(['method' => 'get_events'], $params));
+    }
+
+    // 🔹 Fetch live matches
+    public static function getLivescores(array $params = [])
+    {
+        return self::request('', array_merge(['method' => 'get_livescore'], $params));
+    }
+
+    public static function getMatchInfo(array $params = [])
+    {
+        return self::request('', array_merge(['method' => 'get_livescore'], $params));
+    }
     public static function getSeries(array $params = [])
     {
         return self::request('/series', $params);
@@ -80,12 +110,7 @@ class ApiService
         ]);
     }
 
-    public static function getMatchInfo(string $matchId)
-    {
-        return self::request('/match_scorecard', [
-            'id' => $matchId
-        ]);
-    }
+
     
 
     public static function getMatchPoints(string $matchId)
