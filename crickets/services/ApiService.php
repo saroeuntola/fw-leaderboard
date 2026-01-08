@@ -5,9 +5,7 @@ class ApiService
 {
     private static function request(string $endpoint, array $params = [])
     {
-        $params['APIkey'] = API_KEY; // Use the API key defined in API_BASE
-
-        // Ensure no double '?' in URL
+        $params['APIkey'] = API_KEY; 
         $url = rtrim(BASE_API_URL, '/') . '/' . ltrim($endpoint, '/');
         $url .= '?' . http_build_query($params);
 

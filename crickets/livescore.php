@@ -92,6 +92,14 @@ function safeLeague($league)
     return trim($league);
 }
 foreach (($upcomingResponse['result'] ?? []) as $e) {
+  
+    if (
+        ($e['home_team_key'] ?? null) == 1095 ||
+        ($e['away_team_key'] ?? null) == 1095
+    ) {
+        continue;
+    }
+
     $status = strtolower($e['event_status'] ?? '');
     $matchDate = $e['event_date_start'] ?? '';
     if (!$matchDate) continue;
