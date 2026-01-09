@@ -181,28 +181,16 @@ $awayPercent = $winProb['away'];
     <?php include $_SERVER['DOCUMENT_ROOT'] . '/navbar.php'; ?>
     <header class="px-4 mt-20">
         <div class="bg-white dark:bg-[#1f1f1f] max-w-6xl mx-auto p-6 rounded-xl shadow-md space-y-4">
-
             <!-- LIVE / COUNTDOWN -->
             <div class="text-center space-y-2">
-
-                <?php if ($isLive): ?>
-                    <div class="inline-block bg-red-600 text-white text-xs px-3 py-1 rounded-full animate-pulse">
-                        LIVE
-                    </div>
-                <?php endif; ?>
-
                 <div class="text-lg font-bold text-black bg-green-500 inline-block px-4 py-2 rounded-lg"
-
                     id="match-status"
                     data-start="<?= esc($matchStartTs) ?>"
                     data-live="<?= $isLive ? '1' : '0' ?>"
                     data-status="<?= esc(strtolower($match['event_status'] ?? '')) ?>"
                     data-api="<?= esc($match['event_status_info'] ?? '') ?>">
                     <?= esc($statusInfo) ?>
-
-
                 </div>
-
             </div>
 
             <!-- DATE / LEAGUE -->
@@ -225,7 +213,6 @@ $awayPercent = $winProb['away'];
 
             <!-- TEAMS -->
             <div class="grid grid-cols-3 gap-4">
-
                 <!-- HOME -->
                 <div class="text-center">
                     <img src="<?= esc($homeLogo) ?>" class="w-[100px] mx-auto mb-2 border-2 border-green-500">
@@ -236,18 +223,14 @@ $awayPercent = $winProb['away'];
                 <div class="text-center font-bold text-gray-500 dark:text-gray-400 text-xl mt-10">
                     VS
                 </div>
-
                 <!-- AWAY -->
                 <div class="text-center">
                     <img src="<?= esc($awayLogo) ?>" class="w-[100px] mx-auto mb-2 border-2 border-red-500">
                     <div class="font-semibold text-lg"><?= esc($away) ?></div>
                     <div class="text-xl font-bold mt-1"><?= esc($awayScore) ?></div>
                 </div>
-
             </div>
-
             <!-- WIN PROBABILITY -->
-
             <?php if ($IsEnd): ?>
                 <div class="mt-4 max-w-6xl mx-auto">
                     <div class="w-full h-2 bg-gray-200 rounded-full overflow-hidden flex">
@@ -267,12 +250,8 @@ $awayPercent = $winProb['away'];
             <?php endif; ?>
         </div>
     </header>
-
-
-
     <!-- ================= MATCH DETAILS ================= -->
     <div class="max-w-6xl mx-auto mt-6 space-y-4">
-
         <!-- ================= TABS ================= -->
         <div class="max-w-6xl mx-auto px-4 mt-6">
             <div class="flex gap-2 border-b border-gray-300 dark:border-gray-700 mb-4 overflow-x-auto">
@@ -281,7 +260,6 @@ $awayPercent = $winProb['away'];
                 <button class="tab px-4 py-2 font-semibold border-b-2" data-tab="lineups">Lineups</button>
                 <button class="tab px-4 py-2 font-semibold border-b-2" data-tab="standings">Standings</button>
             </div>
-
             <div id="overview" class="tab-panel">
                 <div class="bg-white dark:bg-[#1f1f1f] rounded shadow p-4">
                     <h2 class="font-bold text-lg mb-2">Match Info</h2>

@@ -65,8 +65,32 @@ function getTeamLogo($teamName, $apiLogo = null)
     // Default fallback
     return "/crickets/img/no-club.png";
 }
-/* ==================== TIME RANGES ==================== */
-$tz = new DateTimeZone('Asia/Dhaka');
+
+
+                                            function sortLeaguesWithPriority(array $leagues): array
+                                            {
+                                                $priority = [
+                                                    'Bangladesh Premier League',
+                                                    'Big Bash League 2025/26',
+                                                ];
+
+                                                // Normalize
+                                                $leagues = array_values(array_unique($leagues));
+
+                                                // Extract priority leagues in correct order
+                                                $first = array_values(array_intersect($priority, $leagues));
+
+                                                // Remaining leagues
+                                                $rest = array_values(array_diff($leagues, $priority));
+
+                                                // Optional: sort remaining alphabetically
+                                                sort($rest, SORT_STRING);
+
+                                                return array_merge($first, $rest);
+                                            }
+
+                                            /* ==================== TIME RANGES ==================== */
+                                            $tz = new DateTimeZone('Asia/Dhaka');
 $today = new DateTime('today', $tz);
 $sevenDaysAgo = (clone $today)->modify('-7 days');
 $sevenDaysLater = (clone $today)->modify('+7 days');
@@ -271,7 +295,10 @@ function matchCard($m, $type)
     <!-- ================= UPCOMING ================= -->
     <div id="upcoming" class="tab-panel">
         <?php if (!empty($upcomingMatches)): ?>
-            <?php $leagues = array_unique(array_column($upcomingMatches, 'league')); ?>
+            <?php $leagues = sortLeaguesWithPriority(
+                array_column($upcomingMatches, 'league')
+            );
+        ?>
 
             <div class="flex gap-3 mb-3 overflow-x-auto no-scrollbar text-sm font-semibold series-scroll snap-x snap-mandatory">
                 <button class="series-tab series-active" data-series="all">All</button>
@@ -300,7 +327,10 @@ function matchCard($m, $type)
     <!-- ================= LIVE ================= -->
     <div id="live" class="tab-panel hidden">
         <?php if (!empty($liveMatches)): ?>
-            <?php $leagues = array_unique(array_column($liveMatches, 'league')); ?>
+            <?php $leagues = sortLeaguesWithPriority(
+                array_column($liveMatches, 'league')
+            );
+        ?>
 
             <div class="flex gap-3 mb-3 overflow-x-auto no-scrollbar text-sm font-semibold series-scroll">
                 <button class="series-tab series-active" data-series="all">All</button>
@@ -330,7 +360,10 @@ function matchCard($m, $type)
     <!-- ================= RESULTS ================= -->
     <div id="results" class="tab-panel hidden">
         <?php if (!empty($resultMatches)): ?>
-            <?php $leagues = array_unique(array_column($resultMatches, 'league')); ?>
+            <?php $leagues = sortLeaguesWithPriority(
+                array_column($resultMatches, 'league')
+            );
+        ?>
 
             <div class="flex gap-3 mb-3 overflow-x-auto no-scrollbar text-sm font-semibold series-scroll">
                 <button class="series-tab series-active" data-series="all">All</button>
