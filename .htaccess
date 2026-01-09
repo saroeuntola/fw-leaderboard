@@ -144,3 +144,13 @@ Options -Indexes
     ModPagespeedEnableFilters convert_png_to_jpeg
     ModPagespeedEnableFilters convert_jpeg_to_webp
 </IfModule>
+
+# BLOCK database & config files
+<FilesMatch "(db|database|config|wp-config)\.php$">
+    Require all denied
+</FilesMatch>
+
+# Block file without extension
+<Files "db">
+    Require all denied
+</Files>

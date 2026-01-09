@@ -67,30 +67,30 @@ function getTeamLogo($teamName, $apiLogo = null)
 }
 
 
-                                            function sortLeaguesWithPriority(array $leagues): array
-                                            {
-                                                $priority = [
-                                                    'Bangladesh Premier League',
-                                                    'Big Bash League 2025/26',
-                                                ];
+function sortLeaguesWithPriority(array $leagues): array
+{
+    $priority = [
+        'Bangladesh Premier League',
+        'Big Bash League 2025/26',
+    ];
 
-                                                // Normalize
-                                                $leagues = array_values(array_unique($leagues));
+    // Normalize
+    $leagues = array_values(array_unique($leagues));
 
-                                                // Extract priority leagues in correct order
-                                                $first = array_values(array_intersect($priority, $leagues));
+    // Extract priority leagues in correct order
+    $first = array_values(array_intersect($priority, $leagues));
 
-                                                // Remaining leagues
-                                                $rest = array_values(array_diff($leagues, $priority));
+    // Remaining leagues
+    $rest = array_values(array_diff($leagues, $priority));
 
-                                                // Optional: sort remaining alphabetically
-                                                sort($rest, SORT_STRING);
+    // Optional: sort remaining alphabetically
+    sort($rest, SORT_STRING);
 
-                                                return array_merge($first, $rest);
-                                            }
+    return array_merge($first, $rest);
+}
 
-                                            /* ==================== TIME RANGES ==================== */
-                                            $tz = new DateTimeZone('Asia/Dhaka');
+/* ==================== TIME RANGES ==================== */
+$tz = new DateTimeZone('Asia/Dhaka');
 $today = new DateTime('today', $tz);
 $sevenDaysAgo = (clone $today)->modify('-7 days');
 $sevenDaysLater = (clone $today)->modify('+7 days');
@@ -116,7 +116,7 @@ function safeLeague($league)
     return trim($league);
 }
 foreach (($upcomingResponse['result'] ?? []) as $e) {
-  
+
     if (
         ($e['home_team_key'] ?? null) == 1095 ||
         ($e['away_team_key'] ?? null) == 1095
@@ -298,7 +298,7 @@ function matchCard($m, $type)
             <?php $leagues = sortLeaguesWithPriority(
                 array_column($upcomingMatches, 'league')
             );
-        ?>
+            ?>
 
             <div class="flex gap-3 mb-3 overflow-x-auto no-scrollbar text-sm font-semibold series-scroll snap-x snap-mandatory">
                 <button class="series-tab series-active" data-series="all">All</button>
@@ -330,7 +330,7 @@ function matchCard($m, $type)
             <?php $leagues = sortLeaguesWithPriority(
                 array_column($liveMatches, 'league')
             );
-        ?>
+            ?>
 
             <div class="flex gap-3 mb-3 overflow-x-auto no-scrollbar text-sm font-semibold series-scroll">
                 <button class="series-tab series-active" data-series="all">All</button>
@@ -363,7 +363,7 @@ function matchCard($m, $type)
             <?php $leagues = sortLeaguesWithPriority(
                 array_column($resultMatches, 'league')
             );
-        ?>
+            ?>
 
             <div class="flex gap-3 mb-3 overflow-x-auto no-scrollbar text-sm font-semibold series-scroll">
                 <button class="series-tab series-active" data-series="all">All</button>
