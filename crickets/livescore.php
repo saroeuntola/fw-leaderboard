@@ -258,13 +258,13 @@ function matchCard($m, $type)
 
             <div class="space-y-3">
                 <div class="flex items-center gap-2">
-                    <img src="<?= $m['homeLogo'] ?>" class="w-6 h-6">
+                    <img src="<?= $m['homeLogo'] ?>" class="w-6">
                     <span class="font-semibold"><?= htmlspecialchars($m['home']) ?></span>
                     <span class="ml-auto font-bold"><?= $m['homeScore'] ?></span>
                 </div>
 
                 <div class="flex items-center gap-2">
-                    <img src="<?= $m['awayLogo'] ?>" class="w-6 h-6">
+                    <img src="<?= $m['awayLogo'] ?>" class="w-6">
                     <span class="font-semibold"><?= htmlspecialchars($m['away']) ?></span>
                     <span class="ml-auto font-bold"><?= $m['awayScore'] ?></span>
                 </div>
