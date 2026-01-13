@@ -126,9 +126,7 @@ include "./services/textLimit.php";
 </head>
 
 <body class="bg-[#f5f5f5] dark:bg-[#181818] text-gray-900  dark:text-gray-100 min-h-screen">
-    <?php
-    include "loading.php";
-    ?>
+    
     <header>
         <?php
         include "navbar.php"

@@ -1,7 +1,7 @@
 <?php
 require_once 'services/ApiService.php';
 require_once 'services/apiCache.php';
-require_once 'services/bpl-config.php';
+
 $cacheDir = __DIR__ . '/cache';
 if (!is_dir($cacheDir)) mkdir($cacheDir, 0755, true);
 
@@ -128,9 +128,8 @@ function sortLeaguesWithPriority(array $leagues): array
     return array_merge($first, $rest);
 }
 
-
-                                            /* ==================== TIME RANGES ==================== */
-                                            $tz = new DateTimeZone('Asia/Dhaka');
+/* ==================== TIME RANGES ==================== */
+$tz = new DateTimeZone('Asia/Dhaka');
 $today = new DateTime('today', $tz);
 $sevenDaysAgo = (clone $today)->modify('-7 days');
 $sevenDaysLater = (clone $today)->modify('+7 days');
@@ -155,81 +154,86 @@ function safeLeague($league)
     }
     return trim($league);
 }
-                                            foreach (($upcomingResponse['result'] ?? []) as $e) {
+foreach (($upcomingResponse['result'] ?? []) as $e) {
 
-                                                $league = $e['league_name'] ?? '';
-                                                $round  = trim($e['league_round'] ?? '');
+    if (
+        ($e['home_team_key'] ?? null) == 1095 ||
+        ($e['away_team_key'] ?? null) == 1095
+    ) {
+        continue;
+    }
 
-                                                // Skip banned teams
-                                                if (($e['home_team_key'] ?? null) == 1095 || ($e['away_team_key'] ?? null) == 1095) {
-                                                    continue;
-                                                }
+    $status = strtolower($e['event_status'] ?? '');
+    $matchDate = $e['event_date_start'] ?? '';
+    if (!$matchDate) continue;
+    $matchDateObj = new DateTime($matchDate, $tz);
+    // Handle placeholder in status info
+    $statusInfo = $e['event_status_info'] ?? '';
 
-                                                $status = strtolower($e['event_status'] ?? '');
-                                                $matchDate = $e['event_date_start'] ?? '';
-                                                if (!$matchDate) continue;
+    if (str_contains($statusInfo, '{{MATCH_START_HOURS}}') || str_contains($statusInfo, '{{MATCH_START_MINS}}')) {
+        // Match start in UTC
+        $matchStart = new DateTime(
+            ($e['event_date_start'] ?? '') . ' ' . ($e['event_time'] ?? '00:00'),
+            new DateTimeZone('UTC')
+        );
 
-                                                $matchDateObj = new DateTime($matchDate, new DateTimeZone('Asia/Dhaka'));
+        // Convert to Dhaka
+        $matchStart->setTimezone(new DateTimeZone('Asia/Dhaka'));
 
-                                                // Only include matches within 7-day upcoming range
-                                                if ($matchDateObj < $today || $matchDateObj > $sevenDaysLater) {
-                                                    continue;
-                                                }
+        // Subtract 1 hour adjustment
+        $matchStart->modify('-1 hour');
 
-                                                // For BPL, only allow official matches based on home/away
-                                                if ($league === 'Bangladesh Premier League') {
-                                                    $officialMatch = $bplOfficialMatches[$round] ?? null;
-                                                    if ($officialMatch) {
-                                                        if ($e['event_home_team'] !== $officialMatch['home'] || $e['event_away_team'] !== $officialMatch['away']) {
-                                                            continue; // skip duplicates or wrong match
-                                                        }
-                                                    }
-                                                }
+        $now = new DateTime('now', new DateTimeZone('Asia/Dhaka'));
 
-                                                // Build match data
-                                                $homeLogo = getTeamLogo($e['event_home_team'], $e['event_home_team_logo']);
-                                                $awayLogo = getTeamLogo($e['event_away_team'], $e['event_away_team_logo']);
+        // Calculate difference
+        $diff = $now->diff($matchStart);
 
-                                                $match = [
-                                                    'id'        => $e['event_key'],
-                                                    'date'      => $matchDate,
-                                                    'time'      => $e['event_time'] ?: '00:00',
-                                                    'dhaka_time' => toDhakaDate($matchDate, $e['event_time'], 'g:i A'),
-                                                    'dhaka_ts'  => toDhakaTimestamp($matchDate, $e['event_time']),
-                                                    'home'      => $e['event_home_team'],
-                                                    'away'      => $e['event_away_team'],
-                                                    'homeLogo'  => $homeLogo,
-                                                    'awayLogo'  => $awayLogo,
-                                                    'league'    => safeLeague($league),
-                                                    'status'    => $e['event_status_info'] ?: $e['event_status'] ?: 'Match yet to begin',
-                                                    'homeScore' => $e['event_home_final_result'] ?? '',
-                                                    'awayScore' => $e['event_away_final_result'] ?? '',
-                                                    'rrHome'    => $e['event_home_rr'] ?? '',
-                                                    'rrAway'    => $e['event_away_rr'] ?? '',
-                                                    'stadium'   => $e['event_stadium'] ?? '',
-                                                    'event_live' => $e['event_live'] ?? '0',
-                                                    'event_status' => $e['event_status'] ?? '',
-                                                ];
+        $hours = $diff->h + ($diff->days * 24);
+        $minutes = $diff->i;
 
-                                                // RESULTS: finished/cancelled last 7 days
-                                                if (($status === 'finished' || $status === 'cancelled') && $e['event_live'] !== "1") {
-                                                    if ($matchDateObj >= $sevenDaysAgo && $matchDateObj <= $today) {
-                                                        $resultMatches[] = $match;
-                                                    }
-                                                }
-                                                // UPCOMING: today or future AND not live yet
-                                                else {
-                                                    if ($matchDateObj >= $today && $e['event_live'] !== "1" && $status !== 'finished') {
-                                                        $upcomingMatches[] = $match;
-                                                    }
-                                                }
-                                            }
+        $statusInfo = "Match starts in {$hours}h {$minutes}m";
+    }
 
-                                            // Clean duplicates just in case
-                                            $upcomingMatches = cleanUpcomingMatches($upcomingMatches, $bplOfficialMatches);
+    $homeLogo = getTeamLogo($e['event_home_team'], $e['event_home_team_logo']);
+    $awayLogo = getTeamLogo($e['event_away_team'], $e['event_away_team_logo']);
+    $match = [
+        'id'        => $e['event_key'],
+        'date'      => $matchDate,
+        'time'      => $e['event_time'] ?: '00:00',
+        'dhaka_time' => toDhakaDate($matchDate, $e['event_time'], 'g:i A'), // for display
+        'dhaka_ts'   => toDhakaTimestamp($matchDate, $e['event_time']),     // for sorting
+        'home'      => $e['event_home_team'],
+        'away'      => $e['event_away_team'],
+        'homeLogo'  => getTeamLogo($e['event_home_team'], $e['event_home_team_logo']),
+        'awayLogo'  => getTeamLogo($e['event_away_team'], $e['event_away_team_logo']),
+        'league'    => safeLeague($e['league_name'] ?? null),
+        'status'    => $statusInfo ?: $e['event_status'] ?: 'Match yet to begin',
+        'homeScore' => $e['event_home_final_result'] ?? '',
+        'awayScore' => $e['event_away_final_result'] ?? '',
+        'rrHome'    => $e['event_home_rr'] ?? '',
+        'rrAway'    => $e['event_away_rr'] ?? '',
+        'stadium'   => $e['event_stadium'] ?? '',
+        'event_live' => $e['event_live'] ?? '0',
+        'event_status' => $e['event_status'] ?? '',
+    ];
+   
+    // RESULTS: finished/cancelled last 7 days
+    if ($status === 'finished' || $status === 'cancelled' && $e['event_live'] !== "1") {
+        if ($matchDateObj >= $sevenDaysAgo && $matchDateObj <= $today) {
+            $resultMatches[] = $match; // just append
+        }
+    }
+    // UPCOMING: today or future AND not live yet
+    else {
+        if ($matchDateObj >= $today && $e['event_live'] !== "1" && $status !== 'finished') {
+            $upcomingMatches[] = $match;
+        }
+    }
 
-                                            /* ==================== LIVE MATCHES ==================== */
-                                            $livescoreResponse = apiCache(
+
+}
+/* ==================== LIVE MATCHES ==================== */
+$livescoreResponse = apiCache(
     "$cacheDir/livescore.json",
     180,
     fn() => ApiService::getLivescores()
