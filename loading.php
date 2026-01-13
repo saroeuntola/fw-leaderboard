@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="./css/loader.css">
+<link rel="stylesheet" href="./css/loader.css?v=<?= time() ?>">
 <script src="./js/jquery-3.7.1.min.js" defer></script>
 
 <body class="bg-white dark:bg-gray-900 text-white">

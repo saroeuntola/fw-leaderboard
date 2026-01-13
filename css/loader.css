@@ -1,25 +1,30 @@
-
-    .loader {
-        width: fit-content;
-        font-weight: bold;
-        font-family: monospace;
-        font-size: 30px;
-        background: radial-gradient(circle closest-side, #000 94%, #0000) right/calc(200% - 1em) 100%;
-        animation: l24 1s infinite alternate linear;
-    }
-
-    .loader::before {
-        content: "Loading...";
-        line-height: 1em;
-        color: white;
-        background: inherit;
-        background-image: radial-gradient(circle closest-side, #d1001d 94%, #000);
-        -webkit-background-clip: text;
-        background-clip: text;
-    }
-
-    @keyframes l24 {
-        100% {
-            background-position: left
-        }
-    }
+/* HTML: <div class="loader"></div> */
+.loader {
+  width: 50px;
+  aspect-ratio: 1;
+  display: grid;
+  border: 4px solid #0000;
+  border-radius: 50%;
+  border-color: #ccc #0000;
+  animation: l16 1s infinite linear;
+}
+.loader::before,
+.loader::after {    
+  content: "";
+  grid-area: 1/1;
+  margin: 2px;
+  border: inherit;
+  border-radius: 50%;
+}
+.loader::before {
+  border-color: #f03355 #0000;
+  animation: inherit; 
+  animation-duration: .5s;
+  animation-direction: reverse;
+}
+.loader::after {
+  margin: 8px;
+}
+@keyframes l16 { 
+  100%{transform: rotate(1turn)}
+}
