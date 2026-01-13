@@ -42,18 +42,31 @@ if (!$match) die('Match not found');
 // ---------------- TEAM LOGOS ----------------
 function getTeamLogo($teamName, $apiLogo = null)
 {
-    if (!empty($apiLogo)) return $apiLogo;
+    if (!empty($apiLogo)) {
+        return $apiLogo; // use API logo if available
+    }
 
+    // Replace spaces with underscores
     $safeName = str_replace(' ', '_', $teamName);
-    $files = glob(__DIR__ . "/img/team-logo/*.{png,PNG}", GLOB_BRACE);
 
-    foreach ($files as $f) {
+    // Check for .webp first
+    $webpFiles = glob(__DIR__ . "/img/team-logo/{$safeName}.webp");
+    if (!empty($webpFiles) && file_exists($webpFiles[0])) {
+        return "/crickets/img/team-logo/" . basename($webpFiles[0]);
+    }
+
+    // Check for .png (case-insensitive)
+    $pngFiles = glob(__DIR__ . "/img/team-logo/*.{png,PNG}", GLOB_BRACE);
+    foreach ($pngFiles as $f) {
         if (strcasecmp(basename($f), "{$safeName}.png") === 0) {
             return "/crickets/img/team-logo/" . basename($f);
         }
     }
+
+    // Default fallback
     return "/crickets/img/no-club.png";
 }
+
 
 // ---------------- TEAMS ----------------
 $home = $match['event_home_team'] ?? '';
@@ -121,7 +134,7 @@ $isLive =
 
 $IsEnd =  ($match['event_live'] ?? '0') === '0'
     && strtolower($match['event_status']) === 'finished';
-   
+
 // ---------------- WIN PROBABILITY ----------------
 function calculateWinProbability($match)
 {
