@@ -84,3 +84,55 @@ $(document).ready(function () {
   });
 });
 
+  // Live Search for Tiger & Lion Leaderboards
+  $(document).on("keyup", ".leaderboard-search", function () {
+    const query = $(this).val().toLowerCase();
+    const target = $($(this).data("target"));
+
+    if (!target.length) return;
+
+    let visibleCount = 0;
+
+    target.find("tr").each(function () {
+      const rowText = $(this).text().toLowerCase();
+      const match = rowText.includes(query);
+      $(this).toggle(match);
+      if (match) visibleCount++;
+    });
+
+    // Show "No result" message
+    if (visibleCount === 0) {
+      if (!target.find(".no-result").length) {
+        target.append(`
+          <tr class="no-result">
+            <td colspan="4" class="text-center text-red-500 p-4">
+              কোনো ফলাফল পাওয়া যায়নি
+            </td>
+          </tr>
+        `);
+      }
+    } else {
+      target.find(".no-result").remove();
+    }
+  });
+
+  // Show / hide clear icon based on input value
+
+$(document).on("input", ".search-input", function () {
+  const hasValue = $(this).val().length > 0;
+  const clearBtn = $(this).siblings(".clear-btn");
+
+  if (hasValue) {
+    clearBtn.addClass("active");
+  } else {
+    clearBtn.removeClass("active");
+  }
+});
+
+// Clear input on button click
+$(document).on("click", ".clear-btn", function () {
+  const input = $(this).siblings(".search-input");
+  input.val("").trigger("input").focus();
+});
+
+

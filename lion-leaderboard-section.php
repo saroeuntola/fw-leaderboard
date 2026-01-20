@@ -1,4 +1,6 @@
 <?php
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
 require_once "./admin/lib/db.php";
 include "./admin/lib/leaderboard_lib.php";
 include "./admin/lib/lion_banner_lib.php";
@@ -148,6 +150,38 @@ function toBanglaNumber($number)
         <?php endif; ?>
     </div>
     <div class="overflow-x-auto rounded-lg shadow-md">
+<div class="mb-5">
+
+  <div class="search-container">
+      <div class="search-wrapper">
+        <!-- Search Icon -->
+        <svg class="search-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+        </svg>
+
+        <!-- Input -->
+        <input
+          type="text"
+          class="search-input leaderboard-search peer"
+          data-target="#lion-table"
+          placeholder="অনুসন্ধান করুন..."
+        />
+
+ <!-- Clear Button -->
+    <button type="button" class="clear-btn">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M6 18L18 6M6 6l12 12"></path>
+      </svg>
+    </button>
+        <!-- Animated Underline -->
+      
+      </div>
+    </div>
+
+</div>
+
         <table class="w-full text-center border-collapse">
             <thead>
                 <tr class="bg-red-800 text-gray-200">
@@ -158,7 +192,7 @@ function toBanglaNumber($number)
                     <th class="p-2 th-text">প্রাইজ</th>
                 </tr>
             </thead>
-            <tbody class="bg-white dark:bg-[#252525] dark:text-white text-gray-900 shadow-[0_0_5px_0_rgba(0,0,0,0.2)] ">
+            <tbody id="lion-table" class="bg-white dark:bg-[#252525] dark:text-white text-gray-900 shadow-[0_0_5px_0_rgba(0,0,0,0.2)] ">
                 <?php foreach ($pagedData as $index => $player): ?>
                     <?php
                     // Rank number = offset + index + 4 (since rank starts at 4)

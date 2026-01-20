@@ -1,4 +1,6 @@
 <?php
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
 require_once "./admin/lib/db.php";
 include "./admin/lib/tiger_leaderboard_lib.php";
 include "./admin/lib/tiger_banner_lib.php";
@@ -174,6 +176,38 @@ function toBanglaNumber($number)
 
         <!-- Remaining Players Table -->
         <div class="overflow-x-auto shadow-md rounded-lg">
+
+<div class="mb-5">
+
+  <div class="search-container">
+      <div class="search-wrapper">
+        <!-- Search Icon -->
+        <svg class="search-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+        </svg>
+
+        <!-- Input -->
+        <input
+          type="text"
+          class="search-input leaderboard-search peer"
+          data-target="#tiger-table"
+          placeholder="অনুসন্ধান করুন..."
+        />
+
+ <!-- Clear Button -->
+    <button type="button" class="clear-btn">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M6 18L18 6M6 6l12 12"></path>
+      </svg>
+    </button>
+       
+      </div>
+    </div>
+
+</div>
+
             <table class="w-full text-center border-collapse text-sm md:text-base">
                 <thead class="bg-yellow-500 text-gray-900 uppercase tracking-wider">
                     <tr>
@@ -183,7 +217,7 @@ function toBanglaNumber($number)
                         <th class="p-2 th-text">প্রাইজ</th>
                     </tr>
                 </thead>
-                <tbody class="bg-white dark:bg-[#252525] shadow-[0_0_5px_0_rgba(0,0,0,0.2)] rounded-md">
+                <tbody id="tiger-table" class="bg-white dark:bg-[#252525] shadow-[0_0_5px_0_rgba(0,0,0,0.2)] rounded-md">
                     <?php foreach ($pagedData as $index => $player): ?>
                         <?php $rank = $offset + $index + 4; ?>
                         <tr class="text-center border-t border-gray-600 dark:text-white text-gray-900">

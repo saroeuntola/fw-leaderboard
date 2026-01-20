@@ -209,7 +209,7 @@ foreach (($livescoreResponse['result'] ?? []) as $e) {
         'date'      => $e['event_date_start'],
         'time'      => $e['event_time'] ?: '00:00',
         'dhaka_time' => toDhakaDate($e['event_date_start'], $e['event_time'], 'g:i A'), // for display
-        'dhaka_ts'   => toDhakaTimestamp($e['event_date_start'], $e['event_time']),     // for sorting
+        'dhaka_ts'   => toDhakaTimestamp($e['event_date_start'], $e['event_time']), 
         'home'      => $e['event_home_team'],
         'away'      => $e['event_away_team'],
         'homeLogo'  => getTeamLogo($e['event_home_team'], $e['event_home_team_logo']),
@@ -263,7 +263,7 @@ function matchCard($m, $type)
                     <span class="ml-auto font-bold"><?= $m['homeScore'] ?></span>
                 </div>
 
-                <div class="flex items-center gap-2">
+                <div class="flex items-center gap-2"> 
                     <img src="<?= $m['awayLogo'] ?>" class="w-6">
                     <span class="font-semibold"><?= htmlspecialchars($m['away']) ?></span>
                     <span class="ml-auto font-bold"><?= $m['awayScore'] ?></span>
@@ -292,6 +292,8 @@ function matchCard($m, $type)
         <button class="tab-btn" data-tab="live">Live</button>
         <button class="tab-btn" data-tab="results">Results</button>
     </div>
+
+    
     <!-- ================= UPCOMING ================= -->
     <div id="upcoming" class="tab-panel">
         <?php if (!empty($upcomingMatches)): ?>
@@ -324,6 +326,8 @@ function matchCard($m, $type)
             <p class="text-gray-400">No upcoming matches.</p>
         <?php endif; ?>
     </div>
+
+
     <!-- ================= LIVE ================= -->
     <div id="live" class="tab-panel hidden">
         <?php if (!empty($liveMatches)): ?>

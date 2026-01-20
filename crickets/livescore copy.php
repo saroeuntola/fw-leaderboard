@@ -37,48 +37,48 @@ function matchDayLabel($date, $time)
 
     return $dt->format('d M Y');
 }
-                                            function cleanUpcomingMatches(array $matches): array
-                                            {
-                                                $clean = [];
-                                                $bplDayCounter = [];
+function cleanUpcomingMatches(array $matches): array
+{
+    $clean = [];
+    $bplDayCounter = [];
 
-                                                foreach ($matches as $m) {
-                                                    $league = $m['league'];
-                                                    $round  = $m['league'] . '|' . ($m['event_status'] ?? '') . '|' . ($m['id'] ?? '');
-                                                    $date   = $m['date'];
+    foreach ($matches as $m) {
+        $league = $m['league'];
+        $round  = $m['league'] . '|' . ($m['event_status'] ?? '') . '|' . ($m['id'] ?? '');
+        $date   = $m['date'];
 
-                                                    // ---------- BPL special handling ----------
-                                                    if ($league === 'Bangladesh Premier League') {
+        // ---------- BPL special handling ----------
+        if ($league === 'Bangladesh Premier League') {
 
-                                                        // Count matches per day
-                                                        if (!isset($bplDayCounter[$date])) {
-                                                            $bplDayCounter[$date] = 0;
-                                                        }
+            // Count matches per day
+            if (!isset($bplDayCounter[$date])) {
+                $bplDayCounter[$date] = 0;
+            }
 
-                                                        // Max 2 matches per day
-                                                        if ($bplDayCounter[$date] >= 2) {
-                                                            continue;
-                                                        }
+            // Max 2 matches per day
+            if ($bplDayCounter[$date] >= 2) {
+                continue;
+            }
 
-                                                        // Unique by league + home + away + round
-                                                        $key = $league . '|' . $m['home'] . '|' . $m['away'] . '|' . $m['status'];
+            // Unique by league + home + away + round
+            $key = $league . '|' . $m['home'] . '|' . $m['away'] . '|' . $m['status'];
 
-                                                        if (!isset($clean[$key])) {
-                                                            $clean[$key] = $m;
-                                                            $bplDayCounter[$date]++;
-                                                        }
-                                                    } else {
-                                                        // ---------- Other leagues ----------
-                                                        $key = $league . '|' . $m['home'] . '|' . $m['away'] . '|' . $date . '|' . $m['time'];
-                                                        $clean[$key] = $m;
-                                                    }
-                                                }
+            if (!isset($clean[$key])) {
+                $clean[$key] = $m;
+                $bplDayCounter[$date]++;
+            }
+        } else {
+            // ---------- Other leagues ----------
+            $key = $league . '|' . $m['home'] . '|' . $m['away'] . '|' . $date . '|' . $m['time'];
+            $clean[$key] = $m;
+        }
+    }
 
-                                                return array_values($clean);
-                                            }
+    return array_values($clean);
+}
 
 
-                                            function getTeamLogo($teamName, $apiLogo = null)
+function getTeamLogo($teamName, $apiLogo = null)
 {
     if (!empty($apiLogo)) {
         return $apiLogo; // use API logo if available
@@ -216,7 +216,7 @@ foreach (($upcomingResponse['result'] ?? []) as $e) {
         'event_live' => $e['event_live'] ?? '0',
         'event_status' => $e['event_status'] ?? '',
     ];
-   
+
     // RESULTS: finished/cancelled last 7 days
     if ($status === 'finished' || $status === 'cancelled' && $e['event_live'] !== "1") {
         if ($matchDateObj >= $sevenDaysAgo && $matchDateObj <= $today) {
@@ -229,8 +229,6 @@ foreach (($upcomingResponse['result'] ?? []) as $e) {
             $upcomingMatches[] = $match;
         }
     }
-
-
 }
 /* ==================== LIVE MATCHES ==================== */
 $livescoreResponse = apiCache(

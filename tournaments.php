@@ -192,9 +192,7 @@ $posts = $listPost->getPostByCategory(2, 'en', $limit, $page);
                 </ul>
             </nav>
         <?php endif; ?>
-
         <?php include 'scroll-to-top.php'; ?>
-
     </main>
 
     <?php include "./footer.php" ?>
