@@ -129,10 +129,33 @@ $(document).on("input", ".search-input", function () {
   }
 });
 
-// Clear input on button click
-$(document).on("click", ".clear-btn", function () {
-  const input = $(this).siblings(".search-input");
-  input.val("").trigger("input").focus();
+$(document).on("input", ".search-input", function () {
+  const hasValue = $(this).val().length > 0;
+  const clearBtn = $(this).siblings(".clear-btn");
+
+  // Toggle clear button
+  clearBtn.toggleClass("active", hasValue);
+
+  // Live search filter
+  const query = $(this).val().toLowerCase();
+  const target = $($(this).data("target"));
+
+  if (!target.length) return;
+
+  target.find("tr").each(function () {
+    const text = $(this).text().toLowerCase();
+    $(this).toggle(text.includes(query));
+  });
 });
 
+// Clear button click
+$(document).on("click", ".clear-btn", function () {
+  const input = $(this).siblings(".search-input");
+
+  // Clear input
+  input.val("");
+
+  // Trigger search again (this shows all rows)
+  input.trigger("input").focus();
+});
 

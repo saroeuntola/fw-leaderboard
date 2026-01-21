@@ -69,7 +69,7 @@ include "./admin/lib/db.php";
     ?>
     <main class="pt-[90px] m-auto max-w-7xl px-4 pb-10">
         <h1 class="lg:text-3xl text-2xl font-extrabold text-center mb-6 text-red-700">
-            র‍্যাঙ্কিং লিডারবোর্ড
+            র‍্যাঙ্কিং লিডারবোর্ড. 
         </h1>
         <div class="text-center space-x-4 mt-4 flex justify-center gap-4">
             <!-- Lion Button -->
