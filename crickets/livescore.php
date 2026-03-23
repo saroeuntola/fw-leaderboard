@@ -38,6 +38,22 @@ function matchDayLabel($date, $time)
     return $dt->format('d M Y');
 }
 
+function isHotLeague($league)
+{
+    $hotKeywords = [
+        'Indian Premier League', // IPL
+        'Bangladesh Premier League', // BPL
+        'Pakistan Super League', // PSL
+    ];
+
+    foreach ($hotKeywords as $keyword) {
+        if (stripos($league, $keyword) !== false) {
+            return true;
+        }
+    }
+    return false;
+}
+
 function getTeamLogo($teamName, $apiLogo = null)
 {
     if (!empty($apiLogo)) {
@@ -156,25 +172,26 @@ foreach (($upcomingResponse['result'] ?? []) as $e) {
     $homeLogo = getTeamLogo($e['event_home_team'], $e['event_home_team_logo']);
     $awayLogo = getTeamLogo($e['event_away_team'], $e['event_away_team_logo']);
     $match = [
-        'id'        => $e['event_key'],
-        'date'      => $matchDate,
-        'time'      => $e['event_time'] ?: '00:00',
-        'dhaka_time' => toDhakaDate($matchDate, $e['event_time'], 'g:i A'), // for display
-        'dhaka_ts'   => toDhakaTimestamp($matchDate, $e['event_time']),     // for sorting
-        'home'      => $e['event_home_team'],
-        'away'      => $e['event_away_team'],
-        'homeLogo'  => getTeamLogo($e['event_home_team'], $e['event_home_team_logo']),
-        'awayLogo'  => getTeamLogo($e['event_away_team'], $e['event_away_team_logo']),
-        'league'    => safeLeague($e['league_name'] ?? null),
-        'status'    => $statusInfo ?: $e['event_status'] ?: 'Match yet to begin',
-        'homeScore' => $e['event_home_final_result'] ?? '',
-        'awayScore' => $e['event_away_final_result'] ?? '',
-        'rrHome'    => $e['event_home_rr'] ?? '',
-        'rrAway'    => $e['event_away_rr'] ?? '',
-        'stadium'   => $e['event_stadium'] ?? '',
-        'event_live' => $e['event_live'] ?? '0',
-        'event_status' => $e['event_status'] ?? '',
-    ];
+    'id'        => $e['event_key'],
+    'date'      => $matchDate,
+    'time'      => $e['event_time'] ?: '00:00',
+    'dhaka_time' => toDhakaDate($matchDate, $e['event_time'], 'g:i A'),
+    'dhaka_ts'   => toDhakaTimestamp($matchDate, $e['event_time']),
+    'home'      => $e['event_home_team'],
+    'away'      => $e['event_away_team'],
+    'homeLogo'  => getTeamLogo($e['event_home_team'], $e['event_home_team_logo']),
+    'awayLogo'  => getTeamLogo($e['event_away_team'], $e['event_away_team_logo']),
+    'league'    => safeLeague($e['league_name'] ?? null),
+    'isHot'     => isHotLeague($e['league_name'] ?? ''), // ✅ ADD THIS
+    'status'    => $statusInfo ?: $e['event_status'] ?: 'Match yet to begin',
+    'homeScore' => $e['event_home_final_result'] ?? '',
+    'awayScore' => $e['event_away_final_result'] ?? '',
+    'rrHome'    => $e['event_home_rr'] ?? '',
+    'rrAway'    => $e['event_away_rr'] ?? '',
+    'stadium'   => $e['event_stadium'] ?? '',
+    'event_live' => $e['event_live'] ?? '0',
+    'event_status' => $e['event_status'] ?? '',
+];
    
     // RESULTS: finished/cancelled last 7 days
     if ($status === 'finished' || $status === 'cancelled' && $e['event_live'] !== "1") {
@@ -204,26 +221,27 @@ foreach (($livescoreResponse['result'] ?? []) as $e) {
     $homeLogo = getTeamLogo($e['event_home_team'], $e['event_home_team_logo']);
     $awayLogo = getTeamLogo($e['event_away_team'], $e['event_away_team_logo']);
     $status = strtolower($e['event_status'] ?? '');
-    $match = [
-        'id'        => $e['event_key'],
-        'date'      => $e['event_date_start'],
-        'time'      => $e['event_time'] ?: '00:00',
-        'dhaka_time' => toDhakaDate($e['event_date_start'], $e['event_time'], 'g:i A'), // for display
-        'dhaka_ts'   => toDhakaTimestamp($e['event_date_start'], $e['event_time']), 
-        'home'      => $e['event_home_team'],
-        'away'      => $e['event_away_team'],
-        'homeLogo'  => getTeamLogo($e['event_home_team'], $e['event_home_team_logo']),
-        'awayLogo'  => getTeamLogo($e['event_away_team'], $e['event_away_team_logo']),
-        'league'    => safeLeague($e['league_name'] ?? null),
-        'status'    => $e['event_status_info'] ?: $e['event_status'] ?: 'Match yet to begin',
-        'homeScore' => $e['event_home_final_result'] ?? '',
-        'awayScore' => $e['event_away_final_result'] ?? '',
-        'rrHome'    => $e['event_home_rr'] ?? '',
-        'rrAway'    => $e['event_away_rr'] ?? '',
-        'stadium'   => $e['event_stadium'] ?? '',
-        'event_live' => $e['event_live'],
-        'event_status' => $e['event_status'] ?? '',
-    ];
+  $match = [
+    'id'        => $e['event_key'],
+    'date'      => $e['event_date_start'],
+    'time'      => $e['event_time'] ?: '00:00',
+    'dhaka_time' => toDhakaDate($e['event_date_start'], $e['event_time'], 'g:i A'),
+    'dhaka_ts'   => toDhakaTimestamp($e['event_date_start'], $e['event_time']),
+    'home'      => $e['event_home_team'],
+    'away'      => $e['event_away_team'],
+    'homeLogo'  => getTeamLogo($e['event_home_team'], $e['event_home_team_logo']),
+    'awayLogo'  => getTeamLogo($e['event_away_team'], $e['event_away_team_logo']),
+    'league'    => safeLeague($e['league_name'] ?? null),
+    'isHot'     => isHotLeague($e['league_name'] ?? ''), // ✅ ADD THIS
+    'status'    => $e['event_status_info'] ?: $e['event_status'] ?: 'Match yet to begin',
+    'homeScore' => $e['event_home_final_result'] ?? '',
+    'awayScore' => $e['event_away_final_result'] ?? '',
+    'rrHome'    => $e['event_home_rr'] ?? '',
+    'rrAway'    => $e['event_away_rr'] ?? '',
+    'stadium'   => $e['event_stadium'] ?? '',
+    'event_live' => $e['event_live'],
+    'event_status' => $e['event_status'] ?? '',
+];
     if ($e['event_live'] === '1' && $e['event_status'] !== 'Match yet to begin' && $e['event_status'] !== 'Cancelled' && $e['event_status'] !== 'Finished') $liveMatches[] = $match;
 }
 
@@ -242,12 +260,12 @@ function matchCard($m, $type)
         : "/crickets/match-info?id={$m['id']}";
 ?>
     <a href="<?= $url ?>" class="block flex-shrink-0 snap-start min-w-[320px] lg:min-w-[370px]">
-        <div class="bg-white dark:bg-[#1f1f1f] rounded-xl shadow p-4 match-card"
-            data-league="<?= htmlspecialchars($m['league']) ?>">
+        <div class="bg-white dark:bg-[#1f1f1f] rounded-xl shadow p-4 match-card relative"
+    data-league="<?= htmlspecialchars($m['league']) ?>"
+    data-hot="<?= $m['isHot'] ? '1' : '0' ?>">
 
-            <?php if ($type === 'live'): ?>
-                <span class="absolute top-3 right-3 bg-red-600 text-white text-xs px-2 py-1 rounded animate-pulse">LIVE</span>
-            <?php endif; ?>
+    <?php if (!empty($m['isHot'])): ?>
+    <?php endif;?>
 
             <div class="text-xs text-gray-400 mb-2">
                 <?= matchDayLabel($m['date'], $m['time']) ?> • <?= toDhakaDate($m['date'], $m['time'], 'g:i A') ?>
@@ -303,7 +321,8 @@ function matchCard($m, $type)
             ?>
 
             <div class="flex gap-3 mb-3 overflow-x-auto no-scrollbar text-sm font-semibold series-scroll snap-x snap-mandatory">
-                <button class="series-tab series-active" data-series="all">All</button>
+              <button class="series-tab series-active" data-series="all">All</button>
+<button class="series-tab" data-series="Hot">🔥 Hot</button>
                 <?php foreach ($leagues as $lg): ?>
                     <button class="series-tab" data-series="<?= htmlspecialchars($lg) ?? '' ?>">
                         <?= htmlspecialchars($lg) ?? '' ?>

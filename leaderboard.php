@@ -122,6 +122,7 @@ include "./admin/lib/db.php";
     $encoded = base64_encode($js);
     echo '<script src="data:text/javascript;base64,' . $encoded . '" defer></script>';
     ?>
+    
 </body>
 
 </html>

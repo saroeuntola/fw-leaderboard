@@ -71,7 +71,7 @@ $banners = $bannerObj->getlion_banners();
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"class="bg-gray-900">
 
 <head>
     <meta charset="UTF-8">
@@ -81,7 +81,7 @@ $banners = $bannerObj->getlion_banners();
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 </head>
 
-<body class="flex h-screen bg-gray-900 ">
+<body class="flex h-screen bg-gray-900">
     <!-- Sidebar -->
     <?php include "../include/sidebar.php" ?>
     <!-- Main content -->
@@ -157,13 +157,15 @@ $banners = $bannerObj->getlion_banners();
             <form method="POST" enctype="multipart/form-data">
                 <input type="text" name="title" placeholder="Title" class="input input-bordered w-full mb-2" required />
                 <input type="text" name="link" placeholder="Link" class="input input-bordered w-full mb-2" />
-
+  <label for="">
+                    Image size 1024px x 400px
+                 </label>
                 <!-- Preview -->
                 <img id="createPreview" src="" class="hidden w-full h-32 object-cover mb-2 rounded border" loading="lazy" />
 
                 <input type="file" name="image" accept="image/*" class="file-input file-input-bordered w-full mb-4"
                     onchange="previewImage(event, 'createPreview')" required />
-
+               
                 <div class="">
                     <label class="font-semibold mr-4">Status:</label><br>
                     <input type="radio" name="status" value="1" checked class="">

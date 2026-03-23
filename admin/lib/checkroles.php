@@ -1,6 +1,6 @@
 <?php
 session_start();
-include("auth.php");
+include $_SERVER['DOCUMENT_ROOT'] . '/admin/lib/auth.php';
 
 function protectRoute($allowedRoles = [])
 {

@@ -89,6 +89,11 @@ function updateContainerCards(id, newHTML) {
 }
 
 /* ================= SERIES / LEAGUE FILTER ================= */
+/* ================= SERIES / LEAGUE FILTER ================= */
+const hotEmptyMessage = document.createElement("div");
+hotEmptyMessage.className = "text-center text-red-500 text-sm py-3";
+hotEmptyMessage.innerText = "🔥 Hot League Not Available";
+
 document.addEventListener("click", (e) => {
   const btn = e.target.closest(".series-tab");
   if (!btn) return;
@@ -96,29 +101,52 @@ document.addEventListener("click", (e) => {
   const panel = btn.closest(".tab-panel");
   const series = btn.dataset.series;
 
-  // Activate clicked series tab
+  // ✅ ADD THIS PART (important)
   panel.querySelectorAll(".series-tab").forEach((b) =>
     b.classList.remove("series-active")
   );
   btn.classList.add("series-active");
 
-  // Show/hide entire <a> wrapper flex items
+  let visibleCount = 0;
+
   panel.querySelectorAll(".match-card").forEach((card) => {
-    const wrapper = card.closest("a"); // get the flex item
+    const wrapper = card.closest("a");
     if (!wrapper) return;
 
-    if (series === "all" || card.dataset.league === series) {
+    const league = card.dataset.league;
+    const isHot = card.dataset.hot === "1";
+
+    if (series === "all") {
       wrapper.classList.remove("hidden");
-    } else {
-      wrapper.classList.add("hidden");
+      visibleCount++;
+    } 
+    else if (series === "Hot") {
+      if (isHot) {
+        wrapper.classList.remove("hidden");
+        visibleCount++;
+      } else {
+        wrapper.classList.add("hidden");
+      }
+    } 
+    else {
+      if (league === series) {
+        wrapper.classList.remove("hidden");
+        visibleCount++;
+      } else {
+        wrapper.classList.add("hidden");
+      }
     }
   });
 
-  // Reset scroll and update arrows
-  const scroll = panel.querySelector('[id$="scroll"]');
-  if (scroll) {
-    scroll.scrollLeft = 0;
-    updateArrows(scroll.id);
+  // Remove old message
+  panel.querySelector(".hot-empty-msg")?.remove();
+
+  // Show if no matches
+  if (series === "Hot" && visibleCount === 0) {
+    const msg = document.createElement("div");
+    msg.className = "hot-empty-msg text-center text-red-500 text-sm py-3";
+    msg.innerText = "🔥 Hot League Not Available";
+    panel.appendChild(msg);
   }
 });
 

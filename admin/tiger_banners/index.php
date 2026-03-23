@@ -64,7 +64,7 @@ $banners = $bannerObj->gettiger_banners();
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="bg-gray-900">
 
 <head>
     <meta charset="UTF-8">
@@ -152,7 +152,9 @@ $banners = $bannerObj->gettiger_banners();
             <form method="POST" enctype="multipart/form-data">
                 <input type="text" name="title" placeholder="Title*" class="input input-bordered w-full mb-2" required />
                 <input type="text" name="link" placeholder="Link" class="input input-bordered w-full mb-2" />
-
+                <label for="">
+                    Image size 1024px x 400px
+                 </label>
                 <!-- Preview -->
                 <img id="createPreview" src="" class="hidden w-full h-32 object-cover mb-2 rounded border" loading="lazy" />
 

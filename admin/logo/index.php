@@ -71,7 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 $brands = $brandObj->getBrand();
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="bg-gray-900">
 
 <head>
     <meta charset="UTF-8">

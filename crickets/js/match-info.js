@@ -31,7 +31,7 @@ async function loadStandings() {
   container.innerHTML = "Loading standings…";
   try {
     const res = await fetch(
-      `/crickets/pages/match-standings.php?league_key=${leagueKey}`
+      `/crickets/pages/match-standings?league_key=${leagueKey}`
     );
     if (!res.ok) throw new Error("Network response not OK");
     container.innerHTML = await res.text();

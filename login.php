@@ -1,7 +1,7 @@
 <?php
 ob_start();
 if (session_status() === PHP_SESSION_NONE) session_start();
-include('./admin/lib/auth.php');
+include $_SERVER['DOCUMENT_ROOT'] . '/admin/lib/auth.php';
 $auth = new Auth();
 $error_message = '';
 

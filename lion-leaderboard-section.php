@@ -181,7 +181,6 @@ function toBanglaNumber($number)
     </div>
 
 </div>
-
         <table class="w-full text-center border-collapse">
             <thead>
                 <tr class="bg-red-800 text-gray-200">
@@ -277,7 +276,6 @@ function toBanglaNumber($number)
             data-page="<?= $lastPage ?>" data-file="<?= $file ?>" data-target="<?= $target ?>">
             <i class="fa-solid fa-angles-right"></i>
         </a>
-
     </div>
 
 </div>
