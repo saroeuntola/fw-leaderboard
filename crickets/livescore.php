@@ -106,8 +106,8 @@ function sortLeaguesWithPriority(array $leagues): array
 /* ==================== TIME RANGES ==================== */
 $tz = new DateTimeZone('Asia/Dhaka');
 $today = new DateTime('today', $tz);
-$sevenDaysAgo = (clone $today)->modify('-7 days');
-$sevenDaysLater = (clone $today)->modify('+7 days');
+$sevenDaysAgo = (clone $today)->modify('-4 days');
+$sevenDaysLater = (clone $today)->modify('+4 days');
 
 /* ==================== FETCH MATCHES ==================== */
 $upcomingResponse = apiCache(
@@ -259,6 +259,7 @@ function matchCard($m, $type)
         ? "/crickets/match-livescore?id={$m['id']}"
         : "/crickets/match-info?id={$m['id']}";
 ?>
+
     <a href="<?= $url ?>" class="block flex-shrink-0 snap-start min-w-[320px] lg:min-w-[370px]">
         <div class="bg-white dark:bg-[#1f1f1f] rounded-xl shadow p-4 match-card relative"
     data-league="<?= htmlspecialchars($m['league']) ?>"
@@ -331,6 +332,8 @@ function matchCard($m, $type)
             </div>
 
             <div class="relative">
+     
+
                 <button class="scroll-arrow left" onclick="scrollContainer('upcoming-scroll',-1)">&#10094;</button>
                 <button class="scroll-arrow right" onclick="scrollContainer('upcoming-scroll',1)">&#10095;</button>
 
@@ -340,12 +343,12 @@ function matchCard($m, $type)
                         <?php matchCard($m, 'upcoming'); ?>
                     <?php endforeach; ?>
                 </div>
+             <div class="flex justify-center mb-2" id="upcoming-dots"></div>
             </div>
         <?php else: ?>
             <p class="text-gray-400">No upcoming matches.</p>
         <?php endif; ?>
     </div>
-
 
     <!-- ================= LIVE ================= -->
     <div id="live" class="tab-panel hidden">
@@ -364,21 +367,27 @@ function matchCard($m, $type)
                 <?php endforeach; ?>
             </div>
 
-            <div class="relative">
-                <button class="scroll-arrow left" onclick="scrollContainer('livescore-scroll',-1)">&#10094;</button>
-                <button class="scroll-arrow right" onclick="scrollContainer('livescore-scroll',1)">&#10095;</button>
+         <div class="relative">
 
-                <div id="livescore-scroll"
-                    class="flex gap-4 overflow-x-auto pb-3 snap-x snap-mandatory no-scrollbar scroll-smooth">
-                    <?php foreach ($liveMatches as $m): ?>
-                        <?php matchCard($m, 'live'); ?>
-                    <?php endforeach; ?>
-                </div>
-            </div>
+    <button class="scroll-arrow left" onclick="scrollContainer('livescore-scroll',-1)">&#10094;</button>
+    <button class="scroll-arrow right" onclick="scrollContainer('livescore-scroll',1)">&#10095;</button>
+
+    <div id="livescore-scroll"
+        class="flex gap-4 overflow-x-auto pb-3 snap-x snap-mandatory no-scrollbar scroll-smooth">
+        <?php foreach ($liveMatches as $m): ?>
+            <?php matchCard($m, 'live'); ?>
+        <?php endforeach; ?>
+    </div>
+
+    <!-- ✅ MOVE HERE -->
+    <div id="livescore-dots" class="flex justify-center mt-2"></div>
+
+</div>
         <?php else: ?>
             <p class="text-gray-400">No live matches.</p>
         <?php endif; ?>
     </div>
+
 
     <!-- ================= RESULTS ================= -->
     <div id="results" class="tab-panel hidden">
@@ -397,20 +406,27 @@ function matchCard($m, $type)
                 <?php endforeach; ?>
             </div>
 
-            <div class="relative">
-                <button class="scroll-arrow left" onclick="scrollContainer('result-scroll',-1)">&#10094;</button>
-                <button class="scroll-arrow right" onclick="scrollContainer('result-scroll',1)">&#10095;</button>
+          <div class="relative">
 
-                <div id="result-scroll"
-                    class="flex gap-4 overflow-x-auto pb-3 snap-x snap-mandatory no-scrollbar scroll-smooth">
-                    <?php foreach ($resultMatches as $m): ?>
-                        <?php matchCard($m, 'result'); ?>
-                    <?php endforeach; ?>
-                </div>
-            </div>
+    <button class="scroll-arrow left" onclick="scrollContainer('result-scroll',-1)">&#10094;</button>
+    <button class="scroll-arrow right" onclick="scrollContainer('result-scroll',1)">&#10095;</button>
+
+    <div id="result-scroll"
+        class="flex gap-4 overflow-x-auto pb-3 snap-x snap-mandatory no-scrollbar scroll-smooth">
+        <?php foreach ($resultMatches as $m): ?>
+            <?php matchCard($m, 'result'); ?>
+        <?php endforeach; ?>
+    </div>
+
+    <!-- ✅ MOVE HERE -->
+    <div id="result-dots" class="flex justify-center mt-2"></div>
+
+</div>
         <?php else: ?>
             <p class="text-gray-400">No results available.</p>
         <?php endif; ?>
     </div>
 </div>
+
+</style>
 <script src="/crickets/js/livescore.js?v=<?= time() ?>"></script>

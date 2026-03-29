@@ -20,10 +20,17 @@ function showTab(tab) {
     btn.classList.add("tab-active");
     pnl.classList.remove("hidden");
     localStorage.setItem("cric_tab", tab);
+
     updateAllArrows();
+
+    // Run initDots after short delay to ensure cards are rendered
+    setTimeout(() => {
+      initDots('upcoming-scroll', 'upcoming-dots');
+      initDots('livescore-scroll', 'livescore-dots');
+      initDots('result-scroll', 'result-dots');
+    }, 100); // 100ms is usually enough
   }
 }
-
 tabs.forEach((btn) => {
   btn.addEventListener("click", () => showTab(btn.dataset.tab));
 });
@@ -189,3 +196,82 @@ document
 window.addEventListener("resize", updateAllArrows);
 window.addEventListener("DOMContentLoaded", updateAllArrows);
 updateAllArrows();
+
+
+function initDots(containerId, dotsId) {
+    const container = document.getElementById(containerId);
+    const dotsContainer = document.getElementById(dotsId);
+    if (!container || !dotsContainer) return;
+
+    const gap = 16; // gap between cards
+
+    function updateDots() {
+        const cards = Array.from(container.querySelectorAll('.match-card'))
+            .filter(c => !c.closest('a').classList.contains('hidden')); // only visible cards
+        if (cards.length === 0) {
+            dotsContainer.innerHTML = '';
+            return;
+        }
+
+        const cardWidth = cards[0].offsetWidth + gap;
+        const cardsPerView = Math.floor(container.offsetWidth / cardWidth) || 1;
+
+        // Calculate totalDots based on visible cards
+        const totalDots = cards.length <= cardsPerView ? 0 : (cards.length - cardsPerView + 1);
+
+        dotsContainer.innerHTML = '';
+
+        for (let i = 0; i < totalDots; i++) {
+            const dot = document.createElement('span');
+            dot.className = "w-2 h-2 sm:w-2.5 sm:h-2.5 mx-1 rounded-full bg-white cursor-pointer transition";
+
+            dot.onclick = () => {
+                const scrollLeft = i * cardWidth;
+                container.scrollTo({ left: scrollLeft, behavior: 'smooth' });
+            };
+
+            dotsContainer.appendChild(dot);
+        }
+
+        updateActiveDot();
+    }
+
+    function updateActiveDot() {
+        const cards = Array.from(container.querySelectorAll('.match-card'))
+            .filter(c => !c.closest('a').classList.contains('hidden'));
+        if (!cards.length) return;
+
+        const cardWidth = cards[0].offsetWidth + gap;
+        const cardsPerView = Math.floor(container.offsetWidth / cardWidth) || 1;
+
+        const index = Math.round(container.scrollLeft / cardWidth);
+        dotsContainer.querySelectorAll('span').forEach((dot, i) => {
+            dot.classList.toggle('bg-sky-500', i === index);
+            dot.classList.toggle('scale-125', i === index);
+            dot.classList.toggle('bg-white', i !== index);
+        });
+    }
+
+    container.addEventListener('scroll', updateActiveDot);
+
+    // Observe filter changes
+    const observer = new MutationObserver(updateDots);
+    observer.observe(container, { childList: true, subtree: true, attributes: true, attributeFilter: ['class'] });
+
+    // Responsive styling
+    dotsContainer.classList.add('flex', 'space-x-1', 'overflow-x-auto', 'scrollbar-hide', 'py-1');
+
+    // Initial render
+    updateDots();
+}
+
+// Initialize after DOM ready
+document.addEventListener("DOMContentLoaded", () => {
+    initDots('upcoming-scroll', 'upcoming-dots');
+    initDots('livescore-scroll', 'livescore-dots');
+    initDots('result-scroll', 'result-dots');
+});
+
+
+
+// Ini
