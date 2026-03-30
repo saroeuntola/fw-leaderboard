@@ -272,7 +272,7 @@ function matchCard($m, $type)
                 <?= matchDayLabel($m['date'], $m['time']) ?> • <?= toDhakaDate($m['date'], $m['time'], 'g:i A') ?>
             </div>
           <div class="text-xs mb-2">
-    <?php if (strtolower($m['event_status']) === 'In Progress'): ?>
+    <?php if (strtolower($m['event_status']) === 'in progress'): ?>
       
              <div class="inline-block bg-green-600 text-white text-xs px-3 py-1 rounded-full animate-pulse">● LIVE</div>
     <?php else: ?>
