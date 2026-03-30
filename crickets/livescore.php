@@ -267,13 +267,20 @@ function matchCard($m, $type)
 
     <?php if (!empty($m['isHot'])): ?>
     <?php endif;?>
-
-            <div class="text-xs text-gray-400 mb-2">
+            <div class="flex justify-between">
+ <div class="text-xs text-gray-400 mb-2">
                 <?= matchDayLabel($m['date'], $m['time']) ?> • <?= toDhakaDate($m['date'], $m['time'], 'g:i A') ?>
             </div>
-            <div class="text-xs text-green-400 mb-2">
-                <?= $m['event_status'] ?>
+          <div class="text-xs mb-2">
+    <?php if (strtolower($m['event_status']) === 'In Progress'): ?>
+      
+             <div class="inline-block bg-green-600 text-white text-xs px-3 py-1 rounded-full animate-pulse">● LIVE</div>
+    <?php else: ?>
+        <span class="text-green-400"><?= $m['event_status'] ?></span>
+    <?php endif; ?>
+</div>
             </div>
+           
 
             <div class="space-y-3">
                 <div class="flex items-center gap-2">
