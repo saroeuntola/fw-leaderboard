@@ -7,7 +7,7 @@
 
 <style>
  .container {
-    background-color: #1c1b1b !important;
+    background-color: #2c2a2a !important;
 }
 </style>
    <link rel="stylesheet" href="/src/output.css?v=<?= time() ?>">
