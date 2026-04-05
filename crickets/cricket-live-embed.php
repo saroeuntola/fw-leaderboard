@@ -26,6 +26,18 @@ include("livescore.php");
 ?>
 
 </div>
+<script>
+function sendHeight() {
+  const height = document.body.scrollHeight;
+  window.parent.postMessage({ iframeHeight: height }, "*");
+}
 
+// Run multiple times (important for live data)
+window.onload = sendHeight;
+window.onresize = sendHeight;
+
+// Optional: update every 1s (for live score changes)
+setInterval(sendHeight, 1000);
+</script>
 </body>
 </html>
