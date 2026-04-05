@@ -13,6 +13,7 @@
    <link rel="stylesheet" href="/src/output.css?v=<?= time() ?>">
     <link rel="stylesheet" href="/css/style.css?v=<?= time() ?>">
     <script src="/js/jquery-3.7.1.min.js"></script>
+      <base target="_blank"> 
 </head>
 
 <body>
