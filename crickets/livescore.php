@@ -281,7 +281,6 @@ function matchCard($m, $type)
 </div>
             </div>
            
-
             <div class="space-y-3">
                 <div class="flex items-center gap-2">
                     <img src="<?= $m['homeLogo'] ?>" class="w-6">
