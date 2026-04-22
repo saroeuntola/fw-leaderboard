@@ -131,7 +131,7 @@ function toBanglaNumber($number)
                 <img src="./images/icon-1.png" alt="1st" class="w-[100px] h-[100px] mx-auto mb-2">
                 <h3 class="text-yellow-400 font-bold text-xl">#1</h3>
                 <p class="text-white font-semibold"><?= htmlspecialchars($topPlayers[0]['username']) ?></p>
-                <p class="text-sm text-gray-200">বাজি বাজার: <?= htmlspecialchars($topPlayers[1]['bet_market']) ?></p>
+                <p class="text-sm text-gray-200">বাজি বাজার: <?= htmlspecialchars($topPlayers[0]['bet_market']) ?></p>
                 <p class="text-sm text-gray-200">পয়েন্ট: <?= htmlspecialchars($topPlayers[0]['point']) ?></p>
                 <p class="text-gray-200 text-sm">প্রাইজ: <?= toBanglaNumber($topPlayers[0]['price']) ?></p>
             </div>
@@ -143,7 +143,7 @@ function toBanglaNumber($number)
                 <img src="./images/icon-3.png" alt="3rd" class="w-[90px] h-[90px] mx-auto mb-2">
                 <h3 class="text-orange-400 font-bold text-lg">#3</h3>
                 <p class="text-white font-medium"><?= htmlspecialchars($topPlayers[2]['username']) ?></p>
-                <p class="text-sm text-gray-200">বাজি বাজার: <?= htmlspecialchars($topPlayers[1]['bet_market']) ?></p>
+                <p class="text-sm text-gray-200">বাজি বাজার: <?= htmlspecialchars($topPlayers[2]['bet_market']) ?></p>
                 <p class="text-sm text-gray-200">পয়েন্টস: <?= htmlspecialchars($topPlayers[2]['point']) ?></p>
                 <p class="text-gray-200 text-sm ">প্রাইজ: <?= toBanglaNumber($topPlayers[2]['price']) ?></p>
             </div>
