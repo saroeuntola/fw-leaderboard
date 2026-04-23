@@ -8,58 +8,79 @@ $(document).ready(function () {
     );
   }
 
-  $("button[data-file]").click(function () {
-    const file = $(this).data("file");
-    const target = $($(this).data("target"));
-    const hideContainer = $($(this).data("hide"));
-    const arrow = $(this).find("svg");
+$("button[data-file]").click(function () {
+  const file = $(this).data("file");
+  const target = $($(this).data("target"));
+  const hideContainer = $($(this).data("hide"));
+  const arrow = $(this).find("svg");
 
-    hideContainer.removeClass("open").css({
+  // ✅ Update URL path
+  if (file.includes("lion")) {
+    history.pushState({}, "", "/leaderboard/lion");
+  } else if (file.includes("tiger")) {
+    history.pushState({}, "", "/leaderboard/tiger");
+  }
+
+  hideContainer.removeClass("open").css({
+    "max-height": "0px",
+    overflow: "hidden",
+    transition: "all 0.5s ease-in-out",
+  });
+  hideContainer.find("svg").removeClass("rotate-180");
+
+  if (target.hasClass("open")) {
+    target.removeClass("open").css({
       "max-height": "0px",
       overflow: "hidden",
       transition: "all 0.5s ease-in-out",
     });
-    hideContainer.find("svg").removeClass("rotate-180");
+    arrow.removeClass("rotate-180");
 
-    if (target.hasClass("open")) {
-      target.removeClass("open").css({
-        "max-height": "0px",
-        overflow: "hidden",
-        transition: "all 0.5s ease-in-out",
-      });
-      arrow.removeClass("rotate-180");
-    } else {
-      target.addClass("open");
-      arrow.addClass("rotate-180");
+  } else {
+    target.addClass("open");
+    arrow.addClass("rotate-180");
 
-      if ($.trim(target.html()) === "") {
-        $.get(file, function (html) {
-          target.html(html);
-          target.css({
-            "max-height": "none",
-            overflow: "visible",
-            transition: "none",
-          });
-          scrollToTop(target);
-        }).fail(function () {
-          target.html("<p class='text-red-500'>Error loading content</p>");
-          target.css({
-            "max-height": "none",
-            overflow: "visible",
-            transition: "none",
-          });
-          scrollToTop(target);
-        });
-      } else {
+    if ($.trim(target.html()) === "") {
+      $.get(file, function (html) {
+        target.html(html);
         target.css({
           "max-height": "none",
           overflow: "visible",
           transition: "none",
         });
         scrollToTop(target);
-      }
+      }).fail(function () {
+        target.html("<p class='text-red-500'>Error loading content</p>");
+        target.css({
+          "max-height": "none",
+          overflow: "visible",
+          transition: "none",
+        });
+        scrollToTop(target);
+      });
+    } else {
+      target.css({
+        "max-height": "none",
+        overflow: "visible",
+        transition: "none",
+      });
+      scrollToTop(target);
     }
-  });
+  }
+});
+
+$(document).ready(function () {
+  const path = window.location.pathname;
+  const lastSegment = path.split("/").pop();
+
+  if (lastSegment === "tiger") {
+    $('button[data-file="/tiger-leaderboard-section"]').trigger("click");
+  }
+
+  if (lastSegment === "lion") {
+    $('button[data-file="/lion-leaderboard-section"]').trigger("click");
+  }
+});
 
   // Pagination
   $(document).on("click", ".pagination-link", function (e) {

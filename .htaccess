@@ -16,7 +16,8 @@
     RewriteRule ^sitemap-pages\.xml$ sitemap-pages.php [L]
     RewriteRule ^sitemap-posts\.xml$ sitemap-posts.php [L]
     RewriteRule ^sitemap-index\.xml$ sitemap-index.php [L]
-
+    RewriteRule ^leaderboard/lion$ leaderboard.php [L,QSA]
+    RewriteRule ^leaderboard/tiger$ leaderboard.php [L,QSA]
     # -----------------------------------------
     # Sitemap clean URL
     # ---------------------------------A--------

@@ -53,10 +53,11 @@ include "./admin/lib/db.php";
     <link rel="preconnect" href="https://cdn.jsdelivr.net">
     <link rel="preconnect" href="https://cdn.jsdelivr.net/npm">
     <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
-    <link rel="stylesheet" href="./src/output.css?v=<?= time() ?>" />
-    <link rel="stylesheet" href="./css/style.css?v=<?= time() ?>" />
-        <link rel="stylesheet" href="./css/search.css?v=<?= time() ?>" />
-    <script src="./js/jquery-3.7.1.min.js"></script>
+    <link rel="stylesheet" href="/src/output.css?v=<?= time() ?>" />
+    <link rel="stylesheet" href="/css/style.css?v=<?= time() ?>" />
+    <link rel="stylesheet" href="/css/search.css?v=<?= time() ?>" />
+    <script src="/js/jquery-3.7.1.min.js"></script>
+    <base href="/" />
 </head>
 
 
@@ -122,7 +123,6 @@ include "./admin/lib/db.php";
     $encoded = base64_encode($js);
     echo '<script src="data:text/javascript;base64,' . $encoded . '" defer></script>';
     ?>
-    
 </body>
 
 </html>
